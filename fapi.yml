@@ -509,7 +509,7 @@ paths:
     get:
       tags:
         - capability
-      summary: Get information about this API’s availability.
+      summary: Get information about this API's availability.
       description: |
 
         *Example request for JSON *
@@ -547,7 +547,7 @@ paths:
     get:
       tags:
         - capability
-      summary: Get information about this API’s capabilities.
+      summary: Get information about this API's capabilities.
       description: |
 
         *Example request for JSON *
@@ -2085,8 +2085,7 @@ definitions:
         properties:
           BalanceAsOf:
             description: As-of date of balances
-            type: number
-            format: double
+            $ref: '#/definitions/Timestamp'
           CurrentBalance:
             description: Balance of funds in account
             type: number
@@ -2114,7 +2113,6 @@ definitions:
           MaturityDate:
             description: Maturity date for CDs
             $ref: '#/definitions/Timestamp'
-            format: double
           Transactions:
             description: Array of DepositTransaction
             type: array
