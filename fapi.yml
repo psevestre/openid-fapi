@@ -49,7 +49,7 @@ paths:
         Authorization: Bearer w0mcJylzCn-AfvuGdqkty2-KP48=
         Content-Type: application/x-www-form-urlencoded
           
-        accountId=1
+        accountId=1357902468
         ```
           
           
@@ -58,7 +58,21 @@ paths:
         HTTP/1.1 200 OK
         Content-Type: application/json; charset=utf-8
         {
-        "DepositAccount" : { }
+          "DepositAccount" : {
+            "AccountId" : "1357902468",
+            "AccountType" : "SAVINGS",
+            "DisplayName" : "Savings Account",
+            "Status" : "OPEN",
+            "Description" : "Savings Account",
+            "ParentAccountId" : "2468135790",
+            "Nickname" : "My Savings Account A",
+            "AccountNumber" : "4561237890",
+            "InterestRate" : 3.0,
+            "InterestRateType" : "FIXED",
+            "MicrNumber" : "9753108642",
+            "BalanceAsOf" : "2015-01-01Z",
+            "CurrentBalance" : 1000.00,
+          }
         }
         ```
 
@@ -164,7 +178,7 @@ paths:
         Authorization: Bearer w0mcJylzCn-AfvuGdqkty2-KP48=
         Content-Type: application/x-www-form-urlencoded
           
-        accountId=1&startTime=2015-01-01Z&endTime=2015-02-01Z&page=1
+        accountId=1357902468&startTime=2015-01-01Z&endTime=2015-02-01Z&page=1
         ```
           
           
@@ -173,7 +187,25 @@ paths:
         HTTP/1.1 200 OK
         Content-Type: application/json; charset=utf-8
         {
-          "Statements" : { }
+          "Statements" : {
+            "Total" : "1",
+            "TotalPages" : "1",
+            "Page" : "1",
+            "Statement" : [
+              {
+                "AccountId" : "1357902468",
+                "StatementId" : "ST875376081768363584636",
+                "StatementDate" : "2015-01-01Z",
+                "Description" : "Statement for 2015-01-01",
+              },
+              {
+                "AccountId" : "1357902468",
+                "StatementId" : "ST962558772885635484949",
+                "StatementDate" : "2015-02-01Z",
+                "Description" : "Statement for 2015-02-01",
+              }
+            ]
+          }
         }
         ```
 
@@ -309,7 +341,7 @@ paths:
         Authorization: Bearer w0mcJylzCn-AfvuGdqkty2-KP48=
         Content-Type: application/x-www-form-urlencoded
           
-        accountId=1&startTime=2015-01-01Z&endTime=2015-02-01Z&page=1
+        accountId=1357902468&startTime=2015-01-01Z&endTime=2015-02-01Z&page=1
         ```
           
           
@@ -318,7 +350,23 @@ paths:
         HTTP/1.1 200 OK
         Content-Type: application/json; charset=utf-8
         {
-          "Transactions" : { }
+          "Transactions" : {
+            "Total" : "1",
+            "TotalPages" : "1",
+            "Page" : "1",
+            "DepositTransaction" : [
+              {
+                "AccountId" : "1357902468",
+                "TransactionId" : "111222333444555",
+                "TransactionTimestamp" : "2015-02-01Z",
+                "Description" : "Transfer",
+                "Status" : "POSTED",
+                "Amount" : -50.00,
+                "TransactionType" : "TRANSFER",
+                "Payee" : "3216540987",
+              }
+            ]
+          }
         }
         ```
 
@@ -385,7 +433,22 @@ paths:
         HTTP/1.1 200 OK
         Content-Type: application/json; charset=utf-8
         {
-          "AccountDescriptorList" : { }
+          "AccountDescriptorList" : [
+            {
+              "AccountId" : "1357902468",
+              "AccountType" : "SAVINGS",
+              "DisplayName" : "Savings Account",
+              "Status" : "OPEN",
+              "Description" : "Savings Account",
+            },
+            {
+              "AccountId" : "3216540987",
+              "AccountType" : "CHECKING",
+              "DisplayName" : "Checking Account",
+              "Status" : "OPEN",
+              "Description" : "Checking Account",
+            }
+          ]
         }
         ```
 
@@ -425,7 +488,28 @@ paths:
         HTTP/1.1 200 OK
         Content-Type: application/json; charset=utf-8
         {
-          "Accounts" : { }
+          "Accounts" : {
+            "Total" : 1,
+            "TotalPages" : 1,
+            "Page" : 1,
+            "Accounts" : [
+              {
+               "AccountId" : "1357902468",
+               "AccountType" : "SAVINGS",
+               "DisplayName" : "Savings Account",
+               "Status" : "OPEN",
+               "Description" : "Savings Account",
+               "ParentAccountId" : "2468135790",
+               "Nickname" : "My Savings Account A",
+               "AccountNumber" : "4561237890",
+               "InterestRate" : 3.0,
+               "InterestRateType" : "FIXED",
+               "MicrNumber" : "9753108642",
+               "BalanceAsOf" : "2015-01-01Z",
+               "CurrentBalance" : 1000.00,
+              }
+            ]
+          }
         }
         ```
 
@@ -461,10 +545,10 @@ paths:
           "AccountsDetailsRequest": {
             "singleAccountDetailsRequestList": {
               "singleAccountDetailsRequest": [{
-                "accountId": "1",
+                "accountId": "1357902468",
                 "startTime": "2015-04-01T00:00:00.000Z"
               }, {
-                "accountId": "2",
+                "accountId": "3216540987",
                 "startTime": "2015-05-01T00:00:00.000Z"
               }]
             }
@@ -479,7 +563,38 @@ paths:
         HTTP/1.1 200 OK
         Content-Type: application/json; charset=utf-8
         {
-          "Accounts" : { }
+          "Accounts" : {
+            {
+             "AccountId" : "1357902468",
+             "AccountType" : "SAVINGS",
+             "DisplayName" : "Savings Account",
+             "Status" : "OPEN",
+             "Description" : "Savings Account",
+             "ParentAccountId" : "2468135790",
+             "Nickname" : "My Savings Account A",
+             "AccountNumber" : "4561237890",
+             "InterestRate" : 3.0,
+             "InterestRateType" : "FIXED",
+             "MicrNumber" : "9753108642",
+             "BalanceAsOf" : "2015-01-01Z",
+             "CurrentBalance" : 1000.00,
+            },
+            {
+             "AccountId" : "3216540987",
+             "AccountType" : "CHECKIING",
+             "DisplayName" : "Checking Account",
+             "Status" : "OPEN",
+             "Description" : "Checking Account",
+             "ParentAccountId" : "2468135790",
+             "Nickname" : "My Checking Account A",
+             "AccountNumber" : "9871236450",
+             "InterestRate" : 1.0,
+             "InterestRateType" : "FIXED",
+             "MicrNumber" : "579018642",
+             "BalanceAsOf" : "2015-01-01Z",
+             "CurrentBalance" : 2000.00,
+            }
+          }
         }
         ```
 
@@ -526,7 +641,24 @@ paths:
         HTTP/1.1 200 OK
         Content-Type: application/json; charset=utf-8
         {
-          "Availability" : { }
+          "Availability" : {
+            "CurrentStatus" : "Operational",
+            "CurrentStatusDesc" : "All systems working with no problems",
+            "PlannedAvailability" : [
+              {
+                "Status" : "Maintenance",
+                "StatusShortDesc" : "Monthly Maintenance Downtime",
+                "StatusStartDate" : "2015-01-01T03:00:00.000Z",
+                "StatusEndDate" : "2015-01-01T04:00:00.000Z",
+              },
+              {
+                "Status" : "Maintenance",
+                "StatusShortDesc" : "Monthly Maintenance Downtime",
+                "StatusStartDate" : "2015-02-01T03:00:00.000Z",
+                "StatusEndDate" : "2015-02-01T04:00:00.000Z",
+              },
+            ],
+          }
         }
         ```
 
@@ -650,7 +782,13 @@ paths:
         Content-Type: application/json
 
         {
-          "Transfer" : { }
+          "Transfer" : {
+            "TransferId" : "111222333444555",
+            "FromAccountId" : "1357902468",
+            "ToAccountId" : "3216540987",
+            "Amount" : 50.00,
+            "Memo" : "For Check #1234",
+          }
         }
         ```
 
@@ -659,7 +797,12 @@ paths:
         HTTP/1.1 200 OK
         Content-Type: application/json; charset=utf-8
         {
-          "TransferStatus": {}
+          "TransferStatus": {
+            "TransferId" : "111222333444555",
+            "ReferenceId" : "8453935582",
+            "Status" : "PENDING",
+            "TransferDate" : "2015-02-01Z",
+          }
         }
         ```
 
@@ -701,7 +844,7 @@ paths:
         Authorization: Bearer w0mcJylzCn-AfvuGdqkty2-KP48=
         Content-Type: application/json
 
-        transferId=1
+        transferId=111222333444555
         ```
 
         *Example JSON response *
@@ -709,7 +852,12 @@ paths:
         HTTP/1.1 200 OK
         Content-Type: application/json; charset=utf-8
         {
-          "TransferStatus": {}
+          "TransferStatus": {
+            "TransferId" : "111222333444555",
+            "ReferenceId" : "8453935582",
+            "Status" : "SUCCESS",
+            "TransferDate" : "2015-02-01Z",
+          }
         }
         ```
 
