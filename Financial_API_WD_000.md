@@ -185,7 +185,7 @@ Clients running on “mobile devices” MUST send PKCE enabled authorization and
 
 
 ### Token Scope
-The Financial API allows access to the user's private financial information while the user is offline. To obtain consent and authorization for an access token that  can be used while the user Is offline, the authorization request must contain the openid and offline_access values in the scope parameter. A refresh token will be returned in the authorization response that can be exchanged for an access token as described in Section 12 of OpenID Connect Core 1.0.
+The Financial API allows access to the user's private financial information while the user is offline. To obtain consent and authorization for an access token that  can be used while the user Is offline, the authorization request must contain the *openid* and *offline_access* values in the scope parameter. A refresh token will be returned in the authorization response that can be exchanged for an access token as described in Section 12 of OpenID Connect Core 1.0.
 
 The Financial API client application will include a list of desired scopes when requesting an authorization token. The following scopes are defined for Financial API data service.
 
@@ -204,15 +204,14 @@ The Financial API server may limit the scopes for the purpose of not implementin
 
 The Financial API server may also present scopes in the access confirmation page after end user login to have them determine each account(s) access for the requesting application.
 
-// TODO
 
-// Figure 6.3
+![OAuth Interactions Diagram](oauth_interactions.png)
 
 ## Logical Data Model
 Financial API will eventually encompass multiple financial data domains. At this point, entities and messages are required to support the aggregation of personal financial data. The logical data model consists of User, Login, Account, Transaction, Detail, Statement and Image entities.
 
-// TODO
-Figure 7
+
+![Logical Data Model](logical_model.png)
 
 ### Entity Identifier
 The User entity is not expressed in Financial API messages. The User entity is available from the ID Token obtained as part of the authorization or token endpoint response. The Login entity has an identifier unique to its owning Institution. The Login identifier is usually the username part of a username / password login. The Login surrogate identifier is the OAuth token obtained from the Financial Institution. The Account entity has an identifier that is unique to the owning Institution. The Transaction entity has an identifier that is unique to the owning Account and is usually unique to the owning Institution.
