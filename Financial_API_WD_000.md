@@ -113,7 +113,7 @@ TLS – Transport Layer Security
 ## API Overview
 
 ### Message Transport
-Financial API requires the use of HTTP, which a reliable synchronous stateless message protocol. REST is preferred because it decouples the message syntax from the transport concerns. REST supports content type negotiation, conditional fetches, and compression.
+Financial API requires the use of HTTP, which is a reliable synchronous stateless message protocol. REST is preferred because it decouples the message syntax from the transport concerns. REST supports content type negotiation, conditional fetches, and compression.
 
 Since confidential information is being exchanged, all interactions must be encrypted with TLS/SSL (HTTPS). At the time of this writing, TLS version 1.2 is the most recent version, but has very limited actual deployment, and might not be readily available in implementation toolkits. TLS version 1.0 is the most widely deployed version, and will give the broadest interoperability.
 
@@ -131,7 +131,7 @@ Financial API supports the JSON syntax.
 
 ##	Security
 ### Model
-Financial API client obtains an OAuth access token are covered in Section 3.1.3 of OpenID Connect Core 1.0. The Financial API client must have the following information to successfully interact with a Financial API server:
+Financial API uses the OpenID Connect 1.0 protocol for authentication and authorization. The details of how a Financial API client obtain an OAuth access token are covered in Section 3.1.3 of OpenID Connect Core 1.0. The Financial API client must have the following information to successfully interact with a Financial API server:
 
 1. OpenID Connect authorization server
     1. Authorization endpoint, e.g. https://oauth.example.com/authorization
@@ -148,17 +148,17 @@ Financial API client obtains an OAuth access token are covered in Section 3.1.3 
     3. (Optional) client authentication certificate. Use mutual authentication for access by the client agents in addition to the refresh or access token.
     4. Resource Server Certifying Authority public key chain. Client will need to make sure server SSL certificate CA is in their trust store.
 
-The FI’s Authorization Server MUST support Authorization Code Grant OAuth as defined in section 4.1 of RFC6749 with PKCE [RFC7636] extension, and highly RECOMMENDED to support “code id_token“ response type as defined in OAuth 2.0 Multiple Response Type Encoding Practices.
+The FI's Authorization Server MUST support Authorization Code Grant OAuth as defined in section 4.1 of RFC6749 with PKCE [RFC7636] extension, and highly RECOMMENDED to support "code id\_token" response type as defined in OAuth 2.0 Multiple Response Type Encoding Practices.
 
-Authorization Server SHOULD publish this information through a discovery file defined in clause 4 of OpenID Connect Discovery.
+Authorization Server SHOULD publish this information through a discovery file defined in section 4 of OpenID Connect Discovery.
 
 
 ### Client Authentication
-The recommended approach to securely communicate between an Aggregator and FI is through use of both network transport mutual authentication and message security as defined by the use of the OAuth 2.0 Authorization Code Grant and Bearer Token model. Alternative supported methods are outlined below.
+The recommended approach to securely communicate between a client and FI is through use of both network transport mutual authentication and message security as defined by the use of the OAuth 2.0 Authorization Code Grant and Bearer Token model. Alternative supported methods are outlined below.
 
-Network transport mutual authentication will consist of a two way TLS/SSL network connection used for all web service calls made between the Aggregator and FI for both OAuth token acquisition and data aggregation operations. The X.509 certificates must be issued and validated by an authorized certificate authority. This will provide data origin authentication, data integrity, and data confidentiality between the Aggregator and FI.
+Network transport mutual authentication will consist of a two way TLS/SSL network connection used for all web service calls made between the client and FI for both OAuth token and data acquisition operations. The X.509 certificates must be issued and validated by an authorized certificate authority. This will provide data origin authentication, data integrity, and data confidentiality between the client and FI.
 
-The Aggregator system must be capable of maintaining the confidentiality of their credentials for each FI (e.g. client implemented on a secure server with restricted access to the client credentials).
+The client system must be capable of maintaining the confidentiality of their credentials for each FI (e.g. client implemented on a secure server with restricted access to the client credentials).
 
 X = Recommended x = Alternatives supported
 
@@ -173,19 +173,21 @@ X = Recommended x = Alternatives supported
 |           X                                                           |          X                         |    X                  |
 |           X                                                           |                                 X  |                    X  |
 
-Server Side Authentication – Only the Server authenticates itself, assuring its identity to the client across the network transport. Mutual Authentication – Enables both Client and Server to authenticate to each other, assuring each other's identity across the network transport.
+Server Side Authentication – Only the Server authenticates itself, assuring its identity to the client across the network transport.
+
+Mutual Authentication – Enables both Client and Server to authenticate to each other, assuring each other's identity across the network transport.
 
 In line with FFIEC (Federal Financial Institutions Examination Council) guidance on Authentication to mitigate security risks.
 
 When invoking the FI's Financial API data service, the Financial API client will provide an Authorization header with the access tokens encoded per the agreed encoding.
 
-Clients that support multiple Authorization Servers MUST use a unique redirect_uri for each Authorization Server.  This will mitigate security issues where there is a mix-up of the issuer of the ID Token and Authorization Server.
+Clients that support multiple Authorization Servers MUST use a unique *redirect\_uri* for each Authorization Server.  This will mitigate security issues where there is a mix-up of the issuer of the ID Token and Authorization Server.
 
 Clients running on “mobile devices” MUST send PKCE enabled authorization and token endpoint requests as described in section 4 of RFC 7636.
 
 
-### Token Scope
-The Financial API allows access to the user's private financial information while the user is offline. To obtain consent and authorization for an access token that  can be used while the user Is offline, the authorization request must contain the *openid* and *offline_access* values in the scope parameter. A refresh token will be returned in the authorization response that can be exchanged for an access token as described in Section 12 of OpenID Connect Core 1.0.
+### Token Scope<a name='token_scope'></a>
+The Financial API allows access to the user's private financial information while the user is offline. To obtain consent and authorization for an access token that  can be used while the user is offline, the authorization request MUST contain the *openid* and *offline\_access* values in the *scope* parameter. A refresh token will be returned in the authorization response that can be exchanged for an access token as described in Section 12 of OpenID Connect Core 1.0.
 
 The Financial API client application will include a list of desired scopes when requesting an authorization token. The following scopes are defined for Financial API data service.
 
@@ -214,18 +216,43 @@ Financial API will eventually encompass multiple financial data domains. At this
 ![Logical Data Model](logical_model.png)
 
 ### Entity Identifier
-The User entity is not expressed in Financial API messages. The User entity is available from the ID Token obtained as part of the authorization or token endpoint response. The Login entity has an identifier unique to its owning Institution. The Login identifier is usually the username part of a username / password login. The Login surrogate identifier is the OAuth token obtained from the Financial Institution. The Account entity has an identifier that is unique to the owning Institution. The Transaction entity has an identifier that is unique to the owning Account and is usually unique to the owning Institution.
+The User entity is not expressed in Financial API messages. The User entity is available from the ID Token obtained as part of the OpenID Connect 1.0 authorization and/or token endpoint responses. The Login entity has an identifier unique to its owning Institution. The Login identifier is usually the username part of a username / password login. The Login surrogate identifier is the OAuth token obtained from the Financial Institution. The Account entity has an identifier that is unique to the owning Institution. The Transaction entity has an identifier that is unique to the owning Account and is usually unique to the owning Institution.
 
 The entity identifier (or surrogate identifier) is required when transmitting the entities and is used to relate the entities. Financial API identifier properties have a maximum of 32 characters. (IBAN account identifiers are 31 characters, ACH has 9 digits for routing and 17 digits for account number, OFX 2.0 allowed &lt;FITID&gt; with up to 255 characters but recommended 32 or fewer).
 
-### Surrogate Identifier
+### Surrogate Identifier (Access Token)
 OAuth creates a surrogate identifier for a Login – a Financial API server does not expose the financial institution’s principal identifier of the Login. To limit the exposure of personally identifiable information, the other identities transmitted by the Financial API server should be a surrogate identifier. Surrogates must provide the same uniqueness constraints on the entity relationships as described above. Any surrogate identities must be long term persistent.
+
+### Obtaining a Surrogate Identifier(Access Token)
+The following steps summarizes the methods on how to obtain an access token from a Financial Institution Authorization Server and its usage.
+
+1. The end user starts a Financial Instituion client application on the web or on a device.
+2. The client application authenticates the end user.
+3. The client application prompts the end user for information regarding the Financial Institution.
+4. The client application may optionally perform discovery via OpenID Connect Discovery 1.0 to otain the Financial Instituion's authorization, token, and resource endpoints if they are unknown.
+5. The client constructs an Authorization request to the Financial Institution's Authorization Endpoint. The details of the Authorization request parameters are described in section 3.1.2.1 and 3.3.2.1 of OpenID Connect 1.0.
+    1. The *response\_type* parameter MUST be set to *code* (Code flow).  However, it is RECOMMENDED to set the *response\_type* parameter to *code id\_token* (Hybrid Flow) if it is supported by the Authorization Server. This ensures that the authorization code correlates to the end user at the Financial Institution's Authorization Server provided that ID Token validation and authorization code validation are performed as described in section 3.3.2.9 and 3.3.2.10 of OpenID Connect 1.0.
+    2. The *scope* parameter MUST contain the values *openid* and *offline\_access*.
+    3. It is RECOMMENDED that the *prompt* parameter contains the values *login* ensure that the end user is prompted to perform authentication. The *prompt* parameter MUST contain the value *consent* to prompt the end user for explicit authorization for the client application to obtain financial information.
+    4. It is RECOMMENDED to set values for the *state* and *nonce* parameters.
+    5. It is RECOMMENDED to set the *acr_values* parameter to values supported by the Authorization Server, ordered by preference.
+6. The client redirects the end user to the Authorization Endpoint with the request parameters.
+7. The Authorization Server authenticates the end user and obtains authorization from the end user for the client application.
+8. The Authorization Server sends the authorization response back to the client's *redirect\_uri* endpoint.
+9. The client validates the response according to section 3.1.2.7 of OpenID Connect 1.0 if using Code Flow. If Hybrid flow was used, validation is done according 3.3.2.8.
+10. The client extracts the authorization code and if requested, the ID Token from the authorization response.
+11. If Hybrid flow was used, authorization code validation and ID Token validation is performed according to 3.3.2.9 and 3.3.2.10 of OpenID Connect 1.0.
+12. To obtain an Access Token, the authorization code is submitted to Authorization Server's Token Endpoint as described in section 3.1.3 of OpenID Connect 1.0.
+    1. The client MUST authenticate itself to the Token Endpoint using an authentication method as described in section 9 of OpenID Connect 1.0. The *none* method is not supported. The authentication method MUST be supported by the Authorization Server and agreed upon during client registration or creation.
+13. The client MUST validate the token response as described in section 3.1.3.5 of OpenID Connect 1.0.
+14. Use Access Token to access protected Financial API endpoints.
+15. Store the Refresh Token for fetching a new Access Token once the current Access Token expires.
 
 ## Residual Data
 Residual data is defined as data that is no longer being used, for example if an account has been closed. Aggregators should delete residual data from their systems within 180 days.
 
 ## Protocol
-The Financial API client requests data using HTTP GET and POST methods. The request includes an appropriate Request-URI. Requests must include an OAuth token in the authorization header. The following is a sample of the headers provided in a typical request.
+The Financial API client requests data using HTTP GET and POST methods. The request includes an appropriate Request-URI. Requests must include an OAuth access token in the authorization header. The following is a sample of the headers provided in a typical request.
 
     GET /accounts HTTP/1.1
     Host: example.com
@@ -312,7 +339,7 @@ The Financial API client supplies a User-Agent header with every request. This h
     User-Agent: Intuit/1.2.3 Mint/4.3.1
 
 #### Customer Identifier
-The Financial API client can optionally supply a customer identifier with request header DDA-CustomerId. This value identifies the user for whom the OAuth 2.0 token was issued. The value of DDA-CustomerId must be the same as the the user_id parameter returned by the OAuth 2.0 response and the value of the CustomerId field in the Customer Entity (if the Financial API server implements the customer operations).
+The Financial API client can optionally supply a customer identifier with request header DDA-CustomerId. This value identifies the user for whom the OAuth 2.0 token was issued. The value of DDA-CustomerId must be the same as the the user\_id parameter returned by the OAuth 2.0 response and the value of the CustomerId field in the Customer Entity (if the Financial API server implements the customer operations).
 
     DDA-CustomerId: a237cb74-61c9-4319-9fc5-ff5812778d6b
 
@@ -326,7 +353,7 @@ The Financial API client optionally can supply the customer’s IP address if th
 
     DDA-CustomerIPAddress: 0.0.0.0
 
-9.2.10	Interaction Tracking
+#### Interaction Tracking
 The Financial API client may send the DDA-InteractionId request header to the server to help correlate log entries between client and server. Example:
 
     DDA-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a
@@ -374,22 +401,22 @@ This document defines a mechanism for discovering the various resources endpoint
 
 | Parameter      | Type  | Description                                                                                |
 |----------------|-------|--------------------------------------------------------------------------------------------|
-| ofx (optional) | Array | JSON object containing a collection of the API resources endpoints and their URL locations |
+| ofx *optional* | Array | JSON object containing a collection of the API resources endpoints and their URL locations |
 
 The ofx parameter contains the following parameters:
 
 | Parameter                              | Type   | Description                                                                        |
 |----------------------------------------|--------|------------------------------------------------------------------------------------|
-| account_endpoint optional              | String | URL for getting account information                                                |
-| statement_endpoint optional            | String | URL for retrieving a statement document                                            |
-| statement\_list\_endpoint optional       | String | URL for getting list of statements                                                 |
-| transaction\_document\_endpoint optional | String | URL for getting a transaction document                                             |
-| transaction\_list\_endpoint optional     | String | URL for getting list of transactions                                               |
-| account\_list\_endpoint optional         | String | URL for getting list of accounts                                                   |
-| account\_details\_endpoint optional      | String | URL for getting account information (details & transactions) for the current token |
-|  availability_endpoint optional        | String | URL for getting information about this API's availability                          |
-| capability_endpoint optional           | String | URL for getting informtion about this API's capabilities                           |
-| customer_endpoint optional             | String | URL for getting about the customer within the authorization scope                  |
-| transfer_endpoint optional             | String | URL for creating a transfer between accounts                                       |
-| transfer\_status\_endpoint optional      | String | URL for getting the status of a transfer between accounts                          |
+| account\_endpoint *optional*              | String | URL for getting account information                                                |
+| statement\_endpoint *optional*            | String | URL for retrieving a statement document                                            |
+| statement\_list\_endpoint *optional*       | String | URL for getting list of statements                                                 |
+| transaction\_document\_endpoint *optional* | String | URL for getting a transaction document                                             |
+| transaction\_list\_endpoint *optional*     | String | URL for getting list of transactions                                               |
+| account\_list\_endpoint *optional*         | String | URL for getting list of accounts                                                   |
+| account\_details\_endpoint *optional*      | String | URL for getting account information (details & transactions) for the current token |
+|  availability_endpoint *optional*        | String | URL for getting information about this API's availability                          |
+| capability\_endpoint *optional*           | String | URL for getting informtion about this API's capabilities                           |
+| customer\_endpoint *optional*             | String | URL for getting about the customer within the authorization scope                  |
+| transfer_endpoint *optional*             | String | URL for creating a transfer between accounts                                       |
+| transfer\_status\_endpoint *optional*      | String | URL for getting the status of a transfer between accounts                          |
 
