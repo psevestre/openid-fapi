@@ -103,11 +103,11 @@ Financial API supports the JSON syntax.
 ### Model
 Financial API uses the OpenID Connect 1.0 protocol for authentication and authorization. The details of how a Financial API client obtain an OAuth access token are covered in Section 3.1.3 of OpenID Connect Core 1.0. The Financial API client must have the following information to successfully interact with a Financial API server:
 
-1. OpenID Connect authorization server
+1. OAuth Authorization Server
     1. Authorization endpoint, e.g. https://oauth.example.com/authorization
     2. Client identifier, e.g. intuit.com
     3. Requested scope ("accounts", "customer", "images", "transfer", "transactions")
-    4. Allowed redirection client URI, e.g. https://oauth.intuit.com/client
+    4. Redirection Endpoint, e.g. https://oauth.intuit.com/client
     5. Token endpoint, e.g. https://oauth.example.com/authorization
     6. Client authorization (JWT or shared secret)
     7. Optional client authentication certificate
