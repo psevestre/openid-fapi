@@ -22,9 +22,7 @@ International standards are drafted in accordance with the rules given in the Op
 
 The main task of working group is to prepare Implementers Draft and Final Draft. Final Draft adopted by the Working Group through consensus are circulated to the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the member bodies casting a vote.
 
-<span style='color:red'>
 Attention is drawn to the possibility that some of the elements of this document may be the subject of patent rights. OIDF shall not be held responsible for identifying any or all such patent rights.
-</span>
 
  Financial API consists of the following parts, under the general title Financial Services — Financial API:
 
@@ -109,7 +107,7 @@ Financial API uses the OpenID Connect 1.0 protocol for authentication and author
     3. Requested scope ("accounts", "customer", "images", "transfer", "transactions")
     4. Redirection Endpoint, e.g. https://oauth.intuit.com/client
     5. Token endpoint, e.g. https://oauth.example.com/authorization
-    6. Client authorization (JWT or shared secret)
+    6. Client Authenciation Method and Client credentials (JWT or shared secret)
     7. Optional client authentication certificate
     8. Authorization Server Certifying Authority public key chain
 2. Financial API Service (OAuth resource server)
