@@ -56,6 +56,8 @@ OpenID Connect Core 1.0 incorporating errata set 1
 
 OpenID Connect Discovery 1.0 incorporating errata set 1
 
+OAuth 2.0 Multiple Response Type Encoding Practices
+
 Open Financial Exchange 2.2
 
 “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
@@ -99,7 +101,9 @@ Financial API supports the JSON syntax.
 
 ##	Security
 ### Model
-Financial API uses the OpenID Connect 1.0 protocol for authentication and authorization. The details of how a Financial API client obtain an OAuth access token are covered in Section 3.1.3 of OpenID Connect Core 1.0. The Financial API client must have the following information to successfully interact with a Financial API server:
+Financial API uses the OpenID Connect 1.0 protocol for authentication and authorization. 
+The details of how a Financial API client obtain an OAuth access token are covered in Section 3.1.3 of OpenID Connect Core 1.0. 
+The Financial API client must have the following information to successfully interact with a Financial API server:
 
 1. OAuth Authorization Server
     1. Authorization endpoint, e.g. https://oauth.example.com/authorization
@@ -184,24 +188,46 @@ Financial API will eventually encompass multiple financial data domains. At this
 ![Logical Data Model](logical_model.png)
 
 ### Entity Identifier
-The User entity is not expressed in Financial API messages. The User entity is available from the ID Token obtained as part of the OpenID Connect 1.0 authorization and/or token endpoint responses. The Login entity has an identifier unique to its owning Institution. The Login identifier is usually the username part of a username / password login. The Login surrogate identifier is the OAuth token obtained from the Financial Institution. The Account entity has an identifier that is unique to the owning Institution. The Transaction entity has an identifier that is unique to the owning Account and is usually unique to the owning Institution.
+The User entity is not expressed in Financial API messages. 
+The Login entity has an identifier unique to its owning Institution. 
+The Login identifier is usually the username part of a username / password login. 
+The Login surrogate identifier is the OAuth token obtained from the Financial Institution. 
+The Account entity has an identifier that is unique to the owning Institution. 
+The Transaction entity has an identifier that is unique to the owning Account and is usually unique to the owning Institution.
 
-The entity identifier (or surrogate identifier) is required when transmitting the entities and is used to relate the entities. Financial API identifier properties have a maximum of 32 characters. (IBAN account identifiers are 31 characters, ACH has 9 digits for routing and 17 digits for account number, OFX 2.0 allowed &lt;FITID&gt; with up to 255 characters but recommended 32 or fewer).
+The entity identifier (or surrogate identifier) is required when transmitting the entities and is used to relate the entities. 
+Financial API identifier properties have a maximum of 32 characters. 
+(IBAN account identifiers are 31 characters, 
+ACH has 9 digits for routing and 17 digits for account number, 
+OFX 2.0 allowed &lt;FITID&gt; with up to 255 characters but recommended 32 or fewer).
 
 ### Surrogate Identifier (Access Token)
-OAuth creates a surrogate identifier for a Login – a Financial API server does not expose the financial institution’s principal identifier of the Login. To limit the exposure of personally identifiable information, the other identities transmitted by the Financial API server should be a surrogate identifier. Surrogates must provide the same uniqueness constraints on the entity relationships as described above. Any surrogate identities must be long term persistent.
+OAuth creates a surrogate identifier for a Login – 
+a Financial API server does not expose the financial institution’s principal identifier of the Login. 
+To limit the exposure of personally identifiable information, 
+the other identifiers transmitted by the Financial API server should be a surrogate identifier. 
+Surrogates must provide the same uniqueness constraints on the entity relationships as described above. 
+Any surrogate identities must be long term persistent.
+
+    Editor's Note: 
+    The clause's meaning is not entirely sure. 
+    See [#20](https://bitbucket.org/openid/fapi/issues/20/) for more details. 
 
 ### Obtaining a Surrogate Identifier(Access Token)
+
+    Editor's Note: 
+    This clause is newly created. It does not exist in DDA. 
+
 The following steps summarizes the methods on how to obtain an access token from a Financial Institution Authorization Server and its usage.
 
-1. The end user starts a Financial Instituion client application on the web or on a device.
+1. The end user starts a Client application on the web or on a device.
 2. The client application authenticates the end user.
 3. The client application prompts the end user for information regarding the Financial Institution.
 4. The client application may optionally perform discovery via OpenID Connect Discovery 1.0 to otain the Financial Instituion's authorization, token, and resource endpoints if they are unknown.
 5. The client constructs an Authorization request to the Financial Institution's Authorization Endpoint. The details of the Authorization request parameters are described in section 3.1.2.1 and 3.3.2.1 of OpenID Connect 1.0.
     1. The *response\_type* parameter MUST be set to *code* (Code flow).  However, it is RECOMMENDED to set the *response\_type* parameter to *code id\_token* (Hybrid Flow) if it is supported by the Authorization Server. This ensures that the authorization code correlates to the end user at the Financial Institution's Authorization Server provided that ID Token validation and authorization code validation are performed as described in section 3.3.2.9 and 3.3.2.10 of OpenID Connect 1.0.
     2. The *scope* parameter MUST contain the values *openid* and *offline\_access*.
-    3. It is RECOMMENDED that the *prompt* parameter contains the values *login* ensure that the end user is prompted to perform authentication. The *prompt* parameter MUST contain the value *consent* to prompt the end user for explicit authorization for the client application to obtain financial information.
+    3. It is RECOMMENDED that the *prompt* parameter contains the values *login* to ensure that the end user is prompted to perform authentication. The *prompt* parameter MUST contain the value *consent* to prompt the end user for explicit authorization for the client application to obtain financial information.
     4. It is RECOMMENDED to set values for the *state* and *nonce* parameters.
     5. It is RECOMMENDED to set the *acr_values* parameter to values supported by the Authorization Server, ordered by preference.
 6. The client redirects the end user to the Authorization Endpoint with the request parameters.
@@ -220,7 +246,20 @@ The following steps summarizes the methods on how to obtain an access token from
 Residual data is defined as data that is no longer being used, for example if an account has been closed. Aggregators should delete residual data from their systems within 180 days.
 
 ## Protocol
-The Financial API client requests data using HTTP GET and POST methods. The request includes an appropriate Request-URI. Requests must include an OAuth access token in the authorization header. The following is a sample of the headers provided in a typical request.
+
+    Editor's Note: 
+    This section, while titled "Protocol", seems to be talking about 
+    the protected resource access per RFC6750. 
+    It is probably redundant and should be removed. 
+    
+The Financial API client requests data using HTTP GET and POST methods. 
+
+    Editor's Note: 
+    Why not PUT and PATCH as well? 
+
+The request includes an appropriate Request-URI. 
+Requests must include an OAuth access token in the authorization header. 
+The following is a sample of the headers provided in a typical request.
 
     GET /accounts HTTP/1.1
     Host: example.com
@@ -230,6 +269,10 @@ The Financial API client requests data using HTTP GET and POST methods. The requ
     Accept-Encoding: gzip
 
 ### Message Serializations
+
+    Editor's Note: 
+    This section is not in DDA. It needs to be explained somewhere, 
+    but this location seems to be out-of-place. 
 Messages are serialized using one of the following methods:
 
 1.	Query String Serialization
@@ -248,20 +291,52 @@ The parameters are serialized into a JSON object structure by adding each parame
 ### Headers
 
 #### Transport Security
+
+    Editor's note: 
+    It should be moved to TLS consideration in Security Consideration. 
+    Also, requirling TLS client auth is unrealistic for mobile apps etc. 
+
 All Financial API communication must be secured from network sniffing with SSL/TLS. Using TLS will secure the entire request and response including any headers. We recommend that both the Financial API client and server use certificates. Additionally, Financial API server responses should include Cache-Control headers to prevent any caching or storing of the response.
 
     Cache-Control: no-cache, no-store
 
 
 #### Request Authorization
-The Financial API client does not identify a User to the Financial API server. Instead, the User’s financial institution Login is implied via an OAuth token. The data returned by any Financial API request is limited to what the User could see using his/her Login and further limited by the scope of the OAuth token.
+
+    Editor's note: 
+    The title is misleading. This clause is talking about Protected Resource access 
+    so it should be titled "Protected Resource Access Authorization" or something instead. 
+    
+The Financial API client does not identify a User to the Financial API server. Instead, the User’s financial institution Login is implied via an OAuth token. 
+
+    Editor's note: 
+    Access Token and Refresh Token is opaque to the client by definition. 
+    The above paragraph is redundant. 
+
+The data returned by any Financial API request is limited to what the User could see using his/her Login and 
+further limited by the scope of the OAuth token.
+
+    Editor's note: 
+    This is vague. Perhaps it meant that the access tokens are more narrowly scoped than 
+    the access entitlement than the person who is authorizing the access has. 
+    It may be too limiting when we consider about delegation etc. 
 
 The Financial API client uses the Authorization request header with a Bearer or MAC token. Bearer tokens are recommended although the server has option to issue MAC tokens as an alternative if the client supports it. How to obtain this token was detailed in the Security Model section.
 
     Authorization: Bearer w0mcJylzCn-AfvuGdqkty2-KP48=
+    
+    Editor's Note: 
+    Was there a MAC token in OAuth 2.0? 
+    Token Binding or PoP Token sounds better. 
 
 
 #### Content Negotiation
+
+    Editor's Note: 
+    FAPI only supports JSON. 
+    Rest of the clause is something handled by web server, so we probably do not need to 
+    state them as a protocol spec. 
+    
 Financial API clients and servers use standard HTTP headers to negotiate transport options.
 The Financial API client uses the Accept request header to ask for its preferred syntax. The server must respond with one of the requested syntaxes or with a 406 status code. The following formats are defined by this document:
 
@@ -302,6 +377,10 @@ The Host request header field specifies the Internet host and port number of the
     Host: example.com
 
 #### Client Identifier
+
+    Editor's Note: 
+    Is the below "shall" or "should"? Too vague. 
+
 The Financial API client supplies a User-Agent header with every request. This header should not be used to change the content of the response. This header is designed to only collect statistics on the products using the Financial API data service. The first token is the aggregator and aggregator version. The second token is the product and product version.
 
     User-Agent: Intuit/1.2.3 Mint/4.3.1
@@ -310,6 +389,10 @@ The Financial API client supplies a User-Agent header with every request. This h
 The Financial API client can optionally supply a customer identifier with request header DDA-CustomerId. This value identifies the user for whom the OAuth 2.0 token was issued. The value of DDA-CustomerId must be the same as the the user\_id parameter returned by the OAuth 2.0 response and the value of the CustomerId field in the Customer Entity (if the Financial API server implements the customer operations).
 
     DDA-CustomerId: a237cb74-61c9-4319-9fc5-ff5812778d6b
+
+    Editor's Note: 
+    Where is user¥_id defined? 
+    See [#22](https://bitbucket.org/openid/fapi/issues/22/)
 
 #### Customer Last Login Time
 The Financial API client can optionally supply the last time the customer logged into the aggregator product if this data is available.
@@ -321,6 +404,9 @@ The Financial API client optionally can supply the customer’s IP address if th
 
     DDA-CustomerIPAddress: 0.0.0.0
 
+    Editor's Note: 
+    "customer's IP" is too vague. Clarify. 
+
 #### Interaction Tracking
 The Financial API client may send the DDA-InteractionId request header to the server to help correlate log entries between client and server. Example:
 
@@ -330,9 +416,12 @@ The Financial API client may send the DDA-InteractionId request header to the se
 The Financial API server must include the value of this header in its log entries. The Financial API server must also send DDA-InteractionId as a response header with value equal to the value sent by the client, or a unique value generated by the server if the client did not send DDA-InteractionId.
 
 #### Financial Institution Identification
-If the Financial API service is provided by a service bureau which uses the same end point for multiple institutions, the Financial API client must provide a header the identifies the desired financial institution. The service bureau defines this value. For example, it OIDFften the financial institution’s routing number (RTN).
+If the Financial API service is provided by a service bureau which uses the same end point for multiple institutions, the Financial API client must provide a header the identifies the desired financial institution. The service bureau defines this value. For example, it is often the financial institution’s routing number (RTN).
 
     DDA-FinancialId: 123456789
+    
+    Editor's Note: 
+    This is "Hacky". Is there a real example like this? 
 
 ###	Errors
 When Financial API servers are unable to fulfill a request, they should send Error Entity as the response payload along with an appropriate HTTP Status Code. Error messages should contain just enough information for an end user to understand what went wrong without compromising security.
@@ -360,12 +449,23 @@ When Financial API servers are unable to fulfill a request, they should send Err
 
 ### Resources
 
-When implementing Financial API, the client and server maintainers must agree on the data service endpoint. All resource URIs may be prefixed by a base URI, for example https://example.com/dda/1.0. The base URI should include the version of Financial API that the server implements.
+When implementing Financial API, the client and server maintainers must agree on the data service endpoint. 
+All resource URIs may be prefixed by a base URI, for example https://example.com/dda/1.0. 
+The base URI should include the version of Financial API that the server implements.
 
-For security reasons identifiers should not be part of the URI and should be part of the HTTP body to prevent any inadvertent information disclosure in server audit logs. For this reason some requests are implemented as POST rather than GET with parameters serialized using Form Serialization as described in Section 9.1.2. If using the HTTP GET method, the request parameters are serialized using URI Query String Serialization as described in Section 9.1.1.
+For security reasons identifiers should not be part of the URI and should be part of 
+the HTTP body to prevent in inadvertent information disclosure in server audit logs. 
+
+    Editor's Note: 
+    What Identifier? 
+
+For this reason some requests are implemented as POST rather than GET 
+with parameters sent in the body as form data in application/x-www-form-urlencoded format.
 
 ### Resources Endpoint Discovery
-This document defines a mechanism for discovering the various resources endpoints for requesting the user's financial data. Building upon the discovery mechanism described in OpenID Connect Discovery 1.0, this document defines the following parameters to the OpenID Discovery response:
+This document defines a mechanism for discovering the various resources endpoints for requesting the user's financial data. 
+Building upon the discovery mechanism described in OpenID Connect Discovery 1.0, 
+this document defines the following parameters to the OpenID Discovery response:
 
 | Parameter      | Type  | Description                                                                                |
 |----------------|-------|--------------------------------------------------------------------------------------------|
