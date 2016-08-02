@@ -942,13 +942,6 @@ definitions:
     - UGMA
     - UTMA
 
-  BccountStatus:
-    type: string
-    enum:
-    - CLOSED
-    - DELINQUENT
-
-
   AssetClass:
     type: string
     enum:
