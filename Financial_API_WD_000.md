@@ -463,6 +463,11 @@ For this reason some requests are implemented as POST rather than GET
 with parameters sent in the body as form data in application/x-www-form-urlencoded format.
 
 ### Resources Endpoint Discovery
+
+    Editor's note: 
+    This clause is new. 
+    DDA does not define how to discover the endpoints. 
+    
 This document defines a mechanism for discovering the various resources endpoints for requesting the user's financial data. 
 Building upon the discovery mechanism described in OpenID Connect Discovery 1.0, 
 this document defines the following parameters to the OpenID Discovery response:
@@ -488,3 +493,5 @@ The ofx parameter contains the following parameters:
 | transfer_endpoint *optional*             | String | URL for creating a transfer between accounts                                       |
 | transfer\_status\_endpoint *optional*      | String | URL for getting the status of a transfer between accounts                          |
 
+    Editor's note: 
+    An example should be added. 
