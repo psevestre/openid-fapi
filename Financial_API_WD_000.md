@@ -386,7 +386,9 @@ The Financial API client supplies a User-Agent header with every request. This h
     User-Agent: Intuit/1.2.3 Mint/4.3.1
 
 #### Customer Identifier
-The Financial API client can optionally supply a customer identifier with request header DDA-CustomerId. This value identifies the user for whom the OAuth 2.0 token was issued. The value of DDA-CustomerId must be the same as the the user\_id parameter returned by the OAuth 2.0 response and the value of the CustomerId field in the Customer Entity (if the Financial API server implements the customer operations).
+The Financial API client can optionally supply a customer identifier with request header DDA-CustomerId. 
+This value identifies the user for whom the OAuth 2.0 token was issued. 
+The value of DDA-CustomerId must be the same as the the `user_id` parameter returned by the OAuth 2.0 response and the value of the CustomerId field in the Customer Entity (if the Financial API server implements the customer operations).
 
     DDA-CustomerId: a237cb74-61c9-4319-9fc5-ff5812778d6b
 
