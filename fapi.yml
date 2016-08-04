@@ -958,9 +958,6 @@ definitions:
     - ASSET
     - LIABILITY
 
-  Boolean:
-    type: boolean
-    
   CallType:
     type: string
     enum:
@@ -1606,11 +1603,6 @@ definitions:
     - CLOSEEND
     - OPENEND
     - OTHER
-      
-  Number:
-    type: number
-    format: double
-
       
   OptionType:
     type: string
