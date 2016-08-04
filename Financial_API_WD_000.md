@@ -50,6 +50,8 @@ RFC 7636 - Proof Key for Code Exchange by OAuth Public Clients
 
 RFC 5246 - The Transport Layer Security (TLS) Protocol Version 1.2
 
+RFC 7525 - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
+
 RFC 6125 - Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 
 OpenID Connect Core 1.0 incorporating errata set 1
@@ -85,7 +87,7 @@ TLS – Transport Layer Security
 ### Message Transport
 Financial API requires the use of HTTP, which is a reliable synchronous stateless message protocol. REST is preferred because it decouples the message syntax from the transport concerns. REST supports content type negotiation, conditional fetches, and compression.
 
-Since confidential information is being exchanged, all interactions must be encrypted with TLS/SSL (HTTPS). At the time of this writing, TLS version 1.2 is the most recent version, but has very limited actual deployment, and might not be readily available in implementation toolkits. TLS version 1.0 is the most widely deployed version, and will give the broadest interoperability.
+Since confidential information is being exchanged, all interactions must be encrypted with TLS/SSL (HTTPS) in accordance with the recommendations in RFC 7525. At the time of this writing, TLS version 1.2 is the most recent version. 
 
 To protect against information disclosure and tampering, confidentiality protection MUST be applied using TLS with a cipher suite that provides confidentiality and integrity protection.
 
