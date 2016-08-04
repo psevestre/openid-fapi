@@ -702,7 +702,6 @@ paths:
             "supportsAccounts": true,
             "supportsTransactions": true,
             "supportsImage": true,
-            "messageFormat": "JSON"
           }
         }
         ```
@@ -1601,12 +1600,6 @@ definitions:
     - PAYMENT
     - WITHDRAWAL
 
-  MessageFormat:
-    type: string
-    enum:
-    - JSON
-    - XML
-       
   MutualFundType:
     type: string
     enum:
@@ -1997,9 +1990,6 @@ definitions:
         type: boolean
         default: false
         description: Capable of supporting a transfer request. Defaults to false.
-      MessageFormat:
-        $ref: '#/definitions/MessageFormat'
-        description: Whether messages are in XML or JSON format. Defaults to JSON.
       TransferCutOffTime:
         $ref: '#/definitions/Timestamp'
         description: Cut off time for transfers. Required if transfers are supported.
