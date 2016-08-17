@@ -33,6 +33,10 @@ tags:
     name: transfer
     description: transfer operations and information
 
+  -
+    name: atm
+    description: information about ATM locations
+
 # Describe your paths here
 paths:
   /account:
@@ -882,6 +886,310 @@ paths:
           schema:
             $ref: '#/definitions/TransferStatus'
 
+  /atm/countries:
+    get:
+      tags:
+        - atm
+      summary: Get a list of countries where ATMs are located
+      description: |
+        Gets a list of countries where ATMs are located
+
+        *Example request for JSON *
+        ```
+        GET /atm/countries HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        ```
+
+
+        *Example JSON response *
+        ```
+        HTTP/1.1 200 OK
+        Content-Type: application/json; charset=utf-8
+        {
+         "_links": {
+              "self": { "href": "/countries" }
+         },
+         "Countries":  [
+             {
+               "Name": "Japan",
+               "Code": "JPN",
+               "Geocoding": FALSE
+             },
+             {
+               "Name": "United States of America",
+               "Code": "USA",
+               "Geocoding": TRUE
+             }
+          ]
+        }
+         ```
+
+      operationId: GetAtmCountries
+      produces:
+        - application/json
+
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description:
+            A list of countries where ATMs are located
+          schema:
+            $ref: '#/definitions/Countries'
+
+  /atm/provinces:
+    get:
+      tags:
+        - atm
+      summary: country subdivisions that have ATM locations. A country subdivision is a segment within a country (ex state or province)
+      description: |
+
+        *Example request for JSON *
+        ```
+        GET /atm/provinces?country=CAN HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        ```
+
+        *Example JSON response *
+        ```
+        HTTP/1.1 200 OK
+        Content-Type: application/json; charset=utf-8
+        {
+          "CountrySubdivisions":  [
+            {
+              "Name": "ALBERTA",
+              "Code": "AB"
+             },
+            {
+              "Name": "BRITISH COLUMBIA",
+              "Code": "BC"
+            }
+          ]
+        }
+        ```
+
+      operationId: GetAtmSubdivision
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+        - name: country
+          in: query
+          description: ISO 3166 Country Code
+          required: true
+          type: string
+
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description:
+            list of country subdivisions
+          schema:
+            $ref: '#/definitions/CountrySubdivisions'
+
+
+  /atm/locations:
+    get:
+      tags:
+        - atm
+      summary: Get ATM locations near the provided location parameters
+      description: |
+
+        *Example request for JSON *
+        ```
+        GET /atm/locations?postalcode=90028&PageOffset=0&PageLength=10 HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        ```
+
+        *Example JSON response *
+        ```
+        HTTP/1.1 200 OK
+        Content-Type: application/json; charset=utf-8
+        {
+          "Atms": {
+            "PageOffset": "0",
+            "TotalCount": 2,
+            "Atm": [
+              {
+                "Location": {
+                  "Name": "ATM Location 1",
+                  "Distance": 0.9320591049747101,
+                  "DistanceUnit": "MILE",
+                  "Address": {
+                    "Line1": "4201 Sunset Blvd",
+                    "Line2": "",
+                    "City": "Hollywood",
+                    "PostalCode": "90028",
+                    "CountrySubdivision": {
+                      "Name": "California",
+                      "Code": "CA"
+                    },
+                    "Country": {
+                      "Name": "United States of America",
+                      "Code": "USA"
+                    }
+                  },
+                  "Point": {
+                    "Latitude": 38.76006576913497,
+                    "Longitude": -90.74615107952418
+                  },
+                  "LocationType": {
+                    "Type": "OTHER"
+                  }
+                },
+                "HandicapAccessible": "NO",
+                "Camera": "YES",
+                "Availability": "BUSINESS_HOURS",
+                "AccessFees": "NO_FEE",
+                "Owner": "SandBox Bank",
+                "SharedDeposit": "NO",
+                "SurchargeFreeAlliance": "NO",
+                "SurchargeFreeAllianceNetwork": "DOES_NOT_PARTICIPATE_IN_SFA",
+                "SupportEMV": 1,
+                "InternationalMaestroAccepted": 1
+              },
+              {
+                "Location": {
+                  "Name": "ATM Location 2",
+                  "Distance": 0.6251489709262,
+                  "DistanceUnit": "MILE",
+                  "Address": {
+                    "Line1": "8733 Franklin Ave",
+                    "Line2": "",
+                    "City": "Hollywood",
+                    "PostalCode": "90028",
+                    "CountrySubdivision": {
+                      "Name": "California",
+                      "Code": "CA"
+                    },
+                    "Country": {
+                      "Name": "United States of America",
+                      "Code": "USA"
+                    }
+                  },
+                  "Point": {
+                    "Latitude": 29.107398165363,
+                    "Longitude": -93.87558096265883
+                  },
+                  "LocationType": {
+                    "Type": "OTHER"
+                  }
+                },
+                "HandicapAccessible": "YES",
+                "Camera": "YES",
+                "Availability": "BUSINESS_HOURS",
+                "AccessFees": "NO_FEE",
+                "Owner": "Sandbox Bank",
+                "SharedDeposit": "NO",
+                "SurchargeFreeAlliance": "NO",
+                "SurchargeFreeAllianceNetwork": "DOES_NOT_PARTICIPATE_IN_SFA",
+                "SupportEMV": 1,
+                "InternationalMaestroAccepted": 1
+              }
+            ]
+          }
+        }
+
+        ```
+
+      operationId: GetAtmLocations
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      parameters:
+        - name: PageOffset
+          in: query
+          description: Zero-based offset where the response will start. The actual start position is this value +1. An offset of 10 starts at item 11. Combined with the PageLength option this allows pagination to be supported through the service requests.
+          required: true
+          type: number
+          format: integer
+        - name: PageLength
+          in: query
+          description: Maximum number of items to retrieve within the current "page" of results.
+          required: true
+          type: number
+          format: integer
+        - name: AddressLine1
+          in: query
+          description: Line 1 of the street address for the merchant location. Usually includes the street number and name. This parameter is ignored if latitude and longitude are provided. If you provide this parameter you must also provide the Country parameter and either City parameter or PostalCode parameter.
+          required: false
+          type: string
+        - name: AddressLine2
+          in: query
+          description: Line 2 of the street address usually an apartment number or suite number. This parameter is used rarely and is ignored if latitude and longitude are provided. If you provide this parameter you must also provide the Country parameter and either City parameter or PostalCode parameter.
+          required: false
+          type: string
+        - name: City
+          in: query
+          description: The name of the city for a merchant location. This parameter is ignored if latitude and longitude are provided. If you provide this parameter you must also provide the Country parameter.
+          required: false
+          type: string
+        - name: CountrySubdivision
+          in: query
+          description: The state or province for a merchant location (only supported for US and Canada locations). This parameter is ignored if latitude and longitude are provided. If you provide this parameter you must also provide the Country parameter.
+          required: false
+          type: string
+        - name: PostalCode
+          in: query
+          description: The zip code or postal code for a merchant location. This parameter is ignored if latitude and longitude are provided. If you provide this parameter you must also provide the Country parameter.
+          required: false
+          type: string
+        - name: Country
+          in: query
+          description: Any three digit country code for an ATM location. Valid values are Three digit alpha country code as defined in ISO 3166-1. This parameter is ignored if latitude and longitude are provided. This parameter is required if any other address information is provided including AddressLine1 AddressLine2 City PostalCode or CountrySubdivision.
+          required: false
+          type: string
+        - name: Latitude
+          in: query
+          description: The latitude of a merchant location. If latitude is provided longitude must also be provided
+          required: false
+          type: number
+          format: double
+        - name: Longitude
+          in: query
+          description: The longitude of a merchant location. If longitude is provided latitude must also be provided.
+          required: false
+          type: number
+          format: double
+        - name: DistanceUnit
+          in: query
+          description: Indicates the unit for the radius as well as the units of the distance of each location from the basepoint in the response.
+          required: false
+          type: string
+        - name: Radius
+          in: query
+          description: This is the radius from the search point in the distance unit you set. For example if you want to search for locations within 50 miles of a certain point you would set DistanceUnit=mile and Radius=50. This parameter is ignored in non-geocoded countries.
+          required: false
+          type: number
+          format: float
+        - name: SupportEMV
+          in: query
+          description: This indicates whether the ATM should have the ability to read chip cards or not. Can be 0 or 1
+          required: false
+          type: number
+        - name: InternationalMaestroAccepted
+          in: query
+          description: This field will provide ATM Terminals which can still process Maestro transactions but are not yet EMV chip reader enabled. Information available only for USA and Argentina till October 2014.
+          required: false
+          type: string
+
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description:
+            Transfer status
+          schema:
+            $ref: '#/definitions/ATMS'
+
 definitions:
 
 # -----------------------------------------------------------------
@@ -976,8 +1284,8 @@ definitions:
     - SEMIANNUALLY
     - SEMIMONTHLY
     - WEEKLY
-    
-  
+
+
   CouponMatureFrequency:
     type: string
     enum:
@@ -1032,7 +1340,7 @@ definitions:
     - POSDEBIT
     - TRANSFER
     - WITHDRAWAL
-        
+
   HeldInAccount:
     type: string
     enum:
@@ -1927,7 +2235,119 @@ definitions:
       SingleAccountDetailsRequestList:
         $ref: '#/definitions/SingleAccountDetailsRequestList'
 
-  Availability:        
+  Address:
+    type: object
+    required:
+      - Line1
+      - City
+      - Subdivision
+      - PostalCode
+      - Country
+    properties:
+      Line1:
+        $ref: '#/definitions/String64'
+        description: The location's first line
+      Line2:
+        $ref: '#/definitions/String64'
+        description: The location's second line
+      Line3:
+        $ref: '#/definitions/String64'
+        description: The location's third line
+      City:
+        $ref: '#/definitions/String64'
+        description: The location's city
+      Subdivision:
+        $ref: '#/definitions/CountrySubdivision'
+        description: The location's country subdivision
+      PostalCode:
+        $ref: '#/definitions/String9'
+        description: The delivery location's postal code
+      Country:
+        $ref: '#/definitions/Country'
+        description: Country
+
+  ATM:
+    type: object
+    description: An ATM description
+    properties:
+      HandicapAccessible:
+        type: string
+        enum:
+        - YES
+        - NO
+        - UNKNOWN
+        description: Indicates whether or not the ATM is accessible by wheelchair. Options are UNKNOWN, YES, NO.
+      Camera:
+        type: string
+        enum:
+        - YES
+        - NO
+        - UNKNOWN
+        description: Indicates whether or not a security camera is present or near ATM. Options are UNKNOWN, YES, NO.
+      Availability:
+        type: string
+        enum:
+        - ALWAYS_AVAILABLE
+        - BUSINESS_HOURS
+        - IRREGULAR_HOURS
+        - UNKNOWN
+        description: Indicates the availability hours of the ATM. Options are UNKNOWN, ALWAYS_AVAILABLE, BUSINESS_HOURS, IRREGULAR_HOURS
+      AccessFees:
+        type: string
+        enum:
+        - DOMESTIC
+        - INTERNATIONAL
+        - DOMESTIC_AND_INTERNATIONAL
+        - NO_FEE
+        - UNKNOWN
+        description: Indicates under what conditions access fees are charged. Options are UNKNOWN, DOMESTIC, INTERNATIONAL, DOMESTIC_AND_INTERNATIONAL, NO_FEE
+      Owner:
+        type: string
+        description: This is the DBA name of the financial institution affiliate or independent service organization.
+      SharedDeposit:
+        type: boolean
+        description: Indicates whether or not the ATM participates in the MasterCard Shared Deposit network.
+      SurchargeFreeAlliance:
+        type: boolean
+        description: Indicates whether or not the ATM participates in the MasterCard Shared (only) Surcharge Free Alliance network.
+      SurchargeFreeAllianceNetwork:
+        type: string
+        enum:
+        - DOES_NOT_PARTICIPATE_IN_SFA
+        - ALLPOINT_PREPAID
+        - MONEYPASS_DEBIT
+        - ALL_SURCHARGE_FREE
+        description: This value indicates whether or not the ATM participates in the MasterCard Shared (only) Surcharge Free Alliance network. Options are DOES_NOT_PARTICIPATE_IN_SFA, ALLPOINT_PREPAID, MONEYPASS_DEBIT, and ALL_SURCHARGE_FREE.
+      SupportEMV:
+        type: string
+        enum:
+        - YES
+        - NO
+        - UNKNOWN
+        description: Indicates whether the ATM has the ability to read chip cards or not. Options are 1 = Yes 2 = No or Empty = Unknown
+      Location:
+        description: Location of the ATM
+        $ref: '#/definitions/Location'
+
+  ATMS:
+    type: object
+    description: A list of ATMs
+    properties:
+      PageOffset:
+        type: number
+        format: integer
+        description: Zero-based offset where the response will start. The actual start position is this value +1. An offset of 10 starts at item 11. Combined with the PageLength option this allows pagination to be supported through the service requests.
+      TotalCount:
+        type: number
+        format: integer
+        description: This is the total number of ATMs that match your criteria.
+      ATM:
+        type: array
+        description: A list of the ATMs
+        items:
+          $ref: '#/definitions/ATM'
+
+  Availability:
     type: object
     required:
       - CurrentStatus
@@ -2043,6 +2463,55 @@ definitions:
         type: number
         format: double
         description: Rollover contribution Amount
+
+  Countries:
+    type: object
+    description: List of countries
+    properties:
+      Country:
+        type: array
+        description: A list of the countries
+        items:
+          $ref: '#/definitions/Country'
+
+  Country:
+    type: object
+    description: Country and it's ISO code
+    properties:
+      Name:
+        type: string
+        description: Name of the Country
+      Code:
+        type: string
+        minLength: 3
+        maxLength: 3
+        description: 3 letter ISO 3166-1 Country code
+      GeoCoding:
+        type: boolean
+        description: Indicates whether the country is geocoded
+
+  CountrySubdivision:
+    type: object
+    description: A country state/province/subdivision
+    properties:
+      Name:
+        type: string
+        description: Name of the state or province
+      Code:
+        type: string
+        minLength: 3
+        maxLength: 3
+        description: Abbreviated code for the state/province/subdivision
+
+  CountrySubdivisions:
+    type: object
+    description: List of states/provinces/subdivisions in a country
+    properties:
+      CountrySubdivision:
+        type: array
+        description: A list of the country subdivisions
+        items:
+          $ref: '#/definitions/CountrySubdivision'
 
   Currency:
     type: object
@@ -2261,7 +2730,22 @@ definitions:
             description: Check number
             type: integer
             format: int64
- 
+
+  Distance:
+    type: object
+    description: Describes a distance
+    properties:
+      Distance:
+        type: number
+        format: float
+        description: This is the numerical value for the distance from a provided location to the selected location.
+      DistanceUnit:
+        type: string
+        enum:
+        - MILE
+        - KILOMETER
+        description: Unit of measure value for the distance
+
   Error:
     type: object
     description: An error entity which can be used at the API level for error responses or at the account level to indicate a problem specific to a particular account.
@@ -2960,6 +3444,55 @@ definitions:
             items:
               $ref: '#/definitions/LocTransaction'
             description: list of LocTrasaction
+
+  Location:
+    type: object
+    description: A location/address description
+    properties:
+      Name:
+        type: string
+        description: Name of the location
+      Address:
+        description: Address of the location
+        $ref: '#/definitions/Address'
+      Distance:
+        description: Distance from a provided location to this location.
+        $ref: '#/definitions/Distance'
+      Point:
+        description: Coordinates of the location
+        $ref: '#/definitions/LocationCoordinate'
+      LocationType:
+        description: Location Type description
+        $ref: '#/definitions/LocationType'
+
+  LocationCoordinate:
+    type: object
+    description: The latitude and longitude of a location point in the globe using signed degrees format
+    properties:
+      Latitude:
+        type: number
+        format: double
+        description: Latitude of the location
+      Longitude:
+        type: number
+        format: double
+        description: Longitude of the location
+
+  LocationType:
+    type: object
+    description: Description of a location type
+    properties:
+      Type:
+        type: string
+        enum:
+        - OTHER
+        - AIRPORT
+        - HOSPITAL
+        - FINANCIAL_INSTITUTION
+        description: Type of location. Options are OTHER, AIRPORT, HOSPITAL, FINANCIAL_INSTITUTION
+      AirportCode:
+        type: string
+        description: Airport code is a 3 digit field. This is an optional field and will only be returned if Type=AIRPORT
 
   LocTransaction:
     type: object
