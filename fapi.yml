@@ -37,6 +37,10 @@ tags:
     name: atm
     description: information about ATM locations
 
+  -
+    name: product
+    description: information about products
+
 # Describe your paths here
 paths:
   /account:
@@ -1189,6 +1193,71 @@ paths:
             Transfer status
           schema:
             $ref: '#/definitions/ATMS'
+
+
+  /products:
+    get:
+      tags:
+        - product
+      summary: Get list of bank products
+      description: |
+
+        *Example request for JSON *
+        ```
+        GET /products HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        ```
+
+        *Example JSON response *
+        ```
+        HTTP/1.1 200 OK
+        Content-Type: application/json; charset=utf-8
+        {
+          "Products": [{
+            "Code": "BPC05001161",
+            "Name": "Premiere Savings Account",
+            "Category": "Savings",
+            "Family": "Banking",
+            "SuperFamily": "Financial",
+            "MoreInfUrl": "https:example.com/products/BPC05001161",
+            "Meta": {
+                "License": {
+                  "Id": "Copyright2016",
+                  "Name": "Copyright"
+                }
+            }
+            }, {
+            "Code": "BCP11118372",
+            "Name": "Retirement Account",
+            "Category": "Retirement",
+            "Family": "Investing",
+            "SuperFamily": "Financial",
+            "MoreInfoUrl": "https://example.com/products/BCP11118372",
+            "Meta": {
+                "License": {
+                  "Id": "Copyright2016",
+                  "Name": "Copyright"
+                }
+            }
+          }]
+        }
+        ```
+
+      operationId: GetProducts
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description:
+            Product list
+          schema:
+            $ref: '#/definitions/Products'
 
 definitions:
 
@@ -3233,6 +3302,16 @@ definitions:
             $ref: '#/definitions/TransactionReason'
             description: TransactionReason
 
+  License:
+    type: object
+    properties:
+      Id:
+        description: License Id
+        type: string
+      Name:
+        type: string
+        description: License name
+
   LineItem:
     type: object
     description: LineItem
@@ -3514,6 +3593,13 @@ definitions:
             $ref: '#/definitions/PaymentDetails'
             description: Breakdown of payment details
 
+  Meta:
+    type: object
+    properties:
+      License:
+        description: License information
+        $ref: '#/definitions/License'
+
   MutualFundSecurity:
     type: object
     properties:
@@ -3684,7 +3770,40 @@ definitions:
         type: number
         format: double
         description: Percentage of asset class that falls under this asset
-  
+
+  Product:
+    type: object
+    description: Bank product information
+    properties:
+      Code:
+        type: string
+        description: Product code
+      Name:
+        type: string
+        description: Name of the product
+      Category:
+        type: string
+        description: Product Category
+      Family:
+        type: string
+        description: Product Family
+      SuperFamily:
+        type: string
+        description: Product Super Family
+      MoreInfoUrl:
+        type: string
+        description: URL to obtain more information regarding product
+      Meta:
+        type: object
+        description: Meta information about product
+        $ref: '#/definitions/Meta'
+
+  Products:
+    type: array
+    description: List of products
+    items:
+      $ref: '#/definitions/Product'
+
   SingleAccountDetailsRequest:
     type: object
     description: Single Account Details Request
