@@ -42,7 +42,7 @@ This working group aims to rectify the situation by developing a REST/JSON model
 * enable applications to interact with the financial account, and
 * enable users to control the security and privacy settings.
 
-Both commercial and investment banking account as well as insurance, and credit card accounts are to be considered.
+Both commercial and investment banking accounts as well as insurance, and credit card accounts are to be considered.
 
 
 
@@ -55,12 +55,12 @@ Both commercial and investment banking account as well as insurance, and credit 
 This document specifies the method of 
 
 * applications to obtain the OAuth tokens in an appropriately secure manner for the financial data access; 
-* application to utilize OpenID Connect to identify the cusotmer; 
+* application to utilize OpenID Connect to identify the customer; 
 * representing financial data in JSON format; 
-* using the tokens to intract with the REST endpoints that provides financial data; and
+* using the tokens to interact with the REST endpoints that provides financial data; and
 * enabling users to control the security and privacy settings.
 
-This document is applicable to both commercial and investment banking account as well as insurance, and credit card accounts are to be considered.
+This document is applicable to both commercial and investment banking accounts as well as insurance, and credit card accounts are to be considered.
 
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
@@ -101,7 +101,7 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
 ## 3. Terms and definitions
-For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] applies.
+For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
 
 ## 4. Symbols and Abbreviated terms
@@ -126,7 +126,7 @@ For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RF
 
 The OIDF Financial API (FAPI) is a REST API that provides JSON data representing accounts and transactions related data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
-These API accesses have several levels of risks associated to it. Read only access is generally speaking associated with lower financial risk than the write access. As such, the characteristics required to the tokens are also different.
+These API accesses have several levels of risks associated to them. Read only access is generally speaking associated with lower financial risk than the write access. As such, the characteristics required to the tokens are also different.
 
 In the following subclauses, the method to obtain tokens are explained separately.
 
@@ -135,7 +135,7 @@ In the following subclauses, the method to obtain tokens are explained separatel
 
 Read Only Access typically is the lower risk scenario compared to the Write access, so the protection level can also be lower. However, since the FAPI would provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires. 
 
-To request the authorization to acess the protected resource in question, the client uses the OAuth scope values defined in table 1. 
+To request the authorization to access the protected resource in question, the client uses the OAuth scope values defined in table 1. 
 
 | Resource       | Allowed Actions                                              | Scope value          |
 |----------------|--------------------------------------------------------------|----------------------|
@@ -154,13 +154,13 @@ As a profile of The OAuth 2.0 Authorization Framework, this specification mandat
 The Authorization Server
 
 * shall support both public and confidential clients; 
-* shall provide client secret longer than 12 characters; 
+* shall provide a client secret longer than 12 characters; 
 * shall support [RFC7636] with `S265` as the code challenge method;
 * shall require Redirect URIs to be pre-registered; 
-* shall required `redirect_uri` parameter in the authorization request; 
-* shall require the value of `redirect_uri` to exactly match one of the pre-registered Redirect URI;  
+* shall require the `redirect_uri` parameter in the authorization request; 
+* shall require the value of `redirect_uri` to exactly match one of the pre-registered Redirect URIs;  
 * shall require user authentication at LoA 2 as defined in [X.1254] or more; 
-* shall require explicit consent by the user to authorized the requested scope if it has not been previously authorized;  
+* shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;  
 * shall verify that the Authorization Code has not been previously used if possible; 
 * shall return the token response as defined in 4.1.4 of [RFC6749]; and 
 * shall return the list of allowed scopes with the issued access token.  
@@ -221,7 +221,7 @@ In addition to the provision to the Public Client, the Confidential Client
 
 ### 6.1 Introduction
 
-The FAPI endpoints are OAuth 2.0 protected resource endpoints that return various financial information for the resource owner assoicated with the submitted Acccess Token. 
+The FAPI endpoints are OAuth 2.0 protected resource endpoints that return various financial information for the resource owner associated with the submitted access token. 
 
 ### 6.2 Read only access provisions 
 
@@ -258,7 +258,7 @@ The client supporting this document
 * shall use TLS 1.2 as defined in [RFC5246] or later with the usage following the best practice in [RFC7525]; 
 * shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];   
 * shall send `User-Agent` header that identifies the client, e.g., `User-Agent: Intuit/1.2.3 Mint/4.3.1`; and 
-* shall send `DDA-FinancialId` whose value is the unique identifier of the desired financial institution to interact assigned by the service beureau where the API is provided by a service bureau which uses the same end point for multiple institutions. 
+* shall send `DDA-FinancialId` whose value is the unique identifier of the desired financial institution to interact assigned by the service bureau where the API is provided by a service bureau which uses the same endpoint for multiple institutions. 
 
     **NOTE**: Conceptually, the value of the DDA-FinancialID corresponds to `iss` in the ID Token 
     but is not required to be an https URI. It often is the routing number of the FI. 
@@ -266,7 +266,7 @@ The client supporting this document
 Further, the client 
 
 * can optionally supply the `sub` value associated with the customer with the `DDA-CustomerId` request header, e.g., `DDA-CustomerId: a237cb74-61c9-4319-9fc5-ff5812778d6b`; 
-* can optionally supply the last time the customer logged into the client in the `DDA-CustomerLastLoggedTime` header where the value is supllied as ** w3c date **, e.g., `DDA-CustomerLastLoggedTime: Tue, 11 Sep 2012 19:43:31 UTC`; and 
+* can optionally supply the last time the customer logged into the client in the `DDA-CustomerLastLoggedTime` header where the value is supplied as ** w3c date **, e.g., `DDA-CustomerLastLoggedTime: Tue, 11 Sep 2012 19:43:31 UTC`; and 
 * can supply the customer’s IP address if this data is available or applicable in the `DDA-CustomerIPAdress` header, e.g., `DDA-CustomerIPAdress: 198.51.100.119`; and 
 * may send the `DDA-InteractionId` request header to the server to help correlate log entries between client
 and server, e.g., `DDA-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`. 
@@ -337,7 +337,7 @@ The `fapi` parameter contains the following parameters:
 | fapi.transaction | transaction *optional* | String | URL for getting a transaction document                                             |
 | fapi.transactionlist| transactionlist *optional*     | String | URL for getting list of transactions                                               |
 | fapi.availability |  availability *optional*        | String | URL for getting information about this API's availability                          |
-| fapi.capability | capability *optional*           | String | URL for getting informtion about this API's capabilities                           |
+| fapi.capability | capability *optional*           | String | URL for getting information about this API's capabilities                           |
 | fapi.customer | customer *optional*             | String | URL for getting about the customer within the authorization scope                  |
 | fapi.transfer | transfer *optional*             | String | URL for creating a transfer between accounts                                       |
 | fapi.transferstatus | transferstatus *optional*      | String | URL for getting the status of a transfer between accounts                          |
@@ -643,7 +643,7 @@ The client is only allowed to obtain the data within the granted scope.
 
     Editor's Note: The DDA seems to be quite particular not to use customerId 
     but the "surrogate identity (identifier)", which is the access token. 
-    However, the token endpoint returns cusotmer_id and this is represented in 
+    However, the token endpoint returns customer_id and this is represented in 
     the HTTP header all the time. Need to find out what it is trying to achieve. 
 
 The detail of this object is defined in Appendix A as a swagger.  
@@ -676,7 +676,7 @@ Content-Type: application/json; charset=utf-8
       "company": "Acme"
     },
     "taxId": "144-27-7471",
-    "CusotmerID": a237cb74-61c9-4319-9fc5-ff5812778d6b
+    "customerID": a237cb74-61c9-4319-9fc5-ff5812778d6b
   }
 }
 ```
@@ -1050,13 +1050,13 @@ Content-Type: application/json; charset=utf-8
 ### 8.1 TLS Considerations
 Since confidential information is being exchanged, all interactions shall be encrypted with TLS/SSL (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
 
-### 8.2 Message source authentication fialure
+### 8.2 Message source authentication failure
 
 Authorization request and response are not authenticated. 
 
-### 8.3 Message interity protection fialure
+### 8.3 Message interity protection failure
 
-Authorization request and response tamparing and parameter injection
+Authorization request and response tampering and parameter injection
 
 ### 8.4 Message containment failure
 
@@ -1077,7 +1077,7 @@ May leak from referrer.
 
 * Privacy impact analysis (PIA) should be performed in the initial phase of the system planning. 
 * For PIA, use of ISO/IEC 29134 Privacy impact analysis - Guidelines is recommended. 
-* The provider should establish a management system to help respect privacy of the cusotmer. 
+* The provider should establish a management system to help respect privacy of the customer. 
 
 ### 9.2 Adhering to privacy principles
 
