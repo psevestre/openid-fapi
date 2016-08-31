@@ -1071,7 +1071,7 @@ Error responses include a HTTP error header. The header contains a combined valu
 
 ### 8.4 Error responses
 
-Error responses include the FAPI HTTP error header and an error message. Since the HTTP status code and the error message either do not identify the exact error cause and require parsing the message body. Providing an error header has several advantages:
+Error responses include the FAPI HTTP error header and an error message. Since the HTTP status code and the error message either do not identify the exact error cause or require parsing the message body. Providing an error header has several advantages:
 
 1. HTTP headers are accessible without parsing the error message
 2. the content type of the error message can be ignored
@@ -1081,7 +1081,7 @@ Error responses include the FAPI HTTP error header and an error message. Since t
 
 #### 8.4.1 Example error response
 
-Assuming a request was send to a protected endpoint such as **/account**. Assuming also that endpoint has been specified with **api-id=200000**. A request is sent without the required parameter **accoundId**. A missing parameter has been specified with **error-code=103**.
+Assuming a request was send to a protected endpoint such as **/account**. Assuming also that endpoint has been specified with **api-id=20000**. A request is sent without the required parameter **accoundId**. A missing parameter has been specified with **error-code=103**.
 An error response may look as follows:
 
 ```
