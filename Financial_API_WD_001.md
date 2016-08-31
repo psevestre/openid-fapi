@@ -1045,6 +1045,57 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
+## 8. API Errors
+
+Resource endpoints may respond with an error. In those cases an appropriate HTTP status is used in conjunction with an error message. HTTP status codes are well defined but do not always indicate the exact cause for an error. Resource endpoints will also include an error message but these have to be parsed by clients to extract the information about the error cause.
+
+Requiring a client to parse the error message has several drawbacks:
+
+1. clients depend on a text message which may change over time
+2. clients need to be able to parse localized error messages
+3. TODO, add more drawbacks
+
+### 8.1 Error codes
+
+For each type of error an error code is specified. Error codes are specified as a 3-digit integer value.
+
+### 8.2 API-ID's
+
+For each resource endpoint an api-id is specified. Api-id’s are unique and are represented as a 5-digit integer value.
+
+### 8.3 Error header
+
+Error responses include a HTTP error header. The header contains a combined value of api-id and error code. The headers name is **x-fapi-err** and the value enables a client to identify the protected resource endpoint and the type of error without parsing the message body. The header value follows this pattern:
+
+* x-fapi-err: &lt;api-id&gt;-&lt;error-code&gt;
+
+### 8.4 Error responses
+
+Error responses include the FAPI HTTP error header and an error message. Since the HTTP status code and the error message either do not identify the exact error cause and require parsing the message body. Providing an error header has several advantages:
+
+1. HTTP headers are accessible without parsing the error message
+2. the content type of the error message can be ignored
+3. localized error messages do not require special handling by the client
+4. the error causing protected resource can be identified even if client libraries are used that execute multiple requests to different endpoints in a hidden manner
+5. TODO, add more advantages
+
+#### 8.4.1 Example error response
+
+Assuming a request was send to a protected endpoint such as **/account**. Assuming also that endpoint has been specified with **api-id=200000**. A request is sent without the required parameter **accoundId**. A missing parameter has been specified with **error-code=103**.
+An error response may look as follows:
+
+```
+HTTP/1.1 400 Bad Request
+Content-Type: application/json; charset=utf-8
+x-fapi-err: 20000-103:
+
+{
+    "error":"invalid_request",
+    "error_description":"Missing request parameter"
+}
+```
+The client will be able to identify failing endpoint and the error by processing the error header.
+
 ## 8. Security Considerations
 
 ### 8.1 TLS Considerations
@@ -1069,7 +1120,6 @@ May leak from logs.
 #### 8.4.3 Resource request and response
 
 May leak from referrer. 
-
 
 ## 9. Privacy Considerations
 
