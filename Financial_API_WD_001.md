@@ -1044,7 +1044,6 @@ Content-Type: application/json; charset=utf-8
   }
 }
 ```
-
 ## 8. API Errors
 
 Resource endpoints may respond with an error. In those cases an appropriate HTTP status is used in conjunction with an error message. HTTP status codes are well defined but do not always indicate the exact cause for an error. Resource endpoints will also include an error message but these have to be parsed by clients to extract the information about the error cause.
@@ -1065,71 +1064,122 @@ For each resource endpoint an api-id is specified. Api-id’s are unique and are
 
 ### 8.3 Error header
 
-Error responses include a HTTP error header. The header contains a combined value of api-id and error code. The headers name is **x-fapi-err** and the value enables a client to identify the protected resource endpoint and the type of error without parsing the message body. The header value follows this pattern:
+Error responses include a HTTP error header. The header contains a combined value of `api-id` and `error-code`. The headers name is `x-fapi-err` and the value enables a client to identify the protected resource endpoint and the type of error without parsing the message body. The header value follows this pattern:
 
-* x-fapi-err: &lt;api-id&gt;-&lt;error-code&gt;
+* **x-fapi-err**: &lt;api-id&gt; - &lt;error-code&gt;
 
 ### 8.4 Error responses
 
 Error responses include the FAPI HTTP error header and an error message. Since the HTTP status code and the error message either do not identify the exact error cause or require parsing the message body. Providing an error header has several advantages:
 
 1. HTTP headers are accessible without parsing the error message
-2. the content type of the error message can be ignored
-3. localized error messages do not require special handling by the client
-4. the error causing protected resource can be identified even if client libraries are used that execute multiple requests to different endpoints in a hidden manner
+2. The content type of the error message can be ignored
+3. Localized error messages do not require special handling by the client
+4. The error causing protected resource can be identified even if client libraries are used that execute multiple requests to different endpoints in a hidden manner
 5. TODO, add more advantages
 
 #### 8.4.1 Example error response
 
-Assuming a request was send to a protected endpoint such as **/account**. Assuming also that endpoint has been specified with **api-id=20000**. A request is sent without the required parameter **accoundId**. A missing parameter has been specified with **error-code=103**.
+Assuming a request was send to a protected endpoint such as **/account**. Assuming also that endpoint has been specified with **api-id=20000**. A request is sent without the required parameter **accoundId**. The error type *missing parameter* has been specified with **error-code=100**.
 An error response may look as follows:
 
 ```
 HTTP/1.1 400 Bad Request
 Content-Type: application/json; charset=utf-8
-x-fapi-err: 20000-103:
+x-fapi-err: 20000-100:
 
 {
     "error":"invalid_request",
-    "error_description":"Missing request parameter"
+    "error_description":"Missing or duplicate parameters"
 }
 ```
-The client will be able to identify failing endpoint and the error by processing the error header.
+The client can identify the failing endpoint and the error by processing the error header. Parsing the error message is optional.
 
-## 8. Security Considerations
+## 8.5 Errors
 
-### 8.1 TLS Considerations
+RFC 6749 (OAuth 2.0) does not specify error responses for protected API's. It provides an error response framework (Section 8.5) and specifies a pattern for error names and descriptions. Following the pattern FAPI specifies errors for several categories:
+
+1. General server side errors
+2. Invalid request parameters
+3. General limitations
+4. Invalid access_token
+
+### 8.5.1 General server side errors
+
+It is possible that servers have internal errors that occur unexpected. These types of errors will likely require system administrators attention.
+
+| error code | error   | error description                          | http status | 
+|------------|---------|--------------------------------------------|-------------| 
+| 000        | invalid | The request failed due some unknown reason | 500         | 
+
+### 8.5.2 Invalid request parameters
+
+Protected API's may require parameters and headers and have limitations on how they can be provided. 
+
+| error code | error           | error description               | http status | 
+|------------|-----------------|---------------------------------|-------------| 
+| 100        | invalid_request | Missing or duplicate parameters | 400         | 
+| 101        | invalid_request | Missing or duplicate headers    | 400         | 
+
+### 8.5.3 General limitations
+
+Protected API's may have limitations that fail otherwise valid requests. 
+
+| error code | error           | error description                                  | http status | 
+|------------|-----------------|----------------------------------------------------|-------------| 
+| 200        | invalid_request | The number of permitted requests has been exceeded | 400         | 
+| 201        | invalid_request | The request messages Content-Type is not supported | 400         |
+| 202        | invalid_request | The request message exceeds max. message size      | 400         |
+
+### 8.5.4 Invalid access_token
+
+Protected API's always require an access_token but the token may not pass validations. 
+
+| error code | error           | error description                                           | http status | 
+|------------|-----------------|-------------------------------------------------------------|-------------| 
+| 990        | invalid_request | The token has expired                                       | 401         | 
+| 991        | invalid_request | The token misses permissions (SCOPE)                        | 401         | 
+| 992        | invalid_request | The token is missing or it has been provided more than once | 401         | 
+| 993        | invalid_request | The token is disabled                                       | 401         |
+| 994        | invalid_Request | The token was retrieved via an unsupported grant_type       | 401         |
+| 995        | invalid_Request | The token was issued to an unsupported client type          | 401         |
+| 996        | invalid_Request | The token type is not supported                             | 401         |
+
+## 9. Security Considerations
+
+### 9.1 TLS Considerations
+
 Since confidential information is being exchanged, all interactions shall be encrypted with TLS/SSL (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
-
-### 8.2 Message source authentication failure
+ 
+### 9.2 Message source authentication failure
 
 Authorization request and response are not authenticated. 
 
-### 8.3 Message interity protection failure
+### 9.3 Message interity protection failure
 
 Authorization request and response tampering and parameter injection
 
-### 8.4 Message containment failure
+### 9.4 Message containment failure
 
-#### 8.4.1 Authorization request and response
+#### 9.4.1 Authorization request and response
 
-#### 8.4.2 Token request and response
+#### 9.4.2 Token request and response
 
 May leak from logs. 
 
-#### 8.4.3 Resource request and response
+#### 9.4.3 Resource request and response
 
 May leak from referrer. 
 
-## 9. Privacy Considerations
+## 10. Privacy Considerations
 
-### 9.1 Privacy by design
+### 10.1 Privacy by design
 
 * Privacy impact analysis (PIA) should be performed in the initial phase of the system planning. 
 * For PIA, use of ISO/IEC 29134 Privacy impact analysis - Guidelines is recommended. 
 * The provider should establish a management system to help respect privacy of the customer. 
 
-### 9.2 Adhering to privacy principles
+### 10.2 Adhering to privacy principles
 
 Stakeholders should follow the privacy principles of ISO/IEC 29100. In particular: 
 
