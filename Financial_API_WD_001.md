@@ -1053,16 +1053,31 @@ Assigning an API-ID to a protected resource endpoint (API) has several advantage
 
 1. Due to internal regulations within FAPI provider systems FAPI endpoints may have to be implemented with different URL path components
 2. Due to overlapping URL's within FAPI provider systems FAPI endpoints may have to be implemented with different URL path components
-3. API-ID's identify a FAPI endpoint independently of the actual URL 
+3. API-ID's identify a FAPI endpoint independently of the actual URL which 
 
 ### 8.2 List of API-ID's
 
 All protected resource endpoints in FAPI have an API-ID. The API-ID's shall be assigned as listed below:
 
-| api       | api-id | description                | 
-|-----------|--------|----------------------------| 
-| /account  | 10000  | return account information |
-`TODO`: Complete table of APIs and their API-IDs
+| api                        | api-id | description                               | 
+|----------------------------|--------|-------------------------------------------| 
+| /account                   |  10000 | 100XX indicates account related API's     |
+| /account/statement         |  10010 |                                           |
+| /account/statements        |  10011 |                                           |
+| /account/transaction       |  10020 |                                           |
+| /account/transactions      |  10021 |                                           |
+| /account/transaction/image |  10022 |                                           |
+| /accountList               |  10030 |                                           |
+| /accountDetails            |  10040 |                                           |
+| /availability              |  20010 | 200XXX indicates api-health related API's |
+| /capability                |  20020 |                                           |
+| /customer                  |  30000 | 300XXX indicates customer related API's   |
+| /transfer                  |  40000 | 400XXX indicates transfer related API's   |
+| /transfer/status           |  40010 |                                           |
+| /atm/countries             |  50010 | 500XXX indicates atm related API's        |
+| /atm/provinces             |  50020 |                                           |
+| /atm/locations             |  50030 |                                           |
+| /products                  |  60000 | 600XXX indicates product related API's    |
 
 ## 9. API Errors
 
