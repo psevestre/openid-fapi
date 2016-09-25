@@ -1079,6 +1079,8 @@ All protected resource endpoints in FAPI have an API-ID. The API-ID's shall be a
 | /atm/locations             |  50030 |                                           |
 | /products                  |  60000 | 600XXX indicates product related API's    |
 
+API-ID's are returned whenever an error on that API occurs. The api-id will be combined with an error code. Clients are able to identify the failing API by reading the api-id which is returned in an HTTP header.
+
 ## 9. API Errors
 
 ### 9.1 Introduction
@@ -1161,7 +1163,7 @@ Protected resource endpoints always require an access_token but the token may no
 
 ### 9.7 Example error response
 
-Assuming a request was send to a protected endpoint such as **/account**. Assuming also that endpoint has been specified with **api-id=10000**. A request is sent without the required parameter **accountId**. The error type *missing parameter* has been specified with **error-code=100**.
+Assuming a request was send to a protected endpoint such as **/account**. That endpoint has been specified with **api-id=10000**. A request is sent without the required parameter **accountId**. The error type *Missing or duplicate parameters* has been specified with **error-code=100**.
 An error response may look as follows:
 
 ```
