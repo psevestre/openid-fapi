@@ -133,23 +133,29 @@ In the following subclauses, the method to obtain tokens are explained separatel
 
 ### 5.2 Read Only Access Provisions
 
-Read Only Access typically is the lower risk scenario compared to the Write access, so the protection level can also be lower. However, since the FAPI would provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires. 
+#### 5.2.1 Introduction
+
+Read Only Access typically is the lower risk scenario compared to the Write access, so the protection level can also be lower. 
+However, since the FAPI would provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires. 
 
 To request the authorization to access the protected resource in question, the client uses the OAuth scope values defined in table 1. 
 
-| Resource       | Allowed Actions                                              | Scope value          |
-|----------------|--------------------------------------------------------------|----------------------|
-| Account        | Read only Access to summary account information              | FinancialInformation |
-| Customer       | Read only Access to customer information, including PII      | FinancialInformation |
-| Image          | Read only Access to transaction images (checks and receipts) | FinancialInformation |
-| Statement      | Read only Access to statement image                          | FinancialInformation |
-| Transaction    | Read only Access to transaction information                  | FinancialInformation |
+| Resource       | Allowed Actions                                              | Scope value  |
+|----------------|--------------------------------------------------------------|--------------|
+| Account        | Read only Access to summary account information              | rAccount     |
+| Customer       | Read only Access to customer information, including PII      | rCusotmer    |
+| Image          | Read only Access to transaction images (checks and receipts) | rImage       |
+| Statement      | Read only Access to statement image                          | rStatment    |
+| Transaction    | Read only Access to transaction information                  | rTransaction |
 
 Table 1 - Financial API Scopes
 
-As a profile of The OAuth 2.0 Authorization Framework, this specification mandates the following to the Read Only API of the FAPI.
+This document also defines an agregated scope `FinancialInformation`, which equates to 
+`rAccount` + `rCusotmer` + `rImage` + `rStatement` + `rTransaction`. 
 
-#### 5.2.1 Authorization Server 
+As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following to the Read Only API of the FAPI.
+
+#### 5.2.2 Authorization Server 
 
 The Authorization Server
 
@@ -191,7 +197,7 @@ Further, if it wishes to provide the authenticated user's identifier to the clie
     Editor's Note 2: If `user_id` is indeed required in the token response of DDA, then, we should require OIDC. 
 
 
-#### 5.2.2 Public Client
+#### 5.2.3 Public Client
 
 A Public Client
 
@@ -210,7 +216,7 @@ Further, if it wishes to obtain a persistent identifier of the authenticated use
     NOTE: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
 
-#### 5.2.3 Confidential Client
+#### 5.2.4 Confidential Client
 
 In addition to the provision to the Public Client, the Confidential Client 
 
