@@ -143,15 +143,15 @@ To request the authorization to access the protected resource in question, the c
 | Resource       | Allowed Actions                                              | Scope value  |
 |----------------|--------------------------------------------------------------|--------------|
 | Account        | Read only Access to summary account information              | rAccount     |
-| Customer       | Read only Access to customer information, including PII      | rCusotmer    |
+| Customer       | Read only Access to customer information, including PII      | rCustomer    |
 | Image          | Read only Access to transaction images (checks and receipts) | rImage       |
-| Statement      | Read only Access to statement image                          | rStatment    |
+| Statement      | Read only Access to statement image                          | rStatement   |
 | Transaction    | Read only Access to transaction information                  | rTransaction |
 
 Table 1 - Financial API Scopes
 
-This document also defines an agregated scope `FinancialInformation`, which equates to 
-`rAccount` + `rCusotmer` + `rImage` + `rStatement` + `rTransaction`. 
+This document also defines an aggregated scope `FinancialInformation`, which equates to 
+`rAccount` + `rCustomer` + `rImage` + `rStatement` + `rTransaction`. 
 
 As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following to the Read Only API of the FAPI.
 
