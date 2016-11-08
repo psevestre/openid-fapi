@@ -89,7 +89,11 @@ The following referenced documents are indispensable for the application of this
 [RFC6125] - Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 [RFC6125]: https://tools.ietf.org/html/rfc6125
 
-BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-oauth-native-apps-03)
+[O2fNA] - OAuth 2.0 for Native Apps
+[O2fNA]: https://tools.ietf.org/html/draft-ietf-oauth-native-apps-05
+
+[RFC6819] - OAuth 2.0 Threat Model and Security Considerations
+[RFC6819]: https://tools.ietf.org/html/rfc6819
 
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
@@ -163,7 +167,7 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 The Authorization Server
 
 * shall support both public and confidential clients;
-* shall provide a client secret longer than 12 characters;
+* shall provide a client secret longer than 12 characters; If the client secret will be used for signing purposes, the client secret shall contain a minimum of 128 bits and with sufficient entropy to generate cryptographically strong keys as defined in section 16.19 of [OIDC];
 * shall support [RFC7636] with `S265` as the code challenge method;
 * shall require Redirect URIs to be pre-registered;
 * shall require the `redirect_uri` parameter in the authorization request;
@@ -173,12 +177,13 @@ The Authorization Server
 * shall verify that the Authorization Code has not been previously used if possible;
 * shall return the token response as defined in 4.1.4 of [RFC6749]; and
 * shall return the list of allowed scopes with the issued access token.
+* shall provide opaque, non-monotonically increasing or non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]
 
     **NOTE**: The Financial API server may limit the scopes for the purpose of not implementing certain APIs.
 
     **NOTE**: Section 4.1.3 of [RFC6749] does not say anything about the `code` reuse, but this document is putting limitation on it as per Section 3.1.3.2 of [OIDC].
 
-    **NOTE**: If replay identification of the authorization code is not possible, it is desirable to make the validity period of the authorization code very short.
+    **NOTE**: If replay identification of the authorization code is not possible, it is desirable to set the validity period of the authorization code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the authorization code cache if one is used.
 
 Further, if it wishes to provide the authenticated user's identifier to the client in the token response, the authorization server
 
@@ -192,23 +197,23 @@ Further, if it wishes to provide the authenticated user's identifier to the clie
   of the `Customer` object corresponding to the authenticated user
   and optional `acr` value in ID Token.
 
-    NOTE: [DDA] returns a parameter called `user_id` in the token response.
+    **NOTE**: [DDA] returns a parameter called `user_id` in the token response.
     The value of `user_id` is identical to the value of `CustomerId` member of the `Customer` object.
 
-    Editor's Note: Requiring similar mechanism to PKCE to the Refresh and Access Token a good idea?
+    **Editor's Note**: Requiring similar mechanism to PKCE to the Refresh and Access Token a good idea?
 
-    Editor's Note 2: If `user_id` is indeed required in the token response of DDA, then, we should require OIDC.
+    **Editor's Note 2**: If `user_id` is indeed required in the token response of DDA, then, we should require OIDC.
 
 
 #### 5.2.3 Public Client
 
 A Public Client
 
-* shall support [RFC7636];
-* shall use the [RFC7636] with `S256` as the code challenge method;
+* shall support [RFC7636] or the mechanisms defined in [Financial API - Part 4](Financial_API_WD_004.md);
+* shall use `S256` as the code challenge method for the [RFC7636];
 * shall use separate and distinct Redirect URI for each Authorization Server that it talks to;
 * shall store the Redirect URI value in the User-Agent session and compare it with the Redirect URI that the Authorization Response was received at, where, if the URIs do not match, the Client shall terminate the process with error;
-* shall adhere to the best practice stated by [BCP NAPPS](https://tools.ietf.org/html/draft-ietf-oauth-native-apps-03); and
+* shall adhere to the best practice stated by [O2fNA]; and
 * shall implement an effective CSRF protection.
 
 Further, if it wishes to obtain a persistent identifier of the authenticated user, it
@@ -216,14 +221,19 @@ Further, if it wishes to obtain a persistent identifier of the authenticated use
 * shall include `openid` in the `scope` value; and
 * shall include `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
 
-    NOTE: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
+    **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
 
 #### 5.2.4 Confidential Client
 
 In addition to the provision to the Public Client, the Confidential Client
 
-* shall authenticate the client with client secret to access the Token Endpoint as in Section 4.1.3 of [RFC6749];
+* shall authenticate the client to the Token Endpoint using one of the following methods:
+    1. TLS mutual authentication
+    2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]
+* shall use RSA keys with a minimum 2048 bits if using RSA cryptography
+* shall use Elliptic Curve keys with a minimum of 160 bits if using Elliptic Curve cryptography
+* shall verify that it's client secret has a minimum of 128 bits if using symmetric key cryptography
 
 
 ## 6. Accessing Protected Resources (Using tokens)
@@ -238,7 +248,7 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return variou
 
 The protected resources supporting this document
 
-* shall mandate TLS 1.2 as defined in [RFC5246] or later with the usage following the best practice in [RFC7525];
+* shall mandate TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
 * shall support the use of the HTTP GET and HTTP POST methods defined in [RFC2616];
 * shall accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
 * shall not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750];
@@ -253,24 +263,28 @@ The protected resources supporting this document
 * shall log the value of `DDA-InteractionId` in the log entry.
 
 
-    NOTE: While this document does not specify the exact method to find out the user associated with the
+    **NOTE**: While this document does not specify the exact method to find out the user associated with the
     access token and the granted scope, the protected resource can use OAuth Token Introspection [RFC7662].
 
 Further, it
 
-* should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable Java Script Clients to access the endpoint;
+* should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable Java Script Clients to access the endpoint if it decides to provide access to Javascript clients.
+
+    **NOTE**: Providing access to Javascript clients or not has different security properites.;
 
 ### 6.2.2 Client provisions
 
 The client supporting this document
 
-* shall use TLS 1.2 as defined in [RFC5246] or later with the usage following the best practice in [RFC7525];
+* shall use TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
 * shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
 * shall send `User-Agent` header that identifies the client, e.g., `User-Agent: Intuit/1.2.3 Mint/4.3.1`; and
 * shall send `DDA-FinancialId` whose value is the unique identifier of the desired financial institution to interact assigned by the service bureau where the API is provided by a service bureau which uses the same endpoint for multiple institutions.
 
     **NOTE**: Conceptually, the value of the DDA-FinancialID corresponds to `iss` in the ID Token
     but is not required to be an https URI. It often is the routing number of the FI.
+
+    **NOTE**: The use of `User-Agent` and `DDA-FinancialID` is not a security feature.
 
 Further, the client
 
