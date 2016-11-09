@@ -167,7 +167,9 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 The Authorization Server
 
 * shall support both public and confidential clients;
-* shall provide a client secret longer than 12 characters; If the client secret will be used for signing purposes, the client secret shall contain a minimum of 128 bits and with sufficient entropy to generate cryptographically strong keys as defined in section 16.19 of [OIDC];
+* shall provide a client secret that adhears to the requirements in section 16.19 of [OIDC] if symmetric key is used;
+* shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication; 
+* shall require a key of size 160 bits or larger if eliptic curve algorithms are used for the client authentication; 
 * shall support [RFC7636] with `S265` as the code challenge method;
 * shall require Redirect URIs to be pre-registered;
 * shall require the `redirect_uri` parameter in the authorization request;
