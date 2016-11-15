@@ -247,8 +247,8 @@ The protected resources supporting this document
 * shall encode the response in UTF-8; // DDA allows client to ask for charset but restricting may be better for interoperability
 * shall send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8`;
 * shall send the server date in HTTP date header as in section 14.18 of [RFC2616];
-* shall send the `DDA-InteractionId` with the value set to the one received from the client in the `DDA-InteractionId` request header or a unique value created by the server if there was no corresponding request header to track the interaction, e.g., `DDA-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
-* shall log the value of `DDA-InteractionId` in the log entry.
+* shall send the `x-fapi-InteractionId` with the value set to the one received from the client in the `x-fapi-InteractionId` request header or a unique value created by the server if there was no corresponding request header to track the interaction, e.g., `x-fapi-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
+* shall log the value of `x-fapi-InteractionId` in the log entry.
 
 
     **NOTE**: While this document does not specify the exact method to find out the user associated with the
@@ -267,20 +267,20 @@ The client supporting this document
 * shall use TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
 * shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
 * shall send `User-Agent` header that identifies the client, e.g., `User-Agent: Intuit/1.2.3 Mint/4.3.1`; and
-* shall send `DDA-FinancialId` whose value is the unique identifier of the desired financial institution to interact assigned by the service bureau where the API is provided by a service bureau which uses the same endpoint for multiple institutions.
+* shall send `x-fapi-FinancialId` whose value is the unique identifier of the desired financial institution to interact assigned by the service bureau where the API is provided by a service bureau which uses the same endpoint for multiple institutions.
 
-    **NOTE**: Conceptually, the value of the DDA-FinancialID corresponds to `iss` in the ID Token
+    **NOTE**: Conceptually, the value of the x-fapi-FinancialID corresponds to `iss` in the ID Token
     but is not required to be an https URI. It often is the routing number of the FI.
 
-    **NOTE**: The use of `User-Agent` and `DDA-FinancialID` is not a security feature.
+    **NOTE**: The use of `User-Agent` and `x-fapi-FinancialID` is not a security feature.
 
 Further, the client
 
-* can optionally supply the `sub` value associated with the customer with the `DDA-CustomerId` request header, e.g., `DDA-CustomerId: a237cb74-61c9-4319-9fc5-ff5812778d6b`;
-* can optionally supply the last time the customer logged into the client in the `DDA-CustomerLastLoggedTime` header where the value is supplied as ** w3c date **, e.g., `DDA-CustomerLastLoggedTime: Tue, 11 Sep 2012 19:43:31 UTC`; and
-* can supply the customer’s IP address if this data is available or applicable in the `DDA-CustomerIPAdress` header, e.g., `DDA-CustomerIPAdress: 198.51.100.119`; and
-* may send the `DDA-InteractionId` request header to the server to help correlate log entries between client
-and server, e.g., `DDA-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
+* can optionally supply the `sub` value associated with the customer with the `x-fapi-CustomerId` request header, e.g., `x-fapi-CustomerId: a237cb74-61c9-4319-9fc5-ff5812778d6b`;
+* can optionally supply the last time the customer logged into the client in the `x-fapi-CustomerLastLoggedTime` header where the value is supplied as ** w3c date **, e.g., `x-fapi-CustomerLastLoggedTime: Tue, 11 Sep 2012 19:43:31 UTC`; and
+* can supply the customer’s IP address if this data is available or applicable in the `x-fapi-CustomerIPAdress` header, e.g., `x-fapi-CustomerIPAdress: 198.51.100.119`; and
+* may send the `x-fapi-InteractionId` request header to the server to help correlate log entries between client
+and server, e.g., `x-fapi-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 
 
 
