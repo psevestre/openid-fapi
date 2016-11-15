@@ -141,13 +141,22 @@ This document defines the resources and data schema for Read and Write access.
 The following protected Read and Write resources are defined:
 * transfer
 
+### 5.2 OAuth Scope
+
+To request read and write authorization to access the protected resource in question, the client uses the OAuth scope values defined in clause 5.2 of Financial API - Part 4: Protected Data API and Schema - Read only. Additional scopes in Table 1 are defined.
+
+| Resource       | Allowed Actions                                              | Scope value  |
+|----------------|--------------------------------------------------------------|--------------|
+| Transfer        | Transfer of money between accounts              | wTransfer     |
 
 
+Table 1 - Financial API Write Scopes
 
-### 5.4 Protected resources
+
+### 5.3 Protected resources
 
 
-#### 5.4.8 Transfer
+#### 5.3.1 Transfer
 
 A **transfer** represents a transfer of assets from one account to another.
 

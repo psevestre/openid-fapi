@@ -149,10 +149,27 @@ The following protected Read Only resources are defined:
 * statement
 * etc.
 
+### 5.2 OAuth Scope
 
-### 5.2 Protected resources
+As a profile of The OAuth 2.0 Authorization Framework, the authorization request to the Authorization Server requires `scope` values. Finacial API defines the scope values in Table 1 for read only access to Financial API protected resources.
 
-#### 5.2.1 Customer
+
+| Resource       | Allowed Actions                                              | Scope value  |
+|----------------|--------------------------------------------------------------|--------------|
+| Account        | Read only Access to summary account information              | rAccount     |
+| Customer       | Read only Access to customer information, including PII      | rCustomer    |
+| Image          | Read only Access to transaction images (checks and receipts) | rImage       |
+| Statement      | Read only Access to statement image                          | rStatement   |
+| Transaction    | Read only Access to transaction information                  | rTransaction |
+
+Table 1 - Financial API Scopes
+
+This document also defines an aggregated scope `FinancialInformation`, which equates to
+`rAccount` + `rCustomer` + `rImage` + `rStatement` + `rTransaction`.
+
+### 5.3 Protected resources
+
+#### 5.3.1 Customer
 
 A **customer** is an OAuth protected resource that represents the customer referred to by the access token presented.
 It is represented as a URI from which the client can GET the JSON representation.
@@ -200,7 +217,7 @@ Content-Type: application/json; charset=utf-8
 
   **NOTE**: It is similar to the UserInfo endpoint of [OIDC].
 
-#### 5.2.2. Account Descriptor List
+#### 5.3.2. Account Descriptor List
 
 An account descriptor list is an OAuth protected resource that represents the list of account descriptors, the metadata about the account, associated with the provided access token, which is related to the customer in question.
 
@@ -250,7 +267,7 @@ Content-Type: application/json; charset=utf-8
 
      Editor's Note:  /me/accountDescriptorList might look more REST like.
 
-#### 5.2.3 Account
+#### 5.3.3 Account
 
 An **account** is an OAuth protected resource that represents the account of the customer in question.
 It is represented as a URI from which the client can obtain the JSON representation.
@@ -312,7 +329,7 @@ While GET is more REST like, in the above example, POST is used
 so that the accountId is not exposed as a path / query,
 which may expose the accountId through referrer and history.
 
-#### 5.2.4 Statements
+#### 5.3.4 Statements
 
 Gets a list of statements for the given account.
 
@@ -362,7 +379,7 @@ Content-Type: application/json; charset=utf-8
 
     Editor's Note: Is StatementId unique to the org or to the AccountId?
 
-#### 5.2.5 Statement
+#### 5.3.5 Statement
 
 A **statement** represents an image of an account statement. It can be one of the following formats:
 
@@ -389,7 +406,7 @@ Content-Type: application/pdf
 Binary data
 ```
 
-#### 5.2.6 Transactions
+#### 5.3.6 Transactions
 
 **Transactions** represents a list of transactions for the given account.
 
@@ -452,7 +469,7 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
-#### 5.2.7 Transaction Image
+#### 5.3.7 Transaction Image
 
 A **transaction image** represents an image of a transaction such as a scanned check or deposit/withdrawal slip. It can be one of the following formats:
 
@@ -480,7 +497,7 @@ Binary data
 ```
 
 
-#### 5.2.9 Transfer status
+#### 5.3.8 Transfer status
 
 A **transfer status** represents the status of a transfer request.
 

@@ -145,20 +145,6 @@ In the following subclauses, the method to obtain tokens are explained separatel
 Read Only Access typically is the lower risk scenario compared to the Write access, so the protection level can also be lower.
 However, since the FAPI would provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires.
 
-To request the authorization to access the protected resource in question, the client uses the OAuth scope values defined in table 1.
-
-| Resource       | Allowed Actions                                              | Scope value  |
-|----------------|--------------------------------------------------------------|--------------|
-| Account        | Read only Access to summary account information              | rAccount     |
-| Customer       | Read only Access to customer information, including PII      | rCustomer    |
-| Image          | Read only Access to transaction images (checks and receipts) | rImage       |
-| Statement      | Read only Access to statement image                          | rStatement   |
-| Transaction    | Read only Access to transaction information                  | rTransaction |
-
-Table 1 - Financial API Scopes
-
-This document also defines an aggregated scope `FinancialInformation`, which equates to
-`rAccount` + `rCustomer` + `rImage` + `rStatement` + `rTransaction`.
 
 As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following to the Read Only API of the FAPI.
 
@@ -168,8 +154,8 @@ The Authorization Server
 
 * shall support both public and confidential clients;
 * shall provide a client secret that adhears to the requirements in section 16.19 of [OIDC] if symmetric key is used;
-* shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication; 
-* shall require a key of size 160 bits or larger if eliptic curve algorithms are used for the client authentication; 
+* shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
+* shall require a key of size 160 bits or larger if eliptic curve algorithms are used for the client authentication;
 * shall support [RFC7636] with `S265` as the code challenge method;
 * shall require Redirect URIs to be pre-registered;
 * shall require the `redirect_uri` parameter in the authorization request;

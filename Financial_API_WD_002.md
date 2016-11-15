@@ -139,16 +139,6 @@ These API accesses have several levels of risks associated to them. Read and wri
 
 Read and Write Access carries high financial risk, so the protection level is higher than Read Only Access.
 
-To request read and write authorization to access the protected resource in question, the client uses the OAuth scope values defined in clause 5.2.1 of Financial API - Part 1: Read Only API Security Profile. In addition, additional scopes in table 1 are defined.
-
-| Resource       | Allowed Actions                                              | Scope value  |
-|----------------|--------------------------------------------------------------|--------------|
-| Transfer        | Transfer of money between accounts              | wTransfer     |
-
-
-Table 1 - Financial API Write Scopes
-
-
 As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following to the Read and Write API of the FAPI.
 
 #### 5.2.2 Authorization Server
