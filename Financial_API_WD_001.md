@@ -293,23 +293,56 @@ Since confidential information is being exchanged, all interactions shall be enc
 
 ### 7.2 Message source authentication failure
 
-Authorization request and response are not authenticated.
+Authorization request and response are not authenticated. 
+For a higher risk scenarios, it should be taken care of. 
+See Part 2, which uses request object to achieve the message source authentication. 
 
 ### 7.3 Message interity protection failure
 
-Authorization request and response tampering and parameter injection
+Authorization request is not message integrity protected thus 
+request tamparing and parameter injection are possible. 
+Where the protection is desired, it should use Part 2. 
+
+The response is integrity protected when ID Token is returned 
+from the authorization endpoint. 
 
 ### 7.4 Message containment failure
 
 #### 7.4.1 Authorization request and response
 
+In this document, the authorization request is not encrypted. 
+Thus, it is possible to leak the information contained 
+if the browser was infected with virus, etc. 
+
+Authorization response can be encrypted as ID Token 
+can be encrypted. 
+
+It is possible to leak the information through the logs 
+if the parameters were recorded in the logs and 
+the access to the logs are compromised. 
+Strict access control to the logs in such cases should be 
+enforced. 
+
 #### 7.4.2 Token request and response
 
-May leak from logs.
+It is possible to leak the information through the logs 
+if the parameters were recorded in the logs and 
+the access to the logs are compromised. 
+Strict access control to the logs in such cases should be 
+enforced. 
 
 #### 7.4.3 Resource request and response
 
-May leak from referrer.
+Care should be taken so that the sensitive data will not be leaked 
+through the referrer. 
+
+If the access token is a bearer token, it is possible to 
+exercise the stolen token. Since the access token can be 
+used against multiple URIs, the risk of it leaking is 
+much larger than the referesh token, which is used only 
+againsit the token endpoint. Thus, the lifetime of 
+the access token should be much shorter than that of 
+the refresh token. 
 
 ## 8. Privacy Considerations
 
@@ -341,7 +374,6 @@ Stakeholders should follow the privacy principles of ISO/IEC 29100. In particula
 
 ## 9. Acknowledgement
 
-(Fill in the names)
 
 ## 10. Bibliography
 
