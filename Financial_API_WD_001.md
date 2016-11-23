@@ -374,6 +374,18 @@ Stakeholders should follow the privacy principles of ISO/IEC 29100. In particula
 
 ## 9. Acknowledgement
 
+Following people contributed heavily towards this document. 
+
+* Nat Sakimura (Nomura Research Institute) -- Chair, Editor
+* Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
+* Anthony Nadalin (Microsoft) -- Co-chair
+* Edmund Jay (Illumila) -- Co-editor
+* Dave Tongue (momentum financial technology) -- UK Implementation Entity Liaison
+* Sascha H. Preibisch (CA) 
+* Henrik Bearing (Peercraft) 
+* Anton Taborszky (Deutche Telecom) 
+* John Bradley (Ping Identity) 
+* (add yourself) 
 
 ## 10. Bibliography
 
