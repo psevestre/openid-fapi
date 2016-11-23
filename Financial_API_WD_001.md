@@ -107,6 +107,9 @@ The following referenced documents are indispensable for the application of this
 [X.1254] - Entity authentication assurance framework
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
+[TLSM] - Mutual X.509 Transport Layer Security (TLS) Authentication for OAuth Clients
+[TLSM]: https://tools.ietf.org/html/draft-campbell-oauth-tls-client-auth
+
 ## 3. Terms and definitions
 For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
@@ -154,9 +157,13 @@ The Authorization Server
 
 * shall support both public and confidential clients;
 * shall provide a client secret that adhears to the requirements in section 16.19 of [OIDC] if symmetric key is used;
+* shall authenticate the confidential client at the Token Endpoint using one of the following methods:
+    1. TLS mutual authentication [TLSM]; 
+    2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
 * shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
 * shall require a key of size 160 bits or larger if eliptic curve algorithms are used for the client authentication;
 * shall support [RFC7636] with `S265` as the code challenge method;
+* shall support TLS mutual authentication per [TLSM] for the client authentication or 
 * shall require Redirect URIs to be pre-registered;
 * shall require the `redirect_uri` parameter in the authorization request;
 * shall require the value of `redirect_uri` to exactly match one of the pre-registered Redirect URIs;
@@ -185,14 +192,6 @@ Further, if it wishes to provide the authenticated user's identifier to the clie
   of the `Customer` object corresponding to the authenticated user
   and optional `acr` value in ID Token.
 
-    **NOTE**: [DDA] returns a parameter called `user_id` in the token response.
-    The value of `user_id` is identical to the value of `CustomerId` member of the `Customer` object.
-
-    **Editor's Note**: Requiring similar mechanism to PKCE to the Refresh and Access Token a good idea?
-
-    **Editor's Note 2**: If `user_id` is indeed required in the token response of DDA, then, we should require OIDC.
-
-
 #### 5.2.3 Public Client
 
 A Public Client
@@ -216,12 +215,12 @@ Further, if it wishes to obtain a persistent identifier of the authenticated use
 
 In addition to the provision to the Public Client, the Confidential Client
 
-* shall authenticate the client to the Token Endpoint using one of the following methods:
-    1. TLS mutual authentication
-    2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]
-* shall use RSA keys with a minimum 2048 bits if using RSA cryptography
-* shall use Elliptic Curve keys with a minimum of 160 bits if using Elliptic Curve cryptography
-* shall verify that it's client secret has a minimum of 128 bits if using symmetric key cryptography
+* shall support the following methods to authenticate against the Token Endpoint:
+    1. TLS mutual authentication [TLSM]; or 
+    2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
+* shall use RSA keys with a minimum 2048 bits if using RSA cryptography; 
+* shall use Elliptic Curve keys with a minimum of 160 bits if using Elliptic Curve cryptography; and 
+* shall verify that it's client secret has a minimum of 128 bits if using symmetric key cryptography. 
 
 
 ## 6. Accessing Protected Resources (Using tokens)
