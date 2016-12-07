@@ -391,8 +391,25 @@ Following people contributed heavily towards this document.
 
 * [OFX2.2] Open Financial Exchange 2.2
 * [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
+* [RFC2616] Hypertext Transfer Protocol -- HTTP/1.1
+* [RFC5246] The Transport Layer Security (TLS) Protocol Version 1.2
+* [RFC6749] The OAuth 2.0 Authorization Framework
+* [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
+* [RFC7525] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
+* [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
 * [RFC7662] OAuth 2.0 Token Introspection
+* [RFC6125] Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
+* [O2fNA] OAuth 2.0 for Native Apps
+* [RFC6819] OAuth 2.0 Threat Model and Security Considerations
+* [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
+* [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
+* [OIDM] OAuth 2.0 Multiple Response Type Encoding Practices
+* [X.1254] - Entity authentication assurance framework
+* [TLSM] - Mutual X.509 Transport Layer Security (TLS) Authentication for OAuth Clients
 * [DDA] Durable Data API, (2015), FS-ISAC
+* [ISO29100] ISO/IEC 29100 Information technology -- Security techniques -- Privacy framework <http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip>
+* [ISO29134] ISO/IEC 29134 Information technology -- Security techniques -- Privacy impact assessment -- Guidelines
+
 
 
 
