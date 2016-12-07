@@ -246,7 +246,7 @@ The protected resources supporting this document
 * shall encode the response in UTF-8; // DDA allows client to ask for charset but restricting may be better for interoperability
 * shall send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8`;
 * shall send the server date in HTTP date header as in section 14.18 of [RFC2616];
-* shall send the `x-fapi-InteractionId` with the value set to the one received from the client in the `x-fapi-InteractionId` request header or a unique value created by the server if there was no corresponding request header to track the interaction, e.g., `x-fapi-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
+* shall send the `x-fapi-InteractionId` with the value set to the one received from the client in the `x-fapi-InteractionId` request header or a [RFC4122] UUID value created by the server if there was no corresponding request header to track the interaction, e.g., `x-fapi-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
 * shall log the value of `x-fapi-InteractionId` in the log entry.
 
 
@@ -278,7 +278,7 @@ Further, the client
 * can optionally supply the `sub` value associated with the customer with the `x-fapi-CustomerId` request header, e.g., `x-fapi-CustomerId: a237cb74-61c9-4319-9fc5-ff5812778d6b`;
 * can optionally supply the last time the customer logged into the client in the `x-fapi-CustomerLastLoggedTime` header where the value is supplied as ** w3c date **, e.g., `x-fapi-CustomerLastLoggedTime: Tue, 11 Sep 2012 19:43:31 UTC`; and
 * can supply the customer’s IP address if this data is available or applicable in the `x-fapi-CustomerIPAdress` header, e.g., `x-fapi-CustomerIPAdress: 198.51.100.119`; and
-* may send the `x-fapi-InteractionId` request header to the server to help correlate log entries between client
+* may send the `x-fapi-InteractionId` request header whose value is a [RFC4122] UUID to the server to help correlate log entries between client
 and server, e.g., `x-fapi-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 
 
@@ -392,6 +392,7 @@ Following people contributed heavily towards this document.
 * [OFX2.2] Open Financial Exchange 2.2
 * [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
 * [RFC2616] Hypertext Transfer Protocol -- HTTP/1.1
+* [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 * [RFC5246] The Transport Layer Security (TLS) Protocol Version 1.2
 * [RFC6749] The OAuth 2.0 Authorization Framework
 * [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
