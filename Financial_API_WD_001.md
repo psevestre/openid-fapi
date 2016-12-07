@@ -394,9 +394,7 @@ Following people contributed heavily towards this document.
 * [RFC7662] OAuth 2.0 Token Introspection
 * [DDA] Durable Data API, (2015), FS-ISAC
 
-## Annex A Financial Data API Level 1 (Normative)
 
-* [fapi.yml]
 
 
 
