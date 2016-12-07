@@ -71,6 +71,9 @@ The following referenced documents are indispensable for the application of this
 [RFC2616] -  Hypertext Transfer Protocol -- HTTP/1.1
 [RFC2616]: https://tools.ietf.org/html/rfc2616
 
+[RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
+[RFC4122]: https://tools.ietf.org/html/rfc4122
+
 [RFC6749] - The OAuth 2.0 Authorization Framework
 [RFC6749]: https://tools.ietf.org/html/rfc6749
 
