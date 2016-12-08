@@ -226,11 +226,11 @@ In addition to the provision to the Public Client, the Confidential Client
 * shall verify that it's client secret has a minimum of 128 bits if using symmetric key cryptography. 
 
 
-## 6. Accessing Protected Resources (Using tokens)
+## 6. Accessing Protected Resources
 
 ### 6.1 Introduction
 
-The FAPI endpoints are OAuth 2.0 protected resource endpoints that return various financial information for the resource owner associated with the submitted access token.
+The FAPI endpoints are OAuth 2.0 protected resource endpoints that return financial information for the resource owner associated with the submitted access token.
 
 ### 6.2 Read only access provisions
 
