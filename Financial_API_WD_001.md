@@ -383,7 +383,7 @@ Following people contributed heavily towards this document.
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
 * Anthony Nadalin (Microsoft) -- Co-chair
 * Edmund Jay (Illumila) -- Co-editor
-* Dave Tongue (momentum financial technology) -- UK Implementation Entity Liaison
+* Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
 * Sascha H. Preibisch (CA) 
 * Henrik Bearing (Peercraft) 
 * Anton Taborszky (Deutche Telecom) 
