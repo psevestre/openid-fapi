@@ -226,20 +226,20 @@ In addition to the provision to the Public Client, the Confidential Client
 * shall verify that it's client secret has a minimum of 128 bits if using symmetric key cryptography. 
 
 
-## 6. Accessing Protected Resources (Using tokens)
+## 6. Accessing Protected Resources
 
 ### 6.1 Introduction
 
-The FAPI endpoints are OAuth 2.0 protected resource endpoints that return various financial information for the resource owner associated with the submitted access token.
+The FAPI endpoints are OAuth 2.0 protected resource endpoints that return financial information for the resource owner associated with the submitted access token.
 
 ### 6.2 Read only access provisions
 
 #### 6.2.1 Protected resources provisions
 
-The protected resources supporting this document
+The resource server with the FAPI endpoints
 
 * shall mandate TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
-* shall support the use of the HTTP GET and HTTP POST methods defined in [RFC2616];
+* shall support the use of the HTTP GET method defined in [RFC2616];
 * shall accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
 * shall not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750];
 * shall verify that the access token is not expired nor revoked;
@@ -249,8 +249,8 @@ The protected resources supporting this document
 * shall encode the response in UTF-8; // DDA allows client to ask for charset but restricting may be better for interoperability
 * shall send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8`;
 * shall send the server date in HTTP date header as in section 14.18 of [RFC2616];
-* shall send the `x-fapi-InteractionId` with the value set to the one received from the client in the `x-fapi-InteractionId` request header or a [RFC4122] UUID value created by the server if there was no corresponding request header to track the interaction, e.g., `x-fapi-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
-* shall log the value of `x-fapi-InteractionId` in the log entry.
+* shall send the `x-fapi-interaction-id` with the value set to the one received from the client in the `x-fapi-interaction-id` request header or a [RFC4122] UUID value created by the server if there was no corresponding request header to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
+* shall log the value of `x-fapi-interaction-id` in the log entry.
 
 
     **NOTE**: While this document does not specify the exact method to find out the user associated with the
@@ -269,20 +269,20 @@ The client supporting this document
 * shall use TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
 * shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
 * shall send `User-Agent` header that identifies the client, e.g., `User-Agent: Intuit/1.2.3 Mint/4.3.1`; and
-* shall send `x-fapi-FinancialId` whose value is the unique identifier of the desired financial institution to interact assigned by the service bureau where the API is provided by a service bureau which uses the same endpoint for multiple institutions.
+* shall send `x-fapi-financial-id` whose value is the unique identifier of the desired financial institution to interact assigned by the service bureau where the API is provided by a service bureau which uses the same endpoint for multiple institutions.
 
-    **NOTE**: Conceptually, the value of the x-fapi-FinancialID corresponds to `iss` in the ID Token
+    **NOTE**: Conceptually, the value of the `x-fapi-financial-id` corresponds to `iss` in the ID Token
     but is not required to be an https URI. It often is the routing number of the FI.
 
-    **NOTE**: The use of `User-Agent` and `x-fapi-FinancialID` is not a security feature.
+    **NOTE**: The use of `User-Agent` and `x-fapi-financial-id` is not a security feature.
 
 Further, the client
 
-* can optionally supply the `sub` value associated with the customer with the `x-fapi-CustomerId` request header, e.g., `x-fapi-CustomerId: a237cb74-61c9-4319-9fc5-ff5812778d6b`;
-* can optionally supply the last time the customer logged into the client in the `x-fapi-CustomerLastLoggedTime` header where the value is supplied as ** w3c date **, e.g., `x-fapi-CustomerLastLoggedTime: Tue, 11 Sep 2012 19:43:31 UTC`; and
-* can supply the customer’s IP address if this data is available or applicable in the `x-fapi-CustomerIPAdress` header, e.g., `x-fapi-CustomerIPAdress: 198.51.100.119`; and
-* may send the `x-fapi-InteractionId` request header whose value is a [RFC4122] UUID to the server to help correlate log entries between client
-and server, e.g., `x-fapi-InteractionId: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
+* can optionally supply the `sub` value associated with the customer with the `x-fapi-customer-id` request header, e.g., `x-fapi-customer-id: a237cb74-61c9-4319-9fc5-ff5812778d6b`;
+* can optionally supply the last time the customer logged into the client in the `x-fapi-customer-last-logged-time` header where the value is supplied as ** w3c date **, e.g., `x-fapi-customer-last-logged-time: Tue, 11 Sep 2012 19:43:31 UTC`; and
+* can supply the customer’s IP address if this data is available or applicable in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 198.51.100.119`; and
+* may send the `x-fapi-interaction-id` request header whose value is a [RFC4122] UUID to the server to help correlate log entries between client
+and server, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 
 
 
@@ -300,10 +300,10 @@ Authorization request and response are not authenticated.
 For a higher risk scenarios, it should be taken care of. 
 See Part 2, which uses request object to achieve the message source authentication. 
 
-### 7.3 Message interity protection failure
+### 7.3 Message integrity protection failure
 
 Authorization request is not message integrity protected thus 
-request tamparing and parameter injection are possible. 
+request tampering and parameter injection are possible. 
 Where the protection is desired, it should use Part 2. 
 
 The response is integrity protected when ID Token is returned 
@@ -342,8 +342,8 @@ through the referrer.
 If the access token is a bearer token, it is possible to 
 exercise the stolen token. Since the access token can be 
 used against multiple URIs, the risk of it leaking is 
-much larger than the referesh token, which is used only 
-againsit the token endpoint. Thus, the lifetime of 
+much larger than the refresh token, which is used only 
+against the token endpoint. Thus, the lifetime of 
 the access token should be much shorter than that of 
 the refresh token. 
 
@@ -383,7 +383,7 @@ Following people contributed heavily towards this document.
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
 * Anthony Nadalin (Microsoft) -- Co-chair
 * Edmund Jay (Illumila) -- Co-editor
-* Dave Tongue (momentum financial technology) -- UK Implementation Entity Liaison
+* Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
 * Sascha H. Preibisch (CA) 
 * Henrik Bearing (Peercraft) 
 * Anton Taborszky (Deutche Telecom) 
