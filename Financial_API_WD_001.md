@@ -300,10 +300,10 @@ Authorization request and response are not authenticated.
 For a higher risk scenarios, it should be taken care of. 
 See Part 2, which uses request object to achieve the message source authentication. 
 
-### 7.3 Message interity protection failure
+### 7.3 Message integrity protection failure
 
 Authorization request is not message integrity protected thus 
-request tamparing and parameter injection are possible. 
+request tampering and parameter injection are possible. 
 Where the protection is desired, it should use Part 2. 
 
 The response is integrity protected when ID Token is returned 
@@ -342,8 +342,8 @@ through the referrer.
 If the access token is a bearer token, it is possible to 
 exercise the stolen token. Since the access token can be 
 used against multiple URIs, the risk of it leaking is 
-much larger than the referesh token, which is used only 
-againsit the token endpoint. Thus, the lifetime of 
+much larger than the refresh token, which is used only 
+against the token endpoint. Thus, the lifetime of 
 the access token should be much shorter than that of 
 the refresh token. 
 
