@@ -199,7 +199,7 @@ Further, if it wishes to provide the authenticated user's identifier to the clie
 
 A Public Client
 
-* shall support [RFC7636] or the mechanisms defined in [Financial API - Part 4](Financial_API_WD_004.md);
+* shall support [RFC7636] or the mechanisms defined in [Financial API - Part 2](Financial_API_WD_002.md);
 * shall use `S256` as the code challenge method for the [RFC7636];
 * shall use separate and distinct Redirect URI for each Authorization Server that it talks to;
 * shall store the Redirect URI value in the User-Agent session and compare it with the Redirect URI that the Authorization Response was received at, where, if the URIs do not match, the Client shall terminate the process with error;
