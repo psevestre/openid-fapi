@@ -165,7 +165,7 @@ The Authorization Server
     2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
 * shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
 * shall require a key of size 160 bits or larger if eliptic curve algorithms are used for the client authentication;
-* shall support [RFC7636] with `S265` as the code challenge method;
+* shall support [RFC7636] with `S256` as the code challenge method;
 * shall require Redirect URIs to be pre-registered;
 * shall require the `redirect_uri` parameter in the authorization request;
 * shall require the value of `redirect_uri` to exactly match one of the pre-registered Redirect URIs;
