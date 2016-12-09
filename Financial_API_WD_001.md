@@ -166,7 +166,6 @@ The Authorization Server
 * shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
 * shall require a key of size 160 bits or larger if eliptic curve algorithms are used for the client authentication;
 * shall support [RFC7636] with `S265` as the code challenge method;
-* shall support TLS mutual authentication per [TLSM] for the client authentication or 
 * shall require Redirect URIs to be pre-registered;
 * shall require the `redirect_uri` parameter in the authorization request;
 * shall require the value of `redirect_uri` to exactly match one of the pre-registered Redirect URIs;
