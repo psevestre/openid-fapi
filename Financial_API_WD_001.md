@@ -172,9 +172,9 @@ The Authorization Server
 * shall require user authentication at LoA 2 as defined in [X.1254] or more;
 * shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
 * shall verify that the Authorization Code has not been previously used if possible;
-* shall return the token response as defined in 4.1.4 of [RFC6749]; and
-* shall return the list of allowed scopes with the issued access token.
-* shall provide opaque, non-monotonically increasing or non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]
+* shall return the token response as defined in 4.1.4 of [RFC6749]; 
+* shall return the list of allowed scopes with the issued access token; and 
+* shall provide opaque, non-monotonically increasing or non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]. 
 
     **NOTE**: The Financial API server may limit the scopes for the purpose of not implementing certain APIs.
 
