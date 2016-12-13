@@ -173,8 +173,10 @@ The Authorization Server
 * shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
 * shall verify that the Authorization Code has not been previously used if possible;
 * shall return the token response as defined in 4.1.4 of [RFC6749]; 
-* shall return the list of allowed scopes with the issued access token; and 
+* shall return the list of allowed scopes with the issued access token;  
 * shall provide opaque, non-monotonically increasing or non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]. 
+* should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
+* should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a Client as in 16.18 of [OIDC].
 
     **NOTE**: The Financial API server may limit the scopes for the purpose of not implementing certain APIs.
 
@@ -344,7 +346,9 @@ used against multiple URIs, the risk of it leaking is
 much larger than the refresh token, which is used only 
 against the token endpoint. Thus, the lifetime of 
 the access token should be much shorter than that of 
-the refresh token. 
+the refresh token. Refer to section 16.18 of [OIDC] for 
+more discussion on the lifetimes of access tokens and 
+refresh tokens. 
 
 ## 8. Privacy Considerations
 
