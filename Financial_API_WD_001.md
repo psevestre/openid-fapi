@@ -248,7 +248,7 @@ The resource server with the FAPI endpoints
 * shall encode the response in UTF-8; // DDA allows client to ask for charset but restricting may be better for interoperability
 * shall send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8`;
 * shall send the server date in HTTP date header as in section 14.18 of [RFC2616];
-* shall send the `x-fapi-interaction-id` with the value set to the one received from the client in the `x-fapi-interaction-id` request header or a [RFC4122] UUID value created by the server if there was no corresponding request header to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
+* shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
 * shall log the value of `x-fapi-interaction-id` in the log entry.
 
 
