@@ -103,6 +103,9 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [X.1254] - Entity authentication assurance framework
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
+[OAUTB] - OAuth 2.0 Token Binding
+[OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-01
+
 ## 3. Terms and definitions
 For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
@@ -145,11 +148,10 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 
 The Authorization Server shall support the provisions specified in clause 5.2.2 of Financial API - Part 1: Read Only API Security Profile.
 
-In addition, the Authorization server
+In addition, the Authorization server, for the write operation, 
 
-*
-
-
+* shall require the request parameters to be passed as JWTs as in clause 16 of [OIDC]; and 
+* shall support [OAUTB] and only issue token bound refresh tokens as in [OAUTB] for write operations; 
 
 #### 5.2.3 Public Client
 
@@ -157,14 +159,17 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 
 In addition, the Public Client
 
-*
+* shall support [OAUTB]; 
 
+for write operations. 
 
 #### 5.2.4 Confidential Client
 
 In addition to the provisions to the Public Client, the Confidential Client
 
-*
+* shall support [OAUTB]; 
+
+for write operations. 
 
 
 ## 6. Accessing Protected Resources (Using tokens)
