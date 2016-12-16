@@ -247,7 +247,7 @@ The resource server with the FAPI endpoints
 * shall verify that the scope associated with the access token authorizes the reading of the resource it is representing;
 * shall identify the associated user to the access token;
 * shall only return the resource identified by the combination of the user implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750];
-* shall encode the response in UTF-8; // DDA allows client to ask for charset but restricting may be better for interoperability
+* shall encode the response in UTF-8; 
 * shall send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8`;
 * shall send the server date in HTTP date header as in section 14.18 of [RFC2616];
 * shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
