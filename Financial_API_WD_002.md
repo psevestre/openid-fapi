@@ -155,7 +155,7 @@ In addition, the Authorization server, for the write operation,
 * shall verify that the pre-regegistered value for the following names are included in the request object; 
     * `resources`: array of resources identifiers that the token will be used against; 
 	* `authz_ep`: the uri to which the authorization request was intended to be sent; 
-	* `token_ep': the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used; 
+	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used; 
 
 #### 5.2.3 Public Client
 
