@@ -150,8 +150,12 @@ The Authorization Server shall support the provisions specified in clause 5.2.2 
 
 In addition, the Authorization server, for the write operation, 
 
-* shall require the request parameters to be passed as JWTs as in clause 16 of [OIDC]; and 
+* shall require the request parameters to be passed as JWS signed JWTs as in clause 16 of [OIDC];  
 * shall support [OAUTB] and only issue token bound refresh tokens as in [OAUTB] for write operations; 
+* shall verify that the pre-regegistered value for the following names are included in the request object; 
+    * `resources`: array of resources identifiers that the token will be used against; 
+	* `authz_ep`: the uri to which the authorization request was intended to be sent; 
+	* `token_ep': the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used; 
 
 #### 5.2.3 Public Client
 
