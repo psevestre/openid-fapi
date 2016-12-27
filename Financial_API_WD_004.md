@@ -329,7 +329,76 @@ While GET is more REST like, in the above example, POST is used
 so that the accountId is not exposed as a path / query,
 which may expose the accountId through referrer and history.
 
-#### 5.3.4 Statements
+#### 5.3.4 Account not available
+
+An **account** as described in 5.3.3 may not be available temporarily or does not exist. In that case the API will not 
+return account info but a message indicating that it either does not exist or has no available information at the moment.
+
+Following is a non-normative examples of the resource request.
+
+```
+POST /account HTTP/1.1
+Host: example.com
+Accept: application/json
+Authorization: Bearer w0mcJylzCn-AfvuGdqkty2-KP48=
+Content-Type: application/x-www-form-urlencoded
+
+accountId=1357902468
+```
+
+Following is a non-normative example of the resource request with an account being temporarily unavailable.
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+{
+  "_links": {
+       "self": { "href": "/accounts/?accountId=1357902468" },
+       "fapi.statements": {
+          "href": "/statements{?accountId,startTime,endTime}",
+          "Authorize":"Bearer {access_token}",
+          "Method":"POST",
+          "templated":true},
+       "fapi.transactions": {
+          "href": "/account/transactions"},
+  },
+  "DepositAccount" : {
+    "AccountId" : "1357902468",
+    "Error" : {
+        "Code":"700",
+        "Description":"Account information temporarily not available"
+    }
+  }
+}
+```
+
+Following is a non-normative example of the resource request with a non existing account.
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+{
+  "_links": {
+       "self": { "href": "/accounts/?accountId=1357902468" },
+       "fapi.statements": {
+          "href": "/statements{?accountId,startTime,endTime}",
+          "Authorize":"Bearer {access_token}",
+          "Method":"POST",
+          "templated":true},
+       "fapi.transactions": {
+          "href": "/account/transactions"},
+  },
+  "DepositAccount" : {
+    "AccountId" : "1357902468",
+    "Error" : {
+        "Code":"701",
+        "Description":"Account does not exist"
+    }
+  }
+}
+```
+
+#### 5.3.5 Statements
 
 Gets a list of statements for the given account.
 
@@ -379,7 +448,7 @@ Content-Type: application/json; charset=utf-8
 
     Editor's Note: Is StatementId unique to the org or to the AccountId?
 
-#### 5.3.5 Statement
+#### 5.3.6 Statement
 
 A **statement** represents an image of an account statement. It can be one of the following formats:
 
@@ -406,7 +475,7 @@ Content-Type: application/pdf
 Binary data
 ```
 
-#### 5.3.6 Transactions
+#### 5.3.7 Transactions
 
 **Transactions** represents a list of transactions for the given account.
 
@@ -469,7 +538,7 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
-#### 5.3.7 Transaction Image
+#### 5.3.8 Transaction Image
 
 A **transaction image** represents an image of a transaction such as a scanned check or deposit/withdrawal slip. It can be one of the following formats:
 
@@ -497,7 +566,7 @@ Binary data
 ```
 
 
-#### 5.3.8 Transfer status
+#### 5.3.9 Transfer status
 
 A **transfer status** represents the status of a transfer request.
 
