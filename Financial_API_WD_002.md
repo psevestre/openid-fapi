@@ -106,6 +106,7 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [OAUTB] - OAuth 2.0 Token Binding
 [OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-01
 
+
 ## 3. Terms and definitions
 For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
@@ -148,14 +149,17 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 
 The Authorization Server shall support the provisions specified in clause 5.2.2 of Financial API - Part 1: Read Only API Security Profile.
 
-In addition, the Authorization server, for the write operation, 
+In addition, the Authorization server, for the write operation,
 
-* shall require the request parameters to be passed as JWS signed JWTs as in clause 6 of [OIDC];  
-* shall support [OAUTB] and only issue token bound refresh tokens as in [OAUTB] for write operations; 
-* shall verify that the pre-regegistered value for the following names are included in the request object; 
-    * `resources`: array of resources identifiers that the token will be used against; 
-	* `authz_ep`: the uri to which the authorization request was intended to be sent; 
-	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used; 
+* shall require the `request` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
+* shall support [OAUTB] and only issue token bound refresh tokens as in [OAUTB] for write operations;
+* shall verify that the pre-registered value for the following names are included in the request object;
+    * `resources`: array of resources identifiers that the token will be used against;
+	* `authz_ep`: the uri to which the authorization request was intended to be sent;
+	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+* shall support user authentication at LoA 3 or greater as defined in [X.1254];
+* shall support signed and encrypted ID Tokens
+
 
 #### 5.2.3 Public Client
 
@@ -163,17 +167,26 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 
 In addition, the Public Client
 
-* shall support [OAUTB]; 
+* shall support [OAUTB];
+* shall include the `request` parameter as a JWS signed JWT as  defined in Section 6 of [OIDC] in the authentication request; The `request` object shall include the pre-registered values for the following parameters:
+    * `resources`: array of resources identifiers that the token will be used against;
+	* `authz_ep`: the uri to which the authorization request was intended to be sent;
+	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+* shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC]. The values shall indicate user authentication at LoA 3 or greater;
+* shall require JWS signed ID Token be returned from endpoints
+* shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
+* shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
 
-for write operations. 
+for write operations.
 
 #### 5.2.4 Confidential Client
 
-In addition to the provisions to the Public Client, the Confidential Client
+In addition to the provision to the Public Client and the provisions in clause 5.2.4 of Financial API - Part 1: Read Only API Security Profile, the Confidential Client
 
-* shall support [OAUTB]; 
+* shall support [OAUTB];
+* shall require both JWS singed and JWE encrypted ID Tokens to be returned from endpoints
 
-for write operations. 
+for write operations.
 
 
 ## 6. Accessing Protected Resources (Using tokens)
