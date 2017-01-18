@@ -224,7 +224,7 @@ In addition to the provision to the Public Client, the Confidential Client
     2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
 * shall use RSA keys with a minimum 2048 bits if using RSA cryptography; 
 * shall use Elliptic Curve keys with a minimum of 160 bits if using Elliptic Curve cryptography; and 
-* shall verify that it's client secret has a minimum of 128 bits if using symmetric key cryptography. 
+* shall verify that its client secret has a minimum of 128 bits if using symmetric key cryptography.
 
 
 ## 6. Accessing Protected Resources
