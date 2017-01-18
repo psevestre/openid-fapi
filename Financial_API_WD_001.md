@@ -342,7 +342,7 @@ through the referrer.
 
 If the access token is a bearer token, it is possible to 
 exercise the stolen token. Since the access token can be 
-used against multiple URIs, the risk of it leaking is 
+used against multiple URIs, the risk of its leaking is
 much larger than the refresh token, which is used only 
 against the token endpoint. Thus, the lifetime of 
 the access token should be much shorter than that of 
