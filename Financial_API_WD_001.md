@@ -159,7 +159,7 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 The Authorization Server
 
 * shall support both public and confidential clients;
-* shall provide a client secret that adhears to the requirements in section 16.19 of [OIDC] if symmetric key is used;
+* shall provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used;
 * shall authenticate the confidential client at the Token Endpoint using one of the following methods:
     1. TLS mutual authentication [TLSM]; 
     2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
