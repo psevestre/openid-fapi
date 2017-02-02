@@ -39,15 +39,17 @@ This part is intended to be used with [RFC6749], [RFC6750], [RFC6736], and [OIDC
 
 In many cases, Fintech services such as aggregation services use screen scraping and store user passwords. This model is both brittle and insecure. To cope with the brittleness, it should utilize an API model with structured data and to cope with insecurity, it should utilize a token model such as OAuth [RFC6749, RFC6750].
 
-This working group aims to rectify the situation by developing a REST/JSON model protected by OAuth. Specifically, the FAPI WG aims to provide JSON data schemas, security and privacy recommendations and protocols to:
+Financial API aims to rectify the situation by developing a REST/JSON model protected by OAuth. 
+However, just asking to use OAuth is too vague as there are many implementation choices. 
+OAuth is a framework which can cover wide range of use-cases thus some implementation choices are easy to implement but less secure 
+and some implementation choices are harder to implement but more secure. 
+Financial services on the internet is a use-case that requires more secure implementation choices. 
+That is, OAuth needs to be profiled to be used in the financial use-cases. 
 
-* enable applications to utilize the data stored in the financial account,
-* enable applications to interact with the financial account, and
-* enable users to control the security and privacy settings.
-
-Both commercial and investment banking accounts as well as insurance, and credit card accounts are to be considered.
-
-
+This document is a Part 1 of a set of document that specifies Financial API. 
+It provides a profile of OAuth that is suitable to be used in the access of Read Only financial data. 
+An even more secure profile that is suitable for a transactional (i.e., Read/Write) APIs are given in Part 2. 
+Part 3 onwards provides the data schema for specific use-cases. 
 
 #**Financial Services – Financial API - Part 1: Read Only API Security Profile **
 
@@ -55,15 +57,11 @@ Both commercial and investment banking accounts as well as insurance, and credit
 
 ## 1. Scope
 
-This document specifies the method of
+This document specifies the method for the application 
 
-* applications to obtain the OAuth tokens in an appropriately secure manner for the financial data access;
-* application to utilize OpenID Connect to identify the customer;
-* representing financial data in JSON format;
-* using the tokens to interact with the REST endpoints that provides financial data; and
-* enabling users to control the security and privacy settings.
-
-This document is applicable to both commercial and investment banking accounts as well as insurance, and credit card accounts are to be considered.
+* to obtain the OAuth tokens in an appropriately secure manner for the read only access to the financial data;
+* to utilize OpenID Connect to identify the customer; and 
+* to use the tokens to read out the financial data from the REST endpoints. 
 
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
