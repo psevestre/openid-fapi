@@ -268,14 +268,11 @@ Further, it
 The client supporting this document
 
 * shall use TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
-* shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
-* shall send `User-Agent` header that identifies the client, e.g., `User-Agent: Intuit/1.2.3 Mint/4.3.1`; and
+* shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750]; and 
 * shall send `x-fapi-financial-id` whose value is the unique identifier of the desired financial institution to interact assigned by the service bureau where the API is provided by a service bureau which uses the same endpoint for multiple institutions.
 
     **NOTE**: Conceptually, the value of the `x-fapi-financial-id` corresponds to `iss` in the ID Token
     but is not required to be an https URI. It often is the routing number of the FI.
-
-    **NOTE**: The use of `User-Agent` and `x-fapi-financial-id` is not a security feature.
 
 Further, the client
 
