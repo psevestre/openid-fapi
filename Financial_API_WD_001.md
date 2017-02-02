@@ -172,7 +172,7 @@ The Authorization Server
 * shall verify that the Authorization Code has not been previously used if possible;
 * shall return the token response as defined in 4.1.4 of [RFC6749]; 
 * shall return the list of allowed scopes with the issued access token;  
-* shall provide opaque, non-monotonically increasing or non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]. 
+* shall provide opaque non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]. 
 * should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
 * should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a Client as in 16.18 of [OIDC].
 
@@ -182,6 +182,8 @@ The Authorization Server
 
     **NOTE**: If replay identification of the authorization code is not possible, it is desirable to set the validity period of the authorization code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the authorization code cache if one is used.
 
+    **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
+	
 Further, if it wishes to provide the authenticated user's identifier to the client in the token response, the authorization server
 
 * shall support the authentication request as in Section 3.1.2.1 of [OIDC];
