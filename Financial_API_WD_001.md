@@ -275,7 +275,6 @@ The client supporting this document
 
 Further, the client
 
-* can optionally supply the `sub` value associated with the customer with the `x-fapi-customer-id` request header, e.g., `x-fapi-customer-id: a237cb74-61c9-4319-9fc5-ff5812778d6b`;
 * can optionally supply the last time the customer logged into the client in the `x-fapi-customer-last-logged-time` header where the value is supplied as ** w3c date **, e.g., `x-fapi-customer-last-logged-time: Tue, 11 Sep 2012 19:43:31 UTC`; and
 * can supply the customer’s IP address if this data is available or applicable in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 198.51.100.119`; and
 * may send the `x-fapi-interaction-id` request header whose value is a [RFC4122] UUID to the server to help correlate log entries between client
