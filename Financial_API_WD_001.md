@@ -261,7 +261,7 @@ Further, it
 
 * should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable Java Script Clients to access the endpoint if it decides to provide access to Javascript clients.
 
-    **NOTE**: Providing access to Javascript clients or not has different security properites.;
+    **NOTE**: Providing access to Javascript clients has other security implications. Before supporting those clients [RFC6819] should be consulted.
 
 ### 6.2.2 Client provisions
 
