@@ -192,8 +192,7 @@ Further, if it wishes to provide the authenticated user's identifier to the clie
 * shall provide the authentication response as in Section 3.1.2.4 and 3.1.2.5 of [OIDC] depending on the outcome of the authentication;
 * shall perform the token request verification as in Section 3.1.3.2 of [OIDC]; and
 * shall issue an ID Token in the token response when `openid` was included in the requested `scope`
-  as in Section 3.1.3.3 of [OIDC] with its `sub` value equal to the value of the `CustomerId`
-  of the `Customer` object corresponding to the authenticated user
+  as in Section 3.1.3.3 of [OIDC] with its `sub` value corresponding to the authenticated user
   and optional `acr` value in ID Token.
 
 #### 5.2.3 Public Client
