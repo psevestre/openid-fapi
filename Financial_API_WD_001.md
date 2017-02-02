@@ -347,6 +347,10 @@ refresh tokens.
 
 ## 8. Privacy Considerations
 
+    ** NOTE ** The following only has a boiler plate text 
+    specifying the general principles. More specific text 
+    will be added towards the Final specification. 
+
 ### 8.1 Privacy by design
 
 * Privacy impact analysis (PIA) should be performed in the initial phase of the system planning.
