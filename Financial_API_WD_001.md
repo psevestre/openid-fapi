@@ -262,7 +262,7 @@ Further, it
 
     **NOTE**: Providing access to Javascript clients has other security implications. Before supporting those clients [RFC6819] should be consulted.
 
-### 6.2.2 Client provisions
+#### 6.2.2 Client provisions
 
 The client supporting this document
 
