@@ -97,13 +97,13 @@ The following referenced documents are indispensable for the application of this
 [RFC6819]: https://tools.ietf.org/html/rfc6819
 
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
-[OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
+[OIDC]: https://openid.net/specs/openid-connect-core-1_0.html
 
 [OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
-[OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
+[OIDD]: https://openid.net/specs/openid-connect-discovery-1_0.html
 
 [OIDM] -  OAuth 2.0 Multiple Response Type Encoding Practices
-[OIDM]: http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+[OIDM]: https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
 
 [X.1254] - Entity authentication assurance framework
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
