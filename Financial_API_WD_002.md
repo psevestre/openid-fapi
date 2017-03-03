@@ -152,7 +152,8 @@ The Authorization Server shall support the provisions specified in clause 5.2.2 
 In addition, the Authorization server, for the write operation,
 
 * shall require the `request` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
-* shall support [OAUTB] and only issue token bound refresh tokens as in [OAUTB] for write operations;
+* shall only issue holder of key authorization code, access token, and refresh token for write operations; 
+* shall support [OAUTB] or HOKTBD as a holder of key mechanism; 
 * shall verify that the pre-registered value for the following names are included in the request object;
     * `resources`: array of resources identifiers that the token will be used against;
 	* `authz_ep`: the uri to which the authorization request was intended to be sent;
@@ -167,7 +168,7 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 
 In addition, the Public Client
 
-* shall support [OAUTB];
+* shall support [OAUTB] or HOKTBD;
 * shall include the `request` parameter as a JWS signed JWT as  defined in Section 6 of [OIDC] in the authentication request; The `request` object shall include the pre-registered values for the following parameters:
     * `resources`: array of resources identifiers that the token will be used against;
 	* `authz_ep`: the uri to which the authorization request was intended to be sent;
@@ -183,7 +184,7 @@ for write operations.
 
 In addition to the provision to the Public Client and the provisions in clause 5.2.4 of Financial API - Part 1: Read Only API Security Profile, the Confidential Client
 
-* shall support [OAUTB];
+* shall support [OAUTB] or HOKTBD;
 * shall require both JWS singed and JWE encrypted ID Tokens to be returned from endpoints
 
 for write operations.
