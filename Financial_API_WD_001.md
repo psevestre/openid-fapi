@@ -169,7 +169,7 @@ The Authorization Server
 * shall require the value of `redirect_uri` to exactly match one of the pre-registered Redirect URIs;
 * shall require user authentication at LoA 2 as defined in [X.1254] or more;
 * shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
-* shall verify that the Authorization Code has not been previously used if possible;
+* shall verify that the Authorization Code (section 1.3.1 of [RFC6749]) has not been previously used if possible;
 * shall return the token response as defined in 4.1.4 of [RFC6749]; 
 * shall return the list of allowed scopes with the issued access token;  
 * shall provide opaque non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]. 
@@ -180,7 +180,7 @@ The Authorization Server
 
     **NOTE**: Section 4.1.3 of [RFC6749] does not say anything about the `code` reuse, but this document is putting limitation on it as per Section 3.1.3.2 of [OIDC].
 
-    **NOTE**: If replay identification of the authorization code is not possible, it is desirable to set the validity period of the authorization code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the authorization code cache if one is used.
+    **NOTE**: If replay identification of the Authorization Code is not possible, it is desirable to set the validity period of the Authorization Code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the Authorization Code cache if one is used.
 
     **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
 	
@@ -390,6 +390,7 @@ Following people contributed heavily towards this document.
 * Henrik Bearing (Peercraft) 
 * Anton Taborszky (Deutche Telecom) 
 * John Bradley (Ping Identity) 
+* Axel Nennker (Deutsche Telekom)
 * (add yourself) 
 
 ## 10. Bibliography
