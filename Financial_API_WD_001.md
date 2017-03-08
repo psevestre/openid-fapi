@@ -156,14 +156,15 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 
 The Authorization Server
 
-* shall support both public and confidential clients;
+* shall support confidential clients;
+* should support public clients; 
 * shall provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used;
 * shall authenticate the confidential client at the Token Endpoint using one of the following methods:
     1. TLS mutual authentication [TLSM]; 
     2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
 * shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
 * shall require a key of size 160 bits or larger if elliptic curve algorithms are used for the client authentication;
-* shall support [RFC7636] with `S256` as the code challenge method;
+* shall support [RFC7636] with `S256` as the code challenge method if it supports public clients;
 * shall require Redirect URIs to be pre-registered;
 * shall require the `redirect_uri` parameter in the authorization request;
 * shall require the value of `redirect_uri` to exactly match one of the pre-registered Redirect URIs;
@@ -216,7 +217,7 @@ Further, if it wishes to obtain a persistent identifier of the authenticated use
 
 #### 5.2.4 Confidential Client
 
-In addition to the provision to the Public Client, the Confidential Client
+In addition to the provision to the Public Client except for [RFC7636] support, a Confidential Client
 
 * shall support the following methods to authenticate against the Token Endpoint:
     1. TLS mutual authentication [TLSM]; or 
