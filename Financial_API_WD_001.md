@@ -299,7 +299,7 @@ and server, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 
 ### 7.1 TLS Considerations
 
-Since confidential information is being exchanged, all interactions shall be encrypted with TLS/SSL (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
+Since confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
 
 ### 7.2 Message source authentication failure
 
