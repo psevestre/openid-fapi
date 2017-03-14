@@ -287,7 +287,7 @@ The client supporting this document
 Further, the client
 
 * may supply the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as an RFC1123 HTTP-date as in section 3.3.1 of [RFC2616], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
-* may supply the customer’s IP address if this data is available or applicable in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 198.51.100.119`; and
+* may supply the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 198.51.100.119`; and
 * may send the `x-fapi-interaction-id` request header whose value is a [RFC4122] UUID to the server to help correlate log entries between client
 and server, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 
