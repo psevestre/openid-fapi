@@ -227,7 +227,7 @@ Further, if it wishes to obtain a persistent identifier of the authenticated use
 
 #### 5.2.4 Confidential Client
 
-In addition to the provision to the Public Client except for [RFC7636] support, a Confidential Client
+In addition to the provisions for a Public Client, except for [RFC7636] support, a Confidential Client
 
 * shall support the following methods to authenticate against the Token Endpoint:
     1. TLS mutual authentication [TLSM]; or 
@@ -253,7 +253,7 @@ The resource server with the FAPI endpoints
 * shall support the use of the HTTP GET method defined in [RFC2616];
 * shall accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
 * shall not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750];
-* shall verify that the access token is not expired nor revoked;
+* shall verify that the access token is neither expired nor revoked;
 * shall verify that the scope associated with the access token authorizes the reading of the resource it is representing;
 * shall identify the associated user to the access token;
 * shall only return the resource identified by the combination of the user implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750];
@@ -279,7 +279,7 @@ The client supporting this document
 
 * shall use TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
 * shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750]; and 
-* shall send `x-fapi-financial-id` whose value is the unique identifier of the desired financial institution to interact assigned by the service bureau where the API is provided by a service bureau which uses the same endpoint for multiple institutions.
+* shall send `x-fapi-financial-id` whose value is the unique identifier of the desired financial institution to interact with (assigned by the resource server owner) where the same endpoints are used for multiple institutions.
 
     **NOTE**: Conceptually, the value of the `x-fapi-financial-id` corresponds to `iss` in the ID Token
     but is not required to be an https URI. It often is the routing number of the FI.
@@ -304,16 +304,16 @@ Since confidential information is being exchanged, all interactions shall be enc
 ### 7.2 Message source authentication failure
 
 Authorization request and response are not authenticated. 
-For a higher risk scenarios, it should be taken care of. 
+For higher risk scenarios, they should be authenticated.
 See Part 2, which uses request object to achieve the message source authentication. 
 
 ### 7.3 Message integrity protection failure
 
-Authorization request is not message integrity protected thus 
-request tampering and parameter injection are possible. 
-Where the protection is desired, it should use Part 2. 
+The authorization request does not have message integrity protection and hence
+request tampering and parameter injection are possible.
+Where such protection is desired, Part 2 should be used.
 
-The response is integrity protected when ID Token is returned 
+The response is integrity protected when the ID Token is returned
 from the authorization endpoint. 
 
 ### 7.4 Message containment failure
@@ -378,7 +378,7 @@ Stakeholders should follow the privacy principles of ISO/IEC 29100. In particula
 4. Data (access) limitation
 5. Use, retention, and data disclosure limitation:
     1. Use limitation:
-    1. Retention limitation: Where the data is no longer being used, clients should delete such data from their system within 180 days except for the cases it needs to retain due to the legal restrictions;
+    1. Retention limitation: Where the data is no longer being used, clients should delete such data from their system within 180 days except for the cases where it needs to be retained due to legal restrictions;
     1. Data disclosure limitation:
 6. Accuracy and quality
 7. Openness, transparency and notice
