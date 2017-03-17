@@ -154,10 +154,23 @@ In addition, the Authorization server, for the write operation,
 * shall require the `request` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
 * shall only issue holder of key authorization code, access token, and refresh token for write operations; 
 * shall support [OAUTB] or HOKTBD as a holder of key mechanism; 
-* shall verify that the pre-registered value for the following names are included in the request object;
+* shall verify that the pre-registered values for the following names are included in the request object of the authorization request and also as parameters in the Token Endpoint request:
     * `resources`: array of resources identifiers that the token will be used against;
-	* `authz_ep`: the uri to which the authorization request was intended to be sent;
+	* `authz_ep`: the uri to which the authorization request is to be sent;
 	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+	* `discovery_ep`: (optional) the uri which the OpenID Provider Configuration request was sent;
+	* `registration_ep`: (optional) the uri to which the Client Registration request was sent;
+	* `iss` : the `client_id` of the client
+	* `aud` : a string that is or an array that contains the Issuer Identifier URL of the Authorization Server
+	* `iat` : (optional) the time of the request representing the number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the date/time
+* shall send the pre-registered values for the following names in the Authorization and Token Endpoint responses:
+    * `resources`: array of resources identifiers that the token will be used against;
+	* `authz_ep`: the uri to which the authorization request is to be sent;
+	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+	* `discovery_ep`: (optional) the uri to which the OpenID Provider Configuration request is to be sent;
+	* `registration_ep`: (optional) the uri to which the client Dynamic Registration request is to be sent;
+	* `iss` : the Issuer Identifier URL of the Authorization Server
+	* `iat` : the time of the response representing the number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the date/time
 * shall support user authentication at LoA 3 or greater as defined in [X.1254];
 * shall support signed and encrypted ID Tokens
 
@@ -169,10 +182,23 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 In addition, the Public Client
 
 * shall support [OAUTB] or HOKTBD;
-* shall include the `request` parameter as a JWS signed JWT as  defined in Section 6 of [OIDC] in the authentication request; The `request` object shall include the pre-registered values for the following parameters:
+* shall include the `request` parameter as a JWS signed JWT as  defined in Section 6 of [OIDC] in the authentication request;
+* shall include the pre-registered values for the following parameters in the Authorization request's `request` object and in the Token and Resources Endpoints requests:
     * `resources`: array of resources identifiers that the token will be used against;
 	* `authz_ep`: the uri to which the authorization request was intended to be sent;
 	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+	* `discovery_ep`: (optional) the uri to which the OpenID Provider Configuration request is to be sent;
+	* `registration_ep`: (optional) the uri to which the client Dynamic Registration request is to be sent;
+    * `iss`: the `client_id` of the client;
+    * `iat`: the time of the request representing the number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the date/time;
+* shall verify that the pre-registered value for the following names are included in Authorization, Token, and Resources Endpoints responses;
+    * `resources`: array of resources identifiers that the token will be used against;
+	* `authz_ep`: the uri to which the authorization request was intended to be sent;
+	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+	* `discovery_ep`: (optional) the uri to which the OpenID Provider Configuration request is to be sent;
+	* `registration_ep`: (optional) the uri to which the client Dynamic Registration request is to be sent;
+    * `iss`: the Issuer Identifier URL of the Authorizaton or Resource server;
+    * `iat`: the time of the response representing the number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the date/time;
 * shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC]. The values shall indicate user authentication at LoA 3 or greater;
 * shall require JWS signed ID Token be returned from endpoints
 * shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
@@ -185,7 +211,7 @@ for write operations.
 In addition to the provision to the Public Client and the provisions in clause 5.2.4 of Financial API - Part 1: Read Only API Security Profile, the Confidential Client
 
 * shall support [OAUTB] or HOKTBD;
-* shall require both JWS singed and JWE encrypted ID Tokens to be returned from endpoints
+* shall require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints
 
 for write operations.
 
@@ -204,7 +230,23 @@ The protected resources supporting this document shall support the provisions sp
 
 In addition, the protected resouces
 
-*
+* shall verify that the pre-registered values for the following names are included in the Resource Endpoint request:
+    * `resources`: array of resources identifiers that the token will be used against;
+	* `authz_ep`: the uri to which the authorization request is to be sent;
+	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+	* `discovery_ep`: (optional) the uri which the OpenID Provider Configuration request was sent;
+	* `registration_ep`: (optional) the uri to which the Client Registration request was sent;
+	* `iss` : the `client_id` of the client
+	* `aud` : a string that is or an array that contains the Issuer Identifier URL of the Resource Server
+	* `iat` : (optional) the time of the request representing the number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the date/time
+* shall send the pre-registered values for the following names in the Resource Endpoint response:
+    * `resources`: array of resources identifiers that the token will be used against;
+	* `authz_ep`: the uri to which the authorization request is to be sent;
+	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+	* `discovery_ep`: (optional) the uri to which the OpenID Provider Configuration request is to be sent;
+	* `registration_ep`: (optional) the uri to which the client Dynamic Registration request is to be sent;
+	* `iss` : the Issuer Identifier URL of the Resource Server
+	* `iat` : the time of the response representing the number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the date/time
 
 ### 6.2.2 Client provisions
 
@@ -212,7 +254,22 @@ The client supporting this document shall support the provisions specified in cl
 
 In addition, the client
 
-*
+* shall include the pre-registered values for the following parameters in the Resource Endpoint request:
+    * `resources`: array of resources identifiers that the token will be used against;
+	* `authz_ep`: the uri to which the authorization request was intended to be sent;
+	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+	* `discovery_ep`: (optional) the uri to which the OpenID Provider Configuration request is to be sent;
+	* `registration_ep`: (optional) the uri to which the client Dynamic Registration request is to be sent;
+    * `iss`: the `client_id` of the client;
+    * `iat`: the time of the request representing the number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the date/time;
+* shall verify that the pre-registered value for the following names are included in Resource Endpoint response;
+    * `resources`: array of resources identifiers that the token will be used against;
+	* `authz_ep`: the uri to which the authorization request was intended to be sent;
+	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+	* `discovery_ep`: (optional) the uri to which the OpenID Provider Configuration request is to be sent;
+	* `registration_ep`: (optional) the uri to which the client Dynamic Registration request is to be sent;
+    * `iss`: the Issuer Identifier URL of the Resource server;
+    * `iat`: the time of the response representing the number of seconds from 1970-01-01T0:0:0Z as measured in UTC until the date/time;
 
 
 
