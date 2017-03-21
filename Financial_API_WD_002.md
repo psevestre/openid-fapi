@@ -106,6 +106,9 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [OAUTB] - OAuth 2.0 Token Binding
 [OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-01
 
+[JPOP] - OAuth 2.0 Framework: JWT POP Token Usage
+[JPOP]: https://bit.ly/oauth-jpop
+
 
 ## 3. Terms and definitions
 For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
@@ -168,7 +171,7 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 
 In addition, the Public Client
 
-* shall support [OAUTB] or HOKTBD;
+* shall support [OAUTB] or [JPOP];
 * shall include the `request` parameter as a JWS signed JWT as  defined in Section 6 of [OIDC] in the authentication request; The `request` object shall include the pre-registered values for the following parameters:
     * `resources`: array of resources identifiers that the token will be used against;
 	* `authz_ep`: the uri to which the authorization request was intended to be sent;
@@ -184,7 +187,7 @@ for write operations.
 
 In addition to the provision to the Public Client and the provisions in clause 5.2.4 of Financial API - Part 1: Read Only API Security Profile, the Confidential Client
 
-* shall support [OAUTB] or HOKTBD;
+* shall support [OAUTB] or [JPOP];
 * shall require both JWS singed and JWE encrypted ID Tokens to be returned from endpoints
 
 for write operations.
@@ -235,9 +238,7 @@ In addition, the client
 * [RFC7662] OAuth 2.0 Token Introspection
 * [DDA] Durable Data API, (2015), FS-ISAC
 
-## Annex A Financial Data API Level 1 (Normative)
 
-* [fapi.yml]
 
 
 
