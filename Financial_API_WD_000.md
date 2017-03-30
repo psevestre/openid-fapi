@@ -26,20 +26,44 @@ Attention is drawn to the possibility that some of the elements of this document
 
  Financial API consists of the following parts, under the general title Financial Services — Financial API:
 
+ - Part 1: Read Only API Security Profile
+ - Part 2: Read & Write API Security Profile 
+ - Part 3: Open Data API 
+ - Part 4: Read Only API
+ - Part 5: Read & write API
+
 
 ##Introduction
-**// TODO**
 
-* Write Introduction
+The goal of the Financial API is to provide security profiles & recommendations, JSON data schemas and a REST API to enable: 
 
+ - applications to utilize the data relating to a financial account,
+ - applications to interact with the financial account (for example to initiate a payment or add a payee)
+
+There are two main use cases for this standard:
+
+1. A Financial Institution or Service Provider uses the standard for it’s own applications and services.
+2. A Financial Institution or Service Provider uses the standard to expose an API for third party applications and services to use.
+
+The second use case will allow the market to transition from the current practice of “screen scraping”, which is brittle and insecure, to a robust API with structured data and a strong security model. 
+
+The standard has been split into 5 parts to enable implementers to select the appropriate part(s) of the standard for their use-case. 
 
 
 #**Financial Services – Financial API**
 
 ## Scope
-**// TODO**
 
-* Write Scope
+The scope of the standard is:
+ - Security profile and recommendations for read-only financial APIs
+ - Security profile and recommendations for read & write financial APIs
+ - JSON data schemas and REST specifications for open data such as ATM locations or product information
+ - JSON data schemas and REST specifications for reading financial data relating to financial accounts.
+ - JSON data schemas and REST specifications for interacting with financial accounts. 
+
+
+Web Payments are out of scope of this standard.
+
 
 ## Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
