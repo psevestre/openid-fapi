@@ -57,7 +57,7 @@ These key words are not used as dictionary terms such that
 any occurence of them shall be interpreted as key words 
 and are not to be interpreted with their natural language meanings. 
 
-#**Financial Services – Financial API - Part 1: Read and Write API Security Profile **
+#**Financial Services – Financial API - Part 2: Read and Write API Security Profile **
 
 [TOC]
 
