@@ -211,7 +211,7 @@ for write operations.
 
 In addition to the provision to the Public Client and the provisions in clause 5.2.4 of Financial API - Part 1: Read Only API Security Profile, the Confidential Client
 
-* shall support [OAUTB] or [JPOP];
+* shall support [OAUTB] or [MTLS];
 * shall require both JWS singed and JWE encrypted ID Tokens to be returned from endpoints
 
 for write operations.
