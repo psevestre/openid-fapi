@@ -196,20 +196,29 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 In addition, the Public Client
 
 * shall support [OAUTB] or [MTLS];
-* shall include the `request` parameter as a JWS signed JWT as  defined in Section 6 of [OIDC] in the authentication request; The `request` object shall include the pre-registered values for the following parameters:
-    * `resources`: array of resources identifiers that the token will be used against;
-	* `authz_ep`: the uri to which the authorization request was intended to be sent;
-	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
-* shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC]. The values shall indicate user authentication at LoA 3 or greater;
-* shall require JWS signed ID Token be returned from endpoints
+* shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request; 
+* shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC]; 
+* shall require JWS signed ID Token be returned from endpoints;
 * shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
 * shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
+* shall verify that the authorization response was not tampered using ID Token as the detatched signature 
 
 for write operations.
 
+To verify that the authorization response was not tampered using ID TOken as the detatched signature, the client shall verify that `s_hash` value 
+is equal to the value calculated from the `state` value in the authorization response in addition to 
+all the requirements in 3.3.2.12 of [OIDC]. 
+
+Editors' note: The following was in the previsous edition but was removed as we now require hybrid flow. 
+
+    The `request` object shall include the pre-registered values for the following parameters:
+    * `resources`: array of resources identifiers that the token will be used against;
+	* `authz_ep`: the uri to which the authorization request was intended to be sent;
+	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+
 #### 5.2.4 Confidential Client
 
-In addition to the provision to the Public Client and the provisions in clause 5.2.4 of Financial API - Part 1: Read Only API Security Profile, the Confidential Client
+In addition to the provision to the Public Client and the provisions in clause 5.2.3, the Confidential Client
 
 * shall support [OAUTB] or [MTLS];
 * shall require both JWS singed and JWE encrypted ID Tokens to be returned from endpoints
