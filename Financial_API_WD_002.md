@@ -146,8 +146,17 @@ The OIDF Financial API (FAPI) is a REST API that provides JSON data representing
 
 These API accesses have several levels of risks associated to them. Read and write access has high financial risk. As such, the characteristics required of the tokens are also different.
 
-In the Part 2, security provisions for the server and client that is appropriate for read and write access to the APIs are described. 
+In the Part 2, security provisions for the server and client that is appropriate for read and write access to the APIs are described 
+and for this purpose, the following new parameter is defined. 
 
+** s_hash ** 
+
+State hash value. Its value is the base64url encoding of the 
+left-most half of the hash of the octets of the ASCII representation 
+of the state value, where the hash algorithm used is the hash algorithm used 
+in the alg Header Parameter of the ID Token's JOSE Header. For instance, 
+if the alg is HS512, hash the code value with SHA-512, then take the left-most 256 bits and base64url encode them. 
+The `s_hash` value is a case sensitive string.
 
 
 ### 5.2 Read and Write API Security Provisions
@@ -164,16 +173,21 @@ The Authorization Server shall support the provisions specified in clause 5.2.2 
 
 In addition, the Authorization server, for the write operation,
 
-* shall require the `request` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
+* shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
+* shall require the `response_type` values `code id_token` or `code id_token token`; 
+* shall return ID Token as a detached signature to the authorization response; 
+* shall include state hash, `s_hash`, in the ID Token to protect the `state` value; 
 * shall only issue holder of key authorization code, access token, and refresh token for write operations; 
-* shall support [OAUTB] or HOKTBD as a holder of key mechanism; 
-* shall verify that the pre-registered value for the following names are included in the request object;
-    * `resources`: array of resources identifiers that the token will be used against;
-	* `authz_ep`: the uri to which the authorization request was intended to be sent;
-	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+* shall support [OAUTB] or [MTLS] as a holder of key mechanism; 
 * shall support user authentication at LoA 3 or greater as defined in [X.1254];
 * shall support signed and encrypted ID Tokens
 
+Editors' note: The following was in the previsous edition but was removed as we now require hybrid flow. 
+
+    * shall verify that the pre-registered value for the following names are included in the request object;
+        * `resources`: array of resources identifiers that the token will be used against;
+	    * `authz_ep`: the uri to which the authorization request was intended to be sent;
+	    * `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
 
 #### 5.2.3 Public Client
 
