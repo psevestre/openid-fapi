@@ -51,6 +51,16 @@ It provides a profile of OAuth that is suitable to be used in the access of Read
 An even more secure profile that is suitable for a transactional (i.e., Read/Write) APIs are given in Part 2. 
 Part 3 onwards provides the data schema for specific use-cases. 
 
+### Notational Conventions
+
+The key words "shall", "shall not", 
+"should", "should not", "may", and
+"can" in this document are to be interpreted as described in 
+ISO Directive Part 2. 
+These key words are not used as dictionary terms such that 
+any occurence of them shall be interpreted as key words 
+and are not to be interpreted with their natural language meanings. 
+
 #**Financial Services – Financial API - Part 1: Read Only API Security Profile **
 
 [TOC]
