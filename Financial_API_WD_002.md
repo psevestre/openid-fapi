@@ -240,24 +240,24 @@ The protected resources supporting this document shall support the provisions sp
 
 In addition, the protected resouces
 
-*
+* SHALL adhear to the requirements in [MTLS]. 
 
 ### 6.2.2 Client provisions
 
 The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial API - Part 1: Read Only API Security Profile.
 
-In addition, the client
-
-*
-
-
-
 ## 7. Security Considerations
+
+* There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token. 
+  The two differs in the risk profile and the client may want to differentiate them. 
+  To support it, the resouce shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header. 
 
 
 ## 8. Privacy Considerations
 
-
+* If the client is to be user per user, the client certificate will provide the means for the web sites 
+  that belongs to different administrative domains to collude and collate the user's access. 
+  For this reason, public clients that resides on a user's terminal should avoid [MTLS] and use [TOKB] instead. 
 
 
 ## 9. Acknowledgement
