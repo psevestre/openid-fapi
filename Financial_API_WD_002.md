@@ -114,8 +114,8 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [OAUTB] - OAuth 2.0 Token Binding
 [OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-01
 
-[JPOP] - OAuth 2.0 Framework: JWT POP Token Usage
-[JPOP]: https://bit.ly/oauth-jpop
+[MTLS] - Mutual TLS Profiles for OAuth Clients
+[MTLS]: https://tools.ietf.org/html/draft-campbell-oauth-mtls-00
 
 
 ## 3. Terms and definitions
@@ -181,7 +181,7 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 
 In addition, the Public Client
 
-* shall support [OAUTB] or [JPOP];
+* shall support [OAUTB] or [MTLS];
 * shall include the `request` parameter as a JWS signed JWT as  defined in Section 6 of [OIDC] in the authentication request; The `request` object shall include the pre-registered values for the following parameters:
     * `resources`: array of resources identifiers that the token will be used against;
 	* `authz_ep`: the uri to which the authorization request was intended to be sent;
