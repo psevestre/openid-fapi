@@ -47,7 +47,15 @@ This working group aims to rectify the situation by developing a REST/JSON model
 
 Both commercial and investment banking accounts as well as insurance, and credit card accounts are to be considered.
 
+### Notational Conventions
 
+The key words "shall", "shall not", 
+"should", "should not", "may", and
+"can" in this document are to be interpreted as described in 
+ISO Directive Part 2. 
+These key words are not used as dictionary terms such that 
+any occurence of them shall be interpreted as key words 
+and are not to be interpreted with their natural language meanings. 
 
 #**Financial Services – Financial API - Part 1: Read and Write API Security Profile **
 
@@ -137,6 +145,8 @@ For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RF
 The OIDF Financial API (FAPI) is a REST API that provides JSON data representing accounts and transactions related data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
 These API accesses have several levels of risks associated to them. Read and write access has high financial risk. As such, the characteristics required of the tokens are also different.
+
+In the Part 2, security provisions for the server and client that is appropriate for read and write access to the APIs are described. 
 
 
 
