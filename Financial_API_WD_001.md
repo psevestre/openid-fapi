@@ -250,7 +250,7 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return financ
 The resource server with the FAPI endpoints
 
 * shall mandate TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
-* shall support the use of the HTTP GET method defined in [RFC2616];
+* shall support the use of the HTTP GET method as in Section 4.3.1 of [RFC7231];
 * shall accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
 * shall not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750];
 * shall verify that the access token is neither expired nor revoked;
