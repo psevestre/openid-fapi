@@ -217,7 +217,7 @@ A Public Client
 1. shall adhere to the best practice stated by [O2fNA]; and
 1. shall implement an effective CSRF protection.
 
-   Further, if it wishes to obtain a persistent identifier of the authenticated user, it
+    Further, if it wishes to obtain a persistent identifier of the authenticated user, it
 
 1. shall include `openid` in the `scope` value; and
 1. shall include `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
@@ -267,7 +267,7 @@ The resource server with the FAPI endpoints
     **NOTE**: While this document does not specify the exact method to find out the user associated with the
     access token and the granted scope, the protected resource can use OAuth Token Introspection [RFC7662].
 
-   Further, it
+    Further, it
 
 1. should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable Java Script Clients to access the endpoint if it decides to provide access to Javascript clients.
 
