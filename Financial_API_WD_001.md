@@ -195,7 +195,7 @@ The Authorization Server
 
     **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
 	
-Further, if it wishes to provide the authenticated user's identifier to the client in the token response, the authorization server
+    Further, if it wishes to provide the authenticated user's identifier to the client in the token response, the authorization server
 
 1. shall support the authentication request as in Section 3.1.2.1 of [OIDC];
 1. shall perform the authentication request verification as in Section 3.1.2.2 of [OIDC];
