@@ -166,26 +166,26 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 
 The Authorization Server
 
-* shall support confidential clients;
-* should support public clients; 
-* shall provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used;
-* shall authenticate the confidential client at the Token Endpoint using one of the following methods:
+1. shall support confidential clients;
+1. should support public clients; 
+1. shall provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used;
+1. shall authenticate the confidential client at the Token Endpoint using one of the following methods:
     1. TLS mutual authentication [TLSM]; 
     2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
-* shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
-* shall require a key of size 160 bits or larger if elliptic curve algorithms are used for the client authentication;
-* shall support [RFC7636] with `S256` as the code challenge method if it supports public clients;
-* shall require Redirect URIs to be pre-registered;
-* shall require the `redirect_uri` parameter in the authorization request;
-* shall require the value of `redirect_uri` to exactly match one of the pre-registered Redirect URIs;
-* shall require user authentication at LoA 2 as defined in [X.1254] or more;
-* shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
-* shall verify that the Authorization Code (section 1.3.1 of [RFC6749]) has not been previously used if possible;
-* shall return the token response as defined in 4.1.4 of [RFC6749]; 
-* shall return the list of allowed scopes with the issued access token;  
-* shall provide opaque non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]. 
-* should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
-* should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a Client as in 16.18 of [OIDC].
+1. shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
+1. shall require a key of size 160 bits or larger if elliptic curve algorithms are used for the client authentication;
+1. shall support [RFC7636] with `S256` as the code challenge method if it supports public clients;
+1. shall require Redirect URIs to be pre-registered;
+1. shall require the `redirect_uri` parameter in the authorization request;
+1. shall require the value of `redirect_uri` to exactly match one of the pre-registered Redirect URIs;
+1. shall require user authentication at LoA 2 as defined in [X.1254] or more;
+1. shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
+1. shall verify that the Authorization Code (section 1.3.1 of [RFC6749]) has not been previously used if possible;
+1. shall return the token response as defined in 4.1.4 of [RFC6749]; 
+1. shall return the list of allowed scopes with the issued access token;  
+1. shall provide opaque non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]. 
+1. should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
+1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a Client as in 16.18 of [OIDC].
 
     **NOTE**: The Financial API server may limit the scopes for the purpose of not implementing certain APIs.
 
@@ -197,14 +197,14 @@ The Authorization Server
 	
 Further, if it wishes to provide the authenticated user's identifier to the client in the token response, the authorization server
 
-* shall support the authentication request as in Section 3.1.2.1 of [OIDC];
-* shall perform the authentication request verification as in Section 3.1.2.2 of [OIDC];
-* shall authenticate the user as in Section 3.1.2.2 and 3.1.2.3 of [OIDC];
-* shall provide the authentication response as in Section 3.1.2.4 and 3.1.2.5 of [OIDC] depending on the outcome of the authentication;
-* shall perform the token request verification as in Section 3.1.3.2 of [OIDC]; and
-* shall issue an ID Token in the token response when `openid` was included in the requested `scope`
-  as in Section 3.1.3.3 of [OIDC] with its `sub` value corresponding to the authenticated user
-  and optional `acr` value in ID Token.
+1. shall support the authentication request as in Section 3.1.2.1 of [OIDC];
+1. shall perform the authentication request verification as in Section 3.1.2.2 of [OIDC];
+1. shall authenticate the user as in Section 3.1.2.2 and 3.1.2.3 of [OIDC];
+1. shall provide the authentication response as in Section 3.1.2.4 and 3.1.2.5 of [OIDC] depending on the outcome of the authentication;
+1. shall perform the token request verification as in Section 3.1.3.2 of [OIDC]; and
+1. shall issue an ID Token in the token response when `openid` was included in the requested `scope`
+   as in Section 3.1.3.3 of [OIDC] with its `sub` value corresponding to the authenticated user
+   and optional `acr` value in ID Token.
 
 #### 5.2.3 Public Client
 
