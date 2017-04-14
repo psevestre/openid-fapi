@@ -210,17 +210,17 @@ The Authorization Server
 
 A Public Client
 
-* shall support [RFC7636] or the mechanisms defined in [Financial API - Part 2](Financial_API_WD_002.md);
-* shall use `S256` as the code challenge method for the [RFC7636];
-* shall use separate and distinct Redirect URI for each Authorization Server that it talks to;
-* shall store the Redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the Redirect URI that the Authorization Response was received at, where, if the URIs do not match, the Client shall terminate the process with error;
-* shall adhere to the best practice stated by [O2fNA]; and
-* shall implement an effective CSRF protection.
+1. shall support [RFC7636] or the mechanisms defined in [Financial API - Part 2](Financial_API_WD_002.md);
+1. shall use `S256` as the code challenge method for the [RFC7636];
+1. shall use separate and distinct Redirect URI for each Authorization Server that it talks to;
+1. shall store the Redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the Redirect URI that the Authorization Response was received at, where, if the URIs do not match, the Client shall terminate the process with error;
+1. shall adhere to the best practice stated by [O2fNA]; and
+1. shall implement an effective CSRF protection.
 
-Further, if it wishes to obtain a persistent identifier of the authenticated user, it
+   Further, if it wishes to obtain a persistent identifier of the authenticated user, it
 
-* shall include `openid` in the `scope` value; and
-* shall include `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
+1. shall include `openid` in the `scope` value; and
+1. shall include `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
 
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
@@ -229,12 +229,12 @@ Further, if it wishes to obtain a persistent identifier of the authenticated use
 
 In addition to the provisions for a Public Client, except for [RFC7636] support, a Confidential Client
 
-* shall support the following methods to authenticate against the Token Endpoint:
+1. shall support the following methods to authenticate against the Token Endpoint:
     1. TLS mutual authentication [TLSM]; or 
     2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
-* shall use RSA keys with a minimum 2048 bits if using RSA cryptography; 
-* shall use Elliptic Curve keys with a minimum of 160 bits if using Elliptic Curve cryptography; and 
-* shall verify that its client secret has a minimum of 128 bits if using symmetric key cryptography.
+1. shall use RSA keys with a minimum 2048 bits if using RSA cryptography; 
+1. shall use Elliptic Curve keys with a minimum of 160 bits if using Elliptic Curve cryptography; and 
+1. shall verify that its client secret has a minimum of 128 bits if using symmetric key cryptography.
 
 
 ## 6. Accessing Protected Resources
@@ -249,27 +249,27 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return financ
 
 The resource server with the FAPI endpoints
 
-* shall mandate TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
-* shall support the use of the HTTP GET method as in Section 4.3.1 of [RFC7231];
-* shall accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
-* shall not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750];
-* shall verify that the access token is neither expired nor revoked;
-* shall verify that the scope associated with the access token authorizes the reading of the resource it is representing;
-* shall identify the associated user to the access token;
-* shall only return the resource identified by the combination of the user implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750];
-* shall encode the response in UTF-8; 
-* shall send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8`;
-* shall send the server date in HTTP date header as in section 14.18 of [RFC2616];
-* shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
-* shall log the value of `x-fapi-interaction-id` in the log entry.
+1. shall mandate TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
+1. shall support the use of the HTTP GET method as in Section 4.3.1 of [RFC7231];
+1. shall accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
+1. shall not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750];
+1. shall verify that the access token is neither expired nor revoked;
+1. shall verify that the scope associated with the access token authorizes the reading of the resource it is representing;
+1. shall identify the associated user to the access token;
+1. shall only return the resource identified by the combination of the user implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750];
+1. shall encode the response in UTF-8; 
+1. shall send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8`;
+1. shall send the server date in HTTP date header as in section 14.18 of [RFC2616];
+1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
+1. shall log the value of `x-fapi-interaction-id` in the log entry.
 
 
     **NOTE**: While this document does not specify the exact method to find out the user associated with the
     access token and the granted scope, the protected resource can use OAuth Token Introspection [RFC7662].
 
-Further, it
+   Further, it
 
-* should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable Java Script Clients to access the endpoint if it decides to provide access to Javascript clients.
+1. should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable Java Script Clients to access the endpoint if it decides to provide access to Javascript clients.
 
     **NOTE**: Providing access to Javascript clients has other security implications. Before supporting those clients [RFC6819] should be consulted.
 
@@ -277,18 +277,18 @@ Further, it
 
 The client supporting this document
 
-* shall use TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
-* shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750]; and 
-* shall send `x-fapi-financial-id` whose value is the unique identifier of the desired financial institution to interact with (assigned by the resource server owner) where the same endpoints are used for multiple institutions.
+1. shall use TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
+1. shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750]; and 
+1. shall send `x-fapi-financial-id` whose value is the unique identifier of the desired financial institution to interact with (assigned by the resource server owner) where the same endpoints are used for multiple institutions.
 
     **NOTE**: Conceptually, the value of the `x-fapi-financial-id` corresponds to `iss` in the ID Token
     but is not required to be an https URI. It often is the routing number of the FI.
 
-Further, the client
+   Further, the client
 
-* may supply the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as an RFC1123 HTTP-date as in section 3.3.1 of [RFC2616], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
-* may supply the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 198.51.100.119`; and
-* may send the `x-fapi-interaction-id` request header whose value is a [RFC4122] UUID to the server to help correlate log entries between client
+1. may supply the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as an RFC1123 HTTP-date as in section 3.3.1 of [RFC2616], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
+1. may supply the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 198.51.100.119`; and
+1. may send the `x-fapi-interaction-id` request header whose value is a [RFC4122] UUID to the server to help correlate log entries between client
 and server, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 
 
@@ -364,9 +364,9 @@ refresh tokens.
 
 ### 8.1 Privacy by design
 
-* Privacy impact analysis (PIA) should be performed in the initial phase of the system planning.
-* For PIA, use of ISO/IEC 29134 Privacy impact analysis - Guidelines is recommended.
-* The provider should establish a management system to help respect privacy of the customer.
+1. Privacy impact analysis (PIA) should be performed in the initial phase of the system planning.
+1. For PIA, use of ISO/IEC 29134 Privacy impact analysis - Guidelines is recommended.
+1. The provider should establish a management system to help respect privacy of the customer.
 
 ### 8.2 Adhering to privacy principles
 
