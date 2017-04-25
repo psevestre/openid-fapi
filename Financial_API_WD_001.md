@@ -255,8 +255,8 @@ The resource server with the FAPI endpoints
 1. shall not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750];
 1. shall verify that the access token is neither expired nor revoked;
 1. shall verify that the scope associated with the access token authorizes the reading of the resource it is representing;
-1. shall identify the associated user to the access token;
-1. shall only return the resource identified by the combination of the user implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750];
+1. shall identify the associated entity to the access token;
+1. shall only return the resource identified by the combination of the entity implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750];
 1. shall encode the response in UTF-8; 
 1. shall send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8`;
 1. shall send the server date in HTTP date header as in section 14.18 of [RFC2616];
@@ -264,7 +264,7 @@ The resource server with the FAPI endpoints
 1. shall log the value of `x-fapi-interaction-id` in the log entry.
 
 
-    **NOTE**: While this document does not specify the exact method to find out the user associated with the
+    **NOTE**: While this document does not specify the exact method to find out the entity associated with the
     access token and the granted scope, the protected resource can use OAuth Token Introspection [RFC7662].
 
     Further, it
