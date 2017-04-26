@@ -181,7 +181,7 @@ The Authorization Server
 1. shall require user authentication at LoA 2 as defined in [X.1254] or more;
 1. shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
 1. shall verify that the Authorization Code (section 1.3.1 of [RFC6749]) has not been previously used if possible;
-1. shall return the token response as defined in 4.1.4 of [RFC6749]; 
+1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
 1. shall return the list of allowed scopes with the issued access token;  
 1. shall provide opaque non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]. 
 1. should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
