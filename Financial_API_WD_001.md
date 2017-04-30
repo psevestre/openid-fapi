@@ -76,8 +76,8 @@ This document specifies the method for the application
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
-[RFC2616] -  Hypertext Transfer Protocol -- HTTP/1.1
-[RFC2616]: https://tools.ietf.org/html/rfc2616
+[RFC7230] -  Hypertext Transfer Protocol -- HTTP/1.1
+[RFC7230]: https://tools.ietf.org/html/rfc7230
 
 [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 [RFC4122]: https://tools.ietf.org/html/rfc4122
@@ -259,7 +259,7 @@ The resource server with the FAPI endpoints
 1. shall only return the resource identified by the combination of the entity implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750];
 1. shall encode the response in UTF-8; 
 1. shall send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8`;
-1. shall send the server date in HTTP date header as in section 14.18 of [RFC2616];
+1. shall send the server date in HTTP Date header as in section 7.1.1.2 of [RFC7231];
 1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
 1. shall log the value of `x-fapi-interaction-id` in the log entry.
 
@@ -286,7 +286,7 @@ The client supporting this document
 
     Further, the client
 
-1. may supply the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as an RFC1123 HTTP-date as in section 3.3.1 of [RFC2616], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
+1. may supply the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
 1. may supply the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 198.51.100.119`; and
 1. may send the `x-fapi-interaction-id` request header whose value is a [RFC4122] UUID to the server to help correlate log entries 
    between client and server, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
@@ -409,7 +409,7 @@ Following people contributed heavily towards this document.
 
 * [OFX2.2] Open Financial Exchange 2.2
 * [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
-* [RFC2616] Hypertext Transfer Protocol -- HTTP/1.1
+* [RFC7230] Hypertext Transfer Protocol -- HTTP/1.1
 * [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 * [RFC5246] The Transport Layer Security (TLS) Protocol Version 1.2
 * [RFC6749] The OAuth 2.0 Authorization Framework

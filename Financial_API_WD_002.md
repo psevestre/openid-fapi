@@ -76,8 +76,8 @@ This document is applicable to both commercial and investment banking accounts a
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
-[RFC2616] -  Hypertext Transfer Protocol -- HTTP/1.1
-[RFC2616]: https://tools.ietf.org/html/rfc2616
+[RFC7230] -  Hypertext Transfer Protocol -- HTTP/1.1
+[RFC7230]: https://tools.ietf.org/html/rfc7230
 
 [RFC6749] - The OAuth 2.0 Authorization Framework
 [RFC6749]: https://tools.ietf.org/html/rfc6749
