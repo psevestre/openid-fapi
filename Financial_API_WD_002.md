@@ -37,7 +37,7 @@ This part is intended to be used with [RFC6749], [RFC6750], [RFC6736], and [OIDC
 
 ##Introduction
 
-In many cases, Fintech services such as aggregation services uses screen scraping and stores user passwords. This model is both brittle and insecure. To cope with the brittleness, it should utilize an API model with structured data and to cope with insecurity, it should utilize a token model such as OAuth [RFC6749, RFC6750].
+In many cases, Fintech services such as aggregation services use screen scraping and store user passwords. This model is both brittle and insecure. To cope with the brittleness, it should utilize an API model with structured data and to cope with insecurity, it should utilize a token model such as OAuth [RFC6749, RFC6750].
 
 This working group aims to rectify the situation by developing a REST/JSON model protected by OAuth. Specifically, the FAPI WG aims to provide JSON data schemas, security and privacy recommendations and protocols to:
 
@@ -45,7 +45,7 @@ This working group aims to rectify the situation by developing a REST/JSON model
 * enable applications to interact with the financial account, and
 * enable users to control the security and privacy settings.
 
-Both commercial and investment banking accounts as well as insurance, and credit card accounts are to be considered.
+Private, commercial and investment banking accounts are to be considered, as well as insurance and credit card accounts.
 
 ### Notational Conventions
 
@@ -65,7 +65,7 @@ and are not to be interpreted with their natural language meanings.
 
 This document specifies the method of
 
-* applications to obtain the OAuth tokens in an appropriately secure manner for the financial data access;
+* applications to obtain the OAuth tokens in an appropriately secure manner for financial data access;
 * application to utilize OpenID Connect to identify the customer;
 * representing financial data in JSON format;
 * using the tokens to interact with the REST endpoints that provides financial data; and
@@ -142,7 +142,7 @@ For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RF
 
 ### 5.1 Introduction
 
-The OIDF Financial API (FAPI) is a REST API that provides JSON data representing accounts and transactions related data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
+The OIDF Financial API (FAPI) is a REST API that provides JSON data representing accounts and transactional data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
 These API accesses have several levels of risks associated to them. Read and write access has high financial risk. As such, the characteristics required of the tokens are also different.
 
@@ -165,7 +165,7 @@ The `s_hash` value is a case sensitive string.
 
 Read and Write Access carries high financial risk, so the protection level is higher than Read Only Access.
 
-As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following to the Read and Write API of the FAPI.
+As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following for the Read and Write API of the FAPI.
 
 #### 5.2.2 Authorization Server
 
@@ -221,7 +221,7 @@ Editors' note: The following was in the previsous edition but was removed as we 
 In addition to the provision to the Public Client and the provisions in clause 5.2.3, the Confidential Client
 
 * shall support [OAUTB] or [MTLS];
-* shall require both JWS singed and JWE encrypted ID Tokens to be returned from endpoints
+* shall require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints
 
 for write operations.
 
