@@ -246,25 +246,86 @@ In addition, the protected resouces
 
 The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial API - Part 1: Read Only API Security Profile.
 
-## 7. Security Considerations
+## 7. Request object endpoint
+
+### 7.1 Request
+
+Request object endpoint is a REST API at the authorization server 
+that accepts a signed request object as HTTPS POST payload. 
+The authorization server shall authenticate the client 
+before accepting the payload. 
+
+Following is an example of such request. 
+
+```
+POST https://as.example.com/ros/
+Host: as.example.com
+Content-Type: application/jws
+Content-Length: 1288
+eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.ew0KICJpc3MiOiA
+(... abbreviated for brevity ...)
+zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
+```
+
+### 7.2 Successful response
+
+The authorization server shall verify that the request object 
+is valid. If it is valid, the server shall return 
+the JSON that contains `request_uri`, `aud`, `iss`, and `exp` 
+claims at the top level with `201` HTTP response code. 
+
+The value of these claims shall be as follows: 
+
+* `request_uri` : the request uri corresponding to the request object posted. 
+* `aud` : A JSON string that represents the client identifier of the client that posted the request object. 
+* `iss` : A JSON string that represents the issuer identifier of the authorization server. 
+* `exp` : A JSON number that represents the expiry time of the reuqest uri. 
+
+Following is an example of such a response. 
+
+```
+HTTP/1.1 201 Created
+Date: Tue, 2 May 2017 15:22:31 GMT
+Content-Type: application/json
+{
+    'iss':'https://as.example.com/',
+	'aud':'s6BhdRkqt3',
+	'request_uri':'https://as.example.com/ros/b1f7322e1da61b',
+	'exp':1493738581
+}
+```
+
+### 7.3 Error response
+
+#### 7.3.1 Authorization required
+If the client authorization fails, the authorization server 
+shall return 401 Unauthorizaed HTTP error response. 
+
+#### 7.3.2 Invalid request
+If the request object received is invalid, the authorization server 
+shall return 200 OK with a JSON payload that ...
+(Editor's note. To be completed. )
+
+
+## 8. Security Considerations
 
 * There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token. 
   The two differs in the risk profile and the client may want to differentiate them. 
   To support it, the resouce shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header. 
 
 
-## 8. Privacy Considerations
+## 9. Privacy Considerations
 
 * If the client is to be user per user, the client certificate will provide the means for the web sites 
   that belongs to different administrative domains to collude and collate the user's access. 
   For this reason, public clients that resides on a user's terminal should avoid [MTLS] and use [TOKB] instead. 
 
 
-## 9. Acknowledgement
+## 10. Acknowledgement
 
 (Fill in the names)
 
-## 10. Bibliography
+## 11. Bibliography
 
 * [OFX2.2] Open Financial Exchange 2.2
 * [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
