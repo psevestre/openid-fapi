@@ -115,7 +115,7 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-01
 
 [MTLS] - Mutual TLS Profiles for OAuth Clients
-[MTLS]: https://tools.ietf.org/html/draft-campbell-oauth-mtls-00
+[MTLS]: https://tools.ietf.org/html/draft-campbell-oauth-mtls-01
 
 
 ## 3. Terms and definitions
@@ -173,14 +173,14 @@ The Authorization Server shall support the provisions specified in clause 5.2.2 
 
 In addition, the Authorization server, for the write operation,
 
-* shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
-* shall require the `response_type` values `code id_token` or `code id_token token`; 
-* shall return ID Token as a detached signature to the authorization response; 
-* shall include state hash, `s_hash`, in the ID Token to protect the `state` value; 
-* shall only issue holder of key authorization code, access token, and refresh token for write operations; 
-* shall support [OAUTB] or [MTLS] as a holder of key mechanism; 
-* shall support user authentication at LoA 3 or greater as defined in [X.1254];
-* shall support signed and encrypted ID Tokens
+1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
+1. shall require the `response_type` values `code id_token` or `code id_token token`; 
+1. shall return ID Token as a detached signature to the authorization response; 
+1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value; 
+1. shall only issue holder of key authorization code, access token, and refresh token for write operations; 
+1. shall support [OAUTB] or [MTLS] as a holder of key mechanism; 
+1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
+1. shall support signed and encrypted ID Tokens
 
 Editors' note: The following was in the previsous edition but was removed as we now require hybrid flow. 
 
@@ -195,13 +195,13 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 
 In addition, the Public Client
 
-* shall support [OAUTB] or [MTLS];
-* shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request; 
-* shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC]; 
-* shall require JWS signed ID Token be returned from endpoints;
-* shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
-* shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
-* shall verify that the authorization response was not tampered using ID Token as the detatched signature 
+1. shall support [OAUTB] or [MTLS];
+1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request; 
+1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC]; 
+1. shall require JWS signed ID Token be returned from endpoints;
+1. shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
+1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
+1. shall verify that the authorization response was not tampered using ID Token as the detatched signature 
 
 for write operations.
 
@@ -220,8 +220,8 @@ Editors' note: The following was in the previsous edition but was removed as we 
 
 In addition to the provision to the Public Client and the provisions in clause 5.2.3, the Confidential Client
 
-* shall support [OAUTB] or [MTLS];
-* shall require both JWS singed and JWE encrypted ID Tokens to be returned from endpoints
+1. shall support [OAUTB] or [MTLS];
+1. shall require both JWS singed and JWE encrypted ID Tokens to be returned from endpoints
 
 for write operations.
 
@@ -236,11 +236,10 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return variou
 
 #### 6.2.1 Protected resources provisions
 
-The protected resources supporting this document shall support the provisions specified in clause 6.2.1 Financial API - Part 1: Read Only API Security Profile.
+The protected resources supporting this document 
 
-In addition, the protected resouces
-
-* SHALL adhear to the requirements in [MTLS]. 
+1. shall support the provisions specified in clause 6.2.1 Financial API - Part 1: Read Only API Security Profile;
+1. SHALL adhear to the requirements in [MTLS]. 
 
 ### 6.2.2 Client provisions
 
@@ -323,7 +322,18 @@ shall return 200 OK with a JSON payload that ...
 
 ## 10. Acknowledgement
 
-(Fill in the names)
+Following people contributed heavily towards this document.
+
+* Nat Sakimura (Nomura Research Institute) -- Chair, Editor
+* Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
+* Anthony Nadalin (Microsoft) -- Co-chair
+* Edmund Jay (Illumila) -- Co-editor
+* Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
+* Joseph Heenan (Authlete)
+* Sascha H. Preibisch (CA)
+* John Bradley (Ping Identity)
+* Henrik Bearing (Peercraft)
+(add yourself)
 
 ## 11. Bibliography
 
