@@ -15,11 +15,11 @@ The technology described in this specification was made available from contribut
 
 ##Foreword
 
-OIDF (OpenID Foundation) is an international standardizing body comprised by over 160 participating entities (work group participants). The work of preparing international standards is carried out through OIDF work groups according to OpenID Process. Each participants interested in a subject for which a work group has been established has the right to be represented on that work group. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
+OIDF (OpenID Foundation) is an international standardizing body comprised of over 160 participating entities (work group participants). The work of preparing international standards is carried out through OIDF work groups according to OpenID Process. Each participant interested in a subject for which a work group has been established has the right to be represented on that work group. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
 OpenID Foundation standards are drafted in accordance with the rules given in the OpenID Process.
 
-The main task of work group is to prepare Implementers Draft and Final Draft. Final Draft adopted by the Work Group through consensus are circulated publicly for the public review for 60 days and for the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the members casting a vote.
+The main task of the work group is to prepare Implementers Draft and Final Draft. Final Draft adopted by the Work Group through consensus are circulated publicly for the public review for 60 days and for the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the members casting a vote.
 
 Attention is drawn to the possibility that some of the elements of this document may be the subject of patent rights. OIDF shall not be held responsible for identifying any or all such patent rights.
 
@@ -37,7 +37,7 @@ This part is intended to be used with [RFC6749], [RFC6750], [RFC6736], and [OIDC
 
 ##Introduction
 
-In many cases, Fintech services such as aggregation services uses screen scraping and stores user passwords. This model is both brittle and insecure. To cope with the brittleness, it should utilize an API model with structured data and to cope with insecurity, it should utilize a token model such as OAuth [RFC6749, RFC6750].
+In many cases, Fintech services such as aggregation services use screen scraping and stores user passwords. This model is both brittle and insecure. To cope with the brittleness, it should utilize an API model with structured data and to cope with insecurity, it should utilize a token model such as OAuth [RFC6749, RFC6750].
 
 This working group aims to rectify the situation by developing a REST/JSON model protected by OAuth. Specifically, the FAPI WG aims to provide JSON data schemas, security and privacy recommendations and protocols to:
 
@@ -49,12 +49,12 @@ Both commercial and investment banking accounts as well as insurance, and credit
 
 ### Notational Conventions
 
-The key words "shall", "shall not", 
+The keywords "shall", "shall not", 
 "should", "should not", "may", and
 "can" in this document are to be interpreted as described in 
 ISO Directive Part 2. 
-These key words are not used as dictionary terms such that 
-any occurence of them shall be interpreted as key words 
+These keywords are not used as dictionary terms such that 
+any occurrence of them shall be interpreted as keywords 
 and are not to be interpreted with their natural language meanings. 
 
 #**Financial Services – Financial API - Part 2: Read and Write API Security Profile **
@@ -144,17 +144,17 @@ For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RF
 
 The OIDF Financial API (FAPI) is a REST API that provides JSON data representing accounts and transactions related data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
-These API accesses have several levels of risks associated to them. Read and write access has high financial risk. As such, the characteristics required of the tokens are also different.
+These API accesses have several levels of risks associated with them. Read and write access has a higher financial risk than read-only access. As such, the characteristics required of the tokens are also different.
 
-In the Part 2, security provisions for the server and client that is appropriate for read and write access to the APIs are described 
-and for this purpose, the following new parameter is defined. 
+In Part 2, security provisions for the server and client that is appropriate for read and write access to the APIs are described.  
+For this purpose, the following new parameter is defined. 
 
 ** s_hash ** 
 
 State hash value. Its value is the base64url encoding of the 
 left-most half of the hash of the octets of the ASCII representation 
 of the state value, where the hash algorithm used is the hash algorithm used 
-in the alg Header Parameter of the ID Token's JOSE Header. For instance, 
+in the `alg` Header Parameter of the ID Token's JOSE Header. For instance, 
 if the alg is HS512, hash the code value with SHA-512, then take the left-most 256 bits and base64url encode them. 
 The `s_hash` value is a case sensitive string.
 
@@ -163,7 +163,7 @@ The `s_hash` value is a case sensitive string.
 
 #### 5.2.1 Introduction
 
-Read and Write Access carries high financial risk, so the protection level is higher than Read Only Access.
+Read and Write Access carries high financial risk, so the protection level is higher than Read-Only Access.
 
 As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following to the Read and Write API of the FAPI.
 
@@ -182,12 +182,12 @@ In addition, the Authorization server, for the write operation,
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
 1. shall support signed and encrypted ID Tokens
 
-Editors' note: The following was in the previsous edition but was removed as we now require hybrid flow. 
+Editors' note: The following was in the pervious edition but was removed as we now require hybrid flow. 
 
     * shall verify that the pre-registered value for the following names are included in the request object;
         * `resources`: array of resources identifiers that the token will be used against;
-	    * `authz_ep`: the uri to which the authorization request was intended to be sent;
-	    * `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+     * `authz_ep`: the URI to which the authorization request was intended to be sent;
+     * `token_ep`: the URI to which the authorization code will be sent to if 'code' or 'hybrid' flow was used;
 
 #### 5.2.3 Public Client
 
@@ -201,27 +201,27 @@ In addition, the Public Client
 1. shall require JWS signed ID Token be returned from endpoints;
 1. shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
 1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
-1. shall verify that the authorization response was not tampered using ID Token as the detatched signature 
+1. shall verify that the authorization response was not tampered using ID Token as the detached signature 
 
 for write operations.
 
-To verify that the authorization response was not tampered using ID TOken as the detatched signature, the client shall verify that `s_hash` value 
+To verify that the authorization response was not tampered using ID Token as the detached signature, the client shall verify that `s_hash` value 
 is equal to the value calculated from the `state` value in the authorization response in addition to 
 all the requirements in 3.3.2.12 of [OIDC]. 
 
-Editors' note: The following was in the previsous edition but was removed as we now require hybrid flow. 
+Editors' note: The following was in the previous edition but was removed as we now require hybrid flow. 
 
     The `request` object shall include the pre-registered values for the following parameters:
     * `resources`: array of resources identifiers that the token will be used against;
-	* `authz_ep`: the uri to which the authorization request was intended to be sent;
-	* `token_ep`: the uri to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
+ * `authz_ep`: the URI to which the authorization request was intended to be sent;
+ * `token_ep`: the URI to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
 
 #### 5.2.4 Confidential Client
 
-In addition to the provision to the Public Client and the provisions in clause 5.2.3, the Confidential Client
+In addition to the provision to the Public Client and the provisions of clause 5.2.3, the Confidential Client
 
 1. shall support [OAUTB] or [MTLS];
-1. shall require both JWS singed and JWE encrypted ID Tokens to be returned from endpoints
+1. shall require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints
 
 for write operations.
 
@@ -239,7 +239,7 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return variou
 The protected resources supporting this document 
 
 1. shall support the provisions specified in clause 6.2.1 Financial API - Part 1: Read Only API Security Profile;
-1. SHALL adhear to the requirements in [MTLS]. 
+1. SHALL adhere to the requirements in [MTLS]. 
 
 ### 6.2.2 Client provisions
 
@@ -278,7 +278,7 @@ The value of these claims shall be as follows:
 * `request_uri` : the request uri corresponding to the request object posted. 
 * `aud` : A JSON string that represents the client identifier of the client that posted the request object. 
 * `iss` : A JSON string that represents the issuer identifier of the authorization server. 
-* `exp` : A JSON number that represents the expiry time of the reuqest uri. 
+* `exp` : A JSON number that represents the expiry time of the request URI. 
 
 Following is an example of such a response. 
 
@@ -288,9 +288,9 @@ Date: Tue, 2 May 2017 15:22:31 GMT
 Content-Type: application/json
 {
     'iss':'https://as.example.com/',
-	'aud':'s6BhdRkqt3',
-	'request_uri':'https://as.example.com/ros/b1f7322e1da61b',
-	'exp':1493738581
+ 'aud':'s6BhdRkqt3',
+ 'request_uri':'https://as.example.com/ros/b1f7322e1da61b',
+ 'exp':1493738581
 }
 ```
 
@@ -298,7 +298,7 @@ Content-Type: application/json
 
 #### 7.3.1 Authorization required
 If the client authorization fails, the authorization server 
-shall return 401 Unauthorizaed HTTP error response. 
+shall return 401 Unauthorized HTTP error response. 
 
 #### 7.3.2 Invalid request
 If the request object received is invalid, the authorization server 
@@ -310,14 +310,14 @@ shall return 200 OK with a JSON payload that ...
 
 * There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token. 
   The two differs in the risk profile and the client may want to differentiate them. 
-  To support it, the resouce shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header. 
+  To support it, the resource shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header. 
 
 
 ## 9. Privacy Considerations
 
-* If the client is to be user per user, the client certificate will provide the means for the web sites 
+* If the client is to be user per user, the client certificate will provide the means for the websites 
   that belongs to different administrative domains to collude and collate the user's access. 
-  For this reason, public clients that resides on a user's terminal should avoid [MTLS] and use [TOKB] instead. 
+  For this reason, public clients that reside on a user's terminal should avoid [MTLS] and use [TOKB] instead. 
 
 
 ## 10. Acknowledgement
