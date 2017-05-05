@@ -315,9 +315,22 @@ If the request from the client per a time period goes beyond the number the auth
 
 ## 8. Security Considerations
 
-* There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token. 
-  The two differs in the risk profile and the client may want to differentiate them. 
-  To support it, the resource shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header. 
+### 8.1 Uncertainty around the resouce server's handling of the access token
+There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token. 
+The two differs in the risk profile and the client may want to differentiate them. 
+To support it, the resource shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header. 
+
+### 8.2 Authorization code phishing resistance
+When the FAPI client uses [MTLS] or [TOKB], since the authorization code is bound to the TLS channel, it is authorization code phishing resistant as the phished authorization code cannot be used. 
+
+### 8.3 Request object endpoint phishing
+An attacker can social engineer and have the administrator of the client to set the request object endpoint to one of the URL at the attacker's control. In this case, sensitive information included in the request object will be revealed to the attacker. To prevent this, the authorization server should communicate to the client developer of the proper change process repeatedly so that the client developers are going to be less susceptible to such an social engineering. 
+
+### 8.4 IdP Mix-up attack
+
+### 8.5 Response parameter injection attack
+
+
 
 
 ## 9. Privacy Considerations
