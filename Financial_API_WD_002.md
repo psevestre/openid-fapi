@@ -251,8 +251,6 @@ The client supporting this document shall support the provisions specified in cl
 
 Request object endpoint is a REST API at the authorization server 
 that accepts a signed request object as HTTPS POST payload. 
-The authorization server shall authenticate the client 
-before accepting the payload. 
 
 Following is an example of such request. 
 
@@ -269,16 +267,16 @@ zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
 ### 7.2 Successful response
 
 The authorization server shall verify that the request object 
-is valid. If it is valid, the server shall return 
+is valid and the signature is correct. If it is fine, the server shall return 
 the JSON that contains `request_uri`, `aud`, `iss`, and `exp` 
-claims at the top level with `201` HTTP response code. 
+claims at the top level with `201 Created` HTTP response code. 
 
 The value of these claims shall be as follows: 
 
-* `request_uri` : the request uri corresponding to the request object posted. 
+* `request_uri` : The request uri corresponding to the request object posted. Note that it can be either URL or URN. It shall be based on a cryptographic random so that it is difficult to predict for the attacker. 
 * `aud` : A JSON string that represents the client identifier of the client that posted the request object. 
-* `iss` : A JSON string that represents the issuer identifier of the authorization server. 
-* `exp` : A JSON number that represents the expiry time of the request URI. 
+* `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server. 
+* `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519]. 
 
 Following is an example of such a response. 
 
@@ -289,21 +287,30 @@ Content-Type: application/json
 {
     'iss':'https://as.example.com/',
  'aud':'s6BhdRkqt3',
- 'request_uri':'https://as.example.com/ros/b1f7322e1da61b',
+ 'request_uri':'urn:example:MTAyODAK',
  'exp':1493738581
 }
 ```
 
-### 7.3 Error response
+### 7.3 Error responses
 
 #### 7.3.1 Authorization required
-If the client authorization fails, the authorization server 
-shall return 401 Unauthorized HTTP error response. 
+If the signature validation fails, the authorization server 
+shall return `401 Unauthorized` HTTP error response. 
 
 #### 7.3.2 Invalid request
 If the request object received is invalid, the authorization server 
-shall return 200 OK with a JSON payload that ...
-(Editor's note. To be completed. )
+shall return `400 Bad Request` HTTP error response. 
+
+#### 7.3.3 Method Not Allowed
+If the request did not use POST, the authorization server shall return `405 Method Not Allowed` HTTP error response. 
+
+#### 7.3.4 Request entity too large
+If the request size was beyond the upper bound that the authorization server allows, the authorization server shall return `413 Request Entity Too Large` HTTP error response. 
+
+#### 7.3.5 Too many requests
+If the request from the client per a time period goes beyond the number the authorization server allows, the authorization server shall return `429 Too Many Requests` HTTP error response. 
+
 
 
 ## 8. Security Considerations
@@ -315,8 +322,8 @@ shall return 200 OK with a JSON payload that ...
 
 ## 9. Privacy Considerations
 
-* If the client is to be user per user, the client certificate will provide the means for the websites 
-  that belongs to different administrative domains to collude and collate the user's access. 
+* If the client is to be used by a single user, the client certificate will provide the means for the websites 
+  that belongs to different administrative domains to collude and correlate the user's access. 
   For this reason, public clients that reside on a user's terminal should avoid [MTLS] and use [TOKB] instead. 
 
 
