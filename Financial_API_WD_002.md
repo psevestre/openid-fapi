@@ -41,17 +41,17 @@ In many cases, Fintech services such as aggregation services use screen scraping
 
 Financial API aims to rectify the situation by developing a REST/JSON model protected by OAuth. However, just asking to use OAuth is too vague as there are many implementation choices. OAuth is a framework which can cover a wide range of use-cases thus some implementation choices are easy to implement but less secure and some implementation choices are harder to implement but more secure. Financial services on the internet is a use-case that requires more secure implementation choices. That is, OAuth needs to be profiled to be used in the financial use-cases.
 
-This document is a Part 2 of a set of document that specifies Financial API. It provides a profile of OAuth that is suitable to be used in the write access to the financial data also known as the transactional access. To achieve it, this part of the document specifies the control against such attacks like authorization request tampering, the authorization response tampering including code injection and the state injection, token request phishing, etc. More details are available in the security consideration section. 
+This document is a Part 2 of a set of document that specifies Financial API. It provides a profile of OAuth that is suitable to be used in the write access to the financial data also known as the transactional access. To achieve it, this part of the document specifies the control against such attacks like authorization request tampering, the authorization response tampering including code injection and the state injection, token request phishing, etc. More details are available in the security consideration section.
 
 ### Notational Conventions
 
-The keywords "shall", "shall not", 
+The keywords "shall", "shall not",
 "should", "should not", "may", and
-"can" in this document are to be interpreted as described in 
-ISO Directive Part 2 [ISODIR2]. 
-These keywords are not used as dictionary terms such that 
-any occurrence of them shall be interpreted as keywords 
-and are not to be interpreted with their natural language meanings. 
+"can" in this document are to be interpreted as described in
+ISO Directive Part 2 [ISODIR2].
+These keywords are not used as dictionary terms such that
+any occurrence of them shall be interpreted as keywords
+and are not to be interpreted with their natural language meanings.
 
 #**Financial Services – Financial API - Part 2: Read and Write API Security Profile **
 
@@ -95,6 +95,9 @@ The following referenced documents are indispensable for the application of this
 
 [RFC6125] - Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 [RFC6125]: https://tools.ietf.org/html/rfc6125
+
+[RFC6819] - OAuth 2.0 Threat Model and Security Considerations
+[RFC6819]: https://tools.ietf.org/html/rfc6819
 
 BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-oauth-native-apps-03)
 
@@ -147,16 +150,16 @@ The OIDF Financial API (FAPI) is a REST API that provides JSON data representing
 
 These API accesses have several levels of risks associated with them. Read and write access has a higher financial risk than read-only access. As such, the characteristics required of the tokens are also different. Investigations of OAuth threats have revealed that OAuth clients are susceptible to malicious endpoints and IdP mix-up attacks. Malicious endpoints attack utilizes a mix a honest and rogue endpoints in the discovery metadata to trick the client into passing an authorization code and client credentials to a rogue endpoint. IdP mix-up attacks involve a rogue IdP that returns the same `client_id` as a honest IdP. This specification defines security measures to mitigate these attacks so that the client have confidence in the corresponding authorization server.
 
-In Part 2, security provisions for the server and client that is appropriate for read and write access to the APIs are described.  
-For this purpose, the following new parameter is defined. 
+In Part 2, security provisions for the server and client that is appropriate for read and write access to the APIs are described.
+For this purpose, the following new parameter is defined.
 
-** s_hash ** 
+** s_hash **
 
-State hash value. Its value is the base64url encoding of the 
-left-most half of the hash of the octets of the ASCII representation 
-of the state value, where the hash algorithm used is the hash algorithm used 
-in the `alg` Header Parameter of the ID Token's JOSE Header. For instance, 
-if the alg is HS512, hash the code value with SHA-512, then take the left-most 256 bits and base64url encode them. 
+State hash value. Its value is the base64url encoding of the
+left-most half of the hash of the octets of the ASCII representation
+of the state value, where the hash algorithm used is the hash algorithm used
+in the `alg` Header Parameter of the ID Token's JOSE Header. For instance,
+if the alg is HS512, hash the code value with SHA-512, then take the left-most 256 bits and base64url encode them.
 The `s_hash` value is a case sensitive string.
 
 
@@ -175,15 +178,15 @@ The Authorization Server shall support the provisions specified in clause 5.2.2 
 In addition, the Authorization server, for the write operation,
 
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
-1. shall require the `response_type` values `code id_token` or `code id_token token`; 
-1. shall return ID Token as a detached signature to the authorization response; 
-1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value; 
-1. shall only issue holder of key authorization code, access token, and refresh token for write operations; 
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism; 
+1. shall require the `response_type` values `code id_token` or `code id_token token`;
+1. shall return ID Token as a detached signature to the authorization response;
+1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value;
+1. shall only issue holder of key authorization code, access token, and refresh token for write operations;
+1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
 1. shall support signed and encrypted ID Tokens
 
-Editors' note: The following was in the pervious edition but was removed as we now require hybrid flow. 
+Editors' note: The following was in the pervious edition but was removed as we now require hybrid flow.
 
     * shall verify that the pre-registered value for the following names are included in the request object;
         * `resources`: array of resources identifiers that the token will be used against;
@@ -197,20 +200,20 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 In addition, the Public Client
 
 1. shall support [OAUTB] or [MTLS];
-1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request; 
-1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC]; 
+1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
+1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC];
 1. shall require JWS signed ID Token be returned from endpoints;
 1. shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
 1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
-1. shall verify that the authorization response was not tampered using ID Token as the detached signature 
+1. shall verify that the authorization response was not tampered using ID Token as the detached signature
 
 for write operations.
 
-To verify that the authorization response was not tampered using ID Token as the detached signature, the client shall verify that `s_hash` value 
-is equal to the value calculated from the `state` value in the authorization response in addition to 
-all the requirements in 3.3.2.12 of [OIDC]. 
+To verify that the authorization response was not tampered using ID Token as the detached signature, the client shall verify that `s_hash` value
+is equal to the value calculated from the `state` value in the authorization response in addition to
+all the requirements in 3.3.2.12 of [OIDC].
 
-Editors' note: The following was in the previous edition but was removed as we now require hybrid flow. 
+Editors' note: The following was in the previous edition but was removed as we now require hybrid flow.
 
     The `request` object shall include the pre-registered values for the following parameters:
     * `resources`: array of resources identifiers that the token will be used against;
@@ -237,10 +240,10 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return variou
 
 #### 6.2.1 Protected resources provisions
 
-The protected resources supporting this document 
+The protected resources supporting this document
 
 1. shall support the provisions specified in clause 6.2.1 Financial API - Part 1: Read Only API Security Profile;
-1. SHALL adhere to the requirements in [MTLS]. 
+1. SHALL adhere to the requirements in [MTLS].
 
 ### 6.2.2 Client provisions
 
@@ -250,10 +253,10 @@ The client supporting this document shall support the provisions specified in cl
 
 ### 7.1 Request
 
-Request object endpoint is a REST API at the authorization server 
-that accepts a signed request object as HTTPS POST payload. 
+Request object endpoint is a REST API at the authorization server
+that accepts a signed request object as HTTPS POST payload.
 
-Following is an example of such request. 
+Following is an example of such request.
 
 ```
 POST https://as.example.com/ros/
@@ -267,19 +270,19 @@ zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
 
 ### 7.2 Successful response
 
-The authorization server shall verify that the request object 
-is valid and the signature is correct. If it is fine, the server shall return 
-the JSON that contains `request_uri`, `aud`, `iss`, and `exp` 
-claims at the top level with `201 Created` HTTP response code. 
+The authorization server shall verify that the request object
+is valid and the signature is correct. If it is fine, the server shall return
+the JSON that contains `request_uri`, `aud`, `iss`, and `exp`
+claims at the top level with `201 Created` HTTP response code.
 
-The value of these claims shall be as follows: 
+The value of these claims shall be as follows:
 
-* `request_uri` : The request uri corresponding to the request object posted. Note that it can be either URL or URN. It shall be based on a cryptographic random so that it is difficult to predict for the attacker. 
-* `aud` : A JSON string that represents the client identifier of the client that posted the request object. 
-* `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server. 
-* `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519]. 
+* `request_uri` : The request uri corresponding to the request object posted. Note that it can be either URL or URN. It shall be based on a cryptographic random so that it is difficult to predict for the attacker.
+* `aud` : A JSON string that represents the client identifier of the client that posted the request object.
+* `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
+* `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
 
-Following is an example of such a response. 
+Following is an example of such a response.
 
 ```
 HTTP/1.1 201 Created
@@ -296,50 +299,58 @@ Content-Type: application/json
 ### 7.3 Error responses
 
 #### 7.3.1 Authorization required
-If the signature validation fails, the authorization server 
-shall return `401 Unauthorized` HTTP error response. 
+If the signature validation fails, the authorization server
+shall return `401 Unauthorized` HTTP error response.
 
 #### 7.3.2 Invalid request
-If the request object received is invalid, the authorization server 
-shall return `400 Bad Request` HTTP error response. 
+If the request object received is invalid, the authorization server
+shall return `400 Bad Request` HTTP error response.
 
 #### 7.3.3 Method Not Allowed
-If the request did not use POST, the authorization server shall return `405 Method Not Allowed` HTTP error response. 
+If the request did not use POST, the authorization server shall return `405 Method Not Allowed` HTTP error response.
 
 #### 7.3.4 Request entity too large
-If the request size was beyond the upper bound that the authorization server allows, the authorization server shall return `413 Request Entity Too Large` HTTP error response. 
+If the request size was beyond the upper bound that the authorization server allows, the authorization server shall return `413 Request Entity Too Large` HTTP error response.
 
 #### 7.3.5 Too many requests
-If the request from the client per a time period goes beyond the number the authorization server allows, the authorization server shall return `429 Too Many Requests` HTTP error response. 
+If the request from the client per a time period goes beyond the number the authorization server allows, the authorization server shall return `429 Too Many Requests` HTTP error response.
 
 
 
 ## 8. Security Considerations
 
-### 8.1 Uncertainty around the resource server's handling of the access token
-There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token. 
-The two differs in the risk profile and the client may want to differentiate them. 
-To support it, the resource shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header. 
+### 8.1 Introduction
+As a profile of The OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations. 
 
-### 8.2 Authorization code phishing resistance
+### 8.2 Mitigations for threats in RFC6819
+
+#### 8.2.1 Authorization code phishing resistance
 When the FAPI client uses [MTLS] or [TOKB], since the authorization code is bound to the TLS channel, it is authorization code phishing resistant as the phished authorization code cannot be used. 
 
-### 8.3 Request object endpoint phishing resistance
-An attacker can social engineer and have the administrator of the client to set the request object endpoint to one of the URL under the attacker's control. In this case, sensitive information included in the request object will be revealed to the attacker. To prevent this, the authorization server should communicate to the client developer of the proper change process repeatedly so that the client developers are going to be less susceptible to such a social engineering. 
+#### 8.2.2 Access token phishing
+When the FAPI client uses [MTLS] or [TOKB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
 
-### 8.4 Access token phishing
+#### 8.2.3 Client credential and code phishing at token endpoint
+When the FAPI client uses [MTLS] or [TOKB], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
 
-### 8.5 User credential phishing 
 
-### 8.6 IdP Mix-up attack
-In this attack, the client has registered multiple IdPs and one of the them is a rogue IdP that returns the same `client_id` that belongs to one of the honest IdPs. When a user clicks on a malicious link or visits a compromised site, an authorization request is sent to the rogue Idp. The rogue Idp then redirects the client to the honest IdP that has the same `client_id`. If the user is already logged on at the honest IdP, then the authentication may be skipped and a code is generated and returned to the client. Since the client was interacting with the rogue IdP, the code is sent to the rogud IdPs token endpoint. At the point, the attacker has a valid code that can be exchanged for an Access Token at the honest IdP. 
+### 8.3 Uncertainty around the resource server's handling of the access token
+There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token.
+The two differs in the risk profile and the client may want to differentiate them.
+To support it, the resource shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header.
+
+### 8.4 Request object endpoint phishing resistance
+An attacker can social engineer and have the administrator of the client to set the request object endpoint to one of the URL under the attacker's control. In this case, sensitive information included in the request object will be revealed to the attacker. To prevent this, the authorization server should communicate to the client developer of the proper change process repeatedly so that the client developers are going to be less susceptible to such a social engineering.
+
+### 8.5 IdP Mix-up attack
+In this attack, the client has registered multiple IdPs and one of the them is a rogue IdP that returns the same `client_id` that belongs to one of the honest IdPs. When a user clicks on a malicious link or visits a compromised site, an authorization request is sent to the rogue Idp. The rogue Idp then redirects the client to the honest IdP that has the same `client_id`. If the user is already logged on at the honest IdP, then the authentication may be skipped and a code is generated and returned to the client. Since the client was interacting with the rogue IdP, the code is sent to the rogud IdPs token endpoint. At the point, the attacker has a valid code that can be exchanged for an Access Token at the honest IdP.
 By registering a unique `redirect_uri`, storing it before each session, and then comparing the current callback `redirect_uri` to that stored in the session, the client can mitigate this attack. At the same time, the honest IdP will be able to detect that the `redirect_uri` in the authorization request does not match any of the registered ones and return an error.
 The use of a `request` object or `request_uri` in the authorization request will prevent tempering with the request parameters and the use of a hybrid flow will bind the current session's `state` parameter to ID Token via the ID Token's `s_hash` claim.
 
-### 8.7 Malicious endpoints attack
-This attack lures the user to login to a rogue IdP at the client. The client performs discovery for the rogue IdP and receives discovery information that contains a honest IdP's registration and authorization endpoint and the rogue IdP's own token and userinfo endpoints. The client performs registration and then authentication at the honest IdP. After receiving a code, it sends it to the rogue IdP's token endpoint along with the honest IdP's token endpoint authentication credentials(`client_id`/`client_secret`). The attacker now has the code and credentials to exchange for an Access Token. 
+### 8.6 Malicious endpoints attack
+This attack lures the user to login to a rogue IdP at the client. The client performs discovery for the rogue IdP and receives discovery information that contains a honest IdP's registration and authorization endpoint and the rogue IdP's own token and userinfo endpoints. The client performs registration and then authentication at the honest IdP. After receiving a code, it sends it to the rogue IdP's token endpoint along with the honest IdP's token endpoint authentication credentials(`client_id`/`client_secret`). The attacker now has the code and credentials to exchange for an Access Token.
 
-### 8.8 Response parameter injection attack
+### 8.7 Response parameter injection attack
 
 
 
@@ -347,9 +358,9 @@ This attack lures the user to login to a rogue IdP at the client. The client per
 
 ## 9. Privacy Considerations
 
-* If the client is to be used by a single user, the client certificate will provide the means for the websites 
-  that belongs to different administrative domains to collude and correlate the user's access. 
-  For this reason, public clients that reside on a user's terminal should avoid [MTLS] and use [TOKB] instead. 
+* If the client is to be used by a single user, the client certificate will provide the means for the websites
+  that belongs to different administrative domains to collude and correlate the user's access.
+  For this reason, public clients that reside on a user's terminal should avoid [MTLS] and use [TOKB] instead.
 
 
 ## 10. Acknowledgement
