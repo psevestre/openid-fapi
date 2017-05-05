@@ -145,7 +145,7 @@ For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RF
 
 The OIDF Financial API (FAPI) is a REST API that provides JSON data representing accounts and transactions related data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
-These API accesses have several levels of risks associated with them. Read and write access has a higher financial risk than read-only access. As such, the characteristics required of the tokens are also different.
+These API accesses have several levels of risks associated with them. Read and write access has a higher financial risk than read-only access. As such, the characteristics required of the tokens are also different. Investigations of OAuth threats have revealed that OAuth clients are susceptible to malicious endpoints and IdP mix-up attacks. Malicious endpoints attack utilizes a mix a honest and rogue endpoints in the discovery metadata to trick the client into passing an authorization code and client credentials to a rogue endpoint. IdP mix-up attacks involve a rogue IdP that returns the same `client_id` as a honest IdP. This specification defines security measures to mitigate these attacks so that the client have confidence in the corresponding authorization server.
 
 In Part 2, security provisions for the server and client that is appropriate for read and write access to the APIs are described.  
 For this purpose, the following new parameter is defined. 
@@ -332,10 +332,14 @@ An attacker can social engineer and have the administrator of the client to set 
 ### 8.5 User credential phishing 
 
 ### 8.6 IdP Mix-up attack
+In this attack, the client has registered multiple IdPs and one of the them is a rogue IdP that returns the same `client_id` that belongs to one of the honest IdPs. When a user clicks on a malicious link or visits a compromised site, an authorization request is sent to the rogue Idp. The rogue Idp then redirects the client to the honest IdP that has the same `client_id`. If the user is already logged on at the honest IdP, then the authentication may be skipped and a code is generated and returned to the client. Since the client was interacting with the rogue IdP, the code is sent to the rogud IdPs token endpoint. At the point, the attacker has a valid code that can be exchanged for an Access Token at the honest IdP. 
+By registering a unique `redirect_uri`, storing it before each session, and then comparing the current callback `redirect_uri` to that stored in the session, the client can mitigate this attack. At the same time, the honest IdP will be able to detect that the `redirect_uri` in the authorization request does not match any of the registered ones and return an error.
+The use of a `request` object or `request_uri` in the authorization request will prevent tempering with the request parameters and the use of a hybrid flow will bind the current session's `state` parameter to ID Token via the ID Token's `s_hash` claim.
 
-### 8.7 Response parameter injection attack
+### 8.7 Malicious endpoints attack
+This attack lures the user to login to a rogue IdP at the client. The client performs discovery for the rogue IdP and receives discovery information that contains a honest IdP's registration and authorization endpoint and the rogue IdP's own token and userinfo endpoints. The client performs registration and then authentication at the honest IdP. After receiving a code, it sends it to the rogue IdP's token endpoint along with the honest IdP's token endpoint authentication credentials(`client_id`/`client_secret`). The attacker now has the code and credentials to exchange for an Access Token. 
 
-### 8.6 User credential phishing
+### 8.8 Response parameter injection attack
 
 
 
