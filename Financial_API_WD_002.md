@@ -351,8 +351,11 @@ The use of a `request` object or `request_uri` in the authorization request will
 This attack lures the user to login to a rogue IdP at the client. The client performs discovery for the rogue IdP and receives discovery information that contains a honest IdP's registration and authorization endpoint and the rogue IdP's own token and userinfo endpoints. The client performs registration and then authentication at the honest IdP. After receiving a code, it sends it to the rogue IdP's token endpoint along with the honest IdP's token endpoint authentication credentials(`client_id`/`client_secret`). The attacker now has the code and credentials to exchange for an Access Token.
 
 ### 8.7 Response parameter injection attack
-
-
+This attack occurs when the victim and attacker uses the same relying party client. The attacker is somehow able to
+capture the authorization code and state from the victim's authorization response code and uses them in his own
+authorization response. This can be mitigated by using hybrid flow where the `c_hash`, `at_hash`,
+and `s_hash` can be used to verify the validity of the authorization code, access token,
+and state parameters and verifying that the state is the same as what was stored for the current session.
 
 
 
