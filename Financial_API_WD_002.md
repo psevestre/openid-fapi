@@ -39,20 +39,16 @@ This part is intended to be used with [RFC6749], [RFC6750], [RFC6736], and [OIDC
 
 In many cases, Fintech services such as aggregation services use screen scraping and stores user passwords. This model is both brittle and insecure. To cope with the brittleness, it should utilize an API model with structured data and to cope with insecurity, it should utilize a token model such as OAuth [RFC6749, RFC6750].
 
-This working group aims to rectify the situation by developing a REST/JSON model protected by OAuth. Specifically, the FAPI WG aims to provide JSON data schemas, security and privacy recommendations and protocols to:
+Financial API aims to rectify the situation by developing a REST/JSON model protected by OAuth. However, just asking to use OAuth is too vague as there are many implementation choices. OAuth is a framework which can cover a wide range of use-cases thus some implementation choices are easy to implement but less secure and some implementation choices are harder to implement but more secure. Financial services on the internet is a use-case that requires more secure implementation choices. That is, OAuth needs to be profiled to be used in the financial use-cases.
 
-* enable applications to utilize the data stored in the financial account,
-* enable applications to interact with the financial account, and
-* enable users to control the security and privacy settings.
-
-Both commercial and investment banking accounts as well as insurance, and credit card accounts are to be considered.
+This document is a Part 2 of a set of document that specifies Financial API. It provides a profile of OAuth that is suitable to be used in the write access to the financial data also known as the transactional access. To achieve it, this part of the document specifies the control against such attacks like authorization request tampering, the authorization response tampering including code injection and the state injection, token request phishing, etc. More details are available in the security consideration section. 
 
 ### Notational Conventions
 
 The keywords "shall", "shall not", 
 "should", "should not", "may", and
 "can" in this document are to be interpreted as described in 
-ISO Directive Part 2. 
+ISO Directive Part 2 [ISODIR2]. 
 These keywords are not used as dictionary terms such that 
 any occurrence of them shall be interpreted as keywords 
 and are not to be interpreted with their natural language meanings. 
@@ -75,6 +71,9 @@ This document is applicable to both commercial and investment banking accounts a
 
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
+
+[ISODIR2] - ISO/IEC Directives Part 2
+[ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
 
 [RFC2616] -  Hypertext Transfer Protocol -- HTTP/1.1
 [RFC2616]: https://tools.ietf.org/html/rfc2616
@@ -133,6 +132,8 @@ For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RF
 **FI** – Financial Institution
 
 **HTTP** – Hyper Text Transfer Protocol
+
+**OIDF** - OpenID Foundation
 
 **REST** – Representational State Transfer
 
@@ -315,7 +316,7 @@ If the request from the client per a time period goes beyond the number the auth
 
 ## 8. Security Considerations
 
-### 8.1 Uncertainty around the resouce server's handling of the access token
+### 8.1 Uncertainty around the resource server's handling of the access token
 There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token. 
 The two differs in the risk profile and the client may want to differentiate them. 
 To support it, the resource shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header. 
@@ -323,12 +324,19 @@ To support it, the resource shall not accept a Bearer token if it is supporting 
 ### 8.2 Authorization code phishing resistance
 When the FAPI client uses [MTLS] or [TOKB], since the authorization code is bound to the TLS channel, it is authorization code phishing resistant as the phished authorization code cannot be used. 
 
-### 8.3 Request object endpoint phishing
-An attacker can social engineer and have the administrator of the client to set the request object endpoint to one of the URL at the attacker's control. In this case, sensitive information included in the request object will be revealed to the attacker. To prevent this, the authorization server should communicate to the client developer of the proper change process repeatedly so that the client developers are going to be less susceptible to such an social engineering. 
+### 8.3 Request object endpoint phishing resistance
+An attacker can social engineer and have the administrator of the client to set the request object endpoint to one of the URL under the attacker's control. In this case, sensitive information included in the request object will be revealed to the attacker. To prevent this, the authorization server should communicate to the client developer of the proper change process repeatedly so that the client developers are going to be less susceptible to such a social engineering. 
 
-### 8.4 IdP Mix-up attack
+### 8.4 Access token phishing
 
-### 8.5 Response parameter injection attack
+### 8.5 User credential phishing 
+
+### 8.6 IdP Mix-up attack
+
+### 8.7 Response parameter injection attack
+
+### 8.6 User credential phishing
+
 
 
 
@@ -361,7 +369,6 @@ Following people contributed heavily towards this document.
 * [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
 * [RFC7662] OAuth 2.0 Token Introspection
 * [DDA] Durable Data API, (2015), FS-ISAC
-
 
 
 
