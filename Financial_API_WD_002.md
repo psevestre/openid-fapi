@@ -343,15 +343,15 @@ To support it, the resource shall not accept a Bearer token if it is supporting 
 An attacker can social engineer and have the administrator of the client to set the request object endpoint to one of the URL under the attacker's control. In this case, sensitive information included in the request object will be revealed to the attacker. To prevent this, the authorization server should communicate to the client developer of the proper change process repeatedly so that the client developers are going to be less susceptible to such a social engineering.
 
 ### 8.5 IdP Mix-up attack
-In this attack, the client has registered multiple IdPs and one of the them is a rogue IdP that returns the same `client_id` that belongs to one of the honest IdPs. When a user clicks on a malicious link or visits a compromised site, an authorization request is sent to the rogue Idp. The rogue Idp then redirects the client to the honest IdP that has the same `client_id`. If the user is already logged on at the honest IdP, then the authentication may be skipped and a code is generated and returned to the client. Since the client was interacting with the rogue IdP, the code is sent to the rogud IdPs token endpoint. At the point, the attacker has a valid code that can be exchanged for an Access Token at the honest IdP.
+In this attack, the client has registered multiple IdPs and one of them is a rogue IdP that returns the same `client_id` that belongs to one of the honest IdPs. When a user clicks on a malicious link or visits a compromised site, an authorization request is sent to the rogue Idp. The rogue Idp then redirects the client to the honest IdP that has the same `client_id`. If the user is already logged on at the honest IdP, then the authentication may be skipped and a code is generated and returned to the client. Since the client was interacting with the rogue IdP, the code is sent to the rogue IdP's token endpoint. At the point, the attacker has a valid code that can be exchanged for an Access Token at the honest IdP.
 By registering a unique `redirect_uri`, storing it before each session, and then comparing the current callback `redirect_uri` to that stored in the session, the client can mitigate this attack. At the same time, the honest IdP will be able to detect that the `redirect_uri` in the authorization request does not match any of the registered ones and return an error.
-The use of a `request` object or `request_uri` in the authorization request will prevent tempering with the request parameters and the use of a hybrid flow will bind the current session's `state` parameter to ID Token via the ID Token's `s_hash` claim.
+The use of a `request` object or `request_uri` in the authorization request will prevent tampering with the request parameters and the use of a hybrid flow will bind the current session's `state` parameter to ID Token via the ID Token's `s_hash` claim.
 
 ### 8.6 Malicious endpoints attack
-This attack lures the user to login to a rogue IdP at the client. The client performs discovery for the rogue IdP and receives discovery information that contains a honest IdP's registration and authorization endpoint and the rogue IdP's own token and userinfo endpoints. The client performs registration and then authentication at the honest IdP. After receiving a code, it sends it to the rogue IdP's token endpoint along with the honest IdP's token endpoint authentication credentials(`client_id`/`client_secret`). The attacker now has the code and credentials to exchange for an Access Token.
+This attack lures the user to login to a rogue IdP at the client. The client performs discovery for the rogue IdP and receives discovery information that contains an honest IdP's registration and authorization endpoint and the rogue IdP's own token and userinfo endpoints. The client performs registration and then authentication at the honest IdP. After receiving a code, it sends it to the rogue IdP's token endpoint along with the honest IdP's token endpoint authentication credentials(`client_id`/`client_secret`). The attacker now has the code and credentials to exchange for an Access Token.
 
 ### 8.7 Response parameter injection attack
-This attack occurs when the victim and attacker uses the same relying party client. The attacker is somehow able to
+This attack occurs when the victim and attacker use the same relying party client. The attacker is somehow able to
 capture the authorization code and state from the victim's authorization response code and uses them in his own
 authorization response. This can be mitigated by using hybrid flow where the `c_hash`, `at_hash`,
 and `s_hash` can be used to verify the validity of the authorization code, access token,
@@ -387,7 +387,6 @@ Following people contributed heavily towards this document.
 * [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
 * [RFC7662] OAuth 2.0 Token Introspection
 * [DDA] Durable Data API, (2015), FS-ISAC
-
 
 
 
