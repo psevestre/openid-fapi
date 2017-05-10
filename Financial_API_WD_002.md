@@ -251,12 +251,26 @@ The client supporting this document shall support the provisions specified in cl
 
 ## 7. Request object endpoint
 
-### 7.1 Request
+### 7.1 Introduction
 
-Request object endpoint is a REST API at the authorization server
-that accepts a signed request object as HTTPS POST payload.
+The client may not want to send the request object by value, either because it
+is too large, or because it contains sensitive data and the client doesn't want
+to encrypt the request object. In such cases it is possible to send the request
+object by reference using a `request_uri`.
 
-Following is an example of such request.
+The request URI can be hosted by the client or by the authorization server.
+The advantage of the authorization server hosting the request object is that
+it doesn't have to support outbound requests to a client specified request URI.
+
+This section defines the specification for the authorization server to provide an
+endpoint for a client to exchange a request object for a request URI.
+
+### 7.2 Request
+
+The request object endpoint is a RESTful API endpoint at the authorization server
+that accepts a signed request object as an HTTPS POST payload.
+
+The following is an example of such a request.
 
 ```
 POST https://as.example.com/ros/
@@ -268,21 +282,23 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.ew0KICJpc3MiOiA
 zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
 ```
 
-### 7.2 Successful response
+### 7.3 Successful response
 
 The authorization server shall verify that the request object
-is valid and the signature is correct. If it is fine, the server shall return
-the JSON that contains `request_uri`, `aud`, `iss`, and `exp`
+is valid and the signature is correct as in clause 6.3 of [OIDC].
+
+If the verification is successful, the server shall generate a request URI and
+return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
 claims at the top level with `201 Created` HTTP response code.
 
-The value of these claims shall be as follows:
+The value of these claims in the JSON payload shall be as follows:
 
-* `request_uri` : The request uri corresponding to the request object posted. Note that it can be either URL or URN. It shall be based on a cryptographic random so that it is difficult to predict for the attacker.
+* `request_uri` : The request URI corresponding to the request object posted. Note that it can be either URL or URN. It shall be based on a cryptographic random value so that it is difficult to predict for the attacker.
 * `aud` : A JSON string that represents the client identifier of the client that posted the request object.
-* `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
+* `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
 * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
 
-Following is an example of such a response.
+The following is an example of such a response.
 
 ```
 HTTP/1.1 201 Created
@@ -296,24 +312,28 @@ Content-Type: application/json
 }
 ```
 
-### 7.3 Error responses
+The request URI shall be bound to the client identifier of the client that
+posted the request object. Since the request URI can be replayed, its lifetime
+should be short and preferably one-time use.
+
+### 7.4 Error responses
 
 #### 7.3.1 Authorization required
-If the signature validation fails, the authorization server
+If the4signature validation fails, the authorization server
 shall return `401 Unauthorized` HTTP error response.
 
-#### 7.3.2 Invalid request
+#### 7.4.2 Invalid request
 If the request object received is invalid, the authorization server
 shall return `400 Bad Request` HTTP error response.
 
-#### 7.3.3 Method Not Allowed
+#### 7.4.3 Method Not Allowed
 If the request did not use POST, the authorization server shall return `405 Method Not Allowed` HTTP error response.
 
-#### 7.3.4 Request entity too large
-If the request size was beyond the upper bound that the authorization server allows, the authorization server shall return `413 Request Entity Too Large` HTTP error response.
+#### 7.4.4 Request entity too large
+If the request size was beyond the upper bound that the authorization server allows, the authorization server shall return a `413 Request Entity Too Large` HTTP error response.
 
-#### 7.3.5 Too many requests
-If the request from the client per a time period goes beyond the number the authorization server allows, the authorization server shall return `429 Too Many Requests` HTTP error response.
+#### 7.4.5 Too many requests
+If the request from the client per a time period goes beyond the number the authorization server allows, the authorization server shall return a `429 Too Many Requests` HTTP error response.
 
 
 
