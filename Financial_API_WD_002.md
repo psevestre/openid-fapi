@@ -199,7 +199,7 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 
 In addition, the Public Client
 
-1. shall support [OAUTB];
+1. shall support [OAUTB] as a holder of key mechanism;
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
 1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC];
 1. shall require JWS signed ID Token be returned from endpoints;
@@ -224,7 +224,7 @@ Editors' note: The following was in the previous edition but was removed as we n
 
 In addition to the provision to the Public Client and the provisions of clause 5.2.3, the Confidential Client
 
-1. shall support [OAUTB] or [MTLS];
+1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
 1. shall require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints
 
 for write operations.
