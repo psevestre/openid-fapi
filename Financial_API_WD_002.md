@@ -199,7 +199,7 @@ A Public Client shall support the provisions specified in clause 5.2.3 of Financ
 
 In addition, the Public Client
 
-1. shall support [OAUTB] or [MTLS];
+1. shall support [OAUTB];
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
 1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC];
 1. shall require JWS signed ID Token be returned from endpoints;
@@ -320,12 +320,12 @@ If the request from the client per a time period goes beyond the number the auth
 ## 8. Security Considerations
 
 ### 8.1 Introduction
-As a profile of The OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations. 
+As a profile of The OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations.
 
 ### 8.2 Mitigations for threats in RFC6819
 
 #### 8.2.1 Authorization code phishing resistance
-When the FAPI client uses [MTLS] or [TOKB], since the authorization code is bound to the TLS channel, it is authorization code phishing resistant as the phished authorization code cannot be used. 
+When the FAPI client uses [MTLS] or [TOKB], since the authorization code is bound to the TLS channel, it is authorization code phishing resistant as the phished authorization code cannot be used.
 
 #### 8.2.2 Access token phishing
 When the FAPI client uses [MTLS] or [TOKB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
@@ -387,6 +387,3 @@ Following people contributed heavily towards this document.
 * [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
 * [RFC7662] OAuth 2.0 Token Introspection
 * [DDA] Durable Data API, (2015), FS-ISAC
-
-
-
