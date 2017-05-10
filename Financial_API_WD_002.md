@@ -75,8 +75,8 @@ The following referenced documents are indispensable for the application of this
 [ISODIR2] - ISO/IEC Directives Part 2
 [ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
 
-[RFC2616] -  Hypertext Transfer Protocol -- HTTP/1.1
-[RFC2616]: https://tools.ietf.org/html/rfc2616
+[RFC7230] -  Hypertext Transfer Protocol -- HTTP/1.1
+[RFC7230]: https://tools.ietf.org/html/rfc7230
 
 [RFC6749] - The OAuth 2.0 Authorization Framework
 [RFC6749]: https://tools.ietf.org/html/rfc6749
