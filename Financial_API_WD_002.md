@@ -146,12 +146,21 @@ For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RF
 
 ### 5.1 Introduction
 
-The OIDF Financial API (FAPI) is a REST API that provides JSON data representing accounts and transactional data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
+The OIDF Financial API (FAPI) is a REST API that provides JSON data representing
+accounts and transactional data. These APIs are protected by the
+OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750],
+[RFC7636], and other specifications.
 
-These API accesses have several levels of risks associated with them. Read and write access has a higher financial risk than read-only access. As such, the characteristics required of the tokens are also different. Investigations of OAuth threats have revealed that OAuth clients are susceptible to malicious endpoints and IdP mix-up attacks. Malicious endpoints attack utilizes a mix a honest and rogue endpoints in the discovery metadata to trick the client into passing an authorization code and client credentials to a rogue endpoint. IdP mix-up attacks involve a rogue IdP that returns the same `client_id` as a honest IdP. This specification defines security measures to mitigate these attacks so that the client have confidence in the corresponding authorization server.
+There are different levels of risks associated with access to these APIs.
+Read and write access has a higher financial risk than read-only access. As
+such, the security profiles of the authorization framework protecting these
+APIs are also different. This security profile defines security measures to
+mitigate Malicious Endpoints attacks and IdP Mix-up attacks. It enables the client
+to have confidence in the corresponding authorization server.
 
-In Part 2, security provisions for the server and client that is appropriate for read and write access to the APIs are described.
-For this purpose, the following new parameter is defined.
+This profile describes security provisions for the server and client that are
+appropriate for read and write access. For this purpose, the following new
+parameter is defined.
 
 ** s_hash **
 
