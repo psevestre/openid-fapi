@@ -387,7 +387,16 @@ authorization response. This can be mitigated by using hybrid flow where the `c_
 and `s_hash` can be used to verify the validity of the authorization code, access token,
 and state parameters and verifying that the state is the same as what was stored for the current session.
 
+### 8.8 TLS considerations
+Since confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
 
+Ciphersuites that are listed in section 4.2 of [RFC7525] that support authenticated encryption (AEAD) algorithms
+shall  be  used to ensure TLS message confidentiality and integrity. T
+
+When using TLS, a TLS server certificate check shall be performed, per RFC 6125 [RFC6125].
+
+### 8.9 JWS algorithm considerations
+JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
 
 ## 9. Privacy Considerations
 
