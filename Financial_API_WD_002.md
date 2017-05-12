@@ -354,13 +354,14 @@ As a profile of The OAuth 2.0 Authorization Framework, this specification refere
 ### 8.2 Mitigations for threats in RFC6819
 
 #### 8.2.1 Authorization code phishing resistance
-When the FAPI client uses [MTLS] or [TOKB], since the authorization code is bound to the TLS channel, it is authorization code phishing resistant as the phished authorization code cannot be used.
+When the FAPI client uses [MTLS] or [OAUTB], since the authorization code is bound to the TLS channel,
+it is authorization code phishing resistant as the phished authorization code cannot be used.
 
 #### 8.2.2 Access token phishing
-When the FAPI client uses [MTLS] or [TOKB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
+When the FAPI client uses [MTLS] or [OAUTB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
 
 #### 8.2.3 Client credential and code phishing at token endpoint
-When the FAPI client uses [MTLS] or [TOKB], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
+When the FAPI client uses [MTLS] or [OAUTB], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
 
 
 ### 8.3 Uncertainty around the resource server's handling of the access token
@@ -392,7 +393,7 @@ and state parameters and verifying that the state is the same as what was stored
 
 * If the client is to be used by a single user, the client certificate will provide the means for the websites
   that belongs to different administrative domains to collude and correlate the user's access.
-  For this reason, public clients that reside on a user's terminal should avoid [MTLS] and use [TOKB] instead.
+  For this reason, public clients that reside on a user's terminal should avoid [MTLS] and use [OAUTB] instead.
 
 
 ## 10. Acknowledgement
