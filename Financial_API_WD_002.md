@@ -490,3 +490,4 @@ Following people contributed heavily towards this document.
 * [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
 * [RFC7662] OAuth 2.0 Token Introspection
 * [DDA] Durable Data API, (2015), FS-ISAC
+* [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
