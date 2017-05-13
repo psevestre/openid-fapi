@@ -154,13 +154,37 @@ OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750],
 There are different levels of risks associated with access to these APIs.
 Read and write access has a higher financial risk than read-only access. As
 such, the security profiles of the authorization framework protecting these
-APIs are also different. This security profile defines security measures to
-mitigate Malicious Endpoints attacks and IdP Mix-up attacks. It enables the client
-to have confidence in the corresponding authorization server.
+APIs are also different. 
 
-This profile describes security provisions for the server and client that are
-appropriate for read and write access. For this purpose, the following new
-parameter is defined.
+This profile describes security provisions 
+for the server and client that are
+appropriate for read and write access by defining the measures to 
+mitigate the attacks that leverage on the weak binding 
+of endpoints in [RFC6749] (e.g. Malicious Endpoints attacks, 
+IdP Mix-up attacks) and attacks that involve modification 
+of the authorization requests and responses that are not 
+protected in [RFC6749] by leveraging on 
+OpenID Connect's Hybrid Flow that returns an ID Token 
+in the authorization response. 
+
+While the name ID Token suggests that it is something 
+that provides the identity of the resource owner (subject), 
+it is not necessarily so. While it does identify the 
+authorization server by including the issuer identifier, 
+it is perfctly fine to have ephemeral subject identifier. 
+In this case, the ID Token acts as a detatched signature 
+of the issuer to the authorization response and it was 
+an explicit design decision to make it act as 
+a detatched signature. 
+
+This document leverages on this fact and protects 
+the authorization response by including the 
+hash of all of the unprotected response parameter, 
+i.e. `code` and `state`. 
+
+While the hash of the `code` is defined in [code], 
+the hash of the `state` is not defined. 
+Thus this document defines it as follows. 
 
 ** s_hash **
 
