@@ -411,7 +411,7 @@ This is mitigated by the use of Hybrid flow in which the Honest IdP's issuer ide
 The client then sends the `code` to the token endpoint that is associated with the issuer identifier 
 thus it will not get to the attacker. 
 
-### 8.3.4 Request object endpoint phishing resistance
+#### 8.3.4 Request object endpoint phishing resistance
 An attacker can use social engineering to have the administrator of the client set 
 the request object endpoint to a URL under the attacker's control. In this case, 
 sensitive information included in the request object will be revealed to the attacker. 
