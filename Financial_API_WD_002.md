@@ -467,6 +467,8 @@ JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
 * If the client is to be used by a single user, the client certificate will provide the means for the websites
   that belongs to different administrative domains to collude and correlate the user's access.
   For this reason, public clients that reside on a user's terminal should avoid [MTLS] and use [OAUTB] instead.
+* When claims related to the subject is returned in the ID Token in the front channel, 
+  implementations should consider encrypting the ID Token to lower the risk of personal information disclosure. 
 
 
 ## 10. Acknowledgement
