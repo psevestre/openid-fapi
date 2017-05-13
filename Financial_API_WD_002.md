@@ -442,7 +442,7 @@ with the request parameters.
 IdP confusion attack reported in [SoK: Single Sign-On Security – An Evaluation of OpenID Connect](https://www.nds.rub.de/media/ei/veroeffentlichungen/2017/01/30/oidc-security.pdf)
 is this kind of attack. 
 
-### 8.4.3 Authorizaiton Response parameter injection attack
+#### 8.4.3 Authorizaiton Response parameter injection attack
 This attack occurs when the victim and attacker use the same relying party client. The attacker is somehow able to
 capture the authorization code and state from the victim's authorization response code and uses them in his own
 authorization response. 
