@@ -367,21 +367,41 @@ To support it, the resource shall not accept a Bearer token if it is supporting 
 An attacker can use social engineering to have the administrator of the client set the request object endpoint to a URL under the attacker's control. In this case, sensitive information included in the request object will be revealed to the attacker. To prevent this, the authorization server should communicate to the client developer the proper change process repeatedly to help client developers to be less susceptible to such social engineering.
 
 ### 8.5 IdP Mix-up attack
-In this attack, the client has registered multiple IdPs and one of them is a rogue IdP that returns the same `client_id` that belongs to one of the honest IdPs. When a user clicks on a malicious link or visits a compromised site, an authorization request is sent to the rogue Idp. The rogue Idp then redirects the client to the honest IdP that has the same `client_id`. If the user is already logged on at the honest IdP, then the authentication may be skipped and a code is generated and returned to the client. Since the client was interacting with the rogue IdP, the code is sent to the rogue IdP's token endpoint. At the point, the attacker has a valid code that can be exchanged for an Access Token at the honest IdP.
-By registering a unique `redirect_uri`, storing it before each session, and then comparing the current callback `redirect_uri` to that stored in the session, the client can mitigate this attack. At the same time, the honest IdP will be able to detect that the `redirect_uri` in the authorization request does not match any of the registered ones and return an error.
-The use of a `request` object or `request_uri` in the authorization request will prevent tampering with the request parameters and the use of a hybrid flow will bind the current session's `state` parameter to ID Token via the ID Token's `s_hash` claim.
+In this attack, the client has registered multiple IdPs and one of them is a rogue IdP that returns the same `client_id` 
+that belongs to one of the honest IdPs. When a user clicks on a malicious link or visits a compromised site, 
+an authorization request is sent to the rogue Idp. 
+The rogue Idp then redirects the client to the honest IdP that has the same `client_id`. 
+If the user is already logged on at the honest IdP, 
+then the authentication may be skipped and a code is generated and returned to the client. 
+Since the client was interacting with the rogue IdP, the code is sent to the rogue IdP's token endpoint. 
+At the point, the attacker has a valid code that can be exchanged for an Access Token at the honest IdP. 
+
+This is mitigated by the use of Hybrid flow in which the Honest IdP's issuer identifier is included as the value of `iss`. 
+The client then sends the `code` to the token endpoint that is associated with the issuer identifier 
+thus it will not get to the attacker. 
 
 ### 8.6 Malicious endpoints attack
 This attack lures the user to login to a rogue IdP at the client. The client performs discovery for the rogue IdP and receives discovery information that contains an honest IdP's registration and authorization endpoint and the rogue IdP's own token and userinfo endpoints. The client performs registration and then authentication at the honest IdP. After receiving a code, it sends it to the rogue IdP's token endpoint along with the honest IdP's token endpoint authentication credentials(`client_id`/`client_secret`). The attacker now has the code and credentials to exchange for an Access Token.
 
-### 8.7 Response parameter injection attack
+### 8.7 Authorization Request parameter injection attack
+
+In [RFC6749], the authorization request is sent as query parameter. 
+Although [RFC6749] mandates the user of TLS, the TLS session is terminated in the browser and thus not protected with the browser. 
+Leveraging on it, an attacker can tamper the authorization request and insert his own parameter values. 
+
+The use of a `request` object or `request_uri` in the authorization request will prevent tampering 
+with the request parameters. 
+
+### 8.8 Authorizaiton Response parameter injection attack
 This attack occurs when the victim and attacker use the same relying party client. The attacker is somehow able to
 capture the authorization code and state from the victim's authorization response code and uses them in his own
-authorization response. This can be mitigated by using hybrid flow where the `c_hash`, `at_hash`,
+authorization response. 
+
+This can be mitigated by using hybrid flow where the `c_hash`, `at_hash`,
 and `s_hash` can be used to verify the validity of the authorization code, access token,
 and state parameters and verifying that the state is the same as what was stored for the current session.
 
-### 8.8 TLS considerations
+### 8.9 TLS considerations
 Since confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
 
 Ciphersuites that are listed in section 4.2 of [RFC7525] that support authenticated encryption (AEAD) algorithms
@@ -389,7 +409,7 @@ shall  be  used to ensure TLS message confidentiality and integrity. T
 
 When using TLS, a TLS server certificate check shall be performed, per RFC 6125 [RFC6125].
 
-### 8.9 JWS algorithm considerations
+### 8.10 JWS algorithm considerations
 JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
 
 ## 9. Privacy Considerations
