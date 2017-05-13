@@ -193,14 +193,8 @@ In addition, the Authorization server, for the write operation,
 1. shall only issue holder of key authorization code, access token, and refresh token for write operations;
 1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
-1. shall support signed and encrypted ID Tokens
-
-Editors' note: The following was in the pervious edition but was removed as we now require hybrid flow.
-
-    * shall verify that the pre-registered value for the following names are included in the request object;
-        * `resources`: array of resources identifiers that the token will be used against;
-     * `authz_ep`: the URI to which the authorization request was intended to be sent;
-     * `token_ep`: the URI to which the authorization code will be sent to if 'code' or 'hybrid' flow was used;
+1. shall support signed ID Tokens; and 
+1. should support signed and encrypted ID Token. 
 
 #### 5.2.3 Public Client
 
