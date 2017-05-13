@@ -369,28 +369,35 @@ If the request from the client per a time period goes beyond the number the auth
 ### 8.1 Introduction
 As a profile of The OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations.
 
-### 8.2 Mitigations for threats in RFC6819
-
-#### 8.2.1 Authorization code phishing resistance
-When the FAPI client uses [MTLS] or [OAUTB], since the authorization code is bound to the TLS channel,
-it is authorization code phishing resistant as the phished authorization code cannot be used.
-
-#### 8.2.2 Access token phishing
-When the FAPI client uses [MTLS] or [OAUTB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
-
-#### 8.2.3 Client credential and code phishing at token endpoint
-When the FAPI client uses [MTLS] or [OAUTB], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
-
-
-### 8.3 Uncertainty around the resource server's handling of the access token
+### 8.2 Uncertainty around the resource server's handling of the access token
 There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token.
 The two differs in the risk profile and the client may want to differentiate them.
 To support it, the resource shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header.
 
-### 8.4 Request object endpoint phishing resistance
-An attacker can use social engineering to have the administrator of the client set the request object endpoint to a URL under the attacker's control. In this case, sensitive information included in the request object will be revealed to the attacker. To prevent this, the authorization server should communicate to the client developer the proper change process repeatedly to help client developers to be less susceptible to such social engineering.
+### 8.3 Attacks that involves the weak binding of authorization server endpoints
 
-### 8.5 IdP Mix-up attack
+#### 8.3.1 Introduction
+
+In [RFC6749] and [RFC6750], the endpoints that the authorization server offers are not tightly bound together. 
+There is no notion of authorization server identifier (issuer identifier) and it is not indicated in 
+the authorization response unless the cleint uses different redirection URI per authorization server. 
+While it is assumed in the OAuth model, it is not explicitly spelled out and thus many clients 
+uses the same redirection URI for different authorization server exposing attack surface. 
+Several attacks are identified by now and many of them are explained in more details in [RFC6819] 
+in more detail. 
+
+#### 8.3.2 Client credential and authorization code phishing at token endpoint
+
+In this attack, the client developer is social engineered into believing 
+that the token endpoint has changed to the URL that is controlled by the attacker. 
+As the result, the client sends the `code` and the client secret to 
+the attacker, which will be replayed subsequently. 
+
+When the FAPI client uses [MTLS] or [OAUTB], the authorization code is bound to the TLS channel, 
+any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code 
+is bound to a particular TLS channel.
+
+#### 8.3.3 IdP Mix-up attack
 In this attack, the client has registered multiple IdPs and one of them is a rogue IdP that returns the same `client_id` 
 that belongs to one of the honest IdPs. When a user clicks on a malicious link or visits a compromised site, 
 an authorization request is sent to the rogue Idp. 
@@ -404,19 +411,38 @@ This is mitigated by the use of Hybrid flow in which the Honest IdP's issuer ide
 The client then sends the `code` to the token endpoint that is associated with the issuer identifier 
 thus it will not get to the attacker. 
 
-### 8.6 Malicious endpoints attack
-This attack lures the user to login to a rogue IdP at the client. The client performs discovery for the rogue IdP and receives discovery information that contains an honest IdP's registration and authorization endpoint and the rogue IdP's own token and userinfo endpoints. The client performs registration and then authentication at the honest IdP. After receiving a code, it sends it to the rogue IdP's token endpoint along with the honest IdP's token endpoint authentication credentials(`client_id`/`client_secret`). The attacker now has the code and credentials to exchange for an Access Token.
+### 8.3.4 Request object endpoint phishing resistance
+An attacker can use social engineering to have the administrator of the client set 
+the request object endpoint to a URL under the attacker's control. In this case, 
+sensitive information included in the request object will be revealed to the attacker. 
+To prevent this, the authorization server should communicate to the client developer 
+the proper change process repeatedly to help client developers to be less susceptible to such social engineering.
 
-### 8.7 Authorization Request parameter injection attack
+#### 8.3.5 Access token phishing
+When the FAPI client uses [MTLS] or [OAUTB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
+
+
+### 8.4 Attacks that involves the modification of authorization requests and responses
+
+#### 8.4.1 Introduction
+In [RFC6749] the authorization request and responses are not integrity protected. 
+Thus, an attacker can modify them. 
+
+#### 8.4.2 Authorization Request parameter injection attack
 
 In [RFC6749], the authorization request is sent as query parameter. 
 Although [RFC6749] mandates the user of TLS, the TLS session is terminated in the browser and thus not protected with the browser. 
 Leveraging on it, an attacker can tamper the authorization request and insert his own parameter values. 
 
+Attacks like Malicious Endpoint Attack requires this property to succeed. 
+
 The use of a `request` object or `request_uri` in the authorization request will prevent tampering 
 with the request parameters. 
 
-### 8.8 Authorizaiton Response parameter injection attack
+IdP confusion attack reported in [SoK: Single Sign-On Security – An Evaluation of OpenID Connect](https://www.nds.rub.de/media/ei/veroeffentlichungen/2017/01/30/oidc-security.pdf)
+is this kind of attack. 
+
+### 8.4.3 Authorizaiton Response parameter injection attack
 This attack occurs when the victim and attacker use the same relying party client. The attacker is somehow able to
 capture the authorization code and state from the victim's authorization response code and uses them in his own
 authorization response. 
@@ -425,7 +451,7 @@ This can be mitigated by using hybrid flow where the `c_hash`, `at_hash`,
 and `s_hash` can be used to verify the validity of the authorization code, access token,
 and state parameters and verifying that the state is the same as what was stored for the current session.
 
-### 8.9 TLS considerations
+### 8.5 TLS considerations
 Since confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
 
 Ciphersuites that are listed in section 4.2 of [RFC7525] that support authenticated encryption (AEAD) algorithms
@@ -433,7 +459,7 @@ shall  be  used to ensure TLS message confidentiality and integrity. T
 
 When using TLS, a TLS server certificate check shall be performed, per RFC 6125 [RFC6125].
 
-### 8.10 JWS algorithm considerations
+### 8.6 JWS algorithm considerations
 JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
 
 ## 9. Privacy Considerations
