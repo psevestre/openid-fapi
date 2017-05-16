@@ -172,10 +172,10 @@ that provides the identity of the resource owner (subject),
 it is not necessarily so. While it does identify the 
 authorization server by including the issuer identifier, 
 it is perfctly fine to have ephemeral subject identifier. 
-In this case, the ID Token acts as a detatched signature 
+In this case, the ID Token acts as a detached signature
 of the issuer to the authorization response and it was 
 an explicit design decision to make it act as 
-a detatched signature. 
+a detached signature.
 
 This document leverages on this fact and protects 
 the authorization response by including the 
