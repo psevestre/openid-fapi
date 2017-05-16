@@ -312,7 +312,7 @@ zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
 ### 7.3 Successful response
 
 The authorization server shall verify that the request object
-is valid and the signature is correct as in clause 6.3 of [OIDC].
+is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC].
 
 If the verification is successful, the server shall generate a request URI and
 return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
