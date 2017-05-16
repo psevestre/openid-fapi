@@ -238,13 +238,6 @@ To verify that the authorization response was not tampered using ID Token as the
 is equal to the value calculated from the `state` value in the authorization response in addition to
 all the requirements in 3.3.2.12 of [OIDC].
 
-Editors' note: The following was in the previous edition but was removed as we now require hybrid flow.
-
-    The `request` object shall include the pre-registered values for the following parameters:
-    * `resources`: array of resources identifiers that the token will be used against;
- * `authz_ep`: the URI to which the authorization request was intended to be sent;
- * `token_ep`: the URI to which the authorization code will be sent to, if 'code' or 'hybrid' flow was used;
-
 #### 5.2.4 Confidential Client
 
 In addition to the provision to the Public Client and the provisions of clause 5.2.3, the Confidential Client
