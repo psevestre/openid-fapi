@@ -59,15 +59,13 @@ and are not to be interpreted with their natural language meanings.
 
 ## 1. Scope
 
-This document specifies the method of
+This part of the document specifies the method of
 
 * applications to obtain the OAuth tokens in an appropriately secure manner for financial data access;
-* application to utilize OpenID Connect to identify the customer;
-* representing financial data in JSON format;
-* using the tokens to interact with the REST endpoints that provides financial data; and
-* enabling users to control the security and privacy settings.
+* application to utilize OpenID Connect to identify the customer; and
+* using the tokens to interact with the REST endpoints that provides financial data; 
 
-This document is applicable to both commercial and investment banking accounts as well as insurance, and credit card accounts are to be considered.
+This document is applicable to higher risk use cases which includes commercial and investment banking. 
 
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
