@@ -180,7 +180,7 @@ the authorization response by including the
 hash of all of the unprotected response parameter, 
 i.e. `code` and `state`. 
 
-While the hash of the `code` is defined in [code], 
+While the hash of the `code` is defined in [OIDC], 
 the hash of the `state` is not defined. 
 Thus this document defines it as follows. 
 
