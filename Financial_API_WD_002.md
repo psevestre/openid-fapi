@@ -454,8 +454,12 @@ and state parameters and verifying that the state is the same as what was stored
 ### 8.5 TLS considerations
 Since confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
 
-Ciphersuites that are listed in section 4.2 of [RFC7525] that support authenticated encryption (AEAD) algorithms
-shall  be  used to ensure TLS message confidentiality and integrity. T
+Ciphersuites listed below and also in section 4.2 of [RFC7525] that support authenticated encryption
+(AEAD) algorithms shall  be  used to ensure TLS message confidentiality and integrity:
+* `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
+* `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
+* `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
+* `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
 
 When using TLS, a TLS server certificate check shall be performed, per RFC 6125 [RFC6125].
 
