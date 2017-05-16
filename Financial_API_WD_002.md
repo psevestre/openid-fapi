@@ -172,8 +172,8 @@ authorization server by including the issuer identifier,
 it is perfctly fine to have ephemeral subject identifier. 
 In this case, the ID Token acts as a detached signature
 of the issuer to the authorization response and it was 
-an explicit design decision to make it act as 
-a detached signature.
+an explicit design decision of OpenID Connect Core 
+to make the ID Token act as a detached signature.
 
 This document leverages on this fact and protects 
 the authorization response by including the 
