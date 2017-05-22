@@ -291,10 +291,11 @@ that accepts a signed request object as an HTTPS POST payload.
 The following is an example of such a request.
 
 ```
-POST https://as.example.com/ros/
+POST https://as.example.com/ros/ HTTP/1.1
 Host: as.example.com
 Content-Type: application/jws
 Content-Length: 1288
+
 eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.ew0KICJpc3MiOiA
 (... abbreviated for brevity ...)
 zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
@@ -322,11 +323,12 @@ The following is an example of such a response.
 HTTP/1.1 201 Created
 Date: Tue, 2 May 2017 15:22:31 GMT
 Content-Type: application/json
+
 {
     'iss':'https://as.example.com/',
- 'aud':'s6BhdRkqt3',
- 'request_uri':'urn:example:MTAyODAK',
- 'exp':1493738581
+    'aud':'s6BhdRkqt3',
+    'request_uri':'urn:example:MTAyODAK',
+    'exp':1493738581
 }
 ```
 
