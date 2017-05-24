@@ -37,7 +37,7 @@ This part is intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC
 
 ##Introduction
 
-In many cases, Fintech services such as aggregation services use screen scraping and store user passwords. This model is both brittle and insecure. To cope with the brittleness, it should utilize an API model with structured data and to cope with insecurity, it should utilize a token model such as OAuth [RFC6749, RFC6750].
+In many cases, Fintech services such as aggregation services use screen scraping and store user passwords. This model is both brittle and insecure. To cope with the brittleness, it should utilize an API model with structured data and to cope with insecurity, it should utilize a token model such as OAuth ([RFC6749], [RFC6750]).
 
 Financial API aims to rectify the situation by developing a REST/JSON model protected by OAuth. However, just asking to use OAuth is too vague as there are many implementation choices. OAuth is a framework which can cover a wide range of use-cases thus some implementation choices are easy to implement but less secure and some implementation choices are harder to implement but more secure. Financial services on the internet is a use-case that requires more secure implementation choices. That is, OAuth needs to be profiled to be used in the financial use-cases.
 
@@ -73,7 +73,7 @@ The following referenced documents are indispensable for the application of this
 [ISODIR2] - ISO/IEC Directives Part 2
 [ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
 
-[RFC7230] -  Hypertext Transfer Protocol -- HTTP/1.1
+[RFC7230] - Hypertext Transfer Protocol -- HTTP/1.1
 [RFC7230]: https://tools.ietf.org/html/rfc7230
 
 [RFC6749] - The OAuth 2.0 Authorization Framework
@@ -93,6 +93,9 @@ The following referenced documents are indispensable for the application of this
 
 [RFC6819] - OAuth 2.0 Threat Model and Security Considerations
 [RFC6819]: https://tools.ietf.org/html/rfc6819
+
+[RFC7519] - JSON Web Token (JWT)
+[RFC7519]:https://tools.ietf.org/html/rfc7519
 
 [BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 [BCP195]: https://tools.ietf.org/html/bcp195
