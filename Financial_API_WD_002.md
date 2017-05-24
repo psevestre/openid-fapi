@@ -88,14 +88,14 @@ The following referenced documents are indispensable for the application of this
 [RFC5246] - The Transport Layer Security (TLS) Protocol Version 1.2
 [RFC5246]: https://tools.ietf.org/html/rfc5246
 
-[RFC7525] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
-[RFC7525]: https://tools.ietf.org/html/rfc7525
-
 [RFC6125] - Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 [RFC6125]: https://tools.ietf.org/html/rfc6125
 
 [RFC6819] - OAuth 2.0 Threat Model and Security Considerations
 [RFC6819]: https://tools.ietf.org/html/rfc6819
+
+[BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
+[BCP195]: https://tools.ietf.org/html/bcp195
 
 BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-oauth-native-apps-03)
 
@@ -445,16 +445,19 @@ and `s_hash` can be used to verify the validity of the authorization code, acces
 and state parameters. The server can verify that the state is the same as what was stored for the current session.
 
 ### 8.5 TLS considerations
-Since confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
+As confidential information is being exchanged, all interactions
+shall be encrypted with TLS (HTTPS).
 
-The cipher suites listed below and also in section 4.2 of [RFC7525] that support authenticated encryption
-(AEAD) algorithms shall be used to ensure TLS message confidentiality and integrity:
-* `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
-* `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
-* `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
-* `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
+The recommendations for Secure Use of Transport Layer Security in
+BCP195 shall be followed, with the following additional requirements:
 
-When using TLS, a TLS server certificate check shall be performed, per RFC 6125 [RFC6125].
+1. Only the following 4 cipher suites shall be permitted:
+    * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
+    * `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
+    * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
+    * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
+1. TLS version 1.2 or later shall be used for all communications.
+1. A TLS server certificate check shall be performed, as per [RFC6125].
 
 ### 8.6 JWS algorithm considerations
 JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
