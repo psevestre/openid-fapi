@@ -169,7 +169,7 @@ While the name ID Token suggests that it is something
 that provides the identity of the resource owner (subject), 
 it is not necessarily so. While it does identify the 
 authorization server by including the issuer identifier, 
-it is perfctly fine to have ephemeral subject identifier. 
+it is perfectly fine to have ephemeral subject identifier. 
 In this case, the ID Token acts as a detached signature
 of the issuer to the authorization response and it was 
 an explicit design decision of OpenID Connect Core 
@@ -177,7 +177,7 @@ to make the ID Token act as a detached signature.
 
 This document leverages on this fact and protects 
 the authorization response by including the 
-hash of all of the unprotected response parameter, 
+hash of all of the unprotected response parameters, 
 i.e. `code` and `state`. 
 
 While the hash of the `code` is defined in [OIDC], 
@@ -261,7 +261,7 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return variou
 The protected resources supporting this document
 
 1. shall support the provisions specified in clause 6.2.1 Financial API - Part 1: Read Only API Security Profile;
-1. SHALL adhere to the requirements in [MTLS].
+1. shall adhere to the requirements in [MTLS].
 
 ### 6.2.2 Client provisions
 
@@ -291,10 +291,11 @@ that accepts a signed request object as an HTTPS POST payload.
 The following is an example of such a request.
 
 ```
-POST https://as.example.com/ros/
+POST https://as.example.com/ros/ HTTP/1.1
 Host: as.example.com
 Content-Type: application/jws
 Content-Length: 1288
+
 eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.ew0KICJpc3MiOiA
 (... abbreviated for brevity ...)
 zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
@@ -322,11 +323,12 @@ The following is an example of such a response.
 HTTP/1.1 201 Created
 Date: Tue, 2 May 2017 15:22:31 GMT
 Content-Type: application/json
+
 {
     'iss':'https://as.example.com/',
- 'aud':'s6BhdRkqt3',
- 'request_uri':'urn:example:MTAyODAK',
- 'exp':1493738581
+    'aud':'s6BhdRkqt3',
+    'request_uri':'urn:example:MTAyODAK',
+    'exp':1493738581
 }
 ```
 
@@ -337,7 +339,7 @@ should be short and preferably one-time use.
 ### 7.4 Error responses
 
 #### 7.3.1 Authorization required
-If the4signature validation fails, the authorization server
+If the signature validation fails, the authorization server
 shall return `401 Unauthorized` HTTP error response.
 
 #### 7.4.2 Invalid request
@@ -362,7 +364,7 @@ As a profile of The OAuth 2.0 Authorization Framework, this specification refere
 
 ### 8.2 Uncertainty around the resource server's handling of the access token
 There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token.
-The two differs in the risk profile and the client may want to differentiate them.
+The two differ in the risk profile and the client may want to differentiate them.
 To support it, the resource shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header.
 
 ### 8.3 Attacks that involves the weak binding of authorization server endpoints
@@ -371,9 +373,9 @@ To support it, the resource shall not accept a Bearer token if it is supporting 
 
 In [RFC6749] and [RFC6750], the endpoints that the authorization server offers are not tightly bound together. 
 There is no notion of authorization server identifier (issuer identifier) and it is not indicated in 
-the authorization response unless the cleint uses different redirection URI per authorization server. 
+the authorization response unless the client uses different redirection URI per authorization server. 
 While it is assumed in the OAuth model, it is not explicitly spelled out and thus many clients 
-uses the same redirection URI for different authorization server exposing attack surface. 
+use the same redirection URI for different authorization servers exposing attack surface. 
 Several attacks are identified by now and many of them are explained in more details in [RFC6819] 
 in more detail. 
 
@@ -433,20 +435,20 @@ with the request parameters.
 IdP confusion attack reported in [SoK: Single Sign-On Security – An Evaluation of OpenID Connect](https://www.nds.rub.de/media/ei/veroeffentlichungen/2017/01/30/oidc-security.pdf)
 is this kind of attack. 
 
-#### 8.4.3 Authorizaiton Response parameter injection attack
+#### 8.4.3 Authorization Response parameter injection attack
 This attack occurs when the victim and attacker use the same relying party client. The attacker is somehow able to
 capture the authorization code and state from the victim's authorization response code and uses them in his own
 authorization response. 
 
 This can be mitigated by using hybrid flow where the `c_hash`, `at_hash`,
 and `s_hash` can be used to verify the validity of the authorization code, access token,
-and state parameters and verifying that the state is the same as what was stored for the current session.
+and state parameters. The server can verify that the state is the same as what was stored for the current session.
 
 ### 8.5 TLS considerations
 Since confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
 
-Ciphersuites listed below and also in section 4.2 of [RFC7525] that support authenticated encryption
-(AEAD) algorithms shall  be  used to ensure TLS message confidentiality and integrity:
+The cipher suites listed below and also in section 4.2 of [RFC7525] that support authenticated encryption
+(AEAD) algorithms shall be used to ensure TLS message confidentiality and integrity:
 * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
 * `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
 * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
@@ -460,9 +462,9 @@ JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
 ## 9. Privacy Considerations
 
 * If the client is to be used by a single user, the client certificate will provide the means for the websites
-  that belongs to different administrative domains to collude and correlate the user's access.
+  that belong to different administrative domains to collude and correlate the user's access.
   For this reason, public clients that reside on a user's terminal should avoid [MTLS] and use [OAUTB] instead.
-* When claims related to the subject is returned in the ID Token in the front channel, 
+* When claims related to the subject are returned in the ID Token in the front channel, 
   implementations should consider encrypting the ID Token to lower the risk of personal information disclosure. 
 
 
