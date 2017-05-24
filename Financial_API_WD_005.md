@@ -33,7 +33,7 @@ Financial API consists of the following parts, under the general title Financial
 * Part 4: Protected Data API and Schema - Read only
 * Part 5: Protected Data API and Schema - Read and Write
 
-This part is intended to be used with [RFC6749], [RFC6750], [RFC6736], and [OIDC].
+This part is intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
 ##Introduction
 
