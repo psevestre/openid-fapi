@@ -277,11 +277,17 @@ The client supporting this document shall support the provisions specified in cl
 The client may not want to send the request object by value, either because it
 is too large, or because it contains sensitive data and the client doesn't want
 to encrypt the request object. In such cases it is possible to send the request
-object by reference using a `request_uri`.
+object by reference using a `request_uri`. 
+
+Note that `request_uri` can be either URL or URN. 
+If it is a URL, it shall be based on a cryptographic random value so that it is difficult to predict for the attacker.
 
 The request URI can be hosted by the client or by the authorization server.
 The advantage of the authorization server hosting the request object is that
-it doesn't have to support outbound requests to a client specified request URI.
+it doesn't have to support outbound requests to a client specified request URI 
+nor rely on the entropy of the URI for the confidentiality of the request object. 
+
+When the request object is stored at the authorization server, the `request_uri` value typically is a URN. 
 
 This section defines the specification for the authorization server to provide an
 endpoint for a client to exchange a request object for a request URI.
@@ -289,7 +295,10 @@ endpoint for a client to exchange a request object for a request URI.
 ### 7.2 Request
 
 The request object endpoint is a RESTful API endpoint at the authorization server
-that accepts a signed request object as an HTTPS POST payload.
+that accepts a signed request object as an HTTPS POST payload. 
+The request object needs to be signed for the client authentication and 
+as the evidence of the client submitting the request object, 
+which sometimes is called 'non-repudiation'. 
 
 The following is an example of such a request.
 
@@ -315,7 +324,7 @@ claims at the top level with `201 Created` HTTP response code.
 
 The value of these claims in the JSON payload shall be as follows:
 
-* `request_uri` : The request URI corresponding to the request object posted. Note that it can be either URL or URN. It shall be based on a cryptographic random value so that it is difficult to predict for the attacker.
+* `request_uri` : The request URI corresponding to the request object posted. 
 * `aud` : A JSON string that represents the client identifier of the client that posted the request object.
 * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
 * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
