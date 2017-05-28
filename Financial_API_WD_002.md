@@ -427,7 +427,7 @@ Thus, an attacker can modify them.
 #### 8.4.2 Authorization Request parameter injection attack
 
 In [RFC6749], the authorization request is sent as query parameter. 
-Although [RFC6749] mandates the user of TLS, the TLS session is terminated in the browser and thus not protected with the browser. 
+Although [RFC6749] mandates the user of TLS, the TLS is terminated in the browser and thus not protected within the browser. 
 Leveraging on it, an attacker can tamper the authorization request and insert his own parameter values. 
 
 Attacks like Malicious Endpoint Attack requires this property to succeed. 
@@ -440,12 +440,12 @@ is this kind of attack.
 
 #### 8.4.3 Authorization Response parameter injection attack
 This attack occurs when the victim and attacker use the same relying party client. The attacker is somehow able to
-capture the authorization code and state from the victim's authorization response code and uses them in his own
+capture the authorization code and state from the victim's authorization response and uses them in his own
 authorization response. 
 
 This can be mitigated by using hybrid flow where the `c_hash`, `at_hash`,
 and `s_hash` can be used to verify the validity of the authorization code, access token,
-and state parameters. The server can verify that the state is the same as what was stored for the current session.
+and state parameters. The server can verify that the state is the same as what was stored in the browser session at the time of the authorization request.
 
 ### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions
