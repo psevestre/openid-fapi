@@ -377,7 +377,8 @@ As a profile of The OAuth 2.0 Authorization Framework, this specification refere
 ### 8.2 Uncertainty around the resource server's handling of the access token
 There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token.
 The two differ in the risk profile and the client may want to differentiate them.
-To support it, the resource shall not accept a Bearer token if it is supporting MTLS token with Bearer authorization header.
+The protected resources that conforms to this document shall not accept a plain Bearer token. 
+They shall only support token bound access tokens via [MTLS] or [OAUTB]. 
 
 ### 8.3 Attacks that involves the weak binding of authorization server endpoints
 
