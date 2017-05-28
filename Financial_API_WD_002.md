@@ -490,14 +490,18 @@ Following people contributed heavily towards this document.
 
 * Nat Sakimura (Nomura Research Institute) -- Chair, Editor
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
-* Anthony Nadalin (Microsoft) -- Co-chair
+* Anthony Nadalin (Microsoft) -- Co-chair, SC 27 Liaison
 * Edmund Jay (Illumila) -- Co-editor
 * Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
+* Paul A. Grassi (NIST) -- X9 Liaison
 * Joseph Heenan (Authlete)
 * Sascha H. Preibisch (CA)
 * John Bradley (Ping Identity)
 * Henrik Bearing (Peercraft)
-(add yourself)
+* Tom Jones (Independent) 
+* Axel Nenker (deutsche telekom) 
+* Torsten Lodderstedt (YES)
+* Ralph Bragg (Raidiam)
 
 ## 11. Bibliography
 
