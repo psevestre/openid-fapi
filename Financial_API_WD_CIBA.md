@@ -155,7 +155,7 @@ The following sections specify a profile of CIBA that is suited for financial AP
 
 As it is anticipated the this specification will primary be used for write operations there is no separate read-only profile.
 
-This spec should be ready in conjunction with OpenID Connect MODRNA Client initiated Backchannel Authentication Flow 1.0 [CIBA] and with parts 1 and 2 of the Financial API specification.
+This spec should be ready in conjunction with OpenID Connect MODRNA Client initiated Backchannel Authentication Flow 1.0 and with parts 1 and 2 of the Financial API specification.
 
 #### 5.2.2 Authorization Server
 
@@ -163,25 +163,28 @@ The Authorization Server shall support the provisions specified in clause 5.2.2 
 
 In addition the Authorization server, for all operations,
 
-1. shall only support confidential clients for client initiation backchannel authentication flows;
+1. shall only support confidential clients for client initiated backchannel authentication flows;
 1. shall not allow clients registered for client initiated backchannel authentication to be used for authorization code flows;
-1. shall authenticate the confidential client at the Backchannel Authentication Endpoint using one of the following methods:
+1. shall authenticate the confidential client at the backchannel authentication endpoint using one of the following methods:
+
   1. TLS mutual authentication [TLSM];
-  2. Signed Request Object;
+  1. Signed Request Object;
+
 1. shall require the request object to contain a `jti` claim when it is used for client authentication;
 1. shall ensure that the `auth_req_id` is based on a cryptographic random value so that it is difficult to predict for an attacker;
-1. when interacting with a client in polling mode shall ensure that a successful token polling response can only be sent once for a given auth_req_id;
+1. when interacting with a client in polling mode shall ensure that a successful token polling response can only be sent once for a given `auth_req_id`;
 1. shall require a binding_message in the authentication request;
 1. when sending a successful token notification shall include the access token hash, `at_hash`, in the ID Token;
 1. when sending a token error response to a client notification point, shall include two additional parameters:
+
   1. `auth_req_id`, to allow the client to associate the error to the authentication request;
   1. `id_token`, a detached signature that contains an `auth_req_id` claim to allow the client to verify the source of the error.
 
   **NOTE**: When the authorization server receives an authentication request from a client that is configured in notification mode, the authorization server must associate the attributes required to issue holder of key tokens with the `auth_req_id`. When issuing [MTLS] sender constrained tokens this will be the certificate hash or some other representation of the client certificate used to authenticate at the backchannel authentication endpoint. When issuing [OAUTB] bound tokens this will be the Token Binding ID provided at the backchannel Authentication endpoint.
 
-  **Note:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorise the transaction, as part of the authorisation process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
+  **NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorise the transaction, as part of the authorisation process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
 
-  **Note:** When the client is configured in polling mode, it will be interacting with the token endpoint in order to retrieve access tokens. The same security requirements for this endpoint detailed in Parts 1 and 2 of the Financial API apply.
+  **NOTE:** When the client is configured in polling mode, it will be interacting with the token endpoint in order to retrieve access tokens. The same security requirements for this endpoint detailed in Parts 1 and 2 of the Financial API apply.
 
 #### 5.2.3 Confidential Client
 
@@ -190,11 +193,14 @@ A Confidential Client shall support the provisions specified in clause 5.2.4 of 
 In addition, the Confidential Client
 
 1. shall authenticate against the Backchannel Authentication Endpoint using one of the following methods:
+
   1. TLS mutual authentication [TLSM];
   1. Signed Request Object;
+
 1. shall ensure that the `client_notification_token` is based on a cryptographic random value so that it is difficult to predict for an attacker;
 1. shall include a binding message in the authentication request;
 1. when in polling mode:
+
   1. shall associate the `client_notification_token` sent in the authentication request with the `auth_req_id` received in the successful authentication request acknowledgement;
   1. shall verify that the `client_notification_token` received in a successful token notification is valid;
   1. shall verify that the `auth_req_id` received in a successful token notification matches the `client_notification_token` used to authenticate the notification;
@@ -207,7 +213,7 @@ In addition, the Confidential Client
 
 ### 6.1 Introduction
 
-The provisions detailed in Parts 1 and 2 of the Finanical API specification apply fully. The benefit of the CIBA specification is that once tokens are issued they can be in the same manner as token issued via authorization code flows.
+The provisions detailed in Parts 1 and 2 of the Financial API specification apply fully. The benefit of the CIBA specification is that once tokens are issued they can be in the same manner as token issued via authorization code flows.
 
 ### 6.2 Client Provisions
 
@@ -253,3 +259,5 @@ Following people contributed heavily towards this document.
 * Axel Nenker (deutsche telekom)
 
 ## 11. Bibliography
+
+TODO
