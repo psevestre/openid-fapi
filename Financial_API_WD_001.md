@@ -119,7 +119,7 @@ The following referenced documents are indispensable for the application of this
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
 [MTLS] - Mutual TLS Profile for OAuth 2.0
-[MTLS]: https://tools.ietf.org/html/draft-campbell-oauth-tls-client-auth
+[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
 
 ## 3. Terms and definitions
 For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
