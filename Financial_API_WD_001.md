@@ -118,8 +118,8 @@ The following referenced documents are indispensable for the application of this
 [X.1254] - Entity authentication assurance framework
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
-[TLSM] - Mutual X.509 Transport Layer Security (TLS) Authentication for OAuth Clients
-[TLSM]: https://tools.ietf.org/html/draft-campbell-oauth-tls-client-auth
+[MTLS] - Mutual TLS Profile for OAuth 2.0
+[MTLS]: https://tools.ietf.org/html/draft-campbell-oauth-tls-client-auth
 
 ## 3. Terms and definitions
 For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
@@ -170,7 +170,7 @@ The Authorization Server
 1. should support public clients; 
 1. shall provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used;
 1. shall authenticate the confidential client at the Token Endpoint using one of the following methods:
-    1. TLS mutual authentication [TLSM]; 
+    1. TLS mutual authentication [MTLS]; 
     2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
 1. shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
 1. shall require a key of size 160 bits or larger if elliptic curve algorithms are used for the client authentication;
@@ -230,7 +230,7 @@ A Public Client
 In addition to the provisions for a Public Client, except for [RFC7636] support, a Confidential Client
 
 1. shall support the following methods to authenticate against the Token Endpoint:
-    1. TLS mutual authentication [TLSM]; or 
+    1. TLS mutual authentication [MTLS]; or 
     2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
 1. shall use RSA keys with a minimum 2048 bits if using RSA cryptography; 
 1. shall use Elliptic Curve keys with a minimum of 160 bits if using Elliptic Curve cryptography; and 
