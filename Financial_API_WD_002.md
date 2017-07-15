@@ -115,10 +115,10 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
 [OAUTB] - OAuth 2.0 Token Binding
-[OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-01
+[OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-04
 
-[MTLS] - Mutual TLS Profiles for OAuth Clients
-[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls-00
+[MTLS] - Mutual TLS Profile for OAuth 2.0
+[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls-02
 
 
 ## 3. Terms and definitions
@@ -264,7 +264,7 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return variou
 The protected resources supporting this document
 
 1. shall support the provisions specified in clause 6.2.1 Financial API - Part 1: Read Only API Security Profile;
-1. shall adhere to the requirements in [MTLS].
+1. shall adhere to the requirements in [MTLS] or [OAUTB].
 
 ### 6.2.2 Client provisions
 
