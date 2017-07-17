@@ -266,7 +266,7 @@ The protected resources supporting this document
 1. shall support the provisions specified in clause 6.2.1 Financial API - Part 1: Read Only API Security Profile;
 1. shall adhere to the requirements in [MTLS] or [OAUTB].
 
-### 6.2.2 Client provisions
+#### 6.2.2 Client provisions
 
 The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial API - Part 1: Read Only API Security Profile.
 
@@ -350,7 +350,7 @@ should be short and preferably one-time use.
 
 ### 7.4 Error responses
 
-#### 7.3.1 Authorization required
+#### 7.4.1 Authorization required
 If the signature validation fails, the authorization server
 shall return `401 Unauthorized` HTTP error response.
 
