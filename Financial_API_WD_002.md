@@ -191,9 +191,9 @@ Thus this document defines it as follows.
 
 State hash value. Its value is the base64url encoding of the
 left-most half of the hash of the octets of the ASCII representation
-of the state value, where the hash algorithm used is the hash algorithm used
+of the `state` value, where the hash algorithm used is the hash algorithm used
 in the `alg` Header Parameter of the ID Token's JOSE Header. For instance,
-if the alg is HS512, hash the state value with SHA-512, then take the left-most 256 bits and base64url encode them.
+if the `alg` is `HS512`, hash the state value with SHA-512, then take the left-most 256 bits and base64url encode them.
 The `s_hash` value is a case sensitive string.
 
 
