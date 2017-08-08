@@ -1,4 +1,4 @@
-#Financial Services – Financial API - Part 1: Read Only API Security Profile
+#Financial Services – Financial API - Part 1: Read-Only API Security Profile
 
 ## Warning
 
@@ -6,50 +6,31 @@ This document is not an OIDF International Standard. It is distributed for revie
 
 Recipients of this draft are invited to submit, with their comments, notification of any relevant patent rights of which they are aware and to provide supporting documentation.
 
-## Copyright notice
-The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
-
-The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.
-
-
+## Copyright Notice & License
+The OpenID Foundation (OIDF) maintains a public, written notice of copyright license at: http://openid.net/intellectual-property/copyright-license/ 
 
 ##Foreword
 
-OIDF (OpenID Foundation) is an international standardizing body comprised by over 160 participating entities (work group participants). The work of preparing international standards is carried out through OIDF work groups according to OpenID Process. Each participants interested in a subject for which a work group has been established has the right to be represented on that work group. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
+The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established has the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
-OpenID Foundation standards are drafted in accordance with the rules given in the OpenID Process.
+Financial API consists of the following parts, performed by members of the FAPI Workgroup:
 
-The main task of work group is to prepare Implementers Draft and Final Draft. Final Draft adopted by the Work Group through consensus are circulated publicly for the public review for 60 days and for the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the members casting a vote.
-
-Attention is drawn to the possibility that some of the elements of this document may be the subject of patent rights. OIDF shall not be held responsible for identifying any or all such patent rights.
-
-Financial API - Part 1: Read Only API Security Profile was prepared by OpenID Foundation Financial API Work Group.
-
-Financial API consists of the following parts, under the general title Financial Services — Financial API:
-
-* Part 1: Read Only API Security Profile
+* Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
 * Part 3: Open Data API
-* Part 4: Protected Data API and Schema - Read only
+* Part 4: Protected Data API and Schema - Read-Only
 * Part 5: Protected Data API and Schema - Read and Write
 
-This part is intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
+These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
 ##Introduction
 
-In many cases, Fintech services such as aggregation services use screen scraping and store user passwords. This model is both brittle and insecure. To cope with the brittleness, it should utilize an API model with structured data and to cope with insecurity, it should utilize a token model such as OAuth [RFC6749, RFC6750].
+Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. For example, it is a decades-old common practice of aggregation services to use screen scraping as a method to capture data and tranlate it to another service, such as usernames and passwords. This practice creates security gaps which require financial institutions to allow what ppears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
 
-Financial API aims to rectify the situation by developing a REST/JSON model protected by OAuth. 
-However, just asking to use OAuth is too vague as there are many implementation choices. 
-OAuth is a framework which can cover wide range of use-cases thus some implementation choices are easy to implement but less secure 
-and some implementation choices are harder to implement but more secure. 
-Financial services on the internet is a use-case that requires more secure implementation choices. 
-That is, OAuth needs to be profiled to be used in the financial use-cases. 
+The Financial API aims to provide specific implementation guidelines for financial services to adopt for usecases of online banking by developing a REST/JSON data model protected by specified OAuth profile that is secure. 
 
-This document is a Part 1 of a set of document that specifies Financial API. 
-It provides a profile of OAuth that is suitable to be used in the access of Read Only financial data. 
-An even more secure profile that is suitable for a transactional (i.e., Read/Write) APIs are given in Part 2. 
-Part 3 onwards provides the data schema for specific use-cases. 
+This document is Part 1 of 5 that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in the access of Read-Only financial data. 
+A higher level of security profile suitable for a transactional Read and Write APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use-cases. 
 
 ### Notational Conventions
 
@@ -61,20 +42,20 @@ These key words are not used as dictionary terms such that
 any occurence of them shall be interpreted as key words 
 and are not to be interpreted with their natural language meanings. 
 
-#**Financial Services – Financial API - Part 1: Read Only API Security Profile **
+#**Financial Services – Financial API - Part 1: Read-Only API Security Profile **
 
 [TOC]
 
 ## 1. Scope
 
-This document specifies the method for the application 
+This document specifies the method for an application to:
 
-* to obtain the OAuth tokens in an appropriately secure manner for the read only access to the financial data;
-* to utilize OpenID Connect to identify the customer; and 
-* to use the tokens to read out the financial data from the REST endpoints. 
+* Obtain OAuth tokens in a secure manner for read-only access to financial data;
+* Use OpenID Connect (OIDC) to identify the customer (user); and 
+* Use tokens to read financial data from REST endpoints. 
 
 ## 2. Normative references
-The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
+The following referenced documents are strongly recommended to be used in conjunction with this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 [RFC7230] -  Hypertext Transfer Protocol -- HTTP/1.1
 [RFC7230]: https://tools.ietf.org/html/rfc7230
@@ -121,11 +102,11 @@ The following referenced documents are indispensable for the application of this
 [MTLS] - Mutual TLS Profile for OAuth 2.0
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
 
-## 3. Terms and definitions
-For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
+## 3. Terms and Definitions
+For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
 
-## 4. Symbols and Abbreviated terms
+## 4. Symbols and Abbreviated Terms
 
 **API** – Application Programming Interface
 
@@ -141,26 +122,22 @@ For the purpose of this standard, the terms defined in [RFC6749], [RFC6750], [RF
 
 **TLS** – Transport Layer Security
 
-## 5. Read Only API Security Profile
+## 5. Read-Only API Security Profile
 
 ### 5.1 Introduction
 
-The OIDF Financial API (FAPI) is a REST API that provides JSON data representing accounts and transactions related data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
+The OIDF Financial API (FAPI) is a REST API that provides JSON data representing account and transaction related data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
-These API accesses have several levels of risks associated to them. Read only access is generally speaking associated with lower financial risk than the write access. As such, the characteristics required to the tokens are also different.
+Read-only access is generally viewed to pose a lower risk than the Write access and as such, the characteristics required of the tokens and method to obtain tokens are explained separately.
 
-In the following subclauses, the method to obtain tokens are explained separately.
-
-
-### 5.2 Read Only API Security Provisions
+### 5.2 Read-Only API Security Provisions
 
 #### 5.2.1 Introduction
 
-Read Only Access typically is the lower risk scenario compared to the Write access, so the protection level can also be lower.
-However, since the FAPI would provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires.
+Read-Only access is a lower risk scenario compared to the Write access; therefore the protection level can also be lower.
+However, since the FAPI can provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires.
 
-
-As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following to the Read Only API of the FAPI.
+As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the Read-Only API of the FAPI.
 
 #### 5.2.2 Authorization Server
 
@@ -185,17 +162,17 @@ The Authorization Server
 1. shall return the list of allowed scopes with the issued access token;  
 1. shall provide opaque non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]. 
 1. should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
-1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a Client as in 16.18 of [OIDC].
+1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
 
     **NOTE**: The Financial API server may limit the scopes for the purpose of not implementing certain APIs.
 
-    **NOTE**: Section 4.1.3 of [RFC6749] does not say anything about the `code` reuse, but this document is putting limitation on it as per Section 3.1.3.2 of [OIDC].
+    **NOTE**: Section 4.1.3 of [RFC6749] does not provide guidance regarding `code reuse`, but this document provides limitation on `code reuse` in Section 3.1.3.2 of [OIDC].
 
     **NOTE**: If replay identification of the Authorization Code is not possible, it is desirable to set the validity period of the Authorization Code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the Authorization Code cache if one is used.
 
     **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
 	
-    Further, if it wishes to provide the authenticated user's identifier to the client in the token response, the authorization server
+    Further, if it is desired to provide the authenticated user's identifier to the client in the token response, the authorization server:
 
 1. shall support the authentication request as in Section 3.1.2.1 of [OIDC];
 1. shall perform the authentication request verification as in Section 3.1.2.2 of [OIDC];
@@ -217,7 +194,7 @@ A Public Client
 1. shall adhere to the best practice stated by [O2fNA]; and
 1. shall implement an effective CSRF protection.
 
-    Further, if it wishes to obtain a persistent identifier of the authenticated user, it
+    Further, if it is desired to obtain a persistent identifier of the authenticated user, then it
 
 1. shall include `openid` in the `scope` value; and
 1. shall include `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
@@ -243,9 +220,9 @@ In addition to the provisions for a Public Client, except for [RFC7636] support,
 
 The FAPI endpoints are OAuth 2.0 protected resource endpoints that return financial information for the resource owner associated with the submitted access token.
 
-### 6.2 Read only access provisions
+### 6.2 Read-Only Access Provisions
 
-#### 6.2.1 Protected resources provisions
+#### 6.2.1 Protected Resources Provisions
 
 The resource server with the FAPI endpoints
 
@@ -264,16 +241,16 @@ The resource server with the FAPI endpoints
 1. shall log the value of `x-fapi-interaction-id` in the log entry.
 
 
-    **NOTE**: While this document does not specify the exact method to find out the entity associated with the
+    **NOTE**: While this document does not specify the exact method to obtain the entity associated with the
     access token and the granted scope, the protected resource can use OAuth Token Introspection [RFC7662].
 
     Further, it
 
-1. should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable Java Script Clients to access the endpoint if it decides to provide access to Javascript clients.
+1. should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable JavasScript clients to access the endpoint if it decides to provide access to JavaScript clients.
 
-    **NOTE**: Providing access to Javascript clients has other security implications. Before supporting those clients [RFC6819] should be consulted.
+    **NOTE**: Providing access to JavaScript clients has other security implications. Before supporting those clients [RFC6819] should be consulted.
 
-#### 6.2.2 Client provisions
+#### 6.2.2 Client Provisions
 
 The client supporting this document
 
@@ -299,15 +276,15 @@ The client supporting this document
 
 ### 7.1 TLS Considerations
 
-Since confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
+Since potentially sensitive and confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
 
-### 7.2 Message source authentication failure
+### 7.2 Message Source Authentication Failure
 
 Authorization request and response are not authenticated. 
 For higher risk scenarios, they should be authenticated.
 See Part 2, which uses request object to achieve the message source authentication. 
 
-### 7.3 Message integrity protection failure
+### 7.3 Message Integrity Protection Failure
 
 The authorization request does not have message integrity protection and hence
 request tampering and parameter injection are possible.
@@ -316,13 +293,13 @@ Where such protection is desired, Part 2 should be used.
 The response is integrity protected when the ID Token is returned
 from the authorization endpoint. 
 
-### 7.4 Message containment failure
+### 7.4 Message Containment Failure
 
-#### 7.4.1 Authorization request and response
+#### 7.4.1 Authorization Request and Response
 
 In this document, the authorization request is not encrypted. 
 Thus, it is possible to leak the information contained 
-if the browser was infected with virus, etc. 
+if the web browser is compromised. 
 
 Authorization response can be encrypted as ID Token 
 can be encrypted. 
@@ -333,28 +310,27 @@ the access to the logs are compromised.
 Strict access control to the logs in such cases should be 
 enforced. 
 
-#### 7.4.2 Token request and response
+#### 7.4.2 Token Request and Response
 
-It is possible to leak the information through the logs 
+It is possible to leak information through the logs 
 if the parameters were recorded in the logs and 
 the access to the logs are compromised. 
 Strict access control to the logs in such cases should be 
 enforced. 
 
-#### 7.4.3 Resource request and response
+#### 7.4.3 Resource Request and Response
 
 Care should be taken so that the sensitive data will not be leaked 
 through the referrer. 
 
 If the access token is a bearer token, it is possible to 
 exercise the stolen token. Since the access token can be 
-used against multiple URIs, the risk of its leaking is
+used against multiple URIs, the risk of leaking is
 much larger than the refresh token, which is used only 
 against the token endpoint. Thus, the lifetime of 
 the access token should be much shorter than that of 
 the refresh token. Refer to section 16.18 of [OIDC] for 
-more discussion on the lifetimes of access tokens and 
-refresh tokens. 
+more discussion on the lifetimes of access and refresh tokens. 
 
 ## 8. Privacy Considerations
 
@@ -362,13 +338,13 @@ refresh tokens.
     specifying the general principles. More specific text 
     will be added towards the Final specification. 
 
-### 8.1 Privacy by design
+### 8.1 Privacy By Design
 
-1. Privacy impact analysis (PIA) should be performed in the initial phase of the system planning.
-1. For PIA, use of ISO/IEC 29134 Privacy impact analysis - Guidelines is recommended.
-1. The provider should establish a management system to help respect privacy of the customer.
+1. Privacy Impact Analysis (PIA) should be performed in the initial phase of the system planning.
+1. Use of ISO/IEC 29134 Privacy Impact Analysis - Guidelines is recommended.
+1. The provider should establish a management system to help respect privacy of customers.
 
-### 8.2 Adhering to privacy principles
+### 8.2 Adhering to Privacy Principles
 
 Stakeholders should follow the privacy principles of ISO/IEC 29100. In particular:
 
@@ -400,7 +376,7 @@ Following people contributed heavily towards this document.
 * Sascha H. Preibisch (CA) 
 * Henrik Bearing (Peercraft) 
 * Anton Taborszky (Deutche Telecom) 
-* John Bradley (Ping Identity) 
+* John Bradley (Yubico) 
 * Axel Nennker (Deutsche Telekom)
 * Joseph Heenan (Authlete)
 * (add yourself) 
