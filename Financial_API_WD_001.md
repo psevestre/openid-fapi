@@ -366,7 +366,7 @@ Stakeholders should follow the privacy principles of ISO/IEC 29100. In particula
 
 ## 9. Acknowledgement
 
-Following people contributed heavily towards this document. 
+Following people contributed to this document: 
 
 * Nat Sakimura (Nomura Research Institute) -- Chair, Editor
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
