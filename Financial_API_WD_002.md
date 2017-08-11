@@ -144,7 +144,7 @@ OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750],
 
 There are different levels of risks associated with access to these APIs.
 Read and Write access has a higher financial risk than Read-Only access. As
-such, the security profiles of the authorization framework protecting these
+such, the security profiles of the Authorization Framework protecting these
 APIs are also different. 
 
 This profile describes security provisions for the server and client that are appropriate for Read and Write access by defining the measures to mitigate: 
@@ -179,9 +179,9 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 
 #### 5.2.2 Authorization Server
 
-The Authorization Server shall support the provisions specified in clause 5.2.2 of Financial API - Part 1: Read-Only API Security Profile.
+The authorization server shall support the provisions specified in clause 5.2.2 of Financial API - Part 1: Read-Only API Security Profile.
 
-In addition, the Authorization server, for the Write operation,
+In addition, the authorization server, for the Write operation,
 
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
 1. shall require the `response_type` values `code id_token` or `code id_token token`;
@@ -329,7 +329,7 @@ If the request from the client per a time period goes beyond the number the auth
 ## 8. Security Considerations
 
 ### 8.1 Introduction
-As a profile of The OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations.
+As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations.
 
 ### 8.2 Uncertainty of Resource Server Handling of Access Tokens
 There is no way that the client can find out whether the resource access was granted for the Bearer token or holder of key token.
