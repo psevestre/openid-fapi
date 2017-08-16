@@ -101,7 +101,7 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [OIDM] -  OAuth 2.0 Multiple Response Type Encoding Practices
 [OIDM]: http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
 
-[X.1254] - Entity authentication assurance framework
+[X.1254] - Entity Authentication Assurance Framework
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
 [OAUTB] - OAuth 2.0 Token Binding
