@@ -256,7 +256,7 @@ Following people contributed heavily towards this document.
 * Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
 * John Bradley (Ping Identity)
 * Henrik Bearing (Peercraft)
-* Axel Nenker (deutsche telekom)
+* Axel Nennker (Deutsche Telekom)
 
 ## 11. Bibliography
 
