@@ -7,7 +7,9 @@ This document is not an OIDF International Standard. It is distributed for revie
 Recipients of this draft are invited to submit, with their comments, notification of any relevant patent rights of which they are aware and to provide supporting documentation.
 
 ## Copyright Notice & License
-The OpenID Foundation (OIDF) maintains a public, written notice of copyright license at: http://openid.net/intellectual-property/copyright-license/ 
+The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
+
+The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.
 
 ##Foreword
 
@@ -30,7 +32,7 @@ Fintech is an area of future economic growth around the world and Fintech organi
 The Financial API aims to provide specific implementation guidelines for financial services to adopt for use cases of online banking by developing a REST/JSON data model protected by specified OAuth profile that is secure. 
 
 This document is Part 1 of 5 that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in the access of Read-Only financial data. 
-A higher level of security profile suitable for Read and Write Access APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use-cases. 
+A higher level of security profile suitable for Read and Write Access APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use cases. 
 
 ### Notational Conventions
 
@@ -349,19 +351,19 @@ more discussion on the lifetimes of access and refresh tokens.
 Stakeholders should follow the privacy principles of ISO/IEC 29100. In particular:
 
 1. Consent and Choice
-2. Purpose legitimacy and specification
-3. Collection limitation
-4. Data (access) limitation
-5. Use, retention, and data disclosure limitation:
-    1. Use limitation:
-    1. Retention limitation: Where the data is no longer being used, clients should delete such data from their system within 180 days except for the cases where it needs to be retained due to legal restrictions;
-    1. Data disclosure limitation:
-6. Accuracy and quality
-7. Openness, transparency and notice
-8. Individual participation and access
+2. Purpose Legitimacy and Specification
+3. Collection Limitation
+4. Data (access) Limitation
+5. Use, Retention, and Data Disclosure Limitation:
+    1. Use Limitation:
+    1. Retention Limitation: Where the data is no longer being used, clients should delete such data from their system within 180 days except for the cases where it needs to be retained due to legal restrictions;
+    1. Data Disclosure Limitation:
+6. Accuracy and Quality
+7. Openness, Transparency and Notice
+8. Individual Participation and Access
 9. Accountability
-10. Information security
-11. Privacy compliance
+10. Information Security
+11. Privacy Compliance
 
 
 ## 9. Acknowledgement
@@ -402,8 +404,8 @@ Following people contributed to this document:
 * [X.1254] - Entity authentication assurance framework
 * [TLSM] - Mutual X.509 Transport Layer Security (TLS) Authentication for OAuth Clients
 * [DDA] Durable Data API, (2015), FS-ISAC
-* [ISO29100] ISO/IEC 29100 Information technology -- Security techniques -- Privacy framework <http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip>
-* [ISO29134] ISO/IEC 29134 Information technology -- Security techniques -- Privacy impact assessment -- Guidelines
+* [ISO29100] ISO/IEC 29100 Information technology -- Security Techniques -- Privacy Framework <http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip>
+* [ISO29134] ISO/IEC 29134 Information technology -- Security Techniques -- Privacy Impact Assessment -- Guidelines
 
 
 
