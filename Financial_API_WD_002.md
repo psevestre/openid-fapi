@@ -249,7 +249,6 @@ to encrypt the request object. In such cases it is possible to send the request
 object by reference using a `request_uri`. 
 
 Note that `request_uri` can be either URL or URN. 
-If it is a URL, it shall be based on a cryptographic random value so that it is difficult to predict for an attacker.
 
 Although the request URI could be hosted by the client, within the FAPI spec it is
 hosted by the authorization server.
@@ -263,8 +262,9 @@ This section defines the methods for the authorization server and endpoint to ex
 
 ### 7.2 Request
 
-The request object endpoint shall be a RESTful API at the authorization server that accepts a signed request object as an HTTPS POST payload.
-The request object shall be signed for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'.
+1. The request object endpoint shall be a RESTful API at the authorization server that accepts a signed request object as an HTTPS POST payload.
+1. The request object shall be signed for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'.
+
 The following is an example of such a request:
 
 ```
@@ -280,18 +280,18 @@ zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
 
 ### 7.3 Successful Response
 
-The authorization server shall verify that the request object is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC].
-
-If the verification is successful, the server shall generate a request URI and
+1. The authorization server shall verify that the request object is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC].
+1. If the verification is successful, the server shall generate a request URI and
 return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
 claims at the top level with `201 Created` HTTP response code.
-
-The value of these claims in the JSON payload shall be as follows:
-
-* `request_uri` : The request URI corresponding to the request object posted. 
-* `aud` : A JSON string that represents the client identifier of the client that posted the request object.
-* `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
-* `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
+1. The `request_uri` shall be based on a cryptographic random value so that it is difficult to predict for an attacker.
+1. The request URI shall be bound to the client identifier of the client that posted the request object.
+1. Since the request URI can be replayed, its lifetime should be short and preferably limited to one-time use.
+1. The value of these claims in the JSON payload shall be as follows:
+    * `request_uri` : The request URI corresponding to the request object posted. 
+    * `aud` : A JSON string that represents the client identifier of the client that posted the request object.
+    * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
+    * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
 
 The following is an example of such a response:
 
@@ -308,7 +308,6 @@ Content-Type: application/json
 }
 ```
 
-The request URI shall be bound to the client identifier of the client that posted the request object. Since the request URI can be replayed, its lifetime should be short and preferablylimited to one-time use.
 
 ### 7.4 Error Responses
 
