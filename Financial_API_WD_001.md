@@ -77,9 +77,6 @@ The following referenced documents are strongly recommended to be used in conjun
 [RFC5246] - The Transport Layer Security (TLS) Protocol Version 1.2
 [RFC5246]: https://tools.ietf.org/html/rfc5246
 
-[RFC7525] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
-[RFC7525]: https://tools.ietf.org/html/rfc7525
-
 [RFC6125] - Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 [RFC6125]: https://tools.ietf.org/html/rfc6125
 
@@ -88,6 +85,9 @@ The following referenced documents are strongly recommended to be used in conjun
 
 [RFC6819] - OAuth 2.0 Threat Model and Security Considerations
 [RFC6819]: https://tools.ietf.org/html/rfc6819
+
+[BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
+[BCP195]: https://tools.ietf.org/html/bcp195
 
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: https://openid.net/specs/openid-connect-core-1_0.html
@@ -228,7 +228,6 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return financ
 
 The resource server with the FAPI endpoints
 
-1. shall mandate TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
 1. shall support the use of the HTTP GET method as in Section 4.3.1 of [RFC7231];
 1. shall accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
 1. shall not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750];
@@ -256,7 +255,6 @@ The resource server with the FAPI endpoints
 
 The client supporting this document
 
-1. shall use TLS 1.2 or later as defined in [RFC5246] with the usage following the best practice in [RFC7525];
 1. shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750]; and 
 1. shall send `x-fapi-financial-id` whose value is the unique identifier of the desired financial institution to interact with (assigned by the resource server owner) where the same endpoints are used for multiple institutions.
 
@@ -278,7 +276,12 @@ The client supporting this document
 
 ### 7.1 TLS Considerations
 
-Since potentially sensitive and confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
+As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
+
+The recommendations for Secure Use of Transport Layer Security in BCP195 shall be followed, with the following additional requirements:
+
+1. TLS version 1.2 or later shall be used for all communications.
+1. A TLS server certificate check shall be performed, as per [RFC6125].
 
 ### 7.2 Message Source Authentication Failure
 
@@ -392,12 +395,12 @@ Following people contributed to this document:
 * [RFC5246] The Transport Layer Security (TLS) Protocol Version 1.2
 * [RFC6749] The OAuth 2.0 Authorization Framework
 * [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
-* [RFC7525] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
 * [RFC7662] OAuth 2.0 Token Introspection
 * [RFC6125] Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 * [O2fNA] OAuth 2.0 for Native Apps
 * [RFC6819] OAuth 2.0 Threat Model and Security Considerations
+* [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
 * [OIDM] OAuth 2.0 Multiple Response Type Encoding Practices
