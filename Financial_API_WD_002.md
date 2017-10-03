@@ -89,9 +89,6 @@ The following referenced documents are strongly recommended to be used in conjun
 [RFC7519] - JSON Web Token (JWT)
 [RFC7519]:https://tools.ietf.org/html/rfc7519
 
-[BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
-[BCP195]: https://tools.ietf.org/html/bcp195
-
 BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-oauth-native-apps-03)
 
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
@@ -409,15 +406,13 @@ and state parameters. The server can verify that the state is the same as what w
 ### 8.5 TLS Considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
-The recommendations for Secure Use of Transport Layer Security in BCP195 shall be followed, with the following additional requirements:
+Section 7.1 of Financial API - Part 1: Read Only API Security Profile shall apply, with the following additional requirements:
 
 1. Only the following 4 cipher suites shall be permitted:
     * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
     * `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
     * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
     * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
-1. TLS version 1.2 or later shall be used for all communications.
-1. A TLS server certificate check shall be performed, as per [RFC6125].
 
 ### 8.6 JWS Algorithm Considerations
 JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
