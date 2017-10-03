@@ -215,9 +215,9 @@ all the requirements in 3.3.2.12 of [OIDC].
 
 #### 5.2.4 Confidential Client
 
-In addition to the provision to the public client and the provisions of clause 5.2.3 , with the exception of OAUTB as the only holder of key mechanism, the confidential client for Write operations
+In addition to the provisions for the public client in clause 5.2.3 of this document, the confidential client for Write operations
 
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
+1. shall support [OAUTB] or [MTLS] as a holder of key mechanism (this overrides clause 5.2.3.1);
 1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints
 
 ## 6. Accessing Protected Resources (Using tokens)
