@@ -256,7 +256,7 @@ Following people contributed heavily towards this document.
 * Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
 * John Bradley (Yubico)
 * Henrik Bearing (Peercraft)
-* Axel Nenker (Deutsche Telekom)
+* Axel Nennker (Deutsche Telekom)
 
 ## 11. Bibliography
 
