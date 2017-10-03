@@ -446,7 +446,7 @@ Following people contributed to this document:
 * John Bradley (Yubico)
 * Henrik Bearing (Peercraft)
 * Tom Jones (Independent) 
-* Axel Nenker (deutsche telekom) 
+* Axel Nennker (Deutsche Telekom)
 * Torsten Lodderstedt (YES)
 * Ralph Bragg (Raidiam)
 
