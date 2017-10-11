@@ -180,13 +180,13 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 
 The authorization server shall support the provisions specified in clause 5.2.2 of Financial API - Part 1: Read-Only API Security Profile.
 
-In addition, the authorization server, for the Write operation,
+In addition, the authorization server, for the Write operations
 
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
 1. shall require the `response_type` values `code id_token` or `code id_token token`;
 1. shall return ID Token as a detached signature to the authorization response;
 1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value;
-1. shall only issue holder of key authorization code, access token, and refresh token for write operations;
+1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
 1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
 1. shall support signed ID Tokens; and 
