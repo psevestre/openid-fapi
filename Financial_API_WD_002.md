@@ -6,8 +6,8 @@ This document is not an OIDF International Standard. It is distributed for revie
 
 Recipients of this draft are invited to submit, with their comments, notification of any relevant patent rights of which they are aware and to provide supporting documentation.
 
-## Copyright Notice & License
-The OpenID Foundation (OIDF) maintains a public, written notice of copyright license at: http://openid.net/intellectual-property/copyright-license/ 
+## Copyright notice & license
+The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
 
 ##Foreword
 
@@ -57,8 +57,8 @@ This part of the document specifies the method of
 
 This document is applicable to higher risk use cases which includes commercial and investment banking. 
 
-## 2. Normative References
-The following referenced documents are strongly recommended to be used in conjunction with this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.
+## 2. Normative references
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 [ISODIR2] - ISO/IEC Directives Part 2
 [ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
@@ -111,7 +111,7 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls-02
 
 
-## 3. Terms and Definitions
+## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
 
@@ -143,7 +143,7 @@ OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750],
 [RFC7636], and other specifications.
 
 There are different levels of risks associated with access to these APIs.
-Read and Write access has a higher financial risk than Read-Only access. As
+Read and write access has a higher financial risk than read-only access. As
 such, the security profiles of the authorization framework protecting these
 APIs are also different. 
 
@@ -195,7 +195,7 @@ In addition, the Authorization server, for the Write operation,
 
 #### 5.2.3 Public Client
 
-A public client shall support the provisions specified in clause 5.2.3 of Financial API - Part 1: Read Only API Security Profile.
+A public client shall support the provisions specified in clause 5.2.3 of Financial API - Part 1: Read-Only API Security Profile.
 
 In addition, the public client for Write operations
 
@@ -224,20 +224,20 @@ In addition to the provision to the public client and the provisions of clause 5
 
 The FAPI endpoints are OAuth 2.0 protected resource endpoints that return various financial information for the resource owner associated with the submitted access token.
 
-### 6.2 Read and Write Access Provisions
+### 6.2 Read and write access provisions
 
-#### 6.2.1 Protected Resources Provisions
+#### 6.2.1 Protected resources provisions
 
 The protected resources supporting this document
 
 1. shall support the provisions specified in clause 6.2.1 Financial API - Part 1: Read Only API Security Profile;
 1. shall adhere to the requirements in [MTLS] or [OAUTB].
 
-#### 6.2.2 Client Provisions
+#### 6.2.2 Client provisions
 
 The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial API - Part 1: Read-Only API Security Profile.
 
-## 7. Request Object Endpoint
+## 7. Request object endpoint
 
 ### 7.1 Introduction
 
@@ -275,7 +275,7 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.ew0KICJpc3MiOiA
 zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
 ```
 
-### 7.3 Successful Response
+### 7.3 Successful response
 
 The authorization server shall verify that the request object is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC].
 
@@ -307,21 +307,21 @@ Content-Type: application/json
 
 The request URI shall be bound to the client identifier of the client that posted the request object. Since the request URI can be replayed, its lifetime should be short and preferablylimited to one-time use.
 
-### 7.4 Error Responses
+### 7.4 Error responses
 
-#### 7.4.1 Authorization Required
+#### 7.4.1 Authorization required
 If the signature validation fails, the authorization server shall return `401 Unauthorized` HTTP error response.
 
-#### 7.4.2 Invalid Request
+#### 7.4.2 Invalid request
 If the request object received is invalid, the authorization server shall return `400 Bad Request` HTTP error response.
 
 #### 7.4.3 Method Not Allowed
 If the request did not use POST, the authorization server shall return `405 Method Not Allowed` HTTP error response.
 
-#### 7.4.4 Request Entity Too Large
+#### 7.4.4 Request entity too large
 If the request size was beyond the upper bound that the authorization server allows, the authorization server shall return a `413 Request Entity Too Large` HTTP error response.
 
-#### 7.4.5 Too Many Requests
+#### 7.4.5 Too many requests
 If the request from the client per a time period goes beyond the number the authorization server allows, the authorization server shall return a `429 Too Many Requests` HTTP error response.
 
 
@@ -348,14 +348,14 @@ While it is assumed in the OAuth model, it is not explicitly spelled out and thu
 use the same redirection URI for different authorization servers exposing an attack surface. 
 Several attacks have been identified and threats explained in more details in [RFC6819] in more detail. 
 
-#### 8.3.2 Client Credential and Authorization Code Phishing at Token Endpoint
+#### 8.3.2 Client credential and authorization code phishing at token endpoint
 
 In this attack, the client developer is social engineered into believing that the token endpoint has changed to the URL that is controlled by the attacker. 
 As the result, the client sends the `code` and the client secret to the attacker, which will be replayed subsequently. 
 
 When the FAPI client uses [MTLS] or [OAUTB], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
 
-#### 8.3.3 Identity Provider (IdP) Mix-up Attack
+#### 8.3.3 Identity Provider (IdP) mix-up attack
 In this attack, the client has registered multiple IdPs and one of them is a rogue IdP that returns the same `client_id` 
 that belongs to one of the honest IdPs. When a user clicks on a malicious link or visits a compromised site, 
 an authorization request is sent to the rogue IdP. 
@@ -368,24 +368,24 @@ At the point, the attacker has a valid code that can be exchanged for an Access 
 This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss`. 
 The client then sends the `code` to the token endpoint that is associated with the issuer identifier thus it will not get to the attacker. 
 
-#### 8.3.4 Request Object Endpoint Phishing Resistance
+#### 8.3.4 Request object endpoint phishing resistance
 An attacker can use social engineering to have the administrator of the client set 
 the request object endpoint to a URL under the attacker's control. In this case, 
 sensitive information included in the request object will be revealed to the attacker. 
 To prevent this, the authorization server should communicate to the client developer 
 the proper change process repeatedly to help client developers to be less susceptible to such social engineering.
 
-#### 8.3.5 Access Token Phishing
+#### 8.3.5 Access token phishing
 When the FAPI client uses [MTLS] or [OAUTB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
 
 
-### 8.4 Attacks that Modify Authorization Requests and Responses
+### 8.4 Attacks that modify authorization requests and responses
 
 #### 8.4.1 Introduction
 In [RFC6749] the authorization request and responses are not integrity protected. 
 Thus, an attacker can modify them. 
 
-#### 8.4.2 Authorization Request Parameter Injection Attack
+#### 8.4.2 Authorization request parameter injection attack
 
 In [RFC6749], the authorization request is sent as query parameter. 
 Although [RFC6749] mandates the user of TLS, the TLS is terminated in the browser and thus not protected within the browser; as a result an attacker can tamper the authorization request and insert any parameter values. 
@@ -394,7 +394,7 @@ The use of a `request` object or `request_uri` in the authorization request will
 
 [SoK: Single Sign-On Security – An Evaluation of OpenID Connect](https://www.nds.rub.de/media/ei/veroeffentlichungen/2017/01/30/oidc-security.pdf) is an example of this kind of attack. 
 
-#### 8.4.3 Authorization Response Parameter Injection Attack
+#### 8.4.3 Authorization response parameter Injection Attack
 This attack occurs when the victim and attacker use the same relying party client. The attacker is somehow able to
 capture the authorization code and state from the victim's authorization response and uses them in his own
 authorization response. 
@@ -403,7 +403,7 @@ This can be mitigated by using OpenID Connect Hybrid Flow where the `c_hash`, `a
 and `s_hash` can be used to verify the validity of the authorization code, access token,
 and state parameters. The server can verify that the state is the same as what was stored in the browser session at the time of the authorization request.
 
-### 8.5 TLS Considerations
+### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
 The recommendations for Secure Use of Transport Layer Security in BCP195 shall be followed, with the following additional requirements:
@@ -416,7 +416,7 @@ The recommendations for Secure Use of Transport Layer Security in BCP195 shall b
 1. TLS version 1.2 or later shall be used for all communications.
 1. A TLS server certificate check shall be performed, as per [RFC6125].
 
-### 8.6 JWS Algorithm Considerations
+### 8.6 JWS algorithm considerations
 JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
 
 ## 9. Privacy Considerations
