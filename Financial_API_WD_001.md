@@ -6,8 +6,12 @@ This document is not an OIDF International Standard. It is distributed for revie
 
 Recipients of this draft are invited to submit, with their comments, notification of any relevant patent rights of which they are aware and to provide supporting documentation.
 
-## Copyright Notice & License
-The OpenID Foundation (OIDF) maintains a public, written notice of copyright license at: http://openid.net/intellectual-property/copyright-license/ 
+## Copyright notice & license
+The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
+
+The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.
+
+
 
 ##Foreword
 
@@ -50,12 +54,12 @@ and are not to be interpreted with their natural language meanings.
 
 This document specifies the method for an application to:
 
-* Obtain OAuth tokens in a secure manner for read-only access to financial data;
-* Use OpenID Connect (OIDC) to identify the customer (user); and 
-* Use tokens to read financial data from REST endpoints. 
+* obtain OAuth tokens in a secure manner for read-only access to financial data;
+* use OpenID Connect (OIDC) to identify the customer (user); and 
+* use tokens to read financial data from REST endpoints. 
 
 ## 2. Normative references
-The following referenced documents are strongly recommended to be used in conjunction with this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 [RFC7230] -  Hypertext Transfer Protocol -- HTTP/1.1
 [RFC7230]: https://tools.ietf.org/html/rfc7230
@@ -102,11 +106,11 @@ The following referenced documents are strongly recommended to be used in conjun
 [MTLS] - Mutual TLS Profile for OAuth 2.0
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
 
-## 3. Terms and Definitions
+## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
 
-## 4. Symbols and Abbreviated Terms
+## 4. Symbols and abbreviated terms
 
 **API** – Application Programming Interface
 
@@ -122,7 +126,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **TLS** – Transport Layer Security
 
-## 5. Read-Only API Security Profile
+## 5. Read-only API security profile
 
 ### 5.1 Introduction
 
@@ -130,7 +134,7 @@ The OIDF Financial API (FAPI) is a REST API that provides JSON data representing
 
 Read-only access is generally viewed to pose a lower risk than the Write access and as such, the characteristics required of the tokens and method to obtain tokens are explained separately.
 
-### 5.2 Read-Only API Security Provisions
+### 5.2 Read-only API security provisions
 
 #### 5.2.1 Introduction
 
@@ -220,9 +224,9 @@ In addition to the provisions for a Public Client, except for [RFC7636] support,
 
 The FAPI endpoints are OAuth 2.0 protected resource endpoints that return financial information for the resource owner associated with the submitted access token.
 
-### 6.2 Read-Only Access Provisions
+### 6.2 Read-only access provisions
 
-#### 6.2.1 Protected Resources Provisions
+#### 6.2.1 Protected resources provisions
 
 The resource server with the FAPI endpoints
 
@@ -246,11 +250,11 @@ The resource server with the FAPI endpoints
 
     Further, it
 
-1. should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable JavasScript clients to access the endpoint if it decides to provide access to JavaScript clients.
+1. should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable JavaScript clients to access the endpoint if it decides to provide access to JavaScript clients.
 
     **NOTE**: Providing access to JavaScript clients has other security implications. Before supporting those clients [RFC6819] should be consulted.
 
-#### 6.2.2 Client Provisions
+#### 6.2.2 Client provisions
 
 The client supporting this document
 
@@ -278,13 +282,13 @@ The client supporting this document
 
 Since potentially sensitive and confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS) in accordance with the recommendations in [RFC7525]. TLS version 1.2 or later shall be used for all communications.
 
-### 7.2 Message Source Authentication Failure
+### 7.2 Message source authentication failure
 
 Authorization request and response are not authenticated. 
 For higher risk scenarios, they should be authenticated.
 See Part 2, which uses request object to achieve the message source authentication. 
 
-### 7.3 Message Integrity Protection Failure
+### 7.3 Message integrity protection failure
 
 The authorization request does not have message integrity protection and hence
 request tampering and parameter injection are possible.
@@ -293,9 +297,9 @@ Where such protection is desired, Part 2 should be used.
 The response is integrity protected when the ID Token is returned
 from the authorization endpoint. 
 
-### 7.4 Message Containment Failure
+### 7.4 Message containment failure
 
-#### 7.4.1 Authorization Request and Response
+#### 7.4.1 Authorization request and response
 
 In this document, the authorization request is not encrypted. 
 Thus, it is possible to leak the information contained 
@@ -310,7 +314,7 @@ the access to the logs are compromised.
 Strict access control to the logs in such cases should be 
 enforced. 
 
-#### 7.4.2 Token Request and Response
+#### 7.4.2 Token request and response
 
 It is possible to leak information through the logs 
 if the parameters were recorded in the logs and 
@@ -318,7 +322,7 @@ the access to the logs are compromised.
 Strict access control to the logs in such cases should be 
 enforced. 
 
-#### 7.4.3 Resource Request and Response
+#### 7.4.3 Resource request and response
 
 Care should be taken so that the sensitive data will not be leaked 
 through the referrer. 
@@ -330,7 +334,8 @@ much larger than the refresh token, which is used only
 against the token endpoint. Thus, the lifetime of 
 the access token should be much shorter than that of 
 the refresh token. Refer to section 16.18 of [OIDC] for 
-more discussion on the lifetimes of access and refresh tokens. 
+more discussion on the lifetimes of access tokens and 
+refresh tokens. 
 
 ## 8. Privacy Considerations
 
@@ -338,13 +343,13 @@ more discussion on the lifetimes of access and refresh tokens.
     specifying the general principles. More specific text 
     will be added towards the Final specification. 
 
-### 8.1 Privacy By Design
+### 8.1 Privacy by design
 
-1. Privacy Impact Analysis (PIA) should be performed in the initial phase of the system planning.
-1. Use of ISO/IEC 29134 Privacy Impact Analysis - Guidelines is recommended.
+1. Privacy impact analysis (PIA) should be performed in the initial phase of the system planning.
+1. Use of ISO/IEC 29134:2017 Guidelines for privacy impact analysis is recommended.
 1. The provider should establish a management system to help respect privacy of customers.
 
-### 8.2 Adhering to Privacy Principles
+### 8.2 Adhering to privacy principles
 
 Stakeholders should follow the privacy principles of ISO/IEC 29100. In particular:
 
