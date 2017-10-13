@@ -144,7 +144,7 @@ OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750],
 
 There are different levels of risks associated with access to these APIs.
 Read and Write access has a higher financial risk than Read-Only access. As
-such, the security profiles of the Authorization Framework protecting these
+such, the security profiles of the authorization framework protecting these
 APIs are also different. 
 
 This profile describes security provisions for the server and client that are appropriate for Read and Write access by defining the measures to mitigate: 
