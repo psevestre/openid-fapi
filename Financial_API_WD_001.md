@@ -54,7 +54,7 @@ This document specifies the method for an application to:
 * Use OpenID Connect (OIDC) to identify the customer (user); and 
 * Use tokens to read financial data from REST endpoints. 
 
-## 2. Normative References
+## 2. Normative references
 The following referenced documents are strongly recommended to be used in conjunction with this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 [RFC7230] -  Hypertext Transfer Protocol -- HTTP/1.1
