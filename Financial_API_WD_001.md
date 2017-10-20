@@ -96,7 +96,7 @@ The following referenced documents are strongly recommended to be used in conjun
 [OIDM] -  OAuth 2.0 Multiple Response Type Encoding Practices
 [OIDM]: https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
 
-[X.1254] - Entity Authentication Assurance Framework
+[X.1254] - Entity authentication assurance framework
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
 [MTLS] - Mutual TLS Profile for OAuth 2.0
