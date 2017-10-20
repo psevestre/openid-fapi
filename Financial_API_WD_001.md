@@ -350,20 +350,20 @@ more discussion on the lifetimes of access and refresh tokens.
 
 Stakeholders should follow the privacy principles of ISO/IEC 29100. In particular:
 
-1. Consent and Choice
-2. Purpose Legitimacy and Specification
-3. Collection Limitation
-4. Data (access) Limitation
-5. Use, Retention, and Data Disclosure Limitation:
-    1. Use Limitation:
-    1. Retention Limitation: Where the data is no longer being used, clients should delete such data from their system within 180 days except for the cases where it needs to be retained due to legal restrictions;
-    1. Data Disclosure Limitation:
-6. Accuracy and Quality
-7. Openness, Transparency and Notice
-8. Individual Participation and Access
+1. Consent and choice
+2. Purpose legitimacy and specification
+3. Collection limitation
+4. Data (access) limitation
+5. Use, retention, and data disclosure limitation:
+    1. Use limitation:
+    1. Retention limitation: Where the data is no longer being used, clients should delete such data from their system within 180 days except for the cases where it needs to be retained due to legal restrictions;
+    1. Data disclosure limitation:
+6. Accuracy and quality
+7. Openness, transparency and notice
+8. Individual participation and access
 9. Accountability
-10. Information Security
-11. Privacy Compliance
+10. Information security
+11. Privacy compliance
 
 
 ## 9. Acknowledgement
@@ -404,8 +404,8 @@ Following people contributed to this document:
 * [X.1254] - Entity authentication assurance framework
 * [TLSM] - Mutual X.509 Transport Layer Security (TLS) Authentication for OAuth Clients
 * [DDA] Durable Data API, (2015), FS-ISAC
-* [ISO29100] ISO/IEC 29100 Information technology -- Security Techniques -- Privacy Framework <http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip>
-* [ISO29134] ISO/IEC 29134 Information technology -- Security Techniques -- Privacy Impact Assessment -- Guidelines
+* [ISO29100] ISO/IEC 29100 Information technology -- Security techniques -- Privacy framework <http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip>
+* [ISO29134] ISO/IEC 29134 Information technology -- Security techniques -- Privacy impact assessment -- Guidelines
 
 
 
