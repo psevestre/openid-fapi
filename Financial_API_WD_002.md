@@ -89,9 +89,6 @@ The following referenced documents are indispensable for the application of this
 [RFC7519] - JSON Web Token (JWT)
 [RFC7519]:https://tools.ietf.org/html/rfc7519
 
-[BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
-[BCP195]: https://tools.ietf.org/html/bcp195
-
 BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-oauth-native-apps-03)
 
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
@@ -215,9 +212,9 @@ all the requirements in 3.3.2.12 of [OIDC].
 
 #### 5.2.4 Confidential Client
 
-In addition to the provision to the public client and the provisions of clause 5.2.3 , with the exception of OAUTB as the only holder of key mechanism, the confidential client for Write operations
+In addition to the provisions for the public client in clause 5.2.3 of this document, the confidential client for Write operations
 
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
+1. shall support [OAUTB] or [MTLS] as a holder of key mechanism (this overrides clause 5.2.3.1);
 1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints
 
 ## 6. Accessing Protected Resources (Using tokens)
@@ -249,7 +246,6 @@ to encrypt the request object. In such cases it is possible to send the request
 object by reference using a `request_uri`. 
 
 Note that `request_uri` can be either URL or URN. 
-If it is a URL, it shall be based on a cryptographic random value so that it is difficult to predict for an attacker.
 
 Although the request URI could be hosted by the client, within the FAPI spec it is
 hosted by the authorization server.
@@ -263,8 +259,9 @@ This section defines the methods for the authorization server and endpoint to ex
 
 ### 7.2 Request
 
-The request object endpoint shall be a RESTful API at the authorization server that accepts a signed request object as an HTTPS POST payload.
-The request object shall be signed for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'.
+1. The request object endpoint shall be a RESTful API at the authorization server that accepts a signed request object as an HTTPS POST payload.
+1. The request object shall be signed for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'.
+
 The following is an example of such a request:
 
 ```
@@ -280,18 +277,18 @@ zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
 
 ### 7.3 Successful response
 
-The authorization server shall verify that the request object is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC].
-
-If the verification is successful, the server shall generate a request URI and
+1. The authorization server shall verify that the request object is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC].
+1. If the verification is successful, the server shall generate a request URI and
 return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
 claims at the top level with `201 Created` HTTP response code.
-
-The value of these claims in the JSON payload shall be as follows:
-
-* `request_uri` : The request URI corresponding to the request object posted. 
-* `aud` : A JSON string that represents the client identifier of the client that posted the request object.
-* `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
-* `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
+1. The `request_uri` shall be based on a cryptographic random value so that it is difficult to predict for an attacker.
+1. The request URI shall be bound to the client identifier of the client that posted the request object.
+1. Since the request URI can be replayed, its lifetime should be short and preferably limited to one-time use.
+1. The value of these claims in the JSON payload shall be as follows:
+    * `request_uri` : The request URI corresponding to the request object posted. 
+    * `aud` : A JSON string that represents the client identifier of the client that posted the request object.
+    * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
+    * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
 
 The following is an example of such a response:
 
@@ -308,7 +305,6 @@ Content-Type: application/json
 }
 ```
 
-The request URI shall be bound to the client identifier of the client that posted the request object. Since the request URI can be replayed, its lifetime should be short and preferablylimited to one-time use.
 
 ### 7.4 Error responses
 
@@ -409,15 +405,13 @@ and state parameters. The server can verify that the state is the same as what w
 ### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
-The recommendations for Secure Use of Transport Layer Security in BCP195 shall be followed, with the following additional requirements:
+Section 7.1 of Financial API - Part 1: Read Only API Security Profile shall apply, with the following additional requirements:
 
 1. Only the following 4 cipher suites shall be permitted:
     * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
     * `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
     * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
     * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
-1. TLS version 1.2 or later shall be used for all communications.
-1. A TLS server certificate check shall be performed, as per [RFC6125].
 
 ### 8.6 JWS algorithm considerations
 JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
@@ -446,7 +440,7 @@ Following people contributed to this document:
 * John Bradley (Yubico)
 * Henrik Bearing (Peercraft)
 * Tom Jones (Independent) 
-* Axel Nenker (deutsche telekom) 
+* Axel Nennker (Deutsche Telekom)
 * Torsten Lodderstedt (YES)
 * Ralph Bragg (Raidiam)
 
