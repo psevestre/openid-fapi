@@ -34,7 +34,7 @@ Fintech is an area of future economic growth around the world and Fintech organi
 The Financial API aims to provide specific implementation guidelines for financial services to adopt for use cases of online banking by developing a REST/JSON data model protected by specified OAuth profile that is secure. 
 
 This document is Part 1 of 5 that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in the access of Read-Only financial data. 
-A higher level of security profile suitable for Read and Write Access APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use-cases. 
+A higher level of security profile suitable for Read and Write Access APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use cases. 
 
 ### Notational Conventions
 
@@ -353,7 +353,7 @@ refresh tokens.
 
 Stakeholders should follow the privacy principles of ISO/IEC 29100. In particular:
 
-1. Consent and Choice
+1. Consent and choice
 2. Purpose legitimacy and specification
 3. Collection limitation
 4. Data (access) limitation
