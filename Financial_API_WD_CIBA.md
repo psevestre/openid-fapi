@@ -254,9 +254,9 @@ Following people contributed heavily towards this document.
 * Anthony Nadalin (Microsoft) -- Co-chair, SC 27 Liaison
 * Edmund Jay (Illumila) -- Co-editor
 * Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
-* John Bradley (Ping Identity)
+* John Bradley (Yubico)
 * Henrik Bearing (Peercraft)
-* Axel Nenker (deutsche telekom)
+* Axel Nenker (Deutsche Telekom)
 
 ## 11. Bibliography
 
