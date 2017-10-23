@@ -384,7 +384,7 @@ Following people contributed to this document:
 * John Bradley (Yubico) 
 * Axel Nennker (Deutsche Telekom)
 * Joseph Heenan (Authlete)
-* (add yourself) 
+
 
 ## 10. Bibliography
 
