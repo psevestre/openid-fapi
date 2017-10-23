@@ -34,7 +34,7 @@ Fintech is an area of future economic growth around the world and Fintech organi
 The Financial API aims to provide specific implementation guidelines for financial services to adopt for usecases of online banking by developing a REST/JSON data model protected by specified OAuth profile that is secure. 
 
 This document is Part 1 of 5 that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in the access of Read-Only financial data. 
-A higher level of security profile suitable for a transactional Read and Write APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use-cases. 
+A higher level of security profile suitable for Read and Write Access APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use-cases. 
 
 ### Notational Conventions
 
