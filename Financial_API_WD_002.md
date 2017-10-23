@@ -33,7 +33,7 @@ Fintech is an area of future economic growth around the world and Fintech organi
  
 The Financial API aims to provide specific implementation guidelines for financial services to adopt for use cases of online banking by developing a REST/JSON data model protected by specified OAuth profile that is secure. 
  
-This document is a Part 2 of a set of 5 documents that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in Write access to financial data (also known as transaction access). This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
+This document is Part 2 of a set of 5 documents that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in Write access to financial data (also known as transaction access). This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
 
 ### Notational Conventions
 
@@ -251,7 +251,8 @@ object by reference using a `request_uri`.
 Note that `request_uri` can be either URL or URN. 
 If it is a URL, it shall be based on a cryptographic random value so that it is difficult to predict for an attacker.
 
-The request URI can be hosted by the client or by the authorization server.
+Although the request URI could be hosted by the client, within the FAPI spec it is
+hosted by the authorization server.
 The advantage of the authorization server hosting the request object is that
 it does not have to support outbound requests to a client specified request URI 
 nor rely on the entropy of the URI for the confidentiality of the request object. 
@@ -262,9 +263,9 @@ This section defines the methods for the authorization server and endpoint to ex
 
 ### 7.2 Request
 
-The request object endpoint is a RESTful API at the authorization server that accepts a signed request object as an HTTPS POST payload. 
-The request object needs to be signed for client authentication and as evidence of the client submitting the request object, which referred to as 'non-repudiation'. 
-The following is an example of such a request.
+The request object endpoint shall be a RESTful API at the authorization server that accepts a signed request object as an HTTPS POST payload.
+The request object shall be signed for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'.
+The following is an example of such a request:
 
 ```
 POST https://as.example.com/ros/ HTTP/1.1
@@ -292,7 +293,7 @@ The value of these claims in the JSON payload shall be as follows:
 * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
 * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
 
-The following is an example of such a response.
+The following is an example of such a response:
 
 ```
 HTTP/1.1 201 Created
