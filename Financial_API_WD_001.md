@@ -29,12 +29,12 @@ These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [O
 
 ##Introduction
 
-Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. For example, it is a decades-old common practice of aggregation services to use screen scraping as a method to capture data and translate it to another service, such as usernames and passwords. This practice creates security gaps which require financial institutions to allow what ppears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
+Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. For example, it is a decades-old common practice of aggregation services to use screen scraping as a method to capture data and translate it to another service, such as usernames and passwords. This practice creates security gaps which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
 
 The Financial API aims to provide specific implementation guidelines for financial services to adopt for use cases of online banking by developing a REST/JSON data model protected by specified OAuth profile that is secure. 
 
-This document is Part 1 of 5 that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in the access of Read-Only financial data. 
-A higher level of security profile suitable for Read and Write Access APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use cases. 
+This document is Part 1 of 5 that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data.
+A higher level of security profile suitable for read and write access APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use cases.
 
 ### Notational Conventions
 
@@ -43,7 +43,7 @@ The key words "shall", "shall not",
 "can" in this document are to be interpreted as described in 
 ISO Directive Part 2. 
 These key words are not used as dictionary terms such that 
-any occurence of them shall be interpreted as key words 
+any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
 
 #**Financial Services – Financial API - Part 1: Read-Only API Security Profile **
@@ -132,36 +132,36 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 The OIDF Financial API (FAPI) is a REST API that provides JSON data representing account and transaction related data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
-Read-only access is generally viewed to pose a lower risk than the Write access and as such, the characteristics required of the tokens and method to obtain tokens are explained separately.
+Read-only access is generally viewed to pose a lower risk than the write access and as such, the characteristics required of the tokens and method to obtain tokens are explained separately.
 
 ### 5.2 Read-only API security provisions
 
 #### 5.2.1 Introduction
 
-Read-Only access is a lower risk scenario compared to the Write access; therefore the protection level can also be lower.
+Read-only access is a lower risk scenario compared to the write access; therefore the protection level can also be lower.
 However, since the FAPI can provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires.
 
-As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the Read-Only API of the FAPI.
+As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the read-only API of the FAPI.
 
-#### 5.2.2 Authorization Server
+#### 5.2.2 Authorization server
 
-The Authorization Server
+The authorization server
 
 1. shall support confidential clients;
 1. should support public clients; 
 1. shall provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used;
-1. shall authenticate the confidential client at the Token Endpoint using one of the following methods:
+1. shall authenticate the confidential client at the token endpoint using one of the following methods:
     1. TLS mutual authentication [MTLS]; 
     2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
 1. shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
 1. shall require a key of size 160 bits or larger if elliptic curve algorithms are used for the client authentication;
 1. shall support [RFC7636] with `S256` as the code challenge method if it supports public clients;
-1. shall require Redirect URIs to be pre-registered;
+1. shall require redirect URIs to be pre-registered;
 1. shall require the `redirect_uri` parameter in the authorization request;
-1. shall require the value of `redirect_uri` to exactly match one of the pre-registered Redirect URIs;
+1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
 1. shall require user authentication at LoA 2 as defined in [X.1254] or more;
 1. shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
-1. shall verify that the Authorization Code (section 1.3.1 of [RFC6749]) has not been previously used if possible;
+1. shall verify that the authorization code (section 1.3.1 of [RFC6749]) has not been previously used if possible;
 1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
 1. shall return the list of allowed scopes with the issued access token;  
 1. shall provide opaque non-guessable access tokens with a minimum of 128 bits as defined in section 5.1.4.2.2 of [RFC6819]. 
@@ -172,7 +172,7 @@ The Authorization Server
 
     **NOTE**: Section 4.1.3 of [RFC6749] does not provide guidance regarding `code reuse`, but this document provides limitation on `code reuse` in Section 3.1.3.2 of [OIDC].
 
-    **NOTE**: If replay identification of the Authorization Code is not possible, it is desirable to set the validity period of the Authorization Code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the Authorization Code cache if one is used.
+    **NOTE**: If replay identification of the authorization code is not possible, it is desirable to set the validity period of the authorization code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the authorization code cache if one is used.
 
     **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
 	
@@ -187,14 +187,14 @@ The Authorization Server
    as in Section 3.1.3.3 of [OIDC] with its `sub` value corresponding to the authenticated user
    and optional `acr` value in ID Token.
 
-#### 5.2.3 Public Client
+#### 5.2.3 Public client
 
-A Public Client
+A public client
 
 1. shall support [RFC7636] or the mechanisms defined in [Financial API - Part 2](Financial_API_WD_002.md);
 1. shall use `S256` as the code challenge method for the [RFC7636];
-1. shall use separate and distinct Redirect URI for each Authorization Server that it talks to;
-1. shall store the Redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the Redirect URI that the Authorization Response was received at, where, if the URIs do not match, the Client shall terminate the process with error;
+1. shall use separate and distinct redirect URI for each authorization server that it talks to;
+1. shall store the redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the redirect URI that the authorization response was received at, where, if the URIs do not match, the client shall terminate the process with error;
 1. shall adhere to the best practice stated by [O2fNA]; and
 1. shall implement an effective CSRF protection.
 
@@ -206,15 +206,15 @@ A Public Client
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
 
-#### 5.2.4 Confidential Client
+#### 5.2.4 Confidential client
 
-In addition to the provisions for a Public Client, except for [RFC7636] support, a Confidential Client
+In addition to the provisions for a public client, except for [RFC7636] support, a confidential client
 
-1. shall support the following methods to authenticate against the Token Endpoint:
+1. shall support the following methods to authenticate against the token endpoint:
     1. TLS mutual authentication [MTLS]; or 
     2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
 1. shall use RSA keys with a minimum 2048 bits if using RSA cryptography; 
-1. shall use Elliptic Curve keys with a minimum of 160 bits if using Elliptic Curve cryptography; and 
+1. shall use elliptic curve keys with a minimum of 160 bits if using Elliptic Curve cryptography; and
 1. shall verify that its client secret has a minimum of 128 bits if using symmetric key cryptography.
 
 
@@ -274,9 +274,9 @@ The client supporting this document
 
 
 
-## 7. Security Considerations
+## 7. Security considerations
 
-### 7.1 TLS Considerations
+### 7.1 TLS considerations
 
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
@@ -340,7 +340,7 @@ the refresh token. Refer to section 16.18 of [OIDC] for
 more discussion on the lifetimes of access tokens and 
 refresh tokens. 
 
-## 8. Privacy Considerations
+## 8. Privacy considerations
 
     ** NOTE ** The following only has a boiler plate text 
     specifying the general principles. More specific text 
@@ -374,7 +374,7 @@ Stakeholders should follow the privacy principles of ISO/IEC 29100. In particula
 
 ## 9. Acknowledgement
 
-Following people contributed to this document: 
+The following people contributed to this document:
 
 * Nat Sakimura (Nomura Research Institute) -- Chair, Editor
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
