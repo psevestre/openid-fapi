@@ -29,9 +29,9 @@ These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [O
 
 ##Introduction
 
-Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. For example, it is a decades-old common practice of aggregation services to use screen scraping as a method to capture data and translate it to another service, such as usernames and passwords. This practice creates security gaps which require financial institutions to allow what ppears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
- 
-The Financial API aims to provide specific implementation guidelines for financial services to adopt for use cases of online banking by developing a REST/JSON data model protected by specified OAuth profile that is secure. 
+Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
+
+The Financial API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
  
 This document is Part 2 of a set of 5 documents that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in write access to financial data (also known as transaction access). This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
 
@@ -151,7 +151,7 @@ This profile describes security provisions for the server and client that are ap
 * attacks that modify authorization requests and responses unprotected in [RFC6749] by leveraging OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response. 
 
 While the name ID Token suggests that it is something  that provides the identity of the resource owner (subject), it is not necessarily so. While it does identify the authorization server by including the issuer identifier, 
-it is perfectly fine to have ephemeral subject identifier. In this case, the ID Token acts as a detached signature of the issuer to the authorization response and it was an explicit design decision of OpenID Connect Core 
+it is perfectly fine to have an ephemeral subject identifier. In this case, the ID Token acts as a detached signature of the issuer to the authorization response and it was an explicit design decision of OpenID Connect Core
 to make the ID Token act as a detached signature.
 
 This document leverages this fact and protects the authorization response by including the hash of all of the unprotected response parameters, e.g. `code` and `state`. 
@@ -255,7 +255,7 @@ nor rely on the entropy of the URI for the confidentiality of the request object
 
 When the request object is stored at the authorization server, the `request_uri` value typically is a URN. 
 
-This section defines the methods for the authorization server and endpoint to exchange a request object for a request URI.
+This section defines the methods for the authorization server's request object endpoint to exchange a request object for a request URI.
 
 ### 7.2 Request
 
@@ -345,7 +345,7 @@ There is no notion of authorization server identifier (issuer identifier) and it
 the authorization response unless the client uses different redirection URI per authorization server. 
 While it is assumed in the OAuth model, it is not explicitly spelled out and thus many clients 
 use the same redirection URI for different authorization servers exposing an attack surface. 
-Several attacks have been identified and threats explained in more details in [RFC6819] in more detail. 
+Several attacks have been identified and the threats are explained in detail in [RFC6819].
 
 #### 8.3.2 Client credential and authorization code phishing at token endpoint
 
@@ -391,7 +391,7 @@ Although [RFC6749] mandates the use of TLS, the TLS is terminated in the browser
 
 The use of a `request` object or `request_uri` in the authorization request will prevent tampering with the request parameters. 
 
-[SoK: Single Sign-On Security – An Evaluation of OpenID Connect](https://www.nds.rub.de/media/ei/veroeffentlichungen/2017/01/30/oidc-security.pdf) is an example of this kind of attack. 
+The IdP confusion attack reported in [SoK: Single Sign-On Security – An Evaluation of OpenID Connect](https://www.nds.rub.de/media/ei/veroeffentlichungen/2017/01/30/oidc-security.pdf) is an example of this kind of attack.
 
 #### 8.4.3 Authorization response parameter injection attack
 This attack occurs when the victim and attacker use the same relying party client. The attacker is somehow able to
@@ -427,7 +427,7 @@ JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
 
 ## 10. Acknowledgement
 
-Following people contributed to this document:
+The following people contributed to this document:
 
 * Nat Sakimura (Nomura Research Institute) -- Chair, Editor
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
