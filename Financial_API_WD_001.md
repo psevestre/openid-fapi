@@ -29,9 +29,9 @@ These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [O
 
 ##Introduction
 
-Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. For example, it is a decades-old common practice of aggregation services to use screen scraping as a method to capture data and translate it to another service, such as usernames and passwords. This practice creates security gaps which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
+Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
 
-The Financial API aims to provide specific implementation guidelines for financial services to adopt for use cases of online banking by developing a REST/JSON data model protected by specified OAuth profile that is secure. 
+The Financial API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
 
 This document is Part 1 of 5 that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data.
 A higher level of security profile suitable for read and write access APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use cases.
@@ -132,7 +132,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 The OIDF Financial API (FAPI) is a REST API that provides JSON data representing account and transaction related data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
-Read-only access is generally viewed to pose a lower risk than the write access and as such, the characteristics required of the tokens and method to obtain tokens are explained separately.
+Read-only access is generally viewed to pose a lower risk than the write access and as such, the characteristics required of the tokens are different and the methods to obtain tokens are explained separately.
 
 ### 5.2 Read-only API security provisions
 
