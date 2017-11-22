@@ -107,7 +107,7 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-04
 
 [MTLS] - Mutual TLS Profile for OAuth 2.0
-[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls-02
+[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
 
 
 ## 3. Terms and definitions
