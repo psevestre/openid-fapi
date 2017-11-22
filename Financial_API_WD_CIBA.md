@@ -255,7 +255,7 @@ Following people contributed heavily towards this document.
 * Edmund Jay (Illumila) -- Co-editor
 * Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
 * John Bradley (Yubico)
-* Henrik Bearing (Peercraft)
+* Henrik Biering (Peercraft)
 * Axel Nennker (Deutsche Telekom)
 
 ## 11. Bibliography

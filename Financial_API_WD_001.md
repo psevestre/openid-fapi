@@ -382,7 +382,7 @@ The following people contributed to this document:
 * Edmund Jay (Illumila) -- Co-editor
 * Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
 * Sascha H. Preibisch (CA) 
-* Henrik Bearing (Peercraft) 
+* Henrik Biering (Peercraft)
 * Anton Taborszky (Deutche Telecom) 
 * John Bradley (Yubico) 
 * Axel Nennker (Deutsche Telekom)

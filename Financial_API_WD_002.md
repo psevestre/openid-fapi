@@ -438,7 +438,7 @@ The following people contributed to this document:
 * Joseph Heenan (Authlete)
 * Sascha H. Preibisch (CA)
 * John Bradley (Yubico)
-* Henrik Bearing (Peercraft)
+* Henrik Biering (Peercraft)
 * Tom Jones (Independent) 
 * Axel Nennker (Deutsche Telekom)
 * Torsten Lodderstedt (YES)
