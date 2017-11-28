@@ -21,9 +21,9 @@ Financial API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
-* Part 3: Open Data API
-* Part 4: Protected Data API and Schema - Read-Only
-* Part 5: Protected Data API and Schema - Read and Write
+* Part 3: Client Initiated Backchannel Authentication Profile
+
+Future parts may follow.
 
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
@@ -33,8 +33,8 @@ Fintech is an area of future economic growth around the world and Fintech organi
 
 The Financial API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
 
-This document is Part 1 of 5 that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data.
-A higher level of security profile suitable for read and write access APIs are provided in Part 2 and Part 3/4/5 provides the data schema for specific use cases.
+This document is Part 1 of FAPI that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data.
+A higher level of security profile suitable for read and write access APIs is provided in Part 2.
 
 ### Notational Conventions
 

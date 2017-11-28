@@ -21,9 +21,9 @@ Financial API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
-* Part 3: Open Data API
-* Part 4: Protected Data API and Schema - Read only
-* Part 5: Protected Data API and Schema - Read and Write
+* Part 3: Client Initiated Backchannel Authentication Profile
+
+Future parts may follow.
 
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
@@ -33,7 +33,7 @@ Fintech is an area of future economic growth around the world and Fintech organi
 
 The Financial API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
  
-This document is Part 2 of a set of 5 documents that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in write access to financial data (also known as transaction access). This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
+This document is Part 2 of FAPI that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in write access to financial data (also known as transaction access). This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
 
 ### Notational Conventions
 
@@ -159,9 +159,9 @@ This document leverages this fact and protects the authorization response by inc
 While the hash of the `code` is defined in [OIDC], the hash of the `state` is not defined. 
 Thus this document defines it as follows. 
 
-** s_hash **
+**s_hash**
 
-State hash value. Its value is the base64url encoding of the left-most half of the hash of the octets of the ASCII representation
+>State hash value. Its value is the base64url encoding of the left-most half of the hash of the octets of the ASCII representation
 of the `state` value, where the hash algorithm used is the hash algorithm used
 in the `alg` header parameter of the ID Token's JOSE header. For instance,
 if the `alg` is `HS512`, hash the state value with SHA-512, then take the left-most 256 bits and base64url encode them.
