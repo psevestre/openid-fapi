@@ -147,6 +147,7 @@ such, the security profiles of the authorization framework protecting these
 APIs are also different. 
 
 This profile describes security provisions for the server and client that are appropriate for read and write access by defining the measures to mitigate:
+
 * attacks that leverage the weak binding of endpoints in [RFC6749] (e.g. malicious endpoint attacks, IdP mix-up attacks),
 * attacks that modify authorization requests and responses unprotected in [RFC6749] by leveraging OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response. 
 
