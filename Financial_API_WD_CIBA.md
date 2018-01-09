@@ -183,7 +183,7 @@ The following is a non-normative example of a base64url decoded ID Token sent to
   }
 ```
 
-**NOTE**: When the authorization server receives an authentication request from a client that is configured in notification mode, the authorization server must associate the attributes required to issue holder of key bound tokens with the `auth_req_id`. When issuing [MTLS] sender constrained tokens this will be the certificate hash or some other representation of the client certificate used at the backchannel authentication endpoint. When issuing [OAUTB] bound tokens this will be the Token Binding ID provided at the backchannel Authentication endpoint.
+**NOTE**: When the authorization server receives an authentication request from a client that is configured in notification mode, the authorization server must associate the attributes required to issue holder of key bound tokens with the `auth_req_id`. When issuing [MTLS] sender constrained tokens this will be the certificate hash or some other representation of the client certificate used at the backchannel authentication endpoint. When issuing [OAUTB] bound tokens this will be the Token Binding ID provided at the backchannel authentication endpoint.
 
 **NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorise the transaction, as part of the authorisation process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
 
@@ -201,17 +201,18 @@ In addition, the Confidential Client
 
 1. shall ensure that the `client_notification_token` is based on a cryptographic random value so that it is difficult to predict for an attacker;
 1. shall include a binding message in the authentication request;
-1. when in notification mode:
 
-1. shall associate the `client_notification_token` sent in the authentication request with the `auth_req_id` received in the successful authentication request acknowledgement;
-1. shall verify that the `client_notification_token` received in a successful token notification is valid;
-1. shall verify that the `auth_req_id` received in a successful token notification matches the `client_notification_token` used to authenticate the notification;
-1. shall authenticate the source of successful token notifications using the ID Token as the detached signature;
-1. shall ensure that that the `auth_req_id` in the ID Token matches the `auth_req_id` in the response;
-1. shall validate the access token received in a successful token notification using the `at_hash` as as per Section 3.2.2.9 of [OIDC].
-1. shall validate the refresh token received in a successful token notification using the `rt_hash` in a similar manner as above.
+When the confidential client is in notification mode:
 
-**NOTE:** The client notification endpoint is only protected by a bearer token. This profile requires that the authorization server send an ID Token as a detached signature. This allows the client to authenticate the source of the notification. Furthermore, the tokens issued to the client notification endpoint are holder of key tokens and if intercepted cannot be used without the associated key.
+1. it shall associate the `client_notification_token` sent in the authentication request with the `auth_req_id` received in the successful authentication request acknowledgement;
+1. it shall verify that the `client_notification_token` received in a successful token notification is valid;
+1. it shall verify that the `auth_req_id` received in a successful token notification matches the `client_notification_token` used to authenticate the notification;
+1. it shall authenticate the source of successful token notifications using the ID Token as the detached signature;
+1. it shall ensure that that the `auth_req_id` in the ID Token matches the `auth_req_id` in the response;
+1. it shall validate the access token received in a successful token notification using the `at_hash` as as per Section 3.2.2.9 of [OIDC].
+1. it shall validate the refresh token received in a successful token notification using the `rt_hash` in a similar manner as above.
+
+**NOTE:** The client notification endpoint is only protected by a bearer token. This profile requires that the authorization server send an ID Token as a detached signature. This allows the client to authenticate the source and verify the integrity of the notification payload. Furthermore, the tokens issued to the client notification endpoint are holder of key tokens and if intercepted cannot be used without the associated key.
 
 # 6. Accessing Protected Resources
 
@@ -223,10 +224,10 @@ The provisions detailed in Parts 1 and 2 of the Financial API specification appl
 
 In situations where the client does not control the consumption device, the client
 
-1. shall not send `x-fapi-customer-ip=address` or `x-fapi-customer-last-logged-time` headers;
-1. should send a `x-fapi-device-id` header which contains an identifier of the consumption device used by the customer.
+1. shall not send `x-fapi-customer-ip-address` or `x-fapi-customer-last-logged-time` headers;
+1. should send metadata about the consumption device, for example geolocation and device type.
 
-   **NOTE:** It may be useful for an FI’s fraud systems to know the device that is the source of payment initiation requests, hence the recommendation for the `x-fapi-device-id` header.
+   **NOTE:** It may be useful for an FI’s fraud systems to know the location and type of the consumption device. The format and schema for such metadata is outside the scope of this profile.
 
 # 7. Security Considerations
 
