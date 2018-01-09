@@ -205,15 +205,15 @@ In addition, the Confidential Client
 
 ##### 5.2.3.2 Notification Mode
 
-When the confidential client is in notification mode:
+A Confidential Client configured in notification mode
 
-1. it shall associate the `client_notification_token` sent in the authentication request with the `auth_req_id` received in the successful authentication request acknowledgement;
-1. it shall verify that the `client_notification_token` received in a successful token notification is valid;
-1. it shall verify that the `auth_req_id` received in a successful token notification matches the `client_notification_token` used to authenticate the notification;
-1. it shall authenticate the source of successful token notifications using the ID Token as the detached signature;
-1. it shall ensure that that the `auth_req_id` in the ID Token matches the `auth_req_id` in the response;
-1. it shall validate the access token received in a successful token notification using the `at_hash` as as per Section 3.2.2.9 of [OIDC].
-1. it shall validate the refresh token received in a successful token notification using the `rt_hash` in a similar manner as above.
+1. shall associate the `client_notification_token` sent in the authentication request with the `auth_req_id` received in the successful authentication request acknowledgement;
+1. shall verify that the `client_notification_token` received in a successful token notification is valid;
+1. shall verify that the `auth_req_id` received in a successful token notification matches the `client_notification_token` used to authenticate the notification;
+1. shall authenticate the source of successful token notifications using the ID Token as the detached signature;
+1. shall ensure that that the `auth_req_id` in the ID Token matches the `auth_req_id` in the response;
+1. shall validate the access token received in a successful token notification using the `at_hash` as as per Section 3.2.2.9 of [OIDC].
+1. shall validate the refresh token received in a successful token notification using the `rt_hash` in a similar manner as above.
 
 **NOTE:** The client notification endpoint is only protected by a bearer token. This profile requires that the authorization server send an ID Token as a detached signature. This allows the client to authenticate the source and verify the integrity of the notification payload. Furthermore, the tokens issued to the client notification endpoint are holder of key tokens and if intercepted cannot be used without the associated key.
 
