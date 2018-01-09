@@ -191,16 +191,19 @@ The following is a non-normative example of a base64url decoded ID Token sent to
 
 #### 5.2.3 Confidential Client
 
+##### 5.2.3.1 General Provisions
+
 A Confidential Client shall support the provisions specified in clause 5.2.4 of Financial API - Part 1 and clause 5.2.4 of Financial API - Part 2.
 
 In addition, the Confidential Client
 
 1. shall authenticate against the Backchannel Authentication Endpoint using a Signed Request Object;
+1. shall ensure that the `client_notification_token` is based on a cryptographic random value so that it is difficult to predict for an attacker;
+1. shall include a binding message in the authentication request;
 
 **NOTE**: Where [MTLS] is used to provide proof of possession semantics for tokens, the signed request object used to authenticate the confidential client shall be sent over a mutual TLS connection. This is not for the purpose of authenticating the client, but for the purpose of giving the AS the attributes it needs to issue sender-constrained tokens.
 
-1. shall ensure that the `client_notification_token` is based on a cryptographic random value so that it is difficult to predict for an attacker;
-1. shall include a binding message in the authentication request;
+##### 5.2.3.2 Notification Mode
 
 When the confidential client is in notification mode:
 
