@@ -248,6 +248,10 @@ Because of this risk the authorization server should have strict rate limits per
 
 In a payments scenario it is possible for a fraudster to start a [CIBA] flow at the same time as a genuine flow, but using the genuine user’s identifier. If the amount and the client are the same then the only way to ensure that a user is authorising the correct transaction is for the user to compare the binding messages. If this risk is deemed unacceptable then implementers should consider alternative mechanisms to verify binding messages.
 
+### 7.4 Loss of fruad markers to FI
+
+In a redirect-based flow, the FI can collect useful fraud markers from the user-agent. In a [CIBA] flow the separation of consumption and authentication devices reduces the data that can be collected. This could reduce the effectiveness of an FI's frauid detection system.
+
 ## 8. Privacy Considerations
 
 * TODO
