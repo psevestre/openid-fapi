@@ -7,32 +7,24 @@ This document is not an OIDF International Standard. It is distributed for revie
 Recipients of this draft are invited to submit, with their comments, notification of any relevant patent rights of which they are aware and to provide supporting documentation.
 
 ## Copyright notice
+
 The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
 
 The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.
 
-
-
 ##Foreword
 
-OIDF (OpenID Foundation) is an international standardizing body comprised of over 160 participating entities (work group participants). The work of preparing international standards is carried out through OIDF work groups according to OpenID Process. Each participant interested in a subject for which a work group has been established has the right to be represented on that work group. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
+The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established has the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
-OpenID Foundation standards are drafted in accordance with the rules given in the OpenID Process.
+Final drafts adopted by the Workgroup through consensus are circulated publicly for the public review for 60 days and for the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the members casting a vote. There is a possibility that some of the elements of this document may be the subject to patent rights. OIDF shall not be held responsible for identifying any or all such patent rights.
 
-The main task of the work group is to prepare Implementers Draft and Final Draft. Final Draft adopted by the Work Group through consensus are circulated publicly for the public review for 60 days and for the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the members casting a vote.
+Financial API consists of the following parts:
 
-Attention is drawn to the possibility that some of the elements of this document may be the subject of patent rights. OIDF shall not be held responsible for identifying any or all such patent rights.
-
-Financial API - CIBA: Client Initiated Backchannel Authentication Security Profile was prepared by OpenID Foundation Financial API Work Group.
-
-Financial API consists of the following parts, under the general title Financial Services — Financial API:
-
-* Part 1: Read Only API Security Profile
+* Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
-* Part 3: Open Data API
-* Part 4: Protected Data API and Schema - Read only
-* Part 5: Protected Data API and Schema - Read and Write
-* CIBA: Client Initiated Backchannel Authentication Profile
+* Part 3: Client Initiated Backchannel Authentication Profile
+
+Future parts may follow.
 
 This part is intended to be used with [RFC6749], [RFC6750], [RFC7636], [OIDC] and [CIBA].
 
@@ -66,6 +58,7 @@ This part of the document specifies the method of
 This document is applicable to higher risk use cases which includes commercial and investment banking.
 
 ## 2. Normative references
+
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 [ISODIR2] - ISO/IEC Directives Part 2
@@ -98,7 +91,7 @@ The following referenced documents are indispensable for the application of this
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
 
-[OIDM] -  OAuth 2.0 Multiple Response Type Encoding Practices
+[OIDM] - OAuth 2.0 Multiple Response Type Encoding Practices
 [OIDM]: http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
 
 [X.1254] - Entity authentication assurance framework
@@ -113,10 +106,9 @@ The following referenced documents are indispensable for the application of this
 [CIBA] - MODRNA Client initiated Backchannel Authentication Flow 1.0
 [CIBA]: http://openid.net/specs/openid-connect-modrna-client-initiated-backchannel-authentication-1_0.html
 
-
 ## 3. Terms and definitions
-For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636, OpenID Connect Core and OpenID Connect MODRNA Client initiated Backchannel Authentication Flow apply.
 
+For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636, OpenID Connect Core and OpenID Connect MODRNA Client initiated Backchannel Authentication Flow apply.
 
 ## 4. Symbols and Abbreviated terms
 
@@ -147,7 +139,7 @@ OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750],
 
 The Client Initiated Backchannel Authentication Flow [CIBA] specifies an alternate method of users granting access to their resources whereby the flow is started from a consumption device, but authorized on an authentication device.
 
-The following sections specify a profile of CIBA that is suited for financial APIs.  
+The following sections specify a profile of CIBA that is suited for financial APIs.
 
 ### 5.2 Read and Write API Security Provisions
 
@@ -164,50 +156,66 @@ The Authorization Server shall support the provisions specified in clause 5.2.2 
 In addition the Authorization server, for all operations,
 
 1. shall only support confidential clients for client initiated backchannel authentication flows;
-1. shall not allow clients registered for client initiated backchannel authentication to be used for authorization code flows;
-1. shall authenticate the confidential client at the backchannel authentication endpoint using one of the following methods:
-
-  1. TLS mutual authentication [TLSM];
-  1. Signed Request Object;
-
-1. shall require the request object to contain a `jti` claim when it is used for client authentication;
+1. shall authenticate the confidential client at the backchannel authentication endpoint using a Signed Request Object
+1. shall require the request object to contain a `jti` claim and shall use the `jti` claim to prevent replay attacks;
 1. shall ensure that the `auth_req_id` is based on a cryptographic random value so that it is difficult to predict for an attacker;
 1. when interacting with a client in polling mode shall ensure that a successful token polling response can only be sent once for a given `auth_req_id`;
 1. shall require a binding_message in the authentication request;
+1. shall only issue access tokens and refresh tokens that are holder of key bound;
+1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
 1. when sending a successful token notification shall include the access token hash, `at_hash`, in the ID Token;
-1. when sending a token error response to a client notification point, shall include two additional parameters:
+1. when sending a successful token notification, with a refresh token, shall include the refresh token hash, `rt_hash`, in the ID Token;
+1. when sending a successful token notification shall include the `auth_req_id`, in the ID Token;
 
-  1. `auth_req_id`, to allow the client to associate the error to the authentication request;
-  1. `id_token`, a detached signature that contains an `auth_req_id` claim to allow the client to verify the source of the error.
+The following is a non-normative example of a base64url decoded ID Token sent to the client notification endpoint:
 
-  **NOTE**: When the authorization server receives an authentication request from a client that is configured in notification mode, the authorization server must associate the attributes required to issue holder of key tokens with the `auth_req_id`. When issuing [MTLS] sender constrained tokens this will be the certificate hash or some other representation of the client certificate used to authenticate at the backchannel authentication endpoint. When issuing [OAUTB] bound tokens this will be the Token Binding ID provided at the backchannel Authentication endpoint.
+```
+ {
+   "iss": "http://server.example.com",
+   "sub": "248289761001",
+   "aud": "s6BhdRkqt3",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "at_hash": "rXH7QWVTZnXYCou_6Vdpfg",
+   "rt_hash": "njCczNMR6mTQQTPa93YPcQ",
+   "auth_req_id": "1c266114-a1be-4252-8ad1-04986c5b9ac1"
+  }
+```
 
-  **NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorise the transaction, as part of the authorisation process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
+**NOTE**: When the authorization server receives an authentication request from a client that is configured in notification mode, the authorization server must associate the attributes required to issue holder of key bound tokens with the `auth_req_id`. When issuing [MTLS] sender constrained tokens this will be the certificate hash or some other representation of the client certificate used at the backchannel authentication endpoint. When issuing [OAUTB] bound tokens this will be the Token Binding ID provided at the backchannel authentication endpoint.
 
-  **NOTE:** When the client is configured in polling mode, it will be interacting with the token endpoint in order to retrieve access tokens. The same security requirements for this endpoint detailed in Parts 1 and 2 of the Financial API apply.
+**NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorise the transaction, as part of the authorisation process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
+
+**NOTE:** When the client is configured in polling mode, it will be interacting with the token endpoint in order to retrieve access tokens. The same security requirements for this endpoint detailed in Parts 1 and 2 of the Financial API apply.
 
 #### 5.2.3 Confidential Client
+
+##### 5.2.3.1 General Provisions
 
 A Confidential Client shall support the provisions specified in clause 5.2.4 of Financial API - Part 1 and clause 5.2.4 of Financial API - Part 2.
 
 In addition, the Confidential Client
 
-1. shall authenticate against the Backchannel Authentication Endpoint using one of the following methods:
-
-  1. TLS mutual authentication [TLSM];
-  1. Signed Request Object;
-
+1. shall authenticate against the Backchannel Authentication Endpoint using a Signed Request Object;
 1. shall ensure that the `client_notification_token` is based on a cryptographic random value so that it is difficult to predict for an attacker;
 1. shall include a binding message in the authentication request;
-1. when in polling mode:
 
-  1. shall associate the `client_notification_token` sent in the authentication request with the `auth_req_id` received in the successful authentication request acknowledgement;
-  1. shall verify that the `client_notification_token` received in a successful token notification is valid;
-  1. shall verify that the `auth_req_id` received in a successful token notification matches the `client_notification_token` used to authenticate the notification;
-  1. shall authenticate the source of success or error token notifications using the ID Token as the detached signature
-  1. shall validate the access token received in a successful token notification using the `at_hash` as as per Section 3.2.2.9 of [OIDC].
+**NOTE**: Where [MTLS] is used to provide proof of possession semantics for tokens, the signed request object used to authenticate the confidential client shall be sent over a mutual TLS connection. This is not for the purpose of authenticating the client, but for the purpose of giving the AS the attributes it needs to issue sender-constrained tokens.
 
-  **NOTE:** The client notification endpoint is only protected by a bearer token. This profile requires that the authorization server send an ID Token as a detached signature in both success and error cases. This allows the client to authenticate the source of the notification. Furthermore, the tokens issued to the client notification endpoint are holder of key tokens and if intercepted cannot be used without the associated keys.
+##### 5.2.3.2 Notification Mode
+
+A Confidential Client configured in notification mode
+
+1. shall associate the `client_notification_token` sent in the authentication request with the `auth_req_id` received in the successful authentication request acknowledgement;
+1. shall verify that the `client_notification_token` received in a successful token notification is valid;
+1. shall verify that the `auth_req_id` received in a successful token notification matches the `client_notification_token` used to authenticate the notification;
+1. shall authenticate the source of successful token notifications using the ID Token as the detached signature;
+1. shall ensure that that the `auth_req_id` in the ID Token matches the `auth_req_id` in the response;
+1. shall validate the access token received in a successful token notification using the `at_hash` as as per Section 3.2.2.9 of [OIDC].
+1. shall validate the refresh token received in a successful token notification using the `rt_hash` in a similar manner as above.
+
+**NOTE:** The client notification endpoint is only protected by a bearer token. This profile requires that the authorization server send an ID Token as a detached signature. This allows the client to authenticate the source and verify the integrity of the notification payload. Furthermore, the tokens issued to the client notification endpoint are holder of key tokens and if intercepted cannot be used without the associated key.
 
 # 6. Accessing Protected Resources
 
@@ -219,10 +227,10 @@ The provisions detailed in Parts 1 and 2 of the Financial API specification appl
 
 In situations where the client does not control the consumption device, the client
 
-1. shall not send `x-fapi-customer-ip=address` or `x-fapi-customer-last-logged-time` headers;
-1. should send a `x-fapi-device-id` header which contains an identifier of the consumption device used by the customer.
+1. shall not send `x-fapi-customer-ip-address` or `x-fapi-customer-last-logged-time` headers;
+1. should send metadata about the consumption device, for example geolocation and device type.
 
-  **NOTE:** It may be useful for an FI’s fraud systems to know the device that is the source of payment initiation requests, hence the recommendation for the `x-fapi-device-id` header.
+   **NOTE:** It may be useful for an FI’s fraud systems to know the location and type of the consumption device. The format and schema for such metadata is outside the scope of this profile.
 
 # 7. Security Considerations
 
@@ -240,10 +248,13 @@ Because of this risk the authorization server should have strict rate limits per
 
 In a payments scenario it is possible for a fraudster to start a [CIBA] flow at the same time as a genuine flow, but using the genuine user’s identifier. If the amount and the client are the same then the only way to ensure that a user is authorising the correct transaction is for the user to compare the binding messages. If this risk is deemed unacceptable then implementers should consider alternative mechanisms to verify binding messages.
 
+### 7.4 Loss of fruad markers to FI
+
+In a redirect-based flow, the FI can collect useful fraud markers from the user-agent. In a [CIBA] flow the separation of consumption and authentication devices reduces the data that can be collected. This could reduce the effectiveness of an FI's frauid detection system.
+
 ## 8. Privacy Considerations
 
 * TODO
-
 
 ## 9. Acknowledgement
 
