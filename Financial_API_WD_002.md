@@ -192,6 +192,7 @@ In addition, the authorization server, for the write operation,
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
 1. shall support signed ID Tokens; and 
 1. should support signed and encrypted ID Token. 
+1. shall require that all parameters are present inside the signed request object
 
 #### 5.2.3 Public client
 
@@ -206,6 +207,8 @@ In addition, the public client for write operations
 1. shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
 1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
 1. shall verify that the authorization response was not tampered using ID Token as the detached signature
+1. shall send all parameters inside the authorization request's signed request object
+1. shall additionally send duplicates of the parameters/values using the OAuth 2.0 request syntax where required by the OAuth specification
 
 To verify that the authorization response was not tampered using ID Token as the detached signature, the client shall verify that `s_hash` value
 is equal to the value calculated from the `state` value in the authorization response in addition to
