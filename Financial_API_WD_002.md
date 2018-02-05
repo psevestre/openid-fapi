@@ -186,7 +186,7 @@ In addition, the authorization server, for the write operation,
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
 1. shall require the `response_type` values `code id_token` or `code id_token token`;
 1. shall return ID Token as a detached signature to the authorization response;
-1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value;
+1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`;
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
 1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
