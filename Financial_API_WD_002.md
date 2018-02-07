@@ -91,6 +91,9 @@ The following referenced documents are indispensable for the application of this
 
 BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-oauth-native-apps-03)
 
+[BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
+[BCP195]: https://tools.ietf.org/html/bcp195
+
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
 
@@ -413,6 +416,7 @@ Section 7.1 of Financial API - Part 1: Read Only API Security Profile shall appl
     * `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
     * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
     * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
+1. For the `authorization_endpoint`, the authorisation server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers.
 
 ### 8.6 JWS algorithm considerations
 JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
