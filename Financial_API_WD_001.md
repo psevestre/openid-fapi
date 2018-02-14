@@ -203,6 +203,9 @@ A public client
 1. shall include `openid` in the `scope` value; and
 1. shall include `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
 
+    If `openid` is not in the `scope` value, then it
+1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749].
+
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
 
