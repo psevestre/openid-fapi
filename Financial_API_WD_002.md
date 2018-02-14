@@ -305,10 +305,10 @@ Date: Tue, 2 May 2017 15:22:31 GMT
 Content-Type: application/json
 
 {
-    'iss':'https://as.example.com/',
-    'aud':'s6BhdRkqt3',
-    'request_uri':'urn:example:MTAyODAK',
-    'exp':1493738581
+    "iss": "https://as.example.com/",
+    "aud": "s6BhdRkqt3",
+    "request_uri": "urn:example:MTAyODAK",
+    "exp": 1493738581
 }
 ```
 
