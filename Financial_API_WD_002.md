@@ -330,7 +330,11 @@ If the request size was beyond the upper bound that the authorization server all
 #### 7.4.5 Too many requests
 If the request from the client per a time period goes beyond the number the authorization server allows, the authorization server shall return a `429 Too Many Requests` HTTP error response.
 
+### 7.5 OpenID Provider Discovery Metadata
 
+If the authorization server supports [OIDD], it shall include the following OpenID Provider Metadata parameter in discovery responses:
+
+1. `request_object_endpoint` : The url of the request object endpoint at which the client can exchange a request object for a request URI.
 
 ## 8. Security considerations
 
