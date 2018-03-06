@@ -227,7 +227,7 @@ The provisions detailed in Parts 1 and 2 of the Financial API specification appl
 
 In situations where the client does not control the consumption device, the client
 
-1. shall not send `x-fapi-customer-ip-address` or `x-fapi-customer-last-logged-time` headers;
+1. shall not send `x-fapi-customer-ip-address` or `x-fapi-auth-date` headers;
 1. should send metadata about the consumption device, for example geolocation and device type.
 
    **NOTE:** It may be useful for an FI’s fraud systems to know the location and type of the consumption device. The format and schema for such metadata is outside the scope of this profile.
