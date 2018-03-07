@@ -147,7 +147,7 @@ The following sections specify a profile of CIBA that is suited for financial AP
 
 As it is anticipated the this specification will primary be used for write operations there is no separate read-only profile.
 
-This spec should be ready in conjunction with OpenID Connect MODRNA Client initiated Backchannel Authentication Flow 1.0 and with parts 1 and 2 of the Financial API specification.
+This spec should be read in conjunction with OpenID Connect MODRNA Client initiated Backchannel Authentication Flow 1.0 and with parts 1 and 2 of the Financial API specification.
 
 #### 5.2.2 Authorization Server
 
