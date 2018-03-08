@@ -332,7 +332,7 @@ If the request from the client per a time period goes beyond the number the auth
 
 ### 7.5 OpenID Provider Discovery Metadata
 
-If the authorization server supports [OIDD], it shall include the following OpenID Provider Metadata parameter in discovery responses:
+If the authorization server has a request object endpoint and supports [OIDD], it shall include the following OpenID Provider Metadata parameter in discovery responses:
 
 1. `request_object_endpoint` : The url of the request object endpoint at which the client can exchange a request object for a request URI.
 
