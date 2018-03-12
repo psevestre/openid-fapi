@@ -166,8 +166,8 @@ In addition the Authorization server, for all operations,
 1. when sending a successful token notification shall include the access token hash, `at_hash`, in the ID Token;
 1. when sending a successful token notification, with a refresh token, shall include the refresh token hash, `rt_hash`, in the ID Token;
 1. when sending a successful token notification shall include the `auth_req_id`, in the ID Token;
-1. shall ensure that login_hint if provided by the subject to the client is a unique non-deterministic non-static identifier;
-1. shall require the request object to contain a id_token_hint if login_hint is not provided;
+1. shall require that `login_hint` if provided has the properties of a nonce;
+1. shall require the request object to contain a `id_token_hint` if `login_hint` is not provided;
 
 
 The following is a non-normative example of a base64url decoded ID Token sent to the client notification endpoint:
@@ -202,7 +202,9 @@ In addition, the Confidential Client
 
 1. shall authenticate against the Backchannel Authentication Endpoint using a Signed Request Object;
 1. shall ensure that the `client_notification_token` is based on a cryptographic random value so that it is difficult to predict for an attacker;
-1. shall include a binding message in the authentication request;
+1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request;
+1. shall ensure `login_hint` or `id_token_hint` is supplied;
+
 
 **NOTE**: Where [MTLS] is used to provide proof of possession semantics for tokens, the signed request object used to authenticate the confidential client shall be sent over a mutual TLS connection. This is not for the purpose of authenticating the client, but for the purpose of giving the AS the attributes it needs to issue sender-constrained tokens.
 
