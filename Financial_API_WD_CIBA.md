@@ -160,12 +160,15 @@ In addition the Authorization server, for all operations,
 1. shall require the request object to contain a `jti` claim and shall use the `jti` claim to prevent replay attacks;
 1. shall ensure that the `auth_req_id` is based on a cryptographic random value so that it is difficult to predict for an attacker;
 1. when interacting with a client in polling mode shall ensure that a successful token polling response can only be sent once for a given `auth_req_id`;
-1. shall require a binding_message in the authentication request;
+1. shall ensure unique authorization context exists in authorization request or require a binding_message in the authentication request;
 1. shall only issue access tokens and refresh tokens that are holder of key bound;
 1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
 1. when sending a successful token notification shall include the access token hash, `at_hash`, in the ID Token;
 1. when sending a successful token notification, with a refresh token, shall include the refresh token hash, `rt_hash`, in the ID Token;
 1. when sending a successful token notification shall include the `auth_req_id`, in the ID Token;
+1. shall ensure that login_hint if provided by the subject to the client is a unique non-deterministic non-static identifier;
+1. shall require the request object to contain a id_token_hint if login_hint is not provided;
+
 
 The following is a non-normative example of a base64url decoded ID Token sent to the client notification endpoint:
 
