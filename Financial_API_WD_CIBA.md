@@ -166,7 +166,7 @@ In addition the Authorization server, for all operations,
 1. when sending a successful token notification shall include the access token hash, `at_hash`, in the ID Token;
 1. when sending a successful token notification, with a refresh token, shall include the refresh token hash, `rt_hash`, in the ID Token;
 1. when sending a successful token notification shall include the `auth_req_id`, in the ID Token;
-1. shall require that `login_hint` if provided has the properties of a nonce;
+1. shall require that `login_hint` has the properties of a nonce and be provided if `id_token_hint` is not provided ;
 1. shall require the request object to contain a `id_token_hint` if `login_hint` is not provided;
 
 
@@ -245,9 +245,8 @@ The [CIBA] specification introduces some new attack vectors not present in OAuth
 
 ### 7.2 Authentication sessions started without a users knowledge or consent
 
-Because this specification allows the client to initiate an authentication request it is impossible for the authorization server to know whether the user is aware and has consented to the authentication process. If widely known user identifiers (e.g. phone numbers) are used as the `login_hint` in the authentication request then this risk is worsened. An attacker could start unsolicited authentication sessions on large numbers of authentication devices, causing distress and potentially enabling fraud.
-
-Because of this risk the authorization server should have strict rate limits per client and should start blocking clients if a certain percentage of authentication sessions are dismissed or denied by users.
+Because this specification allows the client to initiate an authentication request it is important for the authorization server to know whether the user is aware and has consented to the authentication process. If widely known user identifiers (e.g. phone numbers) are used as the `login_hint` in the authentication request then this risk is worsened. An attacker could start unsolicited authentication sessions on large numbers of authentication devices, causing distress and potentially enabling fraud.
+For this reason this profile explictly requires `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept a `id_token_hint` as an alternative mechinism for Client Subject identification.
 
 ### 7.3 Reliance on user to confirm binding messages
 
