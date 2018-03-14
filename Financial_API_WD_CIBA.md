@@ -275,7 +275,7 @@ Following people contributed heavily towards this document.
 * John Bradley (Yubico)
 * Henrik Biering (Peercraft)
 * Axel Nennker (Deutsche Telekom)
-* Ralph Bragg (RAiDiAM)
+
 
 ## 11. Bibliography
 
