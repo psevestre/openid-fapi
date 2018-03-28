@@ -160,12 +160,15 @@ In addition the Authorization server, for all operations,
 1. shall require the request object to contain a `jti` claim and shall use the `jti` claim to prevent replay attacks;
 1. shall ensure that the `auth_req_id` is based on a cryptographic random value so that it is difficult to predict for an attacker;
 1. when interacting with a client in polling mode shall ensure that a successful token polling response can only be sent once for a given `auth_req_id`;
-1. shall require a binding_message in the authentication request;
+1. shall ensure unique authorization context exists in authorization request or require a binding_message in the authentication request;
 1. shall only issue access tokens and refresh tokens that are holder of key bound;
 1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
 1. when sending a successful token notification shall include the access token hash, `at_hash`, in the ID Token;
 1. when sending a successful token notification, with a refresh token, shall include the refresh token hash, `rt_hash`, in the ID Token;
 1. when sending a successful token notification shall include the `auth_req_id`, in the ID Token;
+1. shall require that `login_hint` has the properties of a nonce and be provided if `id_token_hint` is not provided ;
+1. shall require the request object to contain a `id_token_hint` if `login_hint` is not provided;
+
 
 The following is a non-normative example of a base64url decoded ID Token sent to the client notification endpoint:
 
@@ -199,7 +202,9 @@ In addition, the Confidential Client
 
 1. shall authenticate against the Backchannel Authentication Endpoint using a Signed Request Object;
 1. shall ensure that the `client_notification_token` is based on a cryptographic random value so that it is difficult to predict for an attacker;
-1. shall include a binding message in the authentication request;
+1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request;
+1. shall ensure `login_hint` or `id_token_hint` is supplied;
+
 
 **NOTE**: Where [MTLS] is used to provide proof of possession semantics for tokens, the signed request object used to authenticate the confidential client shall be sent over a mutual TLS connection. This is not for the purpose of authenticating the client, but for the purpose of giving the AS the attributes it needs to issue sender-constrained tokens.
 
@@ -240,13 +245,15 @@ The [CIBA] specification introduces some new attack vectors not present in OAuth
 
 ### 7.2 Authentication sessions started without a users knowledge or consent
 
-Because this specification allows the client to initiate an authentication request it is impossible for the authorization server to know whether the user is aware and has consented to the authentication process. If widely known user identifiers (e.g. phone numbers) are used as the `login_hint` in the authentication request then this risk is worsened. An attacker could start unsolicited authentication sessions on large numbers of authentication devices, causing distress and potentially enabling fraud.
+Because this specification allows the client to initiate an authentication request it is important for the authorization server to know whether the user is aware and has consented to the authentication process. If widely known user identifiers (e.g. phone numbers) are used as the `login_hint` in the authentication request then this risk is worsened. An attacker could start unsolicited authentication sessions on large numbers of authentication devices, causing distress and potentially enabling fraud.
+For this reason this profile explictly requires `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept a `id_token_hint` as an alternative mechinism for Client Subject identification.
 
-Because of this risk the authorization server should have strict rate limits per client and should start blocking clients if a certain percentage of authentication sessions are dismissed or denied by users.
+Should a TPP wish to link the `id_token` returned from an authorization server to an identifier that can be provided in a more friendly manner as a key for the `id_token_hint`, care must be taken to ensure that customer identification mechanism used to retrieve the `id_token` is appropriate for the channel being used.
+For illustration a QR club card may be an appropriate identifier when using a POS terminal under CCTV but it might not be an appropriate identifier when used in online ecommerce.
 
 ### 7.3 Reliance on user to confirm binding messages
 
-In a payments scenario it is possible for a fraudster to start a [CIBA] flow at the same time as a genuine flow, but using the genuine user’s identifier. If the amount and the client are the same then the only way to ensure that a user is authorising the correct transaction is for the user to compare the binding messages. If this risk is deemed unacceptable then implementers should consider alternative mechanisms to verify binding messages.
+Should a `id_token_hint` be used an identifier, and depending on the Client's Customer authentication processes, it may be possible for a fraudster to start a [CIBA] flow at the same time as a genuine flow but using the genuine user’s identifier. If the amount and the client are the same then the only way to ensure that a user is authorising the correct transaction is for the user to compare the binding messages. If this risk is deemed unacceptable then implementers should consider alternative mechanisms to verify binding messages.
 
 ### 7.4 Loss of fruad markers to FI
 
@@ -268,6 +275,7 @@ Following people contributed heavily towards this document.
 * John Bradley (Yubico)
 * Henrik Biering (Peercraft)
 * Axel Nennker (Deutsche Telekom)
+
 
 ## 11. Bibliography
 
