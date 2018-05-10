@@ -193,9 +193,10 @@ In addition, the authorization server, for the write operation,
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
 1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
-1. shall support signed ID Tokens; and 
-1. should support signed and encrypted ID Token. 
-1. shall require that all parameters are present inside the signed request object
+1. shall support signed ID Tokens;
+1. should support signed and encrypted ID Token;
+1. shall require that all parameters are present inside the signed request object; and
+1. may support the request object endpoint as described in section 7.
 
 #### 5.2.3 Public client
 
