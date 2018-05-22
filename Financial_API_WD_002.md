@@ -108,7 +108,7 @@ The following referenced documents are indispensable for the application of this
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
 [OAUTB] - OAuth 2.0 Token Binding
-[OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-04
+[OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding
 
 [MTLS] - Mutual TLS Profile for OAuth 2.0
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
