@@ -156,6 +156,7 @@ The authorization server
 1. shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
 1. shall require a key of size 160 bits or larger if elliptic curve algorithms are used for the client authentication;
 1. shall require [RFC7636] with `S256` as the code challenge method for public clients if it supports public clients;
+1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 1. shall require redirect URIs to be pre-registered;
 1. shall require the `redirect_uri` parameter in the authorization request;
 1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
