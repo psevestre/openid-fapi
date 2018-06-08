@@ -101,10 +101,16 @@ The following referenced documents are indispensable for the application of this
 [OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-01
 
 [MTLS] - Mutual TLS Profiles for OAuth Clients
-[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls-00
+[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls-06
 
 [CIBA] - MODRNA Client initiated Backchannel Authentication Flow 1.0
 [CIBA]: http://openid.net/specs/openid-connect-modrna-client-initiated-backchannel-authentication-1_0.html
+
+[FAPI1] - FAPI Read Only API Security Profile
+[FAPI1]: https://openid.net/specs/openid-financial-api-part-1.html
+
+[FAPI2] - FAPI Read Write API Security Profile
+[FAPI2]: https://openid.net/specs/openid-financial-api-part-2.html
 
 ## 3. Terms and definitions
 
@@ -147,7 +153,7 @@ The following sections specify a profile of CIBA that is suited for financial AP
 
 As it is anticipated the this specification will primary be used for write operations there is no separate read-only profile.
 
-This spec should be read in conjunction with OpenID Connect MODRNA Client initiated Backchannel Authentication Flow 1.0 and with parts 1 and 2 of the Financial API specification.
+This spec should be read in conjunction with OpenID Connect MODRNA Client initiated Backchannel Authentication Flow 1.0 and with parts 1 [FAPI1] and 2 [FAPI2] of the Financial API specification.
 
 #### 5.2.2 Authorization Server
 
@@ -166,7 +172,7 @@ In addition the Authorization server, for all operations,
 1. when sending a successful token notification shall include the access token hash, `at_hash`, in the ID Token;
 1. when sending a successful token notification, with a refresh token, shall include the refresh token hash, `rt_hash`, in the ID Token;
 1. when sending a successful token notification shall include the `auth_req_id`, in the ID Token;
-1. shall require that `login_hint` has the properties of a nonce and be provided if `id_token_hint` is not provided ;
+1. should require that `login_hint` has the properties of a nonce and be provided if `id_token_hint` is not provided;
 1. shall require the request object to contain a `id_token_hint` if `login_hint` is not provided;
 
 
@@ -192,11 +198,14 @@ The following is a non-normative example of a base64url decoded ID Token sent to
 
 **NOTE:** When the client is configured in polling mode, it will be interacting with the token endpoint in order to retrieve access tokens. The same security requirements for this endpoint detailed in Parts 1 and 2 of the Financial API apply.
 
+**NOTE:** When the client is configured in polling mode, it will be interacting with the token endpoint in order to retrieve access tokens. The same security requirements for this endpoint detailed in Parts 1 and 2 of the Financial API apply.
+
+
 #### 5.2.3 Confidential Client
 
 ##### 5.2.3.1 General Provisions
 
-A Confidential Client shall support the provisions specified in clause 5.2.4 of Financial API - Part 1 and clause 5.2.4 of Financial API - Part 2.
+A Confidential Client shall support the provisions specified in clause 5.2.4 of Financial API - Part 1 [FAPI1] and clause 5.2.4 of Financial API - Part 2 [FAPI2].
 
 In addition, the Confidential Client
 
@@ -235,8 +244,7 @@ In situations where the client does not control the consumption device, the clie
 1. shall not send `x-fapi-customer-ip-address` or `x-fapi-auth-date` headers;
 1. should send metadata about the consumption device, for example geolocation and device type.
 
-   **NOTE:** It may be useful for an FI’s fraud systems to know the location and type of the consumption device. The format and schema for such metadata is outside the scope of this profile.
-
+   
 # 7. Security Considerations
 
 ### 7.1 Introduction
@@ -246,7 +254,7 @@ The [CIBA] specification introduces some new attack vectors not present in OAuth
 ### 7.2 Authentication sessions started without a users knowledge or consent
 
 Because this specification allows the client to initiate an authentication request it is important for the authorization server to know whether the user is aware and has consented to the authentication process. If widely known user identifiers (e.g. phone numbers) are used as the `login_hint` in the authentication request then this risk is worsened. An attacker could start unsolicited authentication sessions on large numbers of authentication devices, causing distress and potentially enabling fraud.
-For this reason this profile explictly requires `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept a `id_token_hint` as an alternative mechinism for Client Subject identification.
+For this reason this profile highly recommends `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept a `id_token_hint` as an alternative mechinism for Client Subject identification.
 
 Should a TPP wish to link the `id_token` returned from an authorization server to an identifier that can be provided in a more friendly manner as a key for the `id_token_hint`, care must be taken to ensure that customer identification mechanism used to retrieve the `id_token` is appropriate for the channel being used.
 For illustration a QR club card may be an appropriate identifier when using a POS terminal under CCTV but it might not be an appropriate identifier when used in online ecommerce.
@@ -257,7 +265,7 @@ Should a `id_token_hint` be used an identifier, and depending on the Client's Cu
 
 ### 7.4 Loss of fruad markers to FI
 
-In a redirect-based flow, the FI can collect useful fraud markers from the user-agent. In a [CIBA] flow the separation of consumption and authentication devices reduces the data that can be collected. This could reduce the effectiveness of an FI's frauid detection system.
+In a redirect-based flow, the FI can collect useful fraud markers from the user-agent. In a [CIBA] flow the separation of consumption and authentication devices reduces the data that can be collected. This could reduce the effectiveness of an FI's fraud detection system. 
 
 ## 8. Privacy Considerations
 
@@ -271,10 +279,11 @@ Following people contributed heavily towards this document.
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
 * Anthony Nadalin (Microsoft) -- Co-chair, SC 27 Liaison
 * Edmund Jay (Illumila) -- Co-editor
-* Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
+* Dave Tonge (Momentum Financial Technology) -- Co-chair, UK Implementation Entity Liaison
 * John Bradley (Yubico)
 * Henrik Biering (Peercraft)
 * Axel Nennker (Deutsche Telekom)
+* Ralph Bragg (RAiDiAM)
 
 
 ## 11. Bibliography
