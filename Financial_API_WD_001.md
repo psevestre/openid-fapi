@@ -261,10 +261,7 @@ The resource server with the FAPI endpoints
 The client supporting this document
 
 1. shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750]; and 
-1. shall send `x-fapi-financial-id` whose value is the unique identifier of the desired financial institution to interact with (assigned by the resource server owner) where the same endpoints are used for multiple institutions.
-
-    **NOTE**: Conceptually, the value of the `x-fapi-financial-id` corresponds to `iss` in the ID Token
-    but is not required to be an https URI. It often is the routing number of the FI.
+1. (withdrawn);
 
     Further, the client
 
