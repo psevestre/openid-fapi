@@ -89,7 +89,8 @@ The following referenced documents are indispensable for the application of this
 [RFC7519] - JSON Web Token (JWT)
 [RFC7519]:https://tools.ietf.org/html/rfc7519
 
-BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-oauth-native-apps-03)
+[BCP212] - OAuth 2.0 for Native Apps
+[BCP212]: https://tools.ietf.org/html/bcp212
 
 [BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 [BCP195]: https://tools.ietf.org/html/bcp195
@@ -107,7 +108,7 @@ BCP NAPPS - [OAuth 2.0 for Native Apps](https://tools.ietf.org/html/draft-ietf-o
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
 [OAUTB] - OAuth 2.0 Token Binding
-[OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-04
+[OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding
 
 [MTLS] - Mutual TLS Profile for OAuth 2.0
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
