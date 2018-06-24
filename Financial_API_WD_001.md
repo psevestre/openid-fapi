@@ -156,7 +156,6 @@ The authorization server
 1. shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
 1. shall require a key of size 160 bits or larger if elliptic curve algorithms are used for the client authentication;
 1. shall require [RFC7636] with `S256` as the code challenge method for public clients if it supports public clients;
-1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 1. shall require redirect URIs to be pre-registered;
 1. shall require the `redirect_uri` parameter in the authorization request;
 1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
@@ -168,6 +167,7 @@ The authorization server
 1. shall provide opaque non-guessable access tokens with a minimum of 128 bits of entropy where the probability of an attacker guessing the generated token is less than or equal to 2^(-160) as per [RFC6749] section 10.10;
 1. should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
 1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
+1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 
     **NOTE**: The Financial API server may limit the scopes for the purpose of not implementing certain APIs.
 
@@ -176,8 +176,10 @@ The authorization server
     **NOTE**: If replay identification of the authorization code is not possible, it is desirable to set the validity period of the authorization code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the authorization code cache if one is used.
 
     **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
-	
-    Further, if it is desired to provide the authenticated user's identifier to the client in the token response, the authorization server:
+
+#### 5.2.2.1 Returning authenticated user's identifier Authorization server
+
+Further, if it is desired to provide the authenticated user's identifier to the client in the token response, the authorization server:
 
 1. shall support the authentication request as in Section 3.1.2.1 of [OIDC];
 1. shall perform the authentication request verification as in Section 3.1.2.2 of [OIDC];
