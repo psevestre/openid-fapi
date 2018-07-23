@@ -198,6 +198,7 @@ In addition, the authorization server, for the write operation,
 1. should support signed and encrypted ID Token;
 1. shall require that all parameters are present inside the signed request object; and
 1. may support the request object endpoint as described in section 7.
+1. shall require [RFC7636] with S256 as the code challenge method for public clients only, if it supports public clients;
 
 #### 5.2.3 Public client
 
@@ -221,7 +222,7 @@ all the requirements in 3.3.2.12 of [OIDC].
 
 #### 5.2.4 Confidential client
 
-In addition to the provisions for the public client in clause 5.2.3 of this document, the confidential client for write operations
+In addition to the provisions for the public client in clause 5.2.3 of this document, except for [RFC7636] support, the confidential client for write operations
 
 1. shall support [OAUTB] or [MTLS] as a holder of key mechanism (this overrides clause 5.2.3.1);
 1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints
