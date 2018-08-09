@@ -1,4 +1,4 @@
-#Financial Services – Financial API - Part 2: JWT Secured Authorization Response Mode for OAuth 2.0
+#Financial Services – Financial API: JWT Secured Authorization Response Mode for OAuth 2.0
 
 ## Warning
 
@@ -33,7 +33,7 @@ Fintech is an area of future economic growth around the world and Fintech organi
 
 The Financial API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
  
-This document defines the new mode "jwt" for responses from the authorization endpoint of an authorization server. The response mode "jwt" enables clients to request the transmission of the credentials issued by the authorization server along with additional data in JWT format. This mechanims enhances the security of the authorization response since it provides sender authentication, audience restriction as well as protection from replay, credential leakage, and mix-up attacks.  
+This document defines the new mode "jwt" for responses from the authorization endpoint of an authorization server. The response mode "jwt" enables clients to request the transmission of the credentials issued by the authorization server along with additional data in JWT format. This mechanism enhances the security of the standard authorization response since it adds sender authentication, audience restriction as well as protection from replay, credential leakage, and mix-up attacks.  
 
 ### Notational Conventions
 
@@ -45,7 +45,7 @@ These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-#**Financial Services – Financial API - Part 2: JWT Secured Authorization Response Mode for OAuth 2.0 **
+#**Financial Services – Financial API: JWT Secured Authorization Response Mode for OAuth 2.0 **
 
 [TOC]
 
@@ -76,6 +76,9 @@ The following referenced documents are indispensable for the application of this
 [OIDM] -  OAuth 2.0 Multiple Response Type Encoding Practices
 [OIDM]: http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
 
+[draft-ietf-oauth-security-topics] - OAuth 2.0 Security Best Current Practice
+[draft-ietf-oauth-security-topics]: https://tools.ietf.org/html/draft-ietf-oauth-security-topics
+
 ## 2. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
@@ -100,22 +103,20 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 ## 4. Response Mode "jwt"
 
-This draft defines the additional value "jwt" for the authorization request parameter "response_mode" as defined in [OIDM]. 
-
-The response mode "jwt" causes the authorization server to encode the authorization response as a JWT. 
+This draft defines the additional response mode "jwt" for OAuth authorization requests in accordance with [OIDM]. The response mode "jwt" causes the authorization server to encode the authorization response as a JWT. 
 
 ### 4.1. The JWT Response Document 
 
 The JWT contains the credentials issued for a particular response type along with the following additional data utilized to secure the transmission:
 
-* iss - the issuer URL of the authorization server that created the response
-* aud - this claim contains the client_id of the client the response is intended for
-* exp - experation of the JWT
-* s_hash - the hash of the state value as defined in FAPI Part 2
+* `iss` - the issuer URL of the authorization server that created the response
+* `aud` - the client_id of the client the response is intended for
+* `exp` - experation of the JWT
+* `s_hash` - the hash of the state value as defined in FAPI Part 2
 
-The "state" parameter value is not included in the JWT because it functions as trust anchor to identify and check the authenticity of the response _before_ the JWT is processed by the client. 
+The "state" parameter value is not included in the JWT because it functions as trust anchor to identify and check the authenticity of the authorization response _before_ the JWT is processed by the client. The `s_hash` claim of the JWT will provide a cryptographically protected binding between the state and the response parameters. 
 
-When used in conjunction with the response type "code", the code is conveyed as additional field "code" of the JWT. The following is an example JWT response.
+When used in conjunction with the response type "code", the code is conveyed as additional field "code" of the JWT. The following is an example JWT:
 
 ```
 {  
@@ -131,51 +132,64 @@ Note: The response mode "jwt" can be combined with other response types, the res
 
 The JWT may be signed or signed & encrypted. If the JWT is both signed and encrypted, the JSON document will be signed then encrypted, with the result being a Nested JWT, as defined in [RFC7519].
 
-### 4.1 The JWT Secured Response
+### 4.2 The JWT Secured Response
 
 The response mode "jwt" causes the authorization server to add two parameters to the redirect to the client:
 
 * state - the state value as specified in [RFC6749]
-* response - the JSON Web Token containing the code and additional response data
+* response - the JWT as defined in section 4.1
 
 This is an example response: 
 
 ```
 GET /cb?state=S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
-response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmV4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImp0aSI6IjI3MzBkYzJmLWM5YzYtNGJlNC05N2M5LTYyMjNkMThmMmIxMyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwLCJjX2hhc2giOiI0NDIyRTBFMDk0RjM0RTk3Qzg1MkVCNUY5QjI4MzlEODEyMDA2NkMyN0VGNjZBQTI4QzNEREM3Q0U3QTc5ODE1Iiwic19oYXNoIjoiNDRENDE2NjhEMTk5RkYzRDUyNUZBMzU3QTI1NTI1RDczOEFBREYyQTdCMUUyQzgxOUEzOUUzODUwMEFCQUVEOSJ9.ldPh3w3QAkkbz3voa3F2pvruWQwNBv3AYV9xpcuVLZi5Da4tjep-xayjO4_flznYuu9EZbyYA1lb9uzu0rSSSiwEJ5Ms9ZEvB4l1xXNLT5TRV00erXb6Y1JsvxHjanB0I8-FUHdP-HMA0Zhg9UVohAc2qiO6wDcEfi5y_1fST4Y
+response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnR
+zLmV4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImp0aSI6IjI3MzBkYzJmLWM5YzYtNGJl
+NC05N2M5LTYyMjNkMThmMmIxMyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxO
+TcwLCJjX2hhc2giOiI0NDIyRTBFMDk0RjM0RTk3Qzg1MkVCNUY5QjI4MzlEODEyMDA2NkMyN0VGNj
+ZBQTI4QzNEREM3Q0U3QTc5ODE1Iiwic19oYXNoIjoiNDRENDE2NjhEMTk5RkYzRDUyNUZBMzU3QTI
+1NTI1RDczOEFBREYyQTdCMUUyQzgxOUEzOUUzODUwMEFCQUVEOSJ9.ldPh3w3QAkkbz3voa3F2pvr
+uWQwNBv3AYV9xpcuVLZi5Da4tjepxayjO4_flznYuu9EZbyYA1lb9uzu0rSSSiwEJ5Ms9ZEvB4l1x
+XNLT5TRV00erXb6Y1JsvxHjanB0I8-FUHdP-HMA0Zhg9UVohAc2qiO6wDcEfi5y_1fST4Y
 Host: client.example.com
 ```
-### 4.2 Processing rules
+### 4.3 Processing rules
 
 The client is obliged to process the JWT secured response as follows:
 
-1. The "state" parameter MUST be checked to be linked to the user agent's local state in order to prevent XSRF. Note: The state value is treated as a one-time-use XSRF token. It MUST be invalidated after the check was performed.
-1. (OPTIONAL) The client decrypts the JWT using the key material registered with the expected issuer of the response. 
-1. Check the signature of the JWT signature using the jwk set of the expected issuer. Note: the client MUST obtain the JWK set from local data and MUST NOT follow the iss claim of the JWT to obtain key material. This is done to prevent DoS (see Security Considerations) 
-1. Check whether the JWT's "iss" claim matches the expected "iss" value of the local state (set before the authorization request was sent). 
+Assumption: the client stored the issuer it sent the authorization request to and is also able to obtain the key material to check the JWT's signature and, if needed, to decrypt the JWT independent of the JWT in the authorization response.
+
+1. The "state" parameter MUST be checked to be linked to the user agent's local state in order to prevent CSRF. Note: The state value is treated as a one-time-use XSRF token. It MUST be invalidated after the check was performed.
+1. (OPTIONAL) The JWT is decrypted using the key material registered with the expected issuer of the response. 
+1. Check the signature of the JWT using the JWK set of the expected issuer. Note: the client MUST obtain the JWK set from local data and MUST NOT follow the `iss` claim of the JWT to obtain key material. This is done to prevent DoS (see Security Considerations) 
+1. Check whether the JWT's `iss` claim matches the expected `iss` value of the local state (set before the authorization request was sent). 
 
 ## 6. Security considerations
 
 ### 6.1 DoS using specially crafted JWTs
-This strategy will also work, but it's vulnerable to DoS attacks - JWTs
-could be crafted to have an issuer that resolves to a JWK set URL with
+JWTs could be crafted to have an issuer that resolves to a JWK set URL with
 huge content, or is delivered very slowly, consuming server networking
-bandwidth /  a thread. The resolved JWK set URL could also be used to
+bandwidth and compute capacity. The resolved JWK set URL could also be used to
 DDoS targets on the web.
 
-Use local data
+The client therefore MUST use key material obtained independent of the JWT from a secure source to check its signature. 
 
 ### 6.2 Code Replay
-Signature binds code to state (and transitively with user agent state)
+An authorization code (obtained on a different device with the same client) could be injected into an authorization response in order to impersonate the legitimate resource owner (see [draft-ietf-oauth-security-topics]). 
+
+The JWT secured response mode enables clients to detect such an attack. The signature binds the authorization code to the state value sent by the client and therewith transitively to the respective user agent.
 
 ### 6.3 Mix-Up
-iss and aud
-
-### 6.4 XSRF
-state validation
+Mix-up is an attack on scenarios where an OAuth client interacts with
+   multiple authorization servers. The goal of the attack is to obtain an
+   authorization code or an access token by tricking the client into
+   sending those credentials to the attacker instead of using them at
+   the respective endpoint at the authorization/resource server.
+   
+The JWT secured response mode enables clients to detect this attack by providing an identification of the sender (`iss`) and the intended audience of the authorization response (`aud`). 
 
 ### 6.5 Code Leakage
-Encryption
+Authorization servers MAY encrypt the authorization response therewith providing a mechanism to prevent leakage of authorization codes in the user agent. 
 
 ## 7. Privacy considerations
 TBD
