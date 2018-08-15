@@ -103,20 +103,33 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 ## 4. Response Mode "jwt"
 
-This draft defines the additional response mode "jwt" for OAuth authorization requests in accordance with [OIDM]. The response mode "jwt" causes the authorization server to encode the authorization response as a JWT. 
+This draft defines the additional response mode "jwt" for OAuth authorization requests in accordance with [OIDM]. The response mode "jwt" causes the authorization server to encode most of the authorization response as a JWT. 
 
 ### 4.1. The JWT Response Document 
 
-The JWT contains the credentials issued for a particular response type along with the following additional data utilized to secure the transmission:
+Depending on the response type, the JWT contains the authorization response parameters as defined in [RFC6749], sections 4.1.2 and 4.2.2, except the `state` response parameter. 
+
+For the grant type authorization code this is:
+
+* `code` - the authorization code
+
+For the grant type "token" these are:
+
+* `access_token` - the access token
+* `token_type` - the type of the access token
+* `expires_in` - when the access token expires
+* `scope` - the scope granted with the access token
+
+The JWT also contains further data utilized to secure the transmission:
 
 * `iss` - the issuer URL of the authorization server that created the response
 * `aud` - the client_id of the client the response is intended for
 * `exp` - expiration of the JWT
 * `s_hash` - the hash of the state value as defined in FAPI Part 2
 
-Note: The "state" parameter value is not included in the JWT because it functions as trust anchor to identify and check the authenticity of the authorization response _before_ the JWT is processed by the client. The `s_hash` claim of the JWT will provide a cryptographically protected binding between the state and the response parameters contained in the JWT. 
+Note: The `state` parameter value is not included in the JWT because it functions as trust anchor to identify and check the authenticity of the authorization response _before_ the JWT is processed by the client. The `s_hash` claim of the JWT will provide a cryptographically protected binding between the state and the response parameters contained in the JWT. 
 
-When used in conjunction with the response type "code", the code is conveyed as additional field "code" of the JWT. The following is an example JWT:
+The following example shows an JWT for response type "code":
 
 ```
 {  
@@ -127,8 +140,6 @@ When used in conjunction with the response type "code", the code is conveyed as 
    "code":"PyyFaux2o7Q0YfXBU32jhw.5FXSQpvr8akv9CeRDSd0QA"  
 }
 ```
-
-Note: The response mode "jwt" can be combined with other response types, but the respective syntax and behavior is out of scope of this draft.
 
 The JWT is either signed, or signed and encrypted. If the JWT is both signed and encrypted, the JSON document will be signed then encrypted, with the result being a Nested JWT, as defined in [RFC7519].
 
@@ -164,6 +175,8 @@ The client is obliged to process the JWT secured response as follows:
 1. The signature of the JWT is validated using the JWK set of the expected issuer. Note: the client MUST obtain the JWK set from local data and MUST NOT follow the `iss` claim of the JWT to obtain key material. This is done to prevent DoS (see Security Considerations) 
 1. The JWT's `iss` claim MUST matches the expected `iss` value of the local state (as stored with the client's local state before the authorization request was sent). 
 1. The JWT's `aud` claim MUST match the client_id the client used to request the authorization.
+
+The client MUST NOT process the grant type specific authorization response parameters before all checks suceeded. 
 
 ## 5. Security considerations
 
