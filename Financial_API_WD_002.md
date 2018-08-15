@@ -207,7 +207,7 @@ A public client shall support the provisions specified in clause 5.2.3 of Financ
 
 In addition, the public client for write operations
 
-1. shall support [OAUTB] as a holder of key mechanism;
+1. shall support [OAUTB] or [MTLS] as a holder of key mechanism; Note: [MTLS] shall be used with instance-specific keys and (self-signed) certificates to bind access tokens to the particular instance of a public client. It is NOT used as client authentication mechanisms.
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
 1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC];
 1. shall require JWS signed ID Token be returned from endpoints;
@@ -225,7 +225,7 @@ all the requirements in 3.3.2.12 of [OIDC].
 
 In addition to the provisions for the public client in clause 5.2.3 of this document, except for [RFC7636] support, the confidential client for write operations
 
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism (this overrides clause 5.2.3.1);
+1. shall support [OAUTB] or [MTLS] as a holder of key mechanism (this overrides clause 5.2.3.1); Note: In case of confidential clients, [MTLS] can also be used as client authentication mechanism. 
 1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints
 
 ## 6. Accessing protected resources (using tokens)
