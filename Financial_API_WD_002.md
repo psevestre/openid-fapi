@@ -188,7 +188,6 @@ The authorization server shall support the provisions specified in clause 5.2.2 
 In addition, the authorization server, for the write operation,
 
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
-1. shall require the request object to contain an `exp` claim;
 1. shall require the `response_type` values `code id_token` or `code id_token token`;
 1. shall return ID Token as a detached signature to the authorization response;
 1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
@@ -198,8 +197,9 @@ In addition, the authorization server, for the write operation,
 1. shall support signed ID Tokens;
 1. should support signed and encrypted ID Token;
 1. shall require that all parameters are present inside the signed request object passed in the `request` or `request_uri` parameter; and
-1. may support the request object endpoint as described in section 7.
-1. shall require [RFC7636] with S256 as the code challenge method for public clients only, if it supports public clients;
+1. may support the request object endpoint as described in section 7;
+1. shall require [RFC7636] with S256 as the code challenge method for public clients only, if it supports public clients; and
+1. shall require the request object to contain an `exp` claim;
 
 #### 5.2.3 Public client
 
