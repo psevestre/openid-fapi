@@ -430,7 +430,16 @@ Section 7.1 of Financial API - Part 1: Read Only API Security Profile shall appl
 1. For the `authorization_endpoint`, the authorisation server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers.
 
 ### 8.6 JWS algorithm considerations
-JWS signatures shall use the `PS256` or `ES256` algorithms for signing.
+
+Both clients and authorisation servers:
+
+1. shall implement `PS256` and `ES256` algorithms
+1. should not implement algorithms that use RSASSA-PKCS1-v1_5
+1. shall not implement `none`
+1. may implement other algorithms that are deemed more secure than `PS256` and `ES256`
+
+Note that RSA encryption with PKCS#1v1.5 padding has known vulnerabilities and as such is not reccoemended to be used by implementers of this speicification. 
+
 
 ## 9. Privacy considerations
 
@@ -449,7 +458,7 @@ The following people contributed to this document:
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
 * Anthony Nadalin (Microsoft) -- Co-chair, SC 27 Liaison
 * Edmund Jay (Illumila) -- Co-editor
-* Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
+* Dave Tonge (Moneyhub) -- Co-editor, UK Implementation Entity Liaison
 * Paul A. Grassi (NIST) -- X9 Liaison
 * Joseph Heenan (Authlete)
 * Sascha H. Preibisch (CA)
