@@ -196,10 +196,13 @@ In addition, the authorization server, for the write operation,
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
 1. shall support signed ID Tokens;
 1. should support signed and encrypted ID Token;
-1. shall require that all parameters are present inside the signed request object passed in the `request` or `request_uri` parameter; and
+1. shall require that all parameters are present inside the signed request object passed in the `request` or `request_uri` parameter;
 1. may support the request object endpoint as described in section 7;
-1. shall require [RFC7636] with S256 as the code challenge method for public clients only, if it supports public clients; and
-1. shall require the request object to contain an `exp` claim;
+1. shall require [RFC7636] with S256 as the code challenge method for public clients only, if it supports public clients;
+1. shall require the request object to contain an `exp` claim; and
+1. shall authenticate the confidential client at the token endpoint using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
+    1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
+    2. `private_key_jwt` as specified in section 9 of [OIDC];
 
 #### 5.2.3 Public client
 
