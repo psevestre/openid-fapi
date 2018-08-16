@@ -64,6 +64,15 @@ The following referenced documents are indispensable for the application of this
 [RFC7519] - JSON Web Token (JWT)
 [RFC7519]:https://tools.ietf.org/html/rfc7519
 
+[RFC7516] - JSON Web Encryption (JWE)
+[RFC7516]:https://tools.ietf.org/html/rfc7516
+
+[RFC7517] - JSON Web Key (JWK)
+[RFC7517]:https://tools.ietf.org/html/rfc7517
+
+[RFC7518] - JSON Web Algorithms (JWA)
+[RFC7518]:https://tools.ietf.org/html/rfc7518
+
 [BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 [BCP195]: https://tools.ietf.org/html/bcp195
 
@@ -136,51 +145,76 @@ The following example shows an JWT for response type "code":
    "iss":"https://accounts.example.com",
    "aud":"s6BhdRkqt3",
    "exp":1311281970,
-   "s_hash":"44D41668D199FF3D525FA357A25525D738AADF2A7B1E2C819A39E38500ABAED9",
+   "s_hash":"Uy6qvZV0iA2/drm4zACDLA==",
    "code":"PyyFaux2o7Q0YfXBU32jhw.5FXSQpvr8akv9CeRDSd0QA"  
 }
 ```
+### 4.2 Signing and Encryption
 
 The JWT is either signed, or signed and encrypted. If the JWT is both signed and encrypted, the JSON document will be signed then encrypted, with the result being a Nested JWT, as defined in [RFC7519].
 
-### 4.2 The JWT Secured Response
+The authorization server determines what algorithm to employ to secure the JWT for a particular authorization response. This decision can be based on registered metadata parameters for the client as defined by this draft (see section 5).
 
-The response mode "jwt" causes the authorization server to send an authorization response with the following parameters to the redirect URL of the client:
+For guidance on key management in general and especially on use of symmetric algorithms for signing and encrypting based on client secrets see 10.1 and 10.2 of [OIDC].
 
-* state - the state value as specified in [RFC6749]
-* response - the JWT as defined in section 4.1
+### 4.3 The JWT Secured Response
 
-This is an example response: 
+The response mode "jwt" causes the authorization server to send the authorization response as HTTP redirect to the redirect URL of the client. It adds the following query string parameters to this redirect:
+
+* `state` - the state value as specified in [RFC6749]
+* `response` - the JWT as defined in section 4.1
+
+This is an example response (line breaks for display purposes only): 
 
 ```
 GET /cb?state=S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
-response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnR
-zLmV4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImp0aSI6IjI3MzBkYzJmLWM5YzYtNGJl
-NC05N2M5LTYyMjNkMThmMmIxMyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxO
-TcwLCJjX2hhc2giOiI0NDIyRTBFMDk0RjM0RTk3Qzg1MkVCNUY5QjI4MzlEODEyMDA2NkMyN0VGNj
-ZBQTI4QzNEREM3Q0U3QTc5ODE1Iiwic19oYXNoIjoiNDRENDE2NjhEMTk5RkYzRDUyNUZBMzU3QTI
-1NTI1RDczOEFBREYyQTdCMUUyQzgxOUEzOUUzODUwMEFCQUVEOSJ9.ldPh3w3QAkkbz3voa3F2pvr
-uWQwNBv3AYV9xpcuVLZi5Da4tjepxayjO4_flznYuu9EZbyYA1lb9uzu0rSSSiwEJ5Ms9ZEvB4l1x
-XNLT5TRV00erXb6Y1JsvxHjanB0I8-FUHdP-HMA0Zhg9UVohAc2qiO6wDcEfi5y_1fST4Y
+response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnRzLm
+V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwic19oYXNoIjoiVX
+k2cXZaVjBpQTIvZHJtNHpBQ0RMQT09IiwiY29kZSI6IlB5eUZhdXgybzdRMFlmWEJVMzJqaHcuNUZYU1
+FwdnI4YWt2OUNlUkRTZDBRQSJ9.2OK1x9-heaqB4jGEtLXNcuTyFQFyI7QQrkG3zoYqOUpoXMK3BYmr4
+kf01C4gGZLUWv9TZqGdqFl84xjkikO-o4Y9hClcBj1R2VJvB_VDyAWNc39CG7Dn5MOvyK-5qierH-Hgv
+3G7ciYyZeJsiU4O3mQEkgXrXsmhqNnWDA2NpBA
 Host: client.example.com
 ```
-### 4.3 Processing rules
+### 4.4 Processing rules
 
-Assumption: the client stored the issuer it sent the authorization request to and is also able to obtain the key material to check the JWT's signature and, if needed, to decrypt the JWT independent of the JWT in the authorization response.
+Assumption: the client memorized which authorization server it sent an authorization request to and bound this information to the user agent.
 
 The client is obliged to process the JWT secured response as follows:
 
-1. The "state" parameter MUST be checked to be linked to the user agent's local state in order to prevent CSRF. Note: The state value is treated as a one-time-use XSRF token. It MUST be invalidated after the check was performed.
-1. (OPTIONAL) The JWT is decrypted using the key material registered with the expected issuer of the response. 
-1. The signature of the JWT is validated using the JWK set of the expected issuer. Note: the client MUST obtain the JWK set from local data and MUST NOT follow the `iss` claim of the JWT to obtain key material. This is done to prevent DoS (see Security Considerations) 
-1. The JWT's `iss` claim MUST matches the expected `iss` value of the local state (as stored with the client's local state before the authorization request was sent). 
+1. The `state` parameter MUST be checked to be linked to the user agent's local state in order to prevent CSRF. Note: The state value is treated as a one-time-use XSRF token. It MUST be invalidated after the check was performed.
+1. (OPTIONAL) The JWT is decrypted using the client's private key registered with the expected issuer of the response or a key derived from its client secret (see section 4.2). 
+1. The signature of the JWT is validated using the JWK set of the expected issuer or the respective client secret (see section 4.2). Note: the client MUST NOT follow the `iss` claim of the JWT to obtain key material. This is done to prevent DoS (see Security Considerations). The client may utilize the issuer data bound to the user agent and obtain the JWK set from the respective authorization server's OAuth or OpenID configuration.
+1. The JWT's `iss` claim MUST matches the expected `iss` value of the local state. 
 1. The JWT's `aud` claim MUST match the client_id the client used to request the authorization.
 
 The client MUST NOT process the grant type specific authorization response parameters before all checks suceeded. 
 
-## 5. Security considerations
+## 5. Client Metadata
 
-### 5.1 DoS using specially crafted JWTs
+The parameter names follow the pattern established by OpenID Connect Dynamic Client Registration [OpenID.Registration] for configuring signing and encryption algorithms for JWT responses at the UserInfo endpoint.
+
+The following client metadata parameters are introduced by this specification:
+
+* `authorization_signed_response_alg` JWS [RFC7515] `alg` algorithm JWA [RFC7518] REQUIRED for signing authorization responses.  If this is specified, the response will be signed using JWS and the configured algorithm.  The default, if omitted, is RSA SHA-256.
+* `authorization_encrypted_response_alg` JWE [RFC7516] `alg` algorithm JWA [RFC7518] REQUIRED for encrypting authorization responses.  If both signing and encryption are requested, the response will be signed then encrypted, with the result being a Nested JWT, as defined in JWT [RFC7519].  The default, if omitted, is that no encryption is performed.
+* `authorization_encrypted_response_enc` JWE [RFC7516] `enc` algorithm JWA [RFC7518] REQUIRED for encrypting authorization responses.  If `authorization_encrypted_response_alg` is specified, the default for this value is A128CBC-HS256.  When `authorization_encrypted_response_enc` is included, `authorization_encrypted_response_alg` MUST also be provided.
+
+Clients may register their public encryption keys using the `jwks_uri` or `jwks` metadata parameters.
+
+## 6. Authorization Server Metadata
+
+Authorization servers SHOULD publish the supported algorithms for signing and encrypting the JWT of an introspection response by utilizing OAuth 2.0 Authorization Server Metadata [RFC8414] parameters.
+
+The following parameters are introduced by this specification:
+
+* `authorization_signing_alg_values_supported` OPTIONAL.  JSON array containing a list of the JWS [RFC7515] signing algorithms (`alg` values) JWA [RFC7518] supported by the authorization endpoint to sign the response.
+* `authorization_encryption_alg_values_supported`  OPTIONAL.  JSON array containing a list of the JWE [RFC7516] encryption algorithms (`alg` values) JWA [RFC7518] supported by the authorization endpoint to encrypt the response.
+* `authorization_encryption_enc_values_supported`  OPTIONAL.  JSON array containing a list of the JWE [RFC7516] encryption algorithms (`enc` values) JWA [RFC7518] supported by the introspection endpoint to encrypt the response.
+
+## 7. Security considerations
+
+### 7.1 DoS using specially crafted JWTs
 JWTs could be crafted to have an issuer that resolves to a JWK set URL with
 huge content, or is delivered very slowly, consuming server networking
 bandwidth and compute capacity. The resolved JWK set URL could also be used to
@@ -188,12 +222,12 @@ DDoS targets on the web.
 
 The client therefore MUST use key material obtained independent of the JWT contained in the authorization response from a secure source to check its signature. 
 
-### 5.2 Code Replay
+### 7.2 Code Replay
 An authorization code (obtained on a different device with the same client) could be injected into an authorization response in order to impersonate the legitimate resource owner (see [draft-ietf-oauth-security-topics]). 
 
 The JWT secured response mode enables clients to detect such an attack. The signature binds the authorization code to the state value sent by the client and therewith transitively to the transaction in the respective user agent.
 
-### 5.3 Mix-Up
+### 7.3 Mix-Up
 Mix-up is an attack on scenarios where an OAuth client interacts with
    multiple authorization servers. The goal of the attack is to obtain an
    authorization code or an access token by tricking the client into
@@ -202,13 +236,13 @@ Mix-up is an attack on scenarios where an OAuth client interacts with
    
 The JWT secured response mode enables clients to detect this attack by providing an identification of the sender (`iss`) and the intended audience of the authorization response (`aud`). 
 
-### 5.5 Code Leakage
+### 7.5 Code Leakage
 Authorization servers MAY encrypt the authorization response therewith providing a mechanism to prevent leakage of authorization codes in the user agent (transmission, history, referrer headers). 
 
-## 6. Privacy considerations
+## 8. Privacy considerations
 TBD
 
-## 7. Acknowledgement
+## 9. Acknowledgement
 
 The following people contributed to this document:
 
@@ -222,7 +256,7 @@ The following people contributed to this document:
 * Vladimir Dzhuvinov (Connect2ID)
 * Michael Schwartz (Gluu)
 
-## 8. Bibliography
+## 10. Bibliography
 
 * [OFX2.2] Open Financial Exchange 2.2
 * [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
