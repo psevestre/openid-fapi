@@ -241,7 +241,7 @@ The parameter names follow the pattern established by OpenID Connect Dynamic Cli
 
 The following client metadata parameters are introduced by this specification:
 
-* `authorization_signed_response_alg` JWS [RFC7515] `alg` algorithm JWA [RFC7518] REQUIRED for signing authorization responses.  If this is specified, the response will be signed using JWS and the configured algorithm.  The default, if omitted, is RSA SHA-256.
+* `authorization_signed_response_alg` JWS [RFC7515] `alg` algorithm JWA [RFC7518] REQUIRED for signing authorization responses.  If this is specified, the response will be signed using JWS and the configured algorithm.  The default, if omitted, is RS256.
 * `authorization_encrypted_response_alg` JWE [RFC7516] `alg` algorithm JWA [RFC7518] REQUIRED for encrypting authorization responses.  If both signing and encryption are requested, the response will be signed then encrypted, with the result being a Nested JWT, as defined in JWT [RFC7519].  The default, if omitted, is that no encryption is performed.
 * `authorization_encrypted_response_enc` JWE [RFC7516] `enc` algorithm JWA [RFC7518] REQUIRED for encrypting authorization responses.  If `authorization_encrypted_response_alg` is specified, the default for this value is A128CBC-HS256.  When `authorization_encrypted_response_enc` is included, `authorization_encrypted_response_alg` MUST also be provided.
 
