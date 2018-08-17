@@ -199,7 +199,7 @@ FwdnI4YWt2OUNlUkRTZDBRQSJ9.2OK1x9-heaqB4jGEtLXNcuTyFQFyI7QQrkG3zoYqOUpoXMK3BYmr4
 kf01C4gGZLUWv9TZqGdqFl84xjkikO-o4Y9hClcBj1R2VJvB_VDyAWNc39CG7Dn5MOvyK-5qierH-Hgv
 3G7ciYyZeJsiU4O3mQEkgXrXsmhqNnWDA2NpBA
 ```
-### 4.3.2 Response Type token
+#### 4.3.2 Response Type token
 
 The authorization server adds the parameters to the fragment component of the redirect URI using the "application/x-www-form-urlencoded" format.
 
