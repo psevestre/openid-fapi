@@ -64,9 +64,6 @@ The following referenced documents are indispensable for the application of this
 [RFC7519] - JSON Web Token (JWT)
 [RFC7519]:https://tools.ietf.org/html/rfc7519
 
-[RFC7515] - JSON Web Signature (JWS)
-[RFC7515]:https://tools.ietf.org/html/rfc7515
-
 [RFC7516] - JSON Web Encryption (JWE)
 [RFC7516]:https://tools.ietf.org/html/rfc7516
 
@@ -241,7 +238,7 @@ The parameter names follow the pattern established by OpenID Connect Dynamic Cli
 
 The following client metadata parameters are introduced by this specification:
 
-* `authorization_signed_response_alg` JWS [RFC7515] `alg` algorithm JWA [RFC7518] REQUIRED for signing authorization responses.  If this is specified, the response will be signed using JWS and the configured algorithm.  The default, if omitted, is RS256.
+* `authorization_signed_response_alg` JWS [RFC7515] `alg` algorithm JWA [RFC7518] REQUIRED for signing authorization responses.  If this is specified, the response will be signed using JWS and the configured algorithm.  The default, if omitted, is RSA SHA-256.
 * `authorization_encrypted_response_alg` JWE [RFC7516] `alg` algorithm JWA [RFC7518] REQUIRED for encrypting authorization responses.  If both signing and encryption are requested, the response will be signed then encrypted, with the result being a Nested JWT, as defined in JWT [RFC7519].  The default, if omitted, is that no encryption is performed.
 * `authorization_encrypted_response_enc` JWE [RFC7516] `enc` algorithm JWA [RFC7518] REQUIRED for encrypting authorization responses.  If `authorization_encrypted_response_alg` is specified, the default for this value is A128CBC-HS256.  When `authorization_encrypted_response_enc` is included, `authorization_encrypted_response_alg` MUST also be provided.
 
@@ -282,7 +279,7 @@ Mix-up is an attack on scenarios where an OAuth client interacts with
 The JWT secured response mode enables clients to detect this attack by providing an identification of the sender (`iss`) and the intended audience of the authorization response (`aud`). 
 
 ### 7.5 Code Leakage
-Authorization servers MAY encrypt the authorization response therewith providing a mechanism to prevent leakage of authorization codes in the user agent (transmission, history, referrer headers). 
+Authorization servers MAY encrypt the authorization response therewith providing a means to prevent leakage of authorization codes in the user agent (transmission, history, referrer headers). 
 
 ## 8. Privacy considerations
 TBD
