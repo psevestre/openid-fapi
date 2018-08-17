@@ -149,6 +149,22 @@ The following example shows an JWT for response type "code":
    "code":"PyyFaux2o7Q0YfXBU32jhw.5FXSQpvr8akv9CeRDSd0QA"  
 }
 ```
+
+and here is an example for response type "token":
+
+```
+{  
+   "iss":"https://accounts.example.com",
+   "aud":"s6BhdRkqt3",
+   "exp":1311281970,
+   "s_hash":"Uy6qvZV0iA2/drm4zACDLA==",
+   "access_token":"2YotnFZFEjr1zCsicMWpAA",
+   "token_type":"bearer",
+   "expires_in":"3600",
+   "scope":"example"
+}
+```
+
 ### 4.2 Signing and Encryption
 
 The JWT is either signed, or signed and encrypted. If the JWT is both signed and encrypted, the JSON document will be signed then encrypted, with the result being a Nested JWT, as defined in [RFC7519].
@@ -159,23 +175,49 @@ For guidance on key management in general and especially on use of symmetric alg
 
 ### 4.3 The JWT Secured Response
 
-The response mode "jwt" causes the authorization server to send the authorization response as HTTP redirect to the redirect URL of the client. It adds the following query string parameters to this redirect:
+The response mode "jwt" causes the authorization server to send the authorization response as HTTP redirect to the redirect URI of the client. It adds the following parameters:
 
 * `state` - the state value as specified in [RFC6749]
 * `response` - the JWT as defined in section 4.1
 
+The parameter encoding depends on the response type.
+
+#### 4.3.1 Response Type code
+
+The authorization server adds the parameters to the query component of the redirect URI using the "application/x-www-form-urlencoded" format.
+
 This is an example response (line breaks for display purposes only): 
 
 ```
-GET /cb?state=S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
+HTTP/1.1 302 Found
+Location: https://client.example.com/cb?
+state=S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
 response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnRzLm
 V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwic19oYXNoIjoiVX
 k2cXZaVjBpQTIvZHJtNHpBQ0RMQT09IiwiY29kZSI6IlB5eUZhdXgybzdRMFlmWEJVMzJqaHcuNUZYU1
 FwdnI4YWt2OUNlUkRTZDBRQSJ9.2OK1x9-heaqB4jGEtLXNcuTyFQFyI7QQrkG3zoYqOUpoXMK3BYmr4
 kf01C4gGZLUWv9TZqGdqFl84xjkikO-o4Y9hClcBj1R2VJvB_VDyAWNc39CG7Dn5MOvyK-5qierH-Hgv
 3G7ciYyZeJsiU4O3mQEkgXrXsmhqNnWDA2NpBA
-Host: client.example.com
 ```
+### 4.3.2 Response Type token
+
+The authorization server adds the parameters to the fragment component of the redirect URI using the "application/x-www-form-urlencoded" format.
+
+This is an example response (line breaks for display purposes only): 
+
+```
+HTTP/1.1 302 Found
+Location: https://client.example.com/cb#
+state=S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
+response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnRzLm
+V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwic19oYXNoIjoiVX
+k2cXZaVjBpQTIvZHJtNHpBQ0RMQT09IiwiYWNjZXNzX3Rva2VuIjoiMllvdG5GWkZFanIxekNzaWNNV3
+BBQSIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMzYwMCIsInNjb3BlIjoiZXhhbX
+BsZSJ9.xIMIU7Nhq1FPJ7GnY6QGhJbt6TlWfN2lZRSlUT_62Pmpe7YD4yDBragwual0c5HmhksAkocKL
+nI6ggSpWcokhH629zlW43faRrzIVjR8yRGQ5E0Znd78Q53KpWnwOxpY6IvIcv2VYCzxKPwGBsKXEa8PB
+XOMQw_lc_cqPn7KZ3M
+```
+
 ### 4.4 Processing rules
 
 Assumption: the client memorized which authorization server it sent an authorization request to and bound this information to the user agent.
