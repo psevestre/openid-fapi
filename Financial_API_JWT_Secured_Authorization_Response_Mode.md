@@ -279,7 +279,7 @@ Mix-up is an attack on scenarios where an OAuth client interacts with
 The JWT secured response mode enables clients to detect this attack by providing an identification of the sender (`iss`) and the intended audience of the authorization response (`aud`). 
 
 ### 7.5 Code Leakage
-Authorization servers MAY encrypt the authorization response therewith providing a means to prevent leakage of authorization codes in the user agent (transmission, history, referrer headers). 
+Authorization servers MAY encrypt the authorization response therewith providing a means to prevent leakage of authorization codes in the user agent (e.g. during transmission, in browser history or via referrer headers). 
 
 ## 8. Privacy considerations
 TBD
