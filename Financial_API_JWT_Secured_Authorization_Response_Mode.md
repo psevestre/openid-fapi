@@ -64,6 +64,9 @@ The following referenced documents are indispensable for the application of this
 [RFC7519] - JSON Web Token (JWT)
 [RFC7519]:https://tools.ietf.org/html/rfc7519
 
+[RFC7515] - JSON Web Signature (JWS)
+[RFC7515]:https://tools.ietf.org/html/rfc7515
+
 [RFC7516] - JSON Web Encryption (JWE)
 [RFC7516]:https://tools.ietf.org/html/rfc7516
 
