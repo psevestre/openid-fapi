@@ -119,7 +119,7 @@ This document defines a new JWT-based mode to encode authorization responses par
 
 ### 4.1. The JWT Response Document 
 
-Depending on the response type, the JWT contains the authorization response parameters as defined in [RFC6749], sections 4.1.2 and 4.2.2. 
+Depending on the response type, the JWT contains the authorization response parameters as defined in [RFC6749], sections 4.1.2 or 4.2.2. 
 
 For the grant type authorization "code" these are:
 
@@ -276,10 +276,10 @@ Assumption: the client memorized which authorization server it sent an authoriza
 The client is obliged to process the JWT secured response as follows:
 
 1. (OPTIONAL) The client decrypts the JWT using the key determine by the `kid` JWT header parameter. The key might be a private key registered with the expected issuer of the response ("use":"enc" via the client's metadata `jwks` or `jwks_uri`) or a key derived from its client secret (see section 4.2). 
-1. The client obtains the `state` parameter from the JWT and checks its binding to user agent. If the check fails, the client MUST abort processing and refuse the response. 
+1. The client obtains the `state` parameter from the JWT and checks its binding to the user agent. If the check fails, the client MUST abort processing and refuse the response. 
 1. The client obtains the `iss` element from the JWT and checks whether its value is well known and identifies the expected issuer of the authorization process in examination. If the check fails, the client MUST abort processing and refuse the response.
 1. The client obtains the `aud` element from the JWT and checks whether it matches the client id the client used to identify itself in the corresponding authorization request. If the check fails, the client MUST abort processing and refuse the response.
-1. The client obtains the signing key based on the `iss` element and the `kid` header element of the (inner) JWT and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
+1. The client obtains the signing key based on the JWT's `iss` element and the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
 
 Note: The `state` value is treated as a one-time-use XSRF token. It MUST be invalidated after the check (step 2) was performed.
 
