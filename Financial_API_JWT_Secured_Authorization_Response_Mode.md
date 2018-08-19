@@ -33,7 +33,7 @@ Fintech is an area of future economic growth around the world and Fintech organi
 
 The Financial API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
  
-This document defines the new mode "jwt" for responses from the authorization endpoint of an authorization server. The response mode "jwt" enables clients to request the transmission of the credentials issued by the authorization server along with additional data in JWT format. This mechanism enhances the security of the standard authorization response since it adds sender authentication, audience restriction as well as protection from replay, credential leakage, and mix-up attacks.  
+This document defines a new JWT-based mode to encode authorization responses. Clients are enabled to request the transmission of the authorization response parameters along with additional data in JWT format. This mechanism enhances the security of the standard authorization response since it adds sender authentication, audience restriction as well as protection from replay, credential leakage, and mix-up attacks. It can be combined with any response type.
 
 ### Notational Conventions
 
@@ -85,6 +85,9 @@ The following referenced documents are indispensable for the application of this
 [OIDM] -  OAuth 2.0 Multiple Response Type Encoding Practices
 [OIDM]: http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
 
+[OIFP] - OAuth 2.0 Form Post Response Mode
+[OIFP]: http://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html
+
 [draft-ietf-oauth-security-topics] - OAuth 2.0 Security Best Current Practice
 [draft-ietf-oauth-security-topics]: https://tools.ietf.org/html/draft-ietf-oauth-security-topics
 
@@ -110,17 +113,18 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **TLS** – Transport Layer Security
 
-## 4. Response Mode "jwt"
+## 4. JWT-based Response Mode
 
-This draft defines the additional response mode "jwt" for OAuth authorization requests in accordance with [OIDM]. The response mode "jwt" causes the authorization server to encode most of the authorization response as a JWT. 
+This document defines a new JWT-based mode to encode authorization responses parameters. All response parameters defined for a certain response type are conveyed in a JWT along with additional fields used to further protect the transmission. Since there are different techniques to encode the JWT itself in the response to the client, namely query URI parameter, fragment component and form post, this draft defines a set of response mode values in accordance with [OIDM] corresponding to this techniques.  
 
 ### 4.1. The JWT Response Document 
 
-Depending on the response type, the JWT contains the authorization response parameters as defined in [RFC6749], sections 4.1.2 and 4.2.2, except the `state` response parameter. 
+Depending on the response type, the JWT contains the authorization response parameters as defined in [RFC6749], sections 4.1.2 and 4.2.2. 
 
-For the grant type authorization code this is:
+For the grant type authorization "code" these are:
 
 * `code` - the authorization code
+* `state` - the state value as sent by the client in the authorization request
 
 For the grant type "token" these are:
 
@@ -128,15 +132,13 @@ For the grant type "token" these are:
 * `token_type` - the type of the access token
 * `expires_in` - when the access token expires
 * `scope` - the scope granted with the access token
+*  `state` - the state value as sent by the client in the authorization request
 
-The JWT also contains further data utilized to secure the transmission:
+Every JWT response document also contains further data utilized to secure the transmission:
 
 * `iss` - the issuer URL of the authorization server that created the response
 * `aud` - the client_id of the client the response is intended for
-* `exp` - expiration of the JWT
-* `s_hash` - the hash of the state value as defined in FAPI Part 2
-
-Note: The `state` parameter value is not included in the JWT because it functions as trust anchor to identify and check the authenticity of the authorization response _before_ the JWT is processed by the client. The `s_hash` claim of the JWT will provide a cryptographically protected binding between the state and the response parameters contained in the JWT. 
+* `exp` - expiration of the JWT 
 
 The following example shows an JWT for response type "code":
 
@@ -145,8 +147,8 @@ The following example shows an JWT for response type "code":
    "iss":"https://accounts.example.com",
    "aud":"s6BhdRkqt3",
    "exp":1311281970,
-   "s_hash":"Uy6qvZV0iA2/drm4zACDLA==",
-   "code":"PyyFaux2o7Q0YfXBU32jhw.5FXSQpvr8akv9CeRDSd0QA"  
+   "code":"PyyFaux2o7Q0YfXBU32jhw.5FXSQpvr8akv9CeRDSd0QA",  
+   "state":"S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw"
 }
 ```
 
@@ -157,11 +159,11 @@ and here is an example for response type "token":
    "iss":"https://accounts.example.com",
    "aud":"s6BhdRkqt3",
    "exp":1311281970,
-   "s_hash":"Uy6qvZV0iA2/drm4zACDLA==",
    "access_token":"2YotnFZFEjr1zCsicMWpAA",
+   "state":"S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw",
    "token_type":"bearer",
    "expires_in":"3600",
-   "scope":"example"
+   "scope":"example"   
 }
 ```
 
@@ -171,52 +173,101 @@ The JWT is either signed, or signed and encrypted. If the JWT is both signed and
 
 The authorization server determines what algorithm to employ to secure the JWT for a particular authorization response. This decision can be based on registered metadata parameters for the client as defined by this draft (see section 5).
 
-For guidance on key management in general and especially on use of symmetric algorithms for signing and encrypting based on client secrets see 10.1 and 10.2 of [OIDC].
+For guidance on key management in general and especially on use of symmetric algorithms for signing and encrypting based on client secrets see sections 10.1 and 10.2 of [OIDC].
 
-### 4.3 The JWT Secured Response
+### 4.3 Response Encoding
 
-The response mode "jwt" causes the authorization server to send the authorization response as HTTP redirect to the redirect URI of the client. It adds the following parameters:
+This draft defines the following response mode values:
 
-* `state` - the state value as specified in [RFC6749]
-* `response` - the JWT as defined in section 4.1
+* `query.jwt`
+* `fragment.jwt`
+* `form_post.jwt`
+* `jwt`
 
-The parameter encoding depends on the response type.
+#### 4.3.1 Response Mode "query.jwt"
 
-#### 4.3.1 Response Type code
-
-The authorization server adds the parameters to the query component of the redirect URI using the "application/x-www-form-urlencoded" format.
+The response mode "query.jwt" causes the authorization server to send the authorization response as HTTP redirect to the redirect URI of the client. The authorization server adds the parameter `response` containing the JWT as defined in section 4.1. to the query component of the redirect URI using the "application/x-www-form-urlencoded" format.
 
 This is an example response (line breaks for display purposes only): 
 
 ```
 HTTP/1.1 302 Found
 Location: https://client.example.com/cb?
-state=S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
 response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnRzLm
-V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwic19oYXNoIjoiVX
-k2cXZaVjBpQTIvZHJtNHpBQ0RMQT09IiwiY29kZSI6IlB5eUZhdXgybzdRMFlmWEJVMzJqaHcuNUZYU1
-FwdnI4YWt2OUNlUkRTZDBRQSJ9.2OK1x9-heaqB4jGEtLXNcuTyFQFyI7QQrkG3zoYqOUpoXMK3BYmr4
-kf01C4gGZLUWv9TZqGdqFl84xjkikO-o4Y9hClcBj1R2VJvB_VDyAWNc39CG7Dn5MOvyK-5qierH-Hgv
-3G7ciYyZeJsiU4O3mQEkgXrXsmhqNnWDA2NpBA
+V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwiY29kZSI6IlB5eU
+ZhdXgybzdRMFlmWEJVMzJqaHcuNUZYU1FwdnI4YWt2OUNlUkRTZDBRQSIsInN0YXRlIjoiUzhOSjd1cW
+s1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkTUFKdyJ9.HkdJ_TYgwBBj10C-aWuNUiA062Amq
+2b0_oyuc5P0aMTQphAqC2o9WbGSkpfuHVBowlb-zJ15tBvXDIABL_t83q6ajvjtq_pqsByiRK2dLVdUw
+KhW3P_9wjvI0K20gdoTNbNlP9Z41mhart4BqraIoI8e-L_EfAHfhCG_DDDv7Yg
 ```
-#### 4.3.2 Response Type token
 
-The authorization server adds the parameters to the fragment component of the redirect URI using the "application/x-www-form-urlencoded" format.
+#### 4.3.2 Response Mode "fragment.jwt"
+
+The response mode "fragment.jwt" causes the authorization server to send the authorization response as HTTP redirect to the redirect URI of the client. The authorization server adds the parameter `response` containing the JWT as defined in section 4.1. to the fragment component of the redirect URI using the "application/x-www-form-urlencoded" format.
 
 This is an example response (line breaks for display purposes only): 
 
 ```
 HTTP/1.1 302 Found
 Location: https://client.example.com/cb#
-state=S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
 response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnRzLm
-V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwic19oYXNoIjoiVX
-k2cXZaVjBpQTIvZHJtNHpBQ0RMQT09IiwiYWNjZXNzX3Rva2VuIjoiMllvdG5GWkZFanIxekNzaWNNV3
-BBQSIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMzYwMCIsInNjb3BlIjoiZXhhbX
-BsZSJ9.xIMIU7Nhq1FPJ7GnY6QGhJbt6TlWfN2lZRSlUT_62Pmpe7YD4yDBragwual0c5HmhksAkocKL
-nI6ggSpWcokhH629zlW43faRrzIVjR8yRGQ5E0Znd78Q53KpWnwOxpY6IvIcv2VYCzxKPwGBsKXEa8PB
-XOMQw_lc_cqPn7KZ3M
+V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwiYWNjZXNzX3Rva2
+VuIjoiMllvdG5GWkZFanIxekNzaWNNV3BBQSIsInN0YXRlIjoiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdH
+lKdTZwVXN2SDlqc1luaTlkTUFKdyIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMz
+YwMCIsInNjb3BlIjoiZXhhbXBsZSJ9.bgHLOu2dlDjtCnvTLK7hTN_JNwoZXEBnbXQx5vd9z17v1Hyzf
+Mqz00Vi002T-SWf2JEs3IVSvAe1xWLIY0TeuaiegklJx_gvB59SQIhXX2ifzRmqPoDdmJGaWZ3tnRyFW
+NnEogJDqGFCo2RHtk8fXkE5IEiBD0g-tN0GS_XnxlE
 ```
+
+#### 4.3.3. Response Mode "form_post.jwt"
+
+The response mode "form_post.jwt" uses the technique described in [OIFP] to convey the JWT to the client. The `response` parameter containing the JWT is encoded as HTML form value that is auto-submitted in the User Agent, and thus is transmitted via the HTTP POST method to the Client, with the result parameters being encoded in the body using the "application/x-www-form-urlencoded" format.
+
+This is an example response from the authorization server to the user agent (line breaks for display purposes only), 
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/html;charset=UTF-8
+Cache-Control: no-cache, no-store
+Pragma: no-cache
+
+<html>
+ <head><title>Submit This Form</title></head>
+ <body onload="javascript:document.forms[0].submit()">
+  <form method="post" action="https://client.example.com/cb">
+    <input type="hidden" name="response"
+     value="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2
+      FjY291bnRzLmV4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTM
+      xMTI4MTk3MCwiYWNjZXNzX3Rva2VuIjoiMllvdG5GWkZFanIxekNzaWNNV3BBQSIs
+      InN0YXRlIjoiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkT
+      UFKdyIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMzYwMCIsIn
+      Njb3BlIjoiZXhhbXBsZSJ9.bgHLOu2dlDjtCnvTLK7hTN_JNwoZXEBnbXQx5vd9z1
+      7v1HyzfMqz00Vi002T-SWf2JEs3IVSvAe1xWLIY0TeuaiegklJx_gvB59SQIhXX2i
+      fzRmqPoDdmJGaWZ3tnRyFWNnEogJDqGFCo2RHtk8fXkE5IEiBD0g-tN0GS_XnxlE"/>
+    </form>
+   </body>
+  </html>  
+```
+which results in the following POST request to the client's redirect URI.
+
+```
+  POST /cb HTTP/1.1
+  Host: client.example.org
+  Content-Type: application/x-www-form-urlencoded
+
+  response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2
+      FjY291bnRzLmV4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTM
+      xMTI4MTk3MCwiYWNjZXNzX3Rva2VuIjoiMllvdG5GWkZFanIxekNzaWNNV3BBQSIs
+      InN0YXRlIjoiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkT
+      UFKdyIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMzYwMCIsIn
+      Njb3BlIjoiZXhhbXBsZSJ9.bgHLOu2dlDjtCnvTLK7hTN_JNwoZXEBnbXQx5vd9z1
+      7v1HyzfMqz00Vi002T-SWf2JEs3IVSvAe1xWLIY0TeuaiegklJx_gvB59SQIhXX2i
+      fzRmqPoDdmJGaWZ3tnRyFWNnEogJDqGFCo2RHtk8fXkE5IEiBD0g-tN0GS_XnxlE
+```  
+    
+#### 4.3.4 Response Mode "jwt"
+
+The response mode "jwt" is a shortcut and indicates the default redirect encoding (query, fragment) for the requested response type. The default for response type "code" is "query.jwt" whereas the default for response type "token" is "fragment.jwt".
 
 ### 4.4 Processing rules
 
@@ -224,11 +275,13 @@ Assumption: the client memorized which authorization server it sent an authoriza
 
 The client is obliged to process the JWT secured response as follows:
 
-1. The `state` parameter MUST be checked to be linked to the user agent's local state in order to prevent CSRF. Note: The state value is treated as a one-time-use XSRF token. It MUST be invalidated after the check was performed.
-1. (OPTIONAL) The JWT is decrypted using the client's private key registered with the expected issuer of the response or a key derived from its client secret (see section 4.2). 
-1. The signature of the JWT is validated using the JWK set of the expected issuer or the respective client secret (see section 4.2). Note: the client MUST NOT follow the `iss` claim of the JWT to obtain key material. This is done to prevent DoS (see Security Considerations). The client may utilize the issuer data bound to the user agent and obtain the JWK set from the respective authorization server's OAuth or OpenID configuration.
-1. The JWT's `iss` claim MUST matches the expected `iss` value of the local state. 
-1. The JWT's `aud` claim MUST match the client_id the client used to request the authorization.
+1. (OPTIONAL) The client decrypts the JWT using the key determine by the `kid` JWT header parameter. The key might be a private key registered with the expected issuer of the response ("use":"enc" via the client's metadata `jwks` or `jwks_uri`) or a key derived from its client secret (see section 4.2). 
+1. The client obtains the `state` parameter from the JWT and checks its binding to user agent. If the check fails, the client MUST abort processing and refuse the response. 
+1. The client obtains the `iss` element from the JWT and checks whether its value is well known and identifies the expected issuer of the authorization process in examination. If the check fails, the client MUST abort processing and refuse the response.
+1. The client obtains the `aud` element from the JWT and checks whether it matches the client id the client used to identify itself in the corresponding authorization request. If the check fails, the client MUST abort processing and refuse the response.
+1. The client obtains the signing key based on the `iss` element and the `kid` header element of the (inner) JWT and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
+
+Note: The `state` value is treated as a one-time-use XSRF token. It MUST be invalidated after the check (step 2) was performed.
 
 The client MUST NOT process the grant type specific authorization response parameters before all checks suceeded. 
 
@@ -262,7 +315,7 @@ huge content, or is delivered very slowly, consuming server networking
 bandwidth and compute capacity. The resolved JWK set URL could also be used to
 DDoS targets on the web.
 
-The client therefore MUST use key material obtained independent of the JWT contained in the authorization response from a secure source to check its signature. 
+The client therefore MUST first check that the issuer of the JWT is well-known and expected for the particular authorization response before it uses this data to obtain the key needed to check the JWT's signature.  
 
 ### 7.2 Code Replay
 An authorization code (obtained on a different device with the same client) could be injected into an authorization response in order to impersonate the legitimate resource owner (see [draft-ietf-oauth-security-topics]). 
