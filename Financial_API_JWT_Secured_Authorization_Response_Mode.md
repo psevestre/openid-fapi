@@ -76,6 +76,12 @@ The following referenced documents are indispensable for the application of this
 [BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 [BCP195]: https://tools.ietf.org/html/bcp195
 
+[RFC7591] - OAuth 2.0 Dynamic Client Registration Protocol
+[RFC7591]: https://tools.ietf.org/html/RFC7591
+
+[RFC8414] - OAuth 2.0 Authorization Server Metadata
+[RFC8414]: https://tools.ietf.org/html/rfc8414
+
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
 
@@ -90,6 +96,9 @@ The following referenced documents are indispensable for the application of this
 
 [draft-ietf-oauth-security-topics] - OAuth 2.0 Security Best Current Practice
 [draft-ietf-oauth-security-topics]: https://tools.ietf.org/html/draft-ietf-oauth-security-topics
+
+[OISM] - OpenID Connect Session Management 1.0
+[OISM]: http://openid.net/specs/openid-connect-session-1_0.html
 
 ## 2. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
@@ -119,26 +128,22 @@ This document defines a new JWT-based mode to encode authorization responses par
 
 ### 4.1. The JWT Response Document 
 
-Depending on the response type, the JWT contains the authorization response parameters as defined in [RFC6749], sections 4.1.2 or 4.2.2. 
-
-For the grant type authorization "code" these are:
-
-* `code` - the authorization code
-* `state` - the state value as sent by the client in the authorization request
-
-For the grant type "token" these are:
-
-* `access_token` - the access token
-* `token_type` - the type of the access token
-* `expires_in` - when the access token expires
-* `scope` - the scope granted with the access token
-*  `state` - the state value as sent by the client in the authorization request
-
-Every JWT response document also contains further data utilized to secure the transmission:
+The JWT always contains the following data utilized to secure the transmission:
 
 * `iss` - the issuer URL of the authorization server that created the response
 * `aud` - the client_id of the client the response is intended for
 * `exp` - expiration of the JWT 
+
+The JWT furthermore contains the response parameters as defined for the particular response type. 
+
+Note: Additional authorization endpoint response parameters defined by extensions, e.g. `session_state` as defined in [OISM], will also be added to the JWT. 
+
+#### 4.1.1 Response Type "code"
+
+For the grant type authorization "code" the JWT contains the response parameters as defined in [RFC6749], sections 4.1.2:
+
+* `code` - the authorization code
+* `state` - the state value as sent by the client in the authorization request
 
 The following example shows an JWT for response type "code":
 
@@ -152,7 +157,17 @@ The following example shows an JWT for response type "code":
 }
 ```
 
-and here is an example for response type "token":
+#### 4.1.2 Response Type "token"
+
+For the grant type "token" the JWT contains the response parameters as defined in [RFC6749], sections 4.2.2:
+
+* `access_token` - the access token
+* `token_type` - the type of the access token
+* `expires_in` - when the access token expires
+* `scope` - the scope granted with the access token
+*  `state` - the state value as sent by the client in the authorization request
+
+The following example shows an JWT for response type "token":
 
 ```
 {  
@@ -165,7 +180,7 @@ and here is an example for response type "token":
    "expires_in":"3600",
    "scope":"example"   
 }
-```
+``` 
 
 ### 4.2 Signing and Encryption
 
@@ -307,6 +322,13 @@ The following parameters are introduced by this specification:
 * `authorization_encryption_alg_values_supported`  OPTIONAL.  JSON array containing a list of the JWE [RFC7516] encryption algorithms (`alg` values) JWA [RFC7518] supported by the authorization endpoint to encrypt the response.
 * `authorization_encryption_enc_values_supported`  OPTIONAL.  JSON array containing a list of the JWE [RFC7516] encryption algorithms (`enc` values) JWA [RFC7518] supported by the authorization endpoint to encrypt the response.
 
+Authorization servers SHOULD publish the supported response mode values utilizing the parameter `response_modes_supported` as defined in [RFC8414]. This draft introduces the following possible values:
+
+*  `query.jwt`
+*  `fragment.jwt`
+*  `form_post.jwt`
+*  `jwt`
+
 ## 7. Security considerations
 
 ### 7.1 DoS using specially crafted JWTs
@@ -351,7 +373,44 @@ The following people contributed to this document:
 * Vladimir Dzhuvinov (Connect2ID)
 * Michael Schwartz (Gluu)
 
-## 10. Bibliography
+## 10. IANA Considerations
+### 10.1 OAuth Dynamic Client Registration Metadata Registration
+This specification requests registration of the following client metadata definitions in the IANA "OAuth Dynamic Client Registration Metadata" registry established by [RFC7591]:
+
+#### 10.1.1. Registry Contents
+
+* Client Metadata Name: `authorization_signed_response_alg`
+* Client Metadata Description: String value indicating the client's desired introspection response signing algorithm.
+* Change Controller: IESG
+* Specification Document(s): Section 5 of [[ this specification ]]
+* Client Metadata Name: `authorization_encrypted_response_alg`
+* Client Metadata Description: String value specifying the desired introspection response encryption algorithm (alg value).
+* Change Controller: IESG
+* Specification Document(s): Section 5 of [[ this specification ]]
+* Client Metadata Name: `authorization_encrypted_response_enc`
+* Client Metadata Description: String value specifying the desired introspection response encryption algorithm (enc value).
+* Change Controller: IESG
+* Specification Document(s): Section 5 of [[ this specification ]]
+
+### 10.2 OAuth Authorization Server Metadata Registration
+This specification requests registration of the following value in the IANA "OAuth Authorization Server Metadata" registry established by [RFC8414].
+
+#### 10.2.1. Registry Contents
+
+* Metadata Name: `authorization_signing_alg_values_supported`
+* Metadata Description: JSON array containing a list of algorithms supported by the authorization server for introspection response signing.
+* Change Controller: IESG
+* Specification Document(s): Section 5 of [[ this specification ]]
+* Metadata Name: `authorization_encryption_alg_values_supported`
+* Metadata Description: JSON array containing a list of algorithms supported by the authorization server for introspection response encryption (alg value).
+* Change Controller: IESG
+* Specification Document(s): Section 5 of [[ this specification ]]
+* Metadata Name: `authorization_encryption_enc_values_supported`
+* Metadata Description: JSON array containing a list of algorithms supported by the authorization server for introspection response encryption (enc value).
+* Change Controller: IESG
+* Specification Document(s): Section 5 of [[ this specification ]]
+
+## 11. Bibliography
 
 * [OFX2.2] Open Financial Exchange 2.2
 * [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
