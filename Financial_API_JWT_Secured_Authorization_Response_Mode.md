@@ -33,7 +33,11 @@ Fintech is an area of future economic growth around the world and Fintech organi
 
 The Financial API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
  
-This document defines a new JWT-based mode to encode authorization responses. Clients are enabled to request the transmission of the authorization response parameters along with additional data in JWT format. This mechanism enhances the security of the standard authorization response since it adds sender authentication, audience restriction as well as protection from replay, credential leakage, and mix-up attacks. It can be combined with any response type.
+This document defines a new JWT-based mode to encode authorization responses. Clients are enabled to request 
+the transmission of the authorization response parameters along with additional data in JWT format. 
+This mechanism enhances the security of the standard authorization response since it adds support for signing 
+and encryption, sender authentication, audience restriction as well as protection from replay, credential leakage, 
+and mix-up attacks. It can be combined with any response type.
 
 ### Notational Conventions
 
@@ -294,9 +298,11 @@ The client is obliged to process the JWT secured response as follows:
 1. The client obtains the `state` parameter from the JWT and checks its binding to the user agent. If the check fails, the client MUST abort processing and refuse the response. 
 1. The client obtains the `iss` element from the JWT and checks whether its value is well known and identifies the expected issuer of the authorization process in examination. If the check fails, the client MUST abort processing and refuse the response.
 1. The client obtains the `aud` element from the JWT and checks whether it matches the client id the client used to identify itself in the corresponding authorization request. If the check fails, the client MUST abort processing and refuse the response.
-1. The client obtains the signing key based on the JWT's `iss` element and the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
+1. The client obtains the key neede to check the sigbature based on the JWT's `iss` element and the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
 
-Note: The `state` value is treated as a one-time-use XSRF token. It MUST be invalidated after the check (step 2) was performed.
+Note: The way the client obtains the keys is out of scope of this draft. Established mechanism suchs as 
+[OIDD] or [RFC8414] SHOULD be utilized.
+Note: The `state` value is treated as a one-time-use CSRF token. It MUST be invalidated after the check (step 2) was performed.
 
 The client MUST NOT process the grant type specific authorization response parameters before all checks suceeded. 
 
@@ -337,19 +343,25 @@ huge content, or is delivered very slowly, consuming server networking
 bandwidth and compute capacity. The resolved JWK set URL could also be used to
 DDoS targets on the web.
 
-The client therefore MUST first check that the issuer of the JWT is well-known and expected for the particular authorization response before it uses this data to obtain the key needed to check the JWT's signature.  
+The client therefore MUST first check that the issuer of the JWT is well-known 
+and expected for the particular authorization response before it uses this data 
+to obtain the key needed to check the JWT's signature.  
 
 ### 7.2 Code Replay
-An authorization code (obtained on a different device with the same client) could be injected into an authorization response in order to impersonate the legitimate resource owner (see [draft-ietf-oauth-security-topics]). 
+An authorization code (obtained on a different device with the same client) could be 
+injected into an authorization response in order to impersonate the legitimate resource 
+owner (see [draft-ietf-oauth-security-topics]). 
 
-The JWT secured response mode enables clients to detect such an attack. The signature binds the authorization code to the state value sent by the client and therewith transitively to the transaction in the respective user agent.
+The JWT secured response mode enables clients to detect such an attack. The signature binds 
+the authorization code to the state value sent by the client and therewith transitively to 
+the transaction in the respective user agent.
 
 ### 7.3 Mix-Up
 Mix-up is an attack on scenarios where an OAuth client interacts with
-   multiple authorization servers. The goal of the attack is to obtain an
-   authorization code or an access token by tricking the client into
-   sending those credentials to the attacker instead of using them at
-   the respective endpoint at the authorization/resource server.
+multiple authorization servers. The goal of the attack is to obtain an
+authorization code or an access token by tricking the client into
+sending those credentials to the attacker instead of using them at
+the respective endpoint at the authorization/resource server.
    
 The JWT secured response mode enables clients to detect this attack by providing an identification of the sender (`iss`) and the intended audience of the authorization response (`aud`). 
 
