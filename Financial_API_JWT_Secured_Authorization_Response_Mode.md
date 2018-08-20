@@ -1,4 +1,4 @@
-#Financial Services – Financial API: JWT Secured Authorization Response Mode for OAuth 2.0
+#Financial Services – Financial API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 
 ## Warning
 
