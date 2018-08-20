@@ -411,9 +411,4 @@ This specification requests registration of the following value in the IANA "OAu
 * Specification Document(s): Section 5 of [[ this specification ]]
 
 ## 11. Bibliography
-
-* [OFX2.2] Open Financial Exchange 2.2
-* [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
-* [RFC7662] OAuth 2.0 Token Introspection
-* [DDA] Durable Data API, (2015), FS-ISAC
-* [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
+TBD
