@@ -124,8 +124,6 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **FAPI** - Financial-grade API
 
-**FI** – Financial Institution
-
 **HTTP** – Hyper Text Transfer Protocol
 
 **OIDF** - OpenID Foundation
@@ -136,7 +134,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 ## 4. JWT-based Response Mode
 
-This document defines a new JWT-based mode to encode authorization responses parameters. All response parameters defined for a certain response type are conveyed in a JWT along with additional fields used to further protect the transmission. Since there are different techniques to encode the JWT itself in the response to the client, namely query URI parameter, fragment component and form post, this draft defines a set of response mode values in accordance with [OIDM] corresponding to this techniques.  
+This document defines a new JWT-based mode to encode authorization responses parameters. All response parameters defined for a given response type are conveyed in a JWT along with additional fields used to further protect the transmission. Since there are different techniques to encode the JWT itself in the response to the client, namely query URI parameter, fragment component and form post, this draft defines a set of response mode values in accordance with [OIDM] corresponding to this techniques.  
 
 ### 4.1. The JWT Response Document 
 
@@ -145,8 +143,8 @@ The JWT always contains the following data utilized to secure the transmission:
 * `iss` - the issuer URL of the authorization server that created the response
 * `aud` - the client_id of the client the response is intended for
 * `exp` - expiration of the JWT 
-
-The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types. This pattern is applicable to all response type including those defined in [OIDM]. This draft illustrates the pattern with the response types "code" and "token". 
+ 
+The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token". 
 
 Note: Additional authorization endpoint response parameters defined by extensions, e.g. `session_state` as defined in [OISM], will also be added to the JWT. 
 
@@ -186,7 +184,7 @@ The following example shows an JWT for response type "token":
    "iss":"https://accounts.example.com",
    "aud":"s6BhdRkqt3",
    "exp":1311281970,
-   "access_token":"2YotnFZFEjr1zCsicMWpAA",
+   "access_token":"esc3BWC2ltc11ACC8nFZEjr1zCsicWpX",
    "state":"S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw",
    "token_type":"bearer",
    "expires_in":"3600",
@@ -228,7 +226,7 @@ s1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkTUFKdyJ9.HkdJ_TYgwBBj10C-aWuNUiA062Amq
 KhW3P_9wjvI0K20gdoTNbNlP9Z41mhart4BqraIoI8e-L_EfAHfhCG_DDDv7Yg
 ```
 
-Note: "jwt.query" SHOULD only be used in conjunction with response types that contain "token" or "id_token" if the JWT is encrypted to token prevent leakage in the URL. 
+Note: "jwt.query" MUST NOT be used in conjunction with response types that contain "token" or "id_token" unless the response JWT is encrypted to prevent token leakage in the URL. 
 
 #### 4.3.2 Response Mode "fragment.jwt"
 
@@ -300,7 +298,7 @@ The response mode "jwt" is a shortcut and indicates the default redirect encodin
 
 ### 4.4 Processing rules
 
-Assumption: the client memorized which authorization server it sent an authorization request to and bound this information to the user agent.
+Assumption: the client remembers the authorization server to which it sent the authorization request and binds this information to the user agent.
 
 The client is obliged to process the JWT secured response as follows:
 
@@ -312,9 +310,9 @@ The client is obliged to process the JWT secured response as follows:
 1. The client obtains the key needed to check the signature based on the JWT's `iss` element and the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
 
 Note: The `state` value is treated as a one-time-use CSRF token. It MUST be invalidated after the check (step 2) was performed.
-Note: The way the client obtains the keys for verifying the JWT's signature (step 5) is out of scope of this draft. Established mechanism suchs as [OIDD] or [RFC8414] SHOULD be utilized.
+Note: The way the client obtains the keys for verifying the JWT's signature (step 5) is out of scope of this draft. Established mechanism such as [OIDD] or [RFC8414] SHOULD be utilized.
 
-The client MUST NOT process the grant type specific authorization response parameters before all checks suceeded. 
+The client MUST NOT process the grant type specific authorization response parameters before all checks succeed. 
 
 ## 5. Client Metadata
 
