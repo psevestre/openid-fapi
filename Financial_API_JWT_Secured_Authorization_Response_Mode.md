@@ -146,7 +146,7 @@ The JWT always contains the following data utilized to secure the transmission:
 * `aud` - the client_id of the client the response is intended for
 * `exp` - expiration of the JWT 
 
-The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types. This pattern is applicable to all response type including those defined in [OIDC]. This draft illustrates the pattern with the response types "code" and "token". 
+The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types. This pattern is applicable to all response type including those defined in [OIDM]. This draft illustrates the pattern with the response types "code" and "token". 
 
 Note: Additional authorization endpoint response parameters defined by extensions, e.g. `session_state` as defined in [OISM], will also be added to the JWT. 
 
@@ -296,7 +296,7 @@ which results in the following POST request to the client's redirect URI.
     
 #### 4.3.4 Response Mode "jwt"
 
-The response mode "jwt" is a shortcut and indicates the default redirect encoding (query, fragment) for the requested response type. The default for response type "code" is "query.jwt" whereas the default for response type "token" is "fragment.jwt".
+The response mode "jwt" is a shortcut and indicates the default redirect encoding (query, fragment) for the requested response type. The default for response type "code" is "query.jwt" whereas the default for "token" and the response types defined in [OIDM], except "none" is "fragment.jwt".
 
 ### 4.4 Processing rules
 
