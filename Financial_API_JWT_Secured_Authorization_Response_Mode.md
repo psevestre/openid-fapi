@@ -1,4 +1,4 @@
-#Financial Services – Financial API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+#Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 
 ## Warning
 
@@ -17,7 +17,7 @@ The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID communit
 
 Final drafts adopted by the Workgroup through consensus are circulated publicly for the public review for 60 days and for the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the members casting a vote. There is a possibility that some of the elements of this document may be the subject to patent rights. OIDF shall not be held responsible for identifying any or all such patent rights.
 
-Financial API consists of the following parts:
+Financial-grade API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
@@ -31,7 +31,7 @@ These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [O
 
 Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
 
-The Financial API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
+The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
  
 This document defines a new JWT-based mode to encode authorization responses. Clients are enabled to request 
 the transmission of the authorization response parameters along with additional data in JWT format. 
@@ -49,7 +49,7 @@ These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-#**Financial Services – Financial API: JWT Secured Authorization Response Mode for OAuth 2.0 **
+#**Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)**
 
 [TOC]
 
@@ -62,11 +62,17 @@ The following referenced documents are indispensable for the application of this
 [RFC6749] - The OAuth 2.0 Authorization Framework
 [RFC6749]: https://tools.ietf.org/html/rfc6749
 
+[RFC6750] - The OAuth 2.0 Authorization Framework: Bearer Token Usage
+[RFC6750]: https://tools.ietf.org/html/rfc6750
+
+[RFC7636] - Proof Key for Code Exchange by OAuth Public Clients
+[RFC7636]: https://tools.ietf.org/html/rfc7636
+
 [RFC6819] - OAuth 2.0 Threat Model and Security Considerations
 [RFC6819]: https://tools.ietf.org/html/rfc6819
 
-[RFC7519] - JSON Web Token (JWT)
-[RFC7519]:https://tools.ietf.org/html/rfc7519
+[RFC7515] - JSON Web Signature (JWS)
+[RFC7515]:https://tools.ietf.org/html/rfc7515
 
 [RFC7516] - JSON Web Encryption (JWE)
 [RFC7516]:https://tools.ietf.org/html/rfc7516
@@ -76,6 +82,9 @@ The following referenced documents are indispensable for the application of this
 
 [RFC7518] - JSON Web Algorithms (JWA)
 [RFC7518]:https://tools.ietf.org/html/rfc7518
+
+[RFC7519] - JSON Web Token (JWT)
+[RFC7519]:https://tools.ietf.org/html/rfc7519
 
 [BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 [BCP195]: https://tools.ietf.org/html/bcp195
@@ -107,14 +116,13 @@ The following referenced documents are indispensable for the application of this
 ## 2. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
-
 ## 3. Symbols and Abbreviated terms
 
 **API** – Application Programming Interface
 
 **CSRF** - Cross Site Request Forgery
 
-**FAPI** - Financial API
+**FAPI** - Financial-grade API
 
 **FI** – Financial Institution
 
@@ -138,7 +146,7 @@ The JWT always contains the following data utilized to secure the transmission:
 * `aud` - the client_id of the client the response is intended for
 * `exp` - expiration of the JWT 
 
-The JWT furthermore contains the response parameters as defined for the particular response type. 
+The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types. This pattern is applicable to all response type including those defined in [OIDC]. This draft illustrates the pattern with the response types "code" and "token". 
 
 Note: Additional authorization endpoint response parameters defined by extensions, e.g. `session_state` as defined in [OISM], will also be added to the JWT. 
 
@@ -220,6 +228,8 @@ s1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkTUFKdyJ9.HkdJ_TYgwBBj10C-aWuNUiA062Amq
 KhW3P_9wjvI0K20gdoTNbNlP9Z41mhart4BqraIoI8e-L_EfAHfhCG_DDDv7Yg
 ```
 
+Note: "jwt.query" SHOULD only be used in conjunction with response types that contain "token" or "id_token" if the JWT is encrypted to token prevent leakage in the URL. 
+
 #### 4.3.2 Response Mode "fragment.jwt"
 
 The response mode "fragment.jwt" causes the authorization server to send the authorization response as HTTP redirect to the redirect URI of the client. The authorization server adds the parameter `response` containing the JWT as defined in section 4.1. to the fragment component of the redirect URI using the "application/x-www-form-urlencoded" format.
@@ -294,15 +304,15 @@ Assumption: the client memorized which authorization server it sent an authoriza
 
 The client is obliged to process the JWT secured response as follows:
 
-1. (OPTIONAL) The client decrypts the JWT using the key determine by the `kid` JWT header parameter. The key might be a private key registered with the expected issuer of the response ("use":"enc" via the client's metadata `jwks` or `jwks_uri`) or a key derived from its client secret (see section 4.2). 
+1. (OPTIONAL) The client decrypts the JWT using the key determined by the `kid` JWT header parameter. The key might be a private key, where the corresponding public key is registered with the expected issuer of the response ("use":"enc" via the client's metadata `jwks` or `jwks_uri`) or a key derived from its client secret (see section 4.2). 
 1. The client obtains the `state` parameter from the JWT and checks its binding to the user agent. If the check fails, the client MUST abort processing and refuse the response. 
 1. The client obtains the `iss` element from the JWT and checks whether its value is well known and identifies the expected issuer of the authorization process in examination. If the check fails, the client MUST abort processing and refuse the response.
 1. The client obtains the `aud` element from the JWT and checks whether it matches the client id the client used to identify itself in the corresponding authorization request. If the check fails, the client MUST abort processing and refuse the response.
-1. The client obtains the key neede to check the sigbature based on the JWT's `iss` element and the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
+1. The client checks the JWT's `exp` element to determine if the JWT is still valid. If the check fails, the client MUST abort processing and refuse the response. 
+1. The client obtains the key needed to check the signature based on the JWT's `iss` element and the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
 
-Note: The way the client obtains the keys is out of scope of this draft. Established mechanism suchs as 
-[OIDD] or [RFC8414] SHOULD be utilized.
 Note: The `state` value is treated as a one-time-use CSRF token. It MUST be invalidated after the check (step 2) was performed.
+Note: The way the client obtains the keys for verifying the JWT's signature (step 5) is out of scope of this draft. Established mechanism suchs as [OIDD] or [RFC8414] SHOULD be utilized.
 
 The client MUST NOT process the grant type specific authorization response parameters before all checks suceeded. 
 
@@ -312,7 +322,7 @@ The parameter names follow the pattern established by OpenID Connect Dynamic Cli
 
 The following client metadata parameters are introduced by this specification:
 
-* `authorization_signed_response_alg` JWS [RFC7515] `alg` algorithm JWA [RFC7518] REQUIRED for signing authorization responses.  If this is specified, the response will be signed using JWS and the configured algorithm.  The default, if omitted, is RS256.
+* `authorization_signed_response_alg` JWS [RFC7515] `alg` algorithm JWA [RFC7518] REQUIRED for signing authorization responses. If this is specified, the response will be signed using JWS and the configured algorithm. The algorithm `none` is not allowed. The default, if omitted, is RS256.
 * `authorization_encrypted_response_alg` JWE [RFC7516] `alg` algorithm JWA [RFC7518] REQUIRED for encrypting authorization responses.  If both signing and encryption are requested, the response will be signed then encrypted, with the result being a Nested JWT, as defined in JWT [RFC7519].  The default, if omitted, is that no encryption is performed.
 * `authorization_encrypted_response_enc` JWE [RFC7516] `enc` algorithm JWA [RFC7518] REQUIRED for encrypting authorization responses.  If `authorization_encrypted_response_alg` is specified, the default for this value is A128CBC-HS256.  When `authorization_encrypted_response_enc` is included, `authorization_encrypted_response_alg` MUST also be provided.
 
@@ -376,12 +386,12 @@ TBD
 The following people contributed to this document:
 
 * Torsten Lodderstedt (YES), Editor
+* Brian Campbell (Ping Identity), Co-editor
 * Nat Sakimura (Nomura Research Institute) -- Chair
 * Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
 * Joseph Heenan (Authlete)
 * Tom Jones (Independent)
 * Ralph Bragg (Raidiam)
-* Brian Campbell (Ping Identity)
 * Vladimir Dzhuvinov (Connect2ID)
 * Michael Schwartz (Gluu)
 
