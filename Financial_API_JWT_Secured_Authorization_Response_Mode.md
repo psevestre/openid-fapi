@@ -296,7 +296,7 @@ which results in the following POST request to the client's redirect URI.
     
 #### 4.3.4 Response Mode "jwt"
 
-The response mode "jwt" is a shortcut and indicates the default redirect encoding (query, fragment) for the requested response type. The default for response type "code" is "query.jwt" whereas the default for "token" and the response types defined in [OIDM], except "none" is "fragment.jwt".
+The response mode "jwt" is a shortcut and indicates the default redirect encoding (query, fragment) for the requested response type. The default for response type "code" is "query.jwt" whereas the default for "token" and the response types defined in [OIDM], except "none", is "fragment.jwt".
 
 ### 4.4 Processing rules
 
