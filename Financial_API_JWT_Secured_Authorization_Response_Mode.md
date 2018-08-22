@@ -184,7 +184,7 @@ The following example shows an JWT for response type "token":
    "iss":"https://accounts.example.com",
    "aud":"s6BhdRkqt3",
    "exp":1311281970,
-   "access_token":"esc3BWC2ltc11ACC8nFZEjr1zCsicWpX",
+   "access_token":"2YotnFZFEjr1zCsicMWpAA",
    "state":"S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw",
    "token_type":"bearer",
    "expires_in":"3600",
