@@ -82,8 +82,8 @@ The following referenced documents are indispensable for the application of this
 [RFC6125] - Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 [RFC6125]: https://tools.ietf.org/html/rfc6125
 
-[O2fNA] - OAuth 2.0 for Native Apps
-[O2fNA]: https://tools.ietf.org/html/draft-ietf-oauth-native-apps-05
+[BCP212] - OAuth 2.0 for Native Apps
+[BCP212]: https://tools.ietf.org/html/bcp212
 
 [RFC6819] - OAuth 2.0 Threat Model and Security Considerations
 [RFC6819]: https://tools.ietf.org/html/rfc6819
@@ -168,6 +168,7 @@ The authorization server
 1. should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
 1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
 1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
+1. shall require redirect URIs to use the https scheme;
 
     **NOTE**: The Financial API server may limit the scopes for the purpose of not implementing certain APIs.
 
@@ -198,7 +199,7 @@ A public client
 1. shall use `S256` as the code challenge method for the [RFC7636];
 1. shall use separate and distinct redirect URI for each authorization server that it talks to;
 1. shall store the redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the redirect URI that the authorization response was received at, where, if the URIs do not match, the client shall terminate the process with error;
-1. shall adhere to the best practice stated by [O2fNA]; and
+1. shall adhere to the best practice stated by [BCP212]; and
 1. shall implement an effective CSRF protection.
 
     Further, if it is desired to obtain a persistent identifier of the authenticated user, then it
@@ -343,6 +344,18 @@ the refresh token. Refer to section 16.18 of [OIDC] for
 more discussion on the lifetimes of access tokens and 
 refresh tokens. 
 
+### 7.5 Native Apps
+
+When native apps are used as either public clients, dynamically regisatered confidential clients or user-agents receiving the authorization response for a server based confidential client, the recommendations for OAuth 2.0 for Native Apps in [BCP212] shall be followed, with the following additional requirements:
+
+When registering redirect URIs, Authorisation servers
+
+1. shall not support "Private-Use URI Scheme Redirection" schemes;
+1. shall not support "Loopback Interface Redirection" schemes;
+
+These requirements mean that FAPI compliant implementations can only
+support native apps through the use of "Claimed https Scheme URI Redirection".
+
 ## 8. Privacy considerations
 
     ** NOTE ** The following only has a boiler plate text 
@@ -383,7 +396,7 @@ The following people contributed to this document:
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
 * Anthony Nadalin (Microsoft) -- Co-chair
 * Edmund Jay (Illumila) -- Co-editor
-* Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
+* Dave Tonge (Moneyhub) -- Co-chair, UK Implementation Entity Liaison
 * Sascha H. Preibisch (CA) 
 * Henrik Biering (Peercraft)
 * Anton Taborszky (Deutche Telecom) 
@@ -404,7 +417,7 @@ The following people contributed to this document:
 * [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
 * [RFC7662] OAuth 2.0 Token Introspection
 * [RFC6125] Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
-* [O2fNA] OAuth 2.0 for Native Apps
+* [BCP212] OAuth 2.0 for Native Apps
 * [RFC6819] OAuth 2.0 Threat Model and Security Considerations
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
