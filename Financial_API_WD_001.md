@@ -346,12 +346,12 @@ refresh tokens.
 
 ### 7.5 Native Apps
 
-When native apps are used as either public clients, dynamically regisatered confidential clients or user-agents receiving the authorization response for a server based confidential client, the recommendations for OAuth 2.0 for Native Apps in [BCP212] shall be followed, with the following additional requirements:
+When native apps are used as either public clients, dynamically registered confidential clients or user-agents receiving the authorization response for a server based confidential client, the recommendations for OAuth 2.0 for Native Apps in [BCP212] shall be followed, with the following additional requirements:
 
-When registering redirect URIs, Authorisation servers
+When registering redirect URIs, authorization servers
 
-1. shall not support "Private-Use URI Scheme Redirection" schemes;
-1. shall not support "Loopback Interface Redirection" schemes;
+1. shall not support "Private-Use URI Scheme Redirection";
+1. shall not support "Loopback Interface Redirection";
 
 These requirements mean that FAPI compliant implementations can only
 support native apps through the use of "Claimed https Scheme URI Redirection".
