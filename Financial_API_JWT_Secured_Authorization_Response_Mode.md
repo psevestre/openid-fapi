@@ -388,10 +388,10 @@ The following people contributed to this document:
 * Nat Sakimura (Nomura Research Institute) -- Chair
 * Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
 * Joseph Heenan (Authlete)
-* Tom Jones (Independent)
 * Ralph Bragg (Raidiam)
 * Vladimir Dzhuvinov (Connect2ID)
 * Michael Schwartz (Gluu)
+* Filip Skokan (Auth0)
 
 ## 10. IANA Considerations
 ### 10.1 OAuth Dynamic Client Registration Metadata Registration
