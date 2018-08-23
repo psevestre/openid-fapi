@@ -144,7 +144,7 @@ The JWT always contains the following data utilized to secure the transmission:
 * `aud` - the client_id of the client the response is intended for
 * `exp` - expiration of the JWT 
  
-The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token". 
+The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types, even in case of an error response. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token". 
 
 Note: Additional authorization endpoint response parameters defined by extensions, e.g. `session_state` as defined in [OISM], will also be added to the JWT. 
 
@@ -155,7 +155,7 @@ For the grant type authorization "code" the JWT contains the response parameters
 * `code` - the authorization code
 * `state` - the state value as sent by the client in the authorization request
 
-The following example shows an JWT for response type "code":
+The following example shows the JWT for a successful "code" authorization response:
 
 ```
 {  
@@ -163,6 +163,22 @@ The following example shows an JWT for response type "code":
    "aud":"s6BhdRkqt3",
    "exp":1311281970,
    "code":"PyyFaux2o7Q0YfXBU32jhw.5FXSQpvr8akv9CeRDSd0QA",  
+   "state":"S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw"
+}
+```
+
+In case of an error response, the JWT contains the error response parameters as defined in [RFC6749], sections 4.1.2.1:
+
+* `error` - the error code
+* `error_description` (OPTIONAL) - a human readable description of the error
+* `error_uri` (OPTIONAL) - a URI identifying a human-readable web page with information about the error
+* `state` - the state value as sent by the client in the authorization request
+
+The following example shows the JWT for such an error response:
+
+```
+{  
+   "error":"access_denied",
    "state":"S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw"
 }
 ```
@@ -177,7 +193,7 @@ For the grant type "token" the JWT contains the response parameters as defined i
 * `scope` - the scope granted with the access token
 *  `state` - the state value as sent by the client in the authorization request
 
-The following example shows an JWT for response type "token":
+The following example shows an JWT for a successful "token" authorization response:
 
 ```
 {  
@@ -191,6 +207,7 @@ The following example shows an JWT for response type "token":
    "scope":"example"   
 }
 ``` 
+The JWT in case of an error respone looks the same as for the response type "code".
 
 ### 4.2 Signing and Encryption
 
@@ -391,7 +408,7 @@ The following people contributed to this document:
 * Ralph Bragg (Raidiam)
 * Vladimir Dzhuvinov (Connect2ID)
 * Michael Schwartz (Gluu)
-* Filip Skokan (Auth0)
+* Filip Skokan
 
 ## 10. IANA Considerations
 ### 10.1 OAuth Dynamic Client Registration Metadata Registration
