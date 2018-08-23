@@ -434,8 +434,8 @@ Section 7.1 of Financial API - Part 1: Read Only API Security Profile shall appl
 Both clients and authorisation servers:
 
 1. shall use `PS256` or `ES256` algorithms;
-1. should not implement algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
-1. shall not implement `none`;
+1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
+1. shall not use `none`;
 
 ## 9. Privacy considerations
 
