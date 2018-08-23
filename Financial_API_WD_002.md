@@ -113,6 +113,8 @@ The following referenced documents are indispensable for the application of this
 [MTLS] - Mutual TLS Profile for OAuth 2.0
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
 
+[JARM] - Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+[JARM]: https://bitbucket.org/openid/fapi/src/master/Financial_API_JWT_Secured_Authorization_Response_Mode.md
 
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
@@ -226,6 +228,16 @@ In addition to the provisions for the public client in clause 5.2.3 of this docu
 
 1. shall support [OAUTB] or [MTLS] as a holder of key mechanism (this overrides clause 5.2.3.1);
 1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints
+
+#### 5.2.5 JWT Secured Authorization Response Mode
+
+In addition to the provisions given in section 5.2.2 an authorization server may offer clients to protect authorization responses using the "JWT Secured Authorization Response Mode" [JARM].
+
+The [JARM] allows authorization servers to encode authorization responses (of any response type) in a JWT. It is an alternative way to ID Tokens (utilized as detached signatures) to provide financial-grade security to authorization responses.
+
+The authorization server should advertize support for [JARM] response modes using the metadata parameter `response_modes_supported`.
+
+If [JARM] is used to secure the authorization responses, the clauses 2, 3, and 4 of section 5.2.2. do not apply. For example, clients may use [JARM] in conjunction with the response type `code`.
 
 ## 6. Accessing protected resources (using tokens)
 
