@@ -231,11 +231,11 @@ In addition to the provisions for the public client in clause 5.2.3 of this docu
 
 #### 5.2.5 JWT Secured Authorization Response Mode
 
-In addition to the provisions given in section 5.2.2 an authorization server may offer clients to protect authorization responses using the "JWT Secured Authorization Response Mode" [JARM].
+In addition to the provisions given in section 5.2.2, an authorization server may protect authorization responses to clients using the "JWT Secured Authorization Response Mode" [JARM].
 
-The [JARM] allows authorization servers to encode authorization responses (of any response type) in a JWT. It is an alternative way to ID Tokens (utilized as detached signatures) to provide financial-grade security to authorization responses.
+The [JARM] allows a client to request that an authorization server encode the authorization response (of any response type) in a JWT. It is an alternative  to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses.
 
-The authorization server should advertize support for [JARM] response modes using the metadata parameter `response_modes_supported`.
+The authorization server should advertise support for the [JARM] response modes using the `response_modes_supported` metadata parameter.
 
 If [JARM] is used to secure the authorization responses, the clauses 2, 3, and 4 of section 5.2.2. do not apply. For example, clients may use [JARM] in conjunction with the response type `code`.
 
@@ -470,6 +470,7 @@ The following people contributed to this document:
 * Axel Nennker (Deutsche Telekom)
 * Torsten Lodderstedt (YES)
 * Ralph Bragg (Raidiam)
+* Brian Campbell (Ping Identity) 
 
 ## 11. Bibliography
 
