@@ -155,7 +155,7 @@ For the grant type authorization "code" the JWT contains the response parameters
 * `code` - the authorization code
 * `state` - the state value as sent by the client in the authorization request
 
-The following example shows the JWT for a successful "code" authorization response:
+The following example shows the JWT claims for a successful "code" authorization response:
 
 ```
 {  
@@ -174,7 +174,7 @@ In case of an error response, the JWT contains the error response parameters as 
 * `error_uri` (OPTIONAL) - a URI identifying a human-readable web page with information about the error
 * `state` - the state value as sent by the client in the authorization request
 
-The following example shows the JWT for such an error response:
+The following example shows the JWT payload for such an error response:
 
 ```
 {  
@@ -193,7 +193,7 @@ For the grant type "token" the JWT contains the response parameters as defined i
 * `scope` - the scope granted with the access token
 *  `state` - the state value as sent by the client in the authorization request
 
-The following example shows an JWT for a successful "token" authorization response:
+The following example shows the claims of the JWT for a successful "token" authorization response:
 
 ```
 {  
@@ -207,7 +207,7 @@ The following example shows an JWT for a successful "token" authorization respon
    "scope":"example"   
 }
 ``` 
-The JWT in case of an error respone looks the same as for the response type "code".
+In case of an error response, the JWT contains the error response parameters in same manner as with the response type "code".
 
 ### 4.2 Signing and Encryption
 
