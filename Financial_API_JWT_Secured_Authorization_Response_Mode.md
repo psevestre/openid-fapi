@@ -207,7 +207,7 @@ The following example shows the claims of the JWT for a successful "token" autho
    "scope":"example"   
 }
 ``` 
-In case of an error response, the JWT contains the error response parameters in same manner as with the response type "code".
+In case of an error response, the JWT contains the error response parameters in the same manner as with the response type "code".
 
 ### 4.2 Signing and Encryption
 
