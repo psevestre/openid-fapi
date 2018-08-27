@@ -151,8 +151,8 @@ The authorization server
 1. should support public clients; 
 1. shall provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used;
 1. shall authenticate the confidential client at the token endpoint using one of the following methods:
-    1. TLS mutual authentication [MTLS]; 
-    2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
+    1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
+    2. `client_secret_jwt` or `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
 1. shall require a key of size 160 bits or larger if elliptic curve algorithms are used for the client authentication;
 1. shall require [RFC7636] with `S256` as the code challenge method;
@@ -217,8 +217,8 @@ A public client
 In addition to the provisions for a public client, a confidential client
 
 1. shall support the following methods to authenticate against the token endpoint:
-    1. TLS mutual authentication [MTLS]; or 
-    2. JWS Client Assertion using the `client_secret` or a private key as specified in section 9 of [OIDC]; 
+    1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
+    2. `client_secret_jwt` or `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall use RSA keys with a minimum 2048 bits if using RSA cryptography; 
 1. shall use elliptic curve keys with a minimum of 160 bits if using Elliptic Curve cryptography; and
 1. shall verify that its client secret has a minimum of 128 bits if using symmetric key cryptography.
