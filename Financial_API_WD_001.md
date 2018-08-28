@@ -178,7 +178,7 @@ The authorization server
 
     **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
 
-#### 5.2.2.1 Returning authenticated user's identifier Authorization server
+##### 5.2.2.1 Returning authenticated user's identifier Authorization server
 
 Further, if it is desired to provide the authenticated user's identifier to the client in the token response, the authorization server:
 
