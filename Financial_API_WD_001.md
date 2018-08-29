@@ -1,4 +1,4 @@
-#Financial Services – Financial API - Part 1: Read-Only API Security Profile
+# Financial-grade API - Part 1: Read-Only API Security Profile
 
 ## Warning
 
@@ -17,7 +17,7 @@ The technology described in this specification was made available from contribut
 
 The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established has the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
-Financial API consists of the following parts:
+Financial-grade API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
@@ -31,10 +31,10 @@ These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [O
 
 Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
 
-The Financial API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
+The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile. The Financial-grade API security profile can be applied to online services in any market area that requires a higher level of security than provided by standard OAuth or OpenID Connect.
 
-This document is Part 1 of FAPI that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data.
-A higher level of security profile suitable for read and write access APIs is provided in Part 2.
+This document is Part 1 of FAPI that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
+A higher level of security profile is provided in Part 2, suitable for read and write financial access APIs and other similar situations where the risk is higher.
 
 ### Notational Conventions
 
@@ -46,7 +46,7 @@ These key words are not used as dictionary terms such that
 any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
 
-#**Financial Services – Financial API - Part 1: Read-Only API Security Profile **
+#**Financial-grade API - Part 1: Read-Only API Security Profile **
 
 [TOC]
 
@@ -54,9 +54,9 @@ and are not to be interpreted with their natural language meanings.
 
 This document specifies the method for an application to:
 
-* obtain OAuth tokens in a secure manner for read-only access to financial data;
+* obtain OAuth tokens in a secure manner for read-only access to protected data;
 * use OpenID Connect (OIDC) to identify the customer (user); and 
-* use tokens to read financial data from REST endpoints. 
+* use tokens to read protected data from REST endpoints.
 
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
@@ -116,9 +116,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **CSRF** - Cross Site Request Forgery
 
-**FAPI** - Financial API
-
-**FI** – Financial Institution
+**FAPI** - Financial-grade API
 
 **HTTP** – Hyper Text Transfer Protocol
 
@@ -130,7 +128,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 ### 5.1 Introduction
 
-The OIDF Financial API (FAPI) is a REST API that provides JSON data representing account and transaction related data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
+The OIDF Financial-grade API (FAPI) is a REST API that provides JSON data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
 Read-only access is generally viewed to pose a lower risk than the write access and as such, the characteristics required of the tokens are different and the methods to obtain tokens are explained separately.
 
@@ -170,7 +168,7 @@ The authorization server
 1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 1. shall require redirect URIs to use the https scheme;
 
-    **NOTE**: The Financial API server may limit the scopes for the purpose of not implementing certain APIs.
+    **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
 
     **NOTE**: Section 4.1.3 of [RFC6749] does not provide guidance regarding `code reuse`, but this document provides limitation on `code reuse` in Section 3.1.3.2 of [OIDC].
 
@@ -195,7 +193,7 @@ Further, if it is desired to provide the authenticated user's identifier to the 
 
 A public client
 
-1. shall support [RFC7636] or the mechanisms defined in [Financial API - Part 2](Financial_API_WD_002.md);
+1. shall support [RFC7636] or the mechanisms defined in [Financial-grade API - Part 2](Financial_API_WD_002.md);
 1. shall use `S256` as the code challenge method for the [RFC7636];
 1. shall use separate and distinct redirect URI for each authorization server that it talks to;
 1. shall store the redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the redirect URI that the authorization response was received at, where, if the URIs do not match, the client shall terminate the process with error;
@@ -229,7 +227,7 @@ In addition to the provisions for a public client, a confidential client
 
 ### 6.1 Introduction
 
-The FAPI endpoints are OAuth 2.0 protected resource endpoints that return financial information for the resource owner associated with the submitted access token.
+The FAPI endpoints are OAuth 2.0 protected resource endpoints that return protected information for the resource owner associated with the submitted access token.
 
 ### 6.2 Read-only access provisions
 
@@ -407,8 +405,6 @@ The following people contributed to this document:
 
 ## 10. Bibliography
 
-* [OFX2.2] Open Financial Exchange 2.2
-* [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
 * [RFC7230] Hypertext Transfer Protocol -- HTTP/1.1
 * [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 * [RFC5246] The Transport Layer Security (TLS) Protocol Version 1.2
