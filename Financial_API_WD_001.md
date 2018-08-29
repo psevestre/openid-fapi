@@ -354,6 +354,11 @@ When registering redirect URIs, authorization servers
 These requirements mean that FAPI compliant implementations can only
 support native apps through the use of "Claimed https Scheme URI Redirection".
 
+Note: nothing in this document seeks to disallow fixed urls in the
+form https://localhost:port-number/callback, as these are particularly
+useful in non-production systems or in clients used in development, to
+facilitate faster and easier development.
+
 ## 8. Privacy considerations
 
     ** NOTE ** The following only has a boiler plate text 
