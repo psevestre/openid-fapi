@@ -1,4 +1,4 @@
-#Financial Services – Financial API - Part 2: Read and Write API Security Profile
+# Financial-grade API - Part 2: Read and Write API Security Profile
 
 ## Warning
 
@@ -17,7 +17,7 @@ The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID communit
 
 Final drafts adopted by the Workgroup through consensus are circulated publicly for the public review for 60 days and for the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the members casting a vote. There is a possibility that some of the elements of this document may be the subject to patent rights. OIDF shall not be held responsible for identifying any or all such patent rights.
 
-Financial API consists of the following parts:
+Financial-grade API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
@@ -31,9 +31,9 @@ These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [O
 
 Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
 
-The Financial API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile.
+The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile. The Financial-grade API security profile can be applied to online services in any market area that requires a higher level of security than provided by standard OAuth or OpenID Connect.
  
-This document is Part 2 of FAPI that specifies the Financial API and it provides a profile of OAuth that is suitable to be used in write access to financial data (also known as transaction access). This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
+This document is Part 2 of FAPI that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in write access to financial data (also known as transaction access) and other similar higher risk access. This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
 
 ### Notational Conventions
 
@@ -45,7 +45,7 @@ These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-#**Financial Services – Financial API - Part 2: Read and Write API Security Profile **
+#**Financial-grade API - Part 2: Read and Write API Security Profile **
 
 [TOC]
 
@@ -53,11 +53,11 @@ and are not to be interpreted with their natural language meanings.
 
 This part of the document specifies the method of
 
-* applications to obtain the OAuth tokens in an appropriately secure manner for financial data access;
+* applications to obtain the OAuth tokens in an appropriately secure manner for higher risk access to data;
 * applications to use OpenID Connect to identify the customer; and
-* using tokens to interact with the REST endpoints that provides financial data; 
+* using tokens to interact with the REST endpoints that provides protected data; 
 
-This document is applicable to higher risk use cases which includes commercial and investment banking. 
+This document is applicable to higher risk use cases which includes commercial and investment banking and other similar industries.
 
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
@@ -128,8 +128,6 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **FAPI** - Financial API
 
-**FI** – Financial Institution
-
 **HTTP** – Hyper Text Transfer Protocol
 
 **OIDF** - OpenID Foundation
@@ -142,17 +140,17 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 ### 5.1 Introduction
 
-The OIDF Financial API (FAPI) is a REST API that provides JSON data representing
-account and transaction related data. These APIs are protected by the
+The OIDF Financial-grade API (FAPI) is a REST API that provides JSON data representing
+higher risk data. These APIs are protected by the
 OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750],
 [RFC7636], and other specifications.
 
 There are different levels of risks associated with access to these APIs.
-Read and write access has a higher financial risk than read-only access. As
+For example, read and write access to a bank API has a higher financial risk than read-only access. As
 such, the security profiles of the authorization framework protecting these
 APIs are also different. 
 
-This profile describes security provisions for the server and client that are appropriate for read and write access by defining the measures to mitigate:
+This profile describes security provisions for the server and client that are appropriate for Financial-grade APIs by defining the measures to mitigate:
 
 * attacks that leverage the weak binding of endpoints in [RFC6749] (e.g. malicious endpoint attacks, IdP mix-up attacks),
 * attacks that modify authorization requests and responses unprotected in [RFC6749] by leveraging OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response. 
@@ -179,13 +177,13 @@ The `s_hash` value is a case sensitive string.
 
 #### 5.2.1 Introduction
 
-Read and write access carries higher financial risk; therefore the protection level required is higher than read-only access.
+Read and write access carries higher risk; therefore the protection level required is higher than read-only access.
 
 As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following for the read and write API of the FAPI.
 
 #### 5.2.2 Authorization server
 
-The authorization server shall support the provisions specified in clause 5.2.2 of Financial API - Part 1: Read-Only API Security Profile.
+The authorization server shall support the provisions specified in clause 5.2.2 of Financial-grade API - Part 1: Read-Only API Security Profile.
 
 In addition, the authorization server, for the write operation,
 
@@ -208,7 +206,7 @@ In addition, the authorization server, for the write operation,
 
 #### 5.2.3 Public client
 
-A public client shall support the provisions specified in clause 5.2.3 of Financial API - Part 1: Read-Only API Security Profile.
+A public client shall support the provisions specified in clause 5.2.3 of Financial-grade API - Part 1: Read-Only API Security Profile.
 
 In addition, the public client for write operations
 
@@ -247,7 +245,7 @@ If [JARM] is used to secure the authorization responses, the clauses 2, 3, and 4
 
 ### 6.1 Introduction
 
-The FAPI endpoints are OAuth 2.0 protected resource endpoints that return various financial information for the resource owner associated with the submitted access token.
+The FAPI endpoints are OAuth 2.0 protected resource endpoints that return protected information for the resource owner associated with the submitted access token.
 
 ### 6.2 Read and write access provisions
 
@@ -255,12 +253,12 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return variou
 
 The protected resources supporting this document
 
-1. shall support the provisions specified in clause 6.2.1 Financial API - Part 1: Read Only API Security Profile;
+1. shall support the provisions specified in clause 6.2.1 Financial-grade API - Part 1: Read Only API Security Profile;
 1. shall adhere to the requirements in [MTLS] or [OAUTB].
 
 #### 6.2.2 Client provisions
 
-The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial API - Part 1: Read-Only API Security Profile.
+The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial-grade API - Part 1: Read-Only API Security Profile.
 
 ## 7. Request object endpoint
 
@@ -435,7 +433,7 @@ and state parameters. The server can verify that the state is the same as what w
 ### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
-Section 7.1 of Financial API - Part 1: Read Only API Security Profile shall apply, with the following additional requirements:
+Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shall apply, with the following additional requirements:
 
 1. Only the following 4 cipher suites shall be permitted:
     * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
@@ -483,8 +481,6 @@ The following people contributed to this document:
 
 ## 11. Bibliography
 
-* [OFX2.2] Open Financial Exchange 2.2
-* [HTML4.01] “HTML 4.01 Specification,” World Wide Web Consortium Recommendation REC-html401-19991224, December 1999
 * [RFC7662] OAuth 2.0 Token Introspection
 * [DDA] Durable Data API, (2015), FS-ISAC
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
