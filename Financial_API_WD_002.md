@@ -231,7 +231,7 @@ all the requirements in 3.3.2.12 of [OIDC].
 In addition to the provisions for the public client in clause 5.2.3 of this document, except for [RFC7636] support, the confidential client for write operations
 
 1. shall support [OAUTB] or [MTLS] as a holder of key mechanism (this overrides clause 5.2.3.1); Note: In case of confidential clients, [MTLS] can also be used as client authentication mechanism. 
-1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints
+1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response
 
 #### 5.2.5 JWT Secured Authorization Response Mode
 
