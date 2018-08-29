@@ -1,4 +1,4 @@
-#Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+# Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 
 ## Warning
 
@@ -49,7 +49,7 @@ These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-#**Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)**
+#**Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)**
 
 [TOC]
 
