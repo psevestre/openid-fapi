@@ -41,7 +41,7 @@ A higher level of security profile is provided in Part 2, suitable for read and 
 The key words "shall", "shall not", 
 "should", "should not", "may", and
 "can" in this document are to be interpreted as described in 
-ISO Directive Part 2. 
+ISO Directive Part 2 [ISODIR2].
 These key words are not used as dictionary terms such that 
 any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
@@ -61,8 +61,8 @@ This document specifies the method for an application to:
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
-[RFC7230] -  Hypertext Transfer Protocol -- HTTP/1.1
-[RFC7230]: https://tools.ietf.org/html/rfc7230
+[ISODIR2] - ISO/IEC Directives Part 2
+[ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
 
 [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 [RFC4122]: https://tools.ietf.org/html/rfc4122
@@ -75,9 +75,6 @@ The following referenced documents are indispensable for the application of this
 
 [RFC7636] - Proof Key for Code Exchange by OAuth Public Clients
 [RFC7636]: https://tools.ietf.org/html/rfc7636
-
-[RFC5246] - The Transport Layer Security (TLS) Protocol Version 1.2
-[RFC5246]: https://tools.ietf.org/html/rfc5246
 
 [RFC6125] - Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 [RFC6125]: https://tools.ietf.org/html/rfc6125
@@ -94,16 +91,10 @@ The following referenced documents are indispensable for the application of this
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: https://openid.net/specs/openid-connect-core-1_0.html
 
-[OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
-[OIDD]: https://openid.net/specs/openid-connect-discovery-1_0.html
-
-[OIDM] -  OAuth 2.0 Multiple Response Type Encoding Practices
-[OIDM]: https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-
 [X.1254] - Entity authentication assurance framework
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
-[MTLS] - Mutual TLS Profile for OAuth 2.0
+[MTLS] - OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
 
 ## 3. Terms and definitions
@@ -282,7 +273,7 @@ The client supporting this document
 
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
-The recommendations for Secure Use of Transport Layer Security in BCP195 shall be followed, with the following additional requirements:
+The recommendations for Secure Use of Transport Layer Security in [BCP195] shall be followed, with the following additional requirements:
 
 1. TLS version 1.2 or later shall be used for all communications.
 1. A TLS server certificate check shall be performed, as per [RFC6125].
@@ -410,9 +401,8 @@ The following people contributed to this document:
 
 ## 10. Bibliography
 
-* [RFC7230] Hypertext Transfer Protocol -- HTTP/1.1
+* [ISODIR2] ISO/IEC Directives Part 2
 * [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
-* [RFC5246] The Transport Layer Security (TLS) Protocol Version 1.2
 * [RFC6749] The OAuth 2.0 Authorization Framework
 * [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
 * [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
@@ -422,16 +412,7 @@ The following people contributed to this document:
 * [RFC6819] OAuth 2.0 Threat Model and Security Considerations
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
-* [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
-* [OIDM] OAuth 2.0 Multiple Response Type Encoding Practices
-* [X.1254] - Entity authentication assurance framework
-* [TLSM] - Mutual X.509 Transport Layer Security (TLS) Authentication for OAuth Clients
-* [DDA] Durable Data API, (2015), FS-ISAC
+* [X.1254] Entity authentication assurance framework
+* [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [ISO29100] ISO/IEC 29100 Information technology -- Security techniques -- Privacy framework <http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip>
 * [ISO29134] ISO/IEC 29134 Information technology -- Security techniques -- Privacy impact assessment -- Guidelines
-
-
-
-
-
-
