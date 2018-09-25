@@ -142,7 +142,7 @@ The JWT always contains the following data utilized to secure the transmission:
 
 * `iss` - the issuer URL of the authorization server that created the response
 * `aud` - the client_id of the client the response is intended for
-* `exp` - expiration of the JWT 
+* `exp` - expiration of the JWT. A maximum JWT lifetime of 10 minutes is RECOMMENDED.
  
 The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types, even in case of an error response. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token". 
 
