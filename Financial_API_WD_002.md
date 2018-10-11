@@ -35,6 +35,8 @@ The Financial-grade API aims to provide specific implementation guidelines for o
  
 This document is Part 2 of FAPI that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in write access to financial data (also known as transaction access) and other similar higher risk access. This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
 
+Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementors are encouraged to understand the security considerations contained in section 8.7 before embarking on a 'from scratch' implementation.
+
 ### Notational Conventions
 
 The keywords "shall", "shall not",
@@ -449,6 +451,20 @@ Both clients and authorisation servers:
 1. shall use `PS256` or `ES256` algorithms;
 1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
 1. shall not use `none`;
+
+### 8.7 Incomplete or incorrect implementations of the specifications
+
+To achieve the full security benefits, it is important the implementation of this specification, and the underlying OpenID Connect and OAuth specifications, are both complete and correct.
+
+The OpenID Foundation provides tools that can be used to confirm that an implementation is correct:
+
+https://openid.net/certification/
+
+The OpenID Foundation maintains a list of certified implementations:
+
+https://openid.net/developers/certified/
+
+Deployments that use this specification should use a certified implementation.
 
 ## 9. Privacy considerations
 

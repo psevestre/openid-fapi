@@ -36,6 +36,8 @@ The Financial-grade API aims to provide specific implementation guidelines for o
 This document is Part 1 of FAPI that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
 A higher level of security profile is provided in Part 2, suitable for read and write financial access APIs and other similar situations where the risk is higher.
 
+Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementors are encouraged to understand the security considerations contained in section 7.6 before embarking on a 'from scratch' implementation.
+
 ### Notational Conventions
 
 The key words "shall", "shall not", 
@@ -358,6 +360,20 @@ Note: nothing in this document seeks to disallow fixed urls in the
 form https://localhost:port-number/callback, as these are particularly
 useful in non-production systems or in clients used in development, to
 facilitate faster and easier development.
+
+### 7.6 Incomplete or incorrect implementations of the specifications
+
+To achieve the full security benefits, it is important the implementation of this specification, and the underlying OpenID Connect and OAuth specifications, are both complete and correct.
+
+The OpenID Foundation provides tools that can be used to confirm that an implementation is correct:
+
+https://openid.net/certification/
+
+The OpenID Foundation maintains a list of certified implementations:
+
+https://openid.net/developers/certified/
+
+Deployments that use this specification should use a certified implementation.
 
 ## 8. Privacy considerations
 
