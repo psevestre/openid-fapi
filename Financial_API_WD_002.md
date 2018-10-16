@@ -67,9 +67,6 @@ The following referenced documents are indispensable for the application of this
 [ISODIR2] - ISO/IEC Directives Part 2
 [ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
 
-[RFC7230] - Hypertext Transfer Protocol -- HTTP/1.1
-[RFC7230]: https://tools.ietf.org/html/rfc7230
-
 [RFC6749] - The OAuth 2.0 Authorization Framework
 [RFC6749]: https://tools.ietf.org/html/rfc6749
 
@@ -79,23 +76,11 @@ The following referenced documents are indispensable for the application of this
 [RFC7636] - Proof Key for Code Exchange by OAuth Public Clients
 [RFC7636]: https://tools.ietf.org/html/rfc7636
 
-[RFC5246] - The Transport Layer Security (TLS) Protocol Version 1.2
-[RFC5246]: https://tools.ietf.org/html/rfc5246
-
-[RFC6125] - Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
-[RFC6125]: https://tools.ietf.org/html/rfc6125
-
 [RFC6819] - OAuth 2.0 Threat Model and Security Considerations
 [RFC6819]: https://tools.ietf.org/html/rfc6819
 
 [RFC7519] - JSON Web Token (JWT)
 [RFC7519]:https://tools.ietf.org/html/rfc7519
-
-[BCP212] - OAuth 2.0 for Native Apps
-[BCP212]: https://tools.ietf.org/html/bcp212
-
-[BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
-[BCP195]: https://tools.ietf.org/html/bcp195
 
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
@@ -103,16 +88,10 @@ The following referenced documents are indispensable for the application of this
 [OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
 [OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
 
-[OIDM] -  OAuth 2.0 Multiple Response Type Encoding Practices
-[OIDM]: http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-
-[X.1254] - Entity authentication assurance framework
-[X.1254]: https://www.itu.int/rec/T-REC-X.1254
-
 [OAUTB] - OAuth 2.0 Token Binding
 [OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding
 
-[MTLS] - Mutual TLS Profile for OAuth 2.0
+[MTLS] - OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
 
 [JARM] - Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
@@ -497,6 +476,15 @@ The following people contributed to this document:
 
 ## 11. Bibliography
 
-* [RFC7662] OAuth 2.0 Token Introspection
-* [DDA] Durable Data API, (2015), FS-ISAC
+* [ISODIR2] ISO/IEC Directives Part 2
+* [RFC6749] The OAuth 2.0 Authorization Framework
+* [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
+* [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
+* [RFC6819] OAuth 2.0 Threat Model and Security Considerations
+* [RFC7519] JSON Web Token (JWT)
+* [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
+* [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
+* [OAUTB] OAuth 2.0 Token Binding
+* [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
+* [JARM] Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
