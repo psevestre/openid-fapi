@@ -421,11 +421,11 @@ Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shal
     * `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
     * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
     * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
-1. For the `authorization_endpoint`, the authorisation server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers.
+1. For the `authorization_endpoint`, the authorization server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers.
 
 ### 8.6 JWS algorithm considerations
 
-Both clients and authorisation servers:
+Both clients and authorization servers:
 
 1. shall use `PS256` or `ES256` algorithms;
 1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
