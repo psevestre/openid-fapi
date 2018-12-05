@@ -177,7 +177,10 @@ In case of an error response, the JWT contains the error response parameters as 
 The following example shows the JWT payload for such an error response:
 
 ```
-{  
+{
+   "iss":"https://accounts.example.com",
+   "aud":"s6BhdRkqt3",
+   "exp":1311281970,
    "error":"access_denied",
    "state":"S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw"
 }
