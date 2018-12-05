@@ -144,7 +144,7 @@ The JWT always contains the following data utilized to secure the transmission:
 * `aud` - the client_id of the client the response is intended for
 * `exp` - expiration of the JWT 
  
-The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types, even in case of an error response. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token". 
+The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types, even in case of an error response. Authorization endpoint response parameter names and string values are included as JSON strings and numerical values (e.g., `expires_in` value) are included as JSON numbers. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token".
 
 Note: Additional authorization endpoint response parameters defined by extensions, e.g. `session_state` as defined in [OISM], will also be added to the JWT. 
 
@@ -203,7 +203,7 @@ The following example shows the claims of the JWT for a successful "token" autho
    "access_token":"2YotnFZFEjr1zCsicMWpAA",
    "state":"S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw",
    "token_type":"bearer",
-   "expires_in":"3600",
+   "expires_in":3600,
    "scope":"example"   
 }
 ``` 
