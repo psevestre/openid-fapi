@@ -142,9 +142,9 @@ The JWT always contains the following data utilized to secure the transmission:
 
 * `iss` - the issuer URL of the authorization server that created the response
 * `aud` - the client_id of the client the response is intended for
-* `exp` - expiration of the JWT 
+* `exp` - expiration of the JWT. A maximum JWT lifetime of 10 minutes is RECOMMENDED.
  
-The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types, even in case of an error response. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token". 
+The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types, even in case of an error response. Authorization endpoint response parameter names and string values are included as JSON strings and numerical values (e.g., `expires_in` value) are included as JSON numbers. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token".
 
 Note: Additional authorization endpoint response parameters defined by extensions, e.g. `session_state` as defined in [OISM], will also be added to the JWT. 
 
@@ -177,7 +177,10 @@ In case of an error response, the JWT contains the error response parameters as 
 The following example shows the JWT payload for such an error response:
 
 ```
-{  
+{
+   "iss":"https://accounts.example.com",
+   "aud":"s6BhdRkqt3",
+   "exp":1311281970,
    "error":"access_denied",
    "state":"S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw"
 }
@@ -203,7 +206,7 @@ The following example shows the claims of the JWT for a successful "token" autho
    "access_token":"2YotnFZFEjr1zCsicMWpAA",
    "state":"S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw",
    "token_type":"bearer",
-   "expires_in":"3600",
+   "expires_in":3600,
    "scope":"example"   
 }
 ``` 
