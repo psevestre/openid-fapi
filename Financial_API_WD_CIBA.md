@@ -32,7 +32,7 @@ This part is intended to be used with [RFC6749], [RFC6750], [RFC7636], [OIDC] an
 
 The Financial API Standard provides a profile for OAuth 2.0 suitable for use in financial services. The standard OAuth method for the client to send the resource owner to the authorization server is to use an HTTP redirect. Parts 1 and 2 of this specification support this interaction model and are suitable for use cases where the resource owner is interacting with the client on a device they control that has a web browser. There are however many use-cases for initiating payments where the resource owner is not interacting with the client in such a manner. For example, the resource owner may want to authorize a payment at a "point of sale" terminal at a shop or fuel station.
 
-This document is a profile of the MODRNA Client initiated Backchannel Authentication Flow [CIBA] that supports this decoupled interaction method. The CIBA spec allows a client that has knowledge of the user's identifier to obtain tokens from the authorization server. The user consent is given at the user's Authentication Device mediated by the authorization server. This document profiles the CIBA spec to bring it in line with the rest of the FAPI spec and provide security recommendations for its use in a financial services setting.
+This document is a profile of the OpenID Connect Client Initiated Backchannel Authentication Flow [CIBA] that supports this decoupled interaction method. The CIBA spec allows a client that gains knowledge of an identifier for the user to obtain tokens from the authorization server. The user consent is given at the user's Authentication Device mediated by the authorization server. This document profiles the CIBA spec to bring it in line with the rest of the FAPI spec and provide security recommendations for its use with APIs that require financial-grade security. 
 
 ### Notational Conventions
 
@@ -54,8 +54,6 @@ This part of the document specifies the method of
 
 * applications to obtain the OAuth tokens via a backchannel authentication flow in an appropriately secure manner for financial data access;
 * using the tokens to interact with the REST endpoints that provides financial data;
-
-This document is applicable to higher risk use cases which includes commercial and investment banking.
 
 ## 2. Normative references
 
@@ -103,8 +101,8 @@ The following referenced documents are indispensable for the application of this
 [MTLS] - Mutual TLS Profiles for OAuth Clients
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls-06
 
-[CIBA] - MODRNA Client initiated Backchannel Authentication Flow 1.0
-[CIBA]: http://openid.net/specs/openid-connect-modrna-client-initiated-backchannel-authentication-1_0.html
+[CIBA] - OpenID Connect Client Initiated Backchannel Authentication Core
+[CIBA]: http://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html
 
 [FAPI1] - FAPI Read Only API Security Profile
 [FAPI1]: https://openid.net/specs/openid-financial-api-part-1.html
@@ -114,7 +112,7 @@ The following referenced documents are indispensable for the application of this
 
 ## 3. Terms and definitions
 
-For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636, OpenID Connect Core and OpenID Connect MODRNA Client initiated Backchannel Authentication Flow apply.
+For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636, OpenID Connect Core and OpenID Connect Client Initiated Backchannel Authentication Core apply.
 
 ## 4. Symbols and Abbreviated terms
 
@@ -138,14 +136,14 @@ For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636
 
 ### 5.1 Introduction
 
-The OIDF Financial API (FAPI) is a REST API that provides JSON data representing
-accounts and transactional data. These APIs are protected by the
+The OIDF Financial-grade API (FAPI) is a REST API that provides JSON data representing
+higher risk data. These APIs are protected by the
 OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750],
 [RFC7636], and other specifications.
 
 The Client Initiated Backchannel Authentication Flow [CIBA] specifies an alternate method of users granting access to their resources whereby the flow is started from a consumption device, but authorized on an authentication device.
 
-The following sections specify a profile of CIBA that is suited for financial APIs.
+The following sections specify a profile of CIBA that is suited for financial-grade APIs.
 
 ### 5.2 Read and Write API Security Provisions
 
@@ -153,7 +151,7 @@ The following sections specify a profile of CIBA that is suited for financial AP
 
 As it is anticipated the this specification will primary be used for write operations there is no separate read-only profile.
 
-This spec should be read in conjunction with OpenID Connect MODRNA Client initiated Backchannel Authentication Flow 1.0 and with parts 1 [FAPI1] and 2 [FAPI2] of the Financial API specification.
+This spec should be read in conjunction with OpenID Connect Client Initiated Backchannel Authentication Core [CIBA] and with parts 1 [FAPI1] and 2 [FAPI2] of the Financial API specification.
 
 #### 5.2.2 Authorization Server
 
@@ -161,45 +159,17 @@ The Authorization Server shall support the provisions specified in clause 5.2.2 
 
 In addition the Authorization server, for all operations,
 
-1. shall only support confidential clients for client initiated backchannel authentication flows;
-1. shall authenticate the confidential client at the backchannel authentication endpoint using a Signed Request Object
-1. shall require the request object to contain a `jti` claim and shall use the `jti` claim to prevent replay attacks;
-1. shall ensure that the `auth_req_id` is based on a cryptographic random value so that it is difficult to predict for an attacker;
-1. when interacting with a client in polling mode shall ensure that a successful token polling response can only be sent once for a given `auth_req_id`;
+1. shall only support Confidential Clients for Client Initiated Backchannel Authentication flows;
 1. shall ensure unique authorization context exists in authorization request or require a binding_message in the authentication request;
 1. shall only issue access tokens and refresh tokens that are holder of key bound;
 1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
-1. when sending a successful token notification shall include the access token hash, `at_hash`, in the ID Token;
-1. when sending a successful token notification, with a refresh token, shall include the refresh token hash, `rt_hash`, in the ID Token;
-1. when sending a successful token notification shall include the `auth_req_id`, in the ID Token;
-1. should require that `login_hint` has the properties of a nonce and be provided if `id_token_hint` is not provided;
-1. shall require the request object to contain a `id_token_hint` if `login_hint` is not provided;
-
-
-The following is a non-normative example of a base64url decoded ID Token sent to the client notification endpoint:
-
-```
- {
-   "iss": "http://server.example.com",
-   "sub": "248289761001",
-   "aud": "s6BhdRkqt3",
-   "nonce": "n-0S6_WzA2Mj",
-   "exp": 1311281970,
-   "iat": 1311280970,
-   "at_hash": "rXH7QWVTZnXYCou_6Vdpfg",
-   "rt_hash": "njCczNMR6mTQQTPa93YPcQ",
-   "auth_req_id": "1c266114-a1be-4252-8ad1-04986c5b9ac1"
-  }
-```
-
-**NOTE**: When the authorization server receives an authentication request from a client that is configured in notification mode, the authorization server must associate the attributes required to issue holder of key bound tokens with the `auth_req_id`. When issuing [MTLS] sender constrained tokens this will be the certificate hash or some other representation of the client certificate used at the backchannel authentication endpoint. When issuing [OAUTB] bound tokens this will be the Token Binding ID provided at the backchannel authentication endpoint.
+1. shall not support CIBA push mode;
+1. shall support CIBA poll mode;
+1. may support CIBA ping mode.
 
 **NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorise the transaction, as part of the authorisation process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
 
-**NOTE:** When the client is configured in polling mode, it will be interacting with the token endpoint in order to retrieve access tokens. The same security requirements for this endpoint detailed in Parts 1 and 2 of the Financial API apply.
-
-**NOTE:** When the client is configured in polling mode, it will be interacting with the token endpoint in order to retrieve access tokens. The same security requirements for this endpoint detailed in Parts 1 and 2 of the Financial API apply.
-
+**NOTE:** As the FAPI CIBA profile only support CIBA ping and poll modes, therefore it is only possible to retrieve access tokens and optionally refresh tokens from the token endpoint. The same security requirements for the token endpoint as detailed in [FAPI1] and [FAPI2] apply.
 
 #### 5.2.3 Confidential Client
 
@@ -209,27 +179,7 @@ A Confidential Client shall support the provisions specified in clause 5.2.4 of 
 
 In addition, the Confidential Client
 
-1. shall authenticate against the Backchannel Authentication Endpoint using a Signed Request Object;
-1. shall ensure that the `client_notification_token` is based on a cryptographic random value so that it is difficult to predict for an attacker;
-1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request;
-1. shall ensure `login_hint` or `id_token_hint` is supplied;
-
-
-**NOTE**: Where [MTLS] is used to provide proof of possession semantics for tokens, the signed request object used to authenticate the confidential client shall be sent over a mutual TLS connection. This is not for the purpose of authenticating the client, but for the purpose of giving the AS the attributes it needs to issue sender-constrained tokens.
-
-##### 5.2.3.2 Notification Mode
-
-A Confidential Client configured in notification mode
-
-1. shall associate the `client_notification_token` sent in the authentication request with the `auth_req_id` received in the successful authentication request acknowledgement;
-1. shall verify that the `client_notification_token` received in a successful token notification is valid;
-1. shall verify that the `auth_req_id` received in a successful token notification matches the `client_notification_token` used to authenticate the notification;
-1. shall authenticate the source of successful token notifications using the ID Token as the detached signature;
-1. shall ensure that that the `auth_req_id` in the ID Token matches the `auth_req_id` in the response;
-1. shall validate the access token received in a successful token notification using the `at_hash` as as per Section 3.2.2.9 of [OIDC].
-1. shall validate the refresh token received in a successful token notification using the `rt_hash` in a similar manner as above.
-
-**NOTE:** The client notification endpoint is only protected by a bearer token. This profile requires that the authorization server send an ID Token as a detached signature. This allows the client to authenticate the source and verify the integrity of the notification payload. Furthermore, the tokens issued to the client notification endpoint are holder of key tokens and if intercepted cannot be used without the associated key.
+1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request.
 
 # 6. Accessing Protected Resources
 
@@ -259,9 +209,11 @@ For this reason this profile highly recommends `login_hint` to have the properti
 Should a TPP wish to link the `id_token` returned from an authorization server to an identifier that can be provided in a more friendly manner as a key for the `id_token_hint`, care must be taken to ensure that customer identification mechanism used to retrieve the `id_token` is appropriate for the channel being used.
 For illustration a QR club card may be an appropriate identifier when using a POS terminal under CCTV but it might not be an appropriate identifier when used in online ecommerce.
 
+In addition, [CIBA] provides an optional `user_code` mechanism to specifically mitigate this issue, it may be appropriate to require the user of `user_code` in certain deployments. 
+
 ### 7.3 Reliance on user to confirm binding messages
 
-Should a `id_token_hint` be used an identifier, and depending on the Client's Customer authentication processes, it may be possible for a fraudster to start a [CIBA] flow at the same time as a genuine flow but using the genuine user’s identifier. If the amount and the client are the same then the only way to ensure that a user is authorising the correct transaction is for the user to compare the binding messages. If this risk is deemed unacceptable then implementers should consider alternative mechanisms to verify binding messages.
+Depending on the hint used to identify the user and the Client's Customer authentication processes, it may be possible for a fraudster to start a [CIBA] flow at the same time as a genuine flow but using the genuine user’s identifier. If the scope of access requested and the Client are the same then the only way to ensure that a user is authorising the correct transaction is for the user to compare the binding messages. If this risk is deemed unacceptable then implementers should consider alternative mechanisms to verify binding messages.
 
 ### 7.4 Loss of fruad markers to FI
 
