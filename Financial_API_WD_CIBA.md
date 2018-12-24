@@ -1,4 +1,4 @@
-#Financial Services – Financial API: Client Initiated Backchannel Authentication Profile
+# Financial-grade API: Client Initiated Backchannel Authentication Profile
 
 ## Warning
 
@@ -30,9 +30,11 @@ This part is intended to be used with [RFC6749], [RFC6750], [RFC7636], [OIDC] an
 
 ##Introduction
 
-The Financial API Standard provides a profile for OAuth 2.0 suitable for use in financial services. The standard OAuth method for the client to send the resource owner to the authorization server is to use an HTTP redirect. Parts 1 and 2 of this specification support this interaction model and are suitable for use cases where the resource owner is interacting with the client on a device they control that has a web browser. There are however many use-cases for initiating payments where the resource owner is not interacting with the client in such a manner. For example, the resource owner may want to authorize a payment at a "point of sale" terminal at a shop or fuel station.
+The Financial-grade API Standard provides a profile for OAuth 2.0 suitable for use in financial services. The standard OAuth method for the client to send the resource owner to the authorization server is to use an HTTP redirect. Parts 1 and 2 of this specification support this interaction model and are suitable for use cases where the resource owner is interacting with the client on a device they control that has a web browser. There are however many use-cases for initiating payments where the resource owner is not interacting with the client in such a manner. For example, the resource owner may want to authorize a payment at a "point of sale" terminal at a shop or fuel station.
 
-This document is a profile of the OpenID Connect Client Initiated Backchannel Authentication Flow [CIBA] that supports this decoupled interaction method. The CIBA spec allows a client that gains knowledge of an identifier for the user to obtain tokens from the authorization server. The user consent is given at the user's Authentication Device mediated by the authorization server. This document profiles the CIBA spec to bring it in line with the rest of the FAPI spec and provide security recommendations for its use with APIs that require financial-grade security. 
+This document is a profile of the OpenID Connect Client Initiated Backchannel Authentication Flow [CIBA] that supports this decoupled interaction method. The CIBA spec allows a client that gains knowledge of an identifier for the user to obtain tokens from the authorization server. The user consent is given at the user's Authentication Device mediated by the authorization server. This document profiles the CIBA specification to bring it in line with the rest of the other FAPI parts and provides security recommendations for its use with APIs that require financial-grade security. 
+
+Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementors are encouraged to understand the security considerations contained in section 7.5 before embarking on a 'from scratch' implementation.
 
 ### Notational Conventions
 
@@ -44,16 +46,16 @@ These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-#**Financial Services – Financial API: Client Initiated Backchannel Authentication Profile **
+# **Financial-grade API: Client Initiated Backchannel Authentication Profile **
 
 [TOC]
 
 ## 1. Scope
 
-This part of the document specifies the method of
+This document specifies the method for an application to:
 
-* applications to obtain the OAuth tokens via a backchannel authentication flow in an appropriately secure manner for financial data access;
-* using the tokens to interact with the REST endpoints that provides financial data;
+* obtain OAuth tokens via a backchannel authentication flow in an appropriately secure manner for financial data access and other similar situations where the risk is higher;
+* use tokens to interact with protected data via REST endpoints.
 
 ## 2. Normative references
 
@@ -118,8 +120,6 @@ For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636
 
 **API** – Application Programming Interface
 
-**CSRF** - Cross Site Request Forgery
-
 **FAPI** - Financial API
 
 **FI** – Financial Institution
@@ -160,16 +160,14 @@ The Authorization Server shall support the provisions specified in clause 5.2.2 
 In addition the Authorization server, for all operations,
 
 1. shall only support Confidential Clients for Client Initiated Backchannel Authentication flows;
-1. shall ensure unique authorization context exists in authorization request or require a binding_message in the authentication request;
-1. shall only issue access tokens and refresh tokens that are holder of key bound;
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
+1. shall ensure unique authorization context exists in the authorization request or require a binding_message in the authentication request;
 1. shall not support CIBA push mode;
 1. shall support CIBA poll mode;
 1. may support CIBA ping mode.
 
 **NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorise the transaction, as part of the authorisation process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
 
-**NOTE:** As the FAPI CIBA profile only support CIBA ping and poll modes, therefore it is only possible to retrieve access tokens and optionally refresh tokens from the token endpoint. The same security requirements for the token endpoint as detailed in [FAPI1] and [FAPI2] apply.
+**NOTE:** The FAPI CIBA profile only supports CIBA ping and poll modes, therefore it is only possible to retrieve access tokens and optionally refresh tokens from the token endpoint. The same security requirements for the token endpoint as detailed in [FAPI1] and [FAPI2] apply.
 
 #### 5.2.3 Confidential Client
 
@@ -185,7 +183,7 @@ In addition, the Confidential Client
 
 ### 6.1 Introduction
 
-The provisions detailed in Parts 1 and 2 of the Financial API specification apply fully. The benefit of the CIBA specification is that once tokens are issued they can be in the same manner as token issued via authorization code flows.
+The provisions detailed in Parts 1 and 2 of the Financial API specification apply fully. The benefit of the CIBA specification is that once tokens are issued they can be used in the same manner as tokens issued via authorization code flows.
 
 ### 6.2 Client Provisions
 
@@ -203,7 +201,7 @@ The [CIBA] specification introduces some new attack vectors not present in OAuth
 
 ### 7.2 Authentication sessions started without a users knowledge or consent
 
-Because this specification allows the client to initiate an authentication request it is important for the authorization server to know whether the user is aware and has consented to the authentication process. If widely known user identifiers (e.g. phone numbers) are used as the `login_hint` in the authentication request then this risk is worsened. An attacker could start unsolicited authentication sessions on large numbers of authentication devices, causing distress and potentially enabling fraud.
+As this specification allows the client to initiate an authentication request it is important for the authorization server to know whether the user is aware and has consented to the authentication process. If widely known user identifiers (e.g. phone numbers) are used as the `login_hint` in the authentication request then this risk is worsened. An attacker could start unsolicited authentication sessions on large numbers of authentication devices, causing distress and potentially enabling fraud.
 For this reason this profile highly recommends `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept a `id_token_hint` as an alternative mechinism for Client Subject identification.
 
 Should a TPP wish to link the `id_token` returned from an authorization server to an identifier that can be provided in a more friendly manner as a key for the `id_token_hint`, care must be taken to ensure that customer identification mechanism used to retrieve the `id_token` is appropriate for the channel being used.
@@ -219,13 +217,27 @@ Depending on the hint used to identify the user and the Client's Customer authen
 
 In a redirect-based flow, the FI can collect useful fraud markers from the user-agent. In a [CIBA] flow the separation of consumption and authentication devices reduces the data that can be collected. This could reduce the effectiveness of an FI's fraud detection system. 
 
+### 7.5 Incomplete or incorrect implementations of the specifications
+
+To achieve the full security benefits, it is important the implementation of this specification, and the underlying OpenID Connect and OAuth specifications, are both complete and correct.
+
+The OpenID Foundation provides tools that can be used to confirm that an implementation is correct:
+
+https://openid.net/certification/
+
+The OpenID Foundation maintains a list of certified implementations:
+
+https://openid.net/developers/certified/
+
+Deployments that use this specification should use a certified implementation.
+
 ## 8. Privacy Considerations
 
 * TODO
 
 ## 9. Acknowledgement
 
-Following people contributed heavily towards this document.
+The following people contributed heavily towards this document:
 
 * Nat Sakimura (Nomura Research Institute) -- Chair, Editor
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
