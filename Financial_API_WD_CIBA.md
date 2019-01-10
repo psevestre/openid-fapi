@@ -64,44 +64,14 @@ The following referenced documents are indispensable for the application of this
 [ISODIR2] - ISO/IEC Directives Part 2
 [ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
 
-[RFC7230] - Hypertext Transfer Protocol -- HTTP/1.1
-[RFC7230]: https://tools.ietf.org/html/rfc7230
-
 [RFC6749] - The OAuth 2.0 Authorization Framework
 [RFC6749]: https://tools.ietf.org/html/rfc6749
 
 [RFC6750] - The OAuth 2.0 Authorization Framework: Bearer Token Usage
 [RFC6750]: https://tools.ietf.org/html/rfc6750
 
-[RFC5246] - The Transport Layer Security (TLS) Protocol Version 1.2
-[RFC5246]: https://tools.ietf.org/html/rfc5246
-
-[RFC6125] - Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
-[RFC6125]: https://tools.ietf.org/html/rfc6125
-
-[RFC6819] - OAuth 2.0 Threat Model and Security Considerations
-[RFC6819]: https://tools.ietf.org/html/rfc6819
-
-[RFC7519] - JSON Web Token (JWT)
-[RFC7519]:https://tools.ietf.org/html/rfc7519
-
-[BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
-[BCP195]: https://tools.ietf.org/html/bcp195
-
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
-
-[OIDM] - OAuth 2.0 Multiple Response Type Encoding Practices
-[OIDM]: http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-
-[X.1254] - Entity authentication assurance framework
-[X.1254]: https://www.itu.int/rec/T-REC-X.1254
-
-[OAUTB] - OAuth 2.0 Token Binding
-[OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding-01
-
-[MTLS] - Mutual TLS Profiles for OAuth Clients
-[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls-06
 
 [CIBA] - OpenID Connect Client Initiated Backchannel Authentication Core
 [CIBA]: http://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html
@@ -243,7 +213,8 @@ The following people contributed heavily towards this document:
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
 * Anthony Nadalin (Microsoft) -- Co-chair, SC 27 Liaison
 * Edmund Jay (Illumila) -- Co-editor
-* Dave Tonge (Momentum Financial Technology) -- Co-chair, UK Implementation Entity Liaison
+* Dave Tonge (Moneyhub) -- Co-chair, UK Implementation Entity Liaison
+* Brian Campbell (Ping Identity)
 * John Bradley (Yubico)
 * Henrik Biering (Peercraft)
 * Axel Nennker (Deutsche Telekom)
