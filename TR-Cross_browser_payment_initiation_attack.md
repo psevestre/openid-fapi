@@ -118,9 +118,9 @@ merchant's after pay landing page (in Alice's browser)
 
 **Message \#15** The merchant site does not know anything about an
 ongoing checkout since there are no cookies in Alice's browser. It shows
-an error. Alice is confused^[^1]^.
+an error. Alice is confused[^1].
 
-### Harvesting the results^[^2]^
+### Harvesting the results[^2]
 
 **Message \#16** Bob waited for some time and then directs his browser
 to the merchant's after pay landing page (in his browser).
@@ -146,12 +146,12 @@ This allows the attacker to prepare a transaction and remotely trick the
 victim into executing it. Since the attacker has all the details, it can
 benefit from the successful execution. That's why this kind of attack is
 typically referred to as "session fixation" (see
-https://en.wikipedia.org/wiki/Session\_fixation)^[^3]^.
+https://en.wikipedia.org/wiki/Session\_fixation)[^3].
 
 The Strong Customer Authentication (SCA)/Dynamic Linking is the only
 line of defense in the design described above. This means it's Alice's
 responsibility to recognize the attack and stop it by refusing to
-perform the respective SCA^[^4]^. Since the attacker will most likely
+perform the respective SCA[^4]. Since the attacker will most likely
 synchronize his attack with a payment process Alice is expecting makes
 it even harder.
 
@@ -297,24 +297,24 @@ includes these best practices and additional security mechanisms.
 
 ## Acknowledgement
 
-The following people contributed to this document:\
-\
-Nat Sakimura (Nomura Research Institute) \-- Chair\
-Dave Tonge (Moneyhub) \-- Co-chair, UK Implementation Entity Liaison\
+The following people contributed to this document:  
+  
+Nat Sakimura (Nomura Research Institute) -- Chair  
+Dave Tonge (Moneyhub) -- Co-chair, UK Implementation Entity Liaison  
 Brian Campbell (Ping Identity)
 
 ## Authors' Addresses
 
 Dr. Torsten Lodderstedt
 
-yes.com AG\
-Email: torsten\@yes.com\
-URI: http://www.yes.com/\
-\
-Daniel Fett\
-yes.com AG\
-Email: danielf\@yes.com\
-URI: http://www.yes.com/\
+yes.com AG  
+Email: torsten\@yes.com  
+URI: http://www.yes.com/  
+  
+Daniel Fett  
+yes.com AG  
+Email: danielf\@yes.com  
+URI: http://www.yes.com/  
 
 [^1]:  Depending on the exact method chosen to open the window, Bob
     might be able to close the window of Alice's browser in which the
