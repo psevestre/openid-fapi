@@ -48,18 +48,18 @@ and payment were performed.
     possibilities how Bob can achieve this:
 
     a.  Bob controls advertisement or tracking scripts in the merchant's
-        > web site. (Note: Even if these are **sandboxed in an iframe**,
-        > these kinds of scripts often learn the visited URL since this
-        > is important for tracking.)
+        web site. (Note: Even if these are **sandboxed in an iframe**,
+        these kinds of scripts often learn the visited URL since this
+        is important for tracking.)
 
     b.  Bob might be able to use leaked information from the merchant
-        > web site, for example via CSRF or inadvertently exposed state
-        > information.
+        web site, for example via CSRF or inadvertently exposed state
+        information.
 
     c.  If Bob can read the network traffic, he can, even if the traffic
-        > is protected by TLS, often read the domain of the visited web
-        > site (SNI header) or correlate IP addresses and packet sizes
-        > with the visited web site.
+        is protected by TLS, often read the domain of the visited web
+        site (SNI header) or correlate IP addresses and packet sizes
+        with the visited web site.
 
 3.  Bob needs to be able to open a URL chosen by him in Alice's browser.
     There are many different mechanisms through which Bob can achieve
@@ -75,8 +75,7 @@ and payment were performed.
 
 ## The Attack
 
-![](Pictures/100002010000069E0000031EF5BE6450F0BDBA86.png){width="6.5in"
-height="3.0555in"}
+![](fapi-cross-browser-payment-initiation-example.png)
 
 ### Preparation (Bob on Merchant's web site)
 
@@ -104,7 +103,7 @@ transaction).
 ### Tricking Alice into paying
 
 **Message \#8 & \#9** Bob tricks Alice into opening this URL in her
-browser (see [*Prerequisites*](#_q8yw5qaytsc8)).
+browser (see [Prerequisites](#prerequisites)).
 
 **Message \#10** Alice logs into her bank.
 
@@ -190,7 +189,7 @@ BINDING!).
 
 The solutions to implement this binding are protocol specific. In OAuth
 2.0, for example, the merchant would add a nonce as the
-[*state*](https://tools.ietf.org/html/rfc6749#section-4.1.1) parameter
+[state](https://tools.ietf.org/html/rfc6749#section-4.1.1) parameter
 to the authorization request and bind it to the user's browser session.
 In the redirection back, the same parameter is added again by the bank.
 The merchant could then check that the state parameter matches the state
@@ -201,8 +200,7 @@ value stored in the cookie.
 The following sequence diagram shows the modified payment flow in a good
 case (no attack is performed):
 
-![](Pictures/10000201000004BB000002A2FF249319272CE09D.png){width="6.5in"
-height="3.611in"}
+![](fapi-cross-browser-payment-initiation-fix-normal.png)
 
 There are two important additions:
 
@@ -227,8 +225,7 @@ merchant now uses the token issued by the bank to initiate the payment.
 The following diagram shows how an attempt by Bob to trick Alice into
 paying his goods is detected and prevented.
 
-![](Pictures/1000020100000618000002F4928158C5CE477831.png){width="6.5in"
-height="3.1528in"}
+![](fapi-cross-browser-payment-initiation-fix.png)
 
 If Bob forwards the authorization URL to Alice, as in the attack above,
 then Alice would be redirected and the token would be received by the
@@ -254,14 +251,13 @@ apps.
 The mitigation above and mitigations against other attacks are already
 contained in the authorization code grant type defined by the OAuth 2.0
 authorization framework
-([*https://tools.ietf.org/html/rfc6749\#section-4.1*](https://tools.ietf.org/html/rfc6749#section-4.1)).
+([https://tools.ietf.org/html/rfc6749\#section-4.1](https://tools.ietf.org/html/rfc6749#section-4.1)).
 With minor changes, the flow above can be adapted for OAuth.
 
 The payment initiation flow using OAuth 2.0 is shown in the following
 sequence diagram.
 
-![](Pictures/1000020100000519000002781530530A38214D58.png){width="6.5in"
-height="3.1528in"}
+![](fapi-cross-browser-payment-initiation-oauth-good.png)
 
 It looks similar to the flow shown before, except for the following
 changes:
@@ -291,12 +287,12 @@ The security of the OAuth protocol has been analyzed in detail and
 existing security recommendations can be applied.
 
 Note:
-[*https://tools.ietf.org/html/draft-ietf-oauth-security-topics-10\#section-2.1*](https://tools.ietf.org/html/draft-ietf-oauth-security-topics-10#section-2.1)
+[https://tools.ietf.org/html/draft-ietf-oauth-security-topics-10\#section-2.1](https://tools.ietf.org/html/draft-ietf-oauth-security-topics-10#section-2.1)
 gives the the full set of recommendations how to protect Redirect-Based
 Flows using OAuth 2.0.
 
-In addition the OpenID Foundation has published a [*financial-grade
-security profile of OAuth 2.0*](https://openid.net/wg/fapi/) which
+In addition the OpenID Foundation has published a [financial-grade
+security profile of OAuth 2.0](https://openid.net/wg/fapi/) which
 includes these best practices and additional security mechanisms.
 
 ## Acknowledgement
@@ -307,7 +303,7 @@ Nat Sakimura (Nomura Research Institute) \-- Chair\
 Dave Tonge (Moneyhub) \-- Co-chair, UK Implementation Entity Liaison\
 Brian Campbell (Ping Identity)
 
-## Authors\' Addresses
+## Authors' Addresses
 
 Dr. Torsten Lodderstedt
 
