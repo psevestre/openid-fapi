@@ -169,7 +169,7 @@ The authorization server shall support the provisions specified in clause 5.2.2 
 In addition, the authorization server, for the write operation,
 
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
-1. shall require the `response_type` values `code id_token` or `code id_token token`;
+1. shall require the `response_type` value `code id_token`;
 1. shall return ID Token as a detached signature to the authorization response;
 1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
