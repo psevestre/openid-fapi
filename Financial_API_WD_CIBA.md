@@ -201,6 +201,10 @@ https://openid.net/developers/certified/
 
 Deployments that use this specification should use a certified implementation.
 
+### 7.6 JWS algorithm considerations
+
+CIBA Authorization Servers and Clients must follow the guidance around JWS Algorithms in [FAPI2] 8.6.
+
 ## 8. Privacy Considerations
 
 * TODO
