@@ -79,15 +79,15 @@ and payment were performed.
 
 ### Preparation (Bob on Merchant's web site)
 
-**Message \#1** Bob selects a product at a merchant web site.
+**Message \# 1** Bob selects a product at a merchant web site.
 
-**Message \#2** Bob initiates the checkout.
+**Message \# 2** Bob initiates the checkout.
 
-**Message \#3** The merchant asks Bob for his bank account.
+**Message \# 3** The merchant asks Bob for his bank account.
 
-**Message \#4** Bob enters Alice's Bank Id or IBAN.
+**Message \# 4** Bob enters Alice's Bank Id or IBAN.
 
-**Messages \#5 & \#6** The merchant sets up a new payment initiation
+**Messages \# 5 & \# 6** The merchant sets up a new payment initiation
 transaction with the Merchant's IBAN as the creditor account and the
 price of the shopping cart as amount. Depending on the API design, it
 might be required to set Alice's IBAN as the debtor
@@ -96,40 +96,40 @@ The bank responds with an URL the merchant needs to redirect the user's
 browser to in order to authenticate and authorize the payment (payment
 authorization URL).
 
-**Message \#7** The merchant redirects the browser to the bank. Bob
+**Message \# 7** The merchant redirects the browser to the bank. Bob
 copies the URL (which includes data identifying the payment initiation
 transaction).
 
 ### Tricking Alice into paying
 
-**Message \#8 & \#9** Bob tricks Alice into opening this URL in her
+**Message \# 8 & \# 9** Bob tricks Alice into opening this URL in her
 browser (see [Prerequisites](#prerequisites)).
 
-**Message \#10** Alice logs into her bank.
+**Message \# 10** Alice logs into her bank.
 
-**Message \#11** Alice confirms the payment initiation using a SCA (SCA
+**Message \# 11** Alice confirms the payment initiation using a SCA (SCA
 is potentially omitted if the merchant is on the exemption list or the
 amount is below a certain limit).
 
-**Message \#12** The bank initiates the payment.
+**Message \# 12** The bank initiates the payment.
 
-**Message \#13 & \#14** The bank redirects the browser back to the
+**Message \# 13 & \# 14** The bank redirects the browser back to the
 merchant's after pay landing page (in Alice's browser)
 
-**Message \#15** The merchant site does not know anything about an
+**Message \# 15** The merchant site does not know anything about an
 ongoing checkout since there are no cookies in Alice's browser. It shows
 an error. Alice is confused[^1].
 
 ### Harvesting the results[^2]
 
-**Message \#16** Bob waited for some time and then directs his browser
+**Message \# 16** Bob waited for some time and then directs his browser
 to the merchant's after pay landing page (in his browser).
 
-**Message \#17** The merchant recognizes the checkout (based on the
+**Message \# 17** The merchant recognizes the checkout (based on the
 browser cookies), queries the status of the payment with the bank and
 confirms the successful payment to Bob.
 
-**Message \#18** The merchant delivers the goods to Bob.
+**Message \# 18** The merchant delivers the goods to Bob.
 
 ## The Vulnerability in Detail
 
@@ -206,11 +206,11 @@ There are two important additions:
 
 **(1) Browser Binding**
 
-In messages \#7 & \#8 the merchant establishes a nonce that is stored in
+In messages \# 7 & \# 8 the merchant establishes a nonce that is stored in
 the browser session and sent to the bank, which links this transaction
 to the particular browser session.
 
-In message \#14, the merchant compares the state values in the session
+In message \# 14, the merchant compares the state values in the session
 to the value of the state response parameter. Since it is the same
 value, this transaction was initiated in the same browser and the
 process can continue.
@@ -263,24 +263,24 @@ It looks similar to the flow shown before, except for the following
 changes:
 
 -   It uses the standard OAuth parameters in the authorization request
-    (messages \#8 & \#9). The payment transaction id is encoded in the
+    (messages \# 8 & \# 9). The payment transaction id is encoded in the
     so-called "scope" parameter.
 -   Instead of returning the token to the merchant in the authorization
-    response (messages \#12 & \#13), the bank only returns a so-called
+    response (messages \# 12 & \# 13), the bank only returns a so-called
     *authorization code*, a one-time use token chosen by the bank and
     bound to the identity (client\_id) of the merchant. The
     authorization response also contains the "state" parameter as sent
     in the authorization response.
 -   The merchant then sends a request to the bank containing the
-    authorization code (message \#15). This request is authenticated
+    authorization code (message \# 15). This request is authenticated
     using the credentials the merchant had set up with the bank (e.g.
     TLS Client Authentication using X.509 certificates). Only after
     checking the authorization code and its binding to the merchant's
     client\_id, the bank sends the access token to the merchant in the
-    response (message \#16).
+    response (message \# 16).
 -   The merchant then sends the access token with the request to submit
     the actual payment to the bank's payment initiation API (message
-    \#17).
+    \# 17).
 
 This solution is compatible to existing implementations of OAuth 2.0.
 The security of the OAuth protocol has been analyzed in detail and
@@ -308,12 +308,12 @@ Brian Campbell (Ping Identity)
 Dr. Torsten Lodderstedt
 
 yes.com AG  
-Email: torsten\@yes.com  
+Email: torsten@yes.com  
 URI: http://www.yes.com/  
   
 Daniel Fett  
 yes.com AG  
-Email: danielf\@yes.com  
+Email: danielf@yes.com  
 URI: http://www.yes.com/  
 
 [^1]:  Depending on the exact method chosen to open the window, Bob
