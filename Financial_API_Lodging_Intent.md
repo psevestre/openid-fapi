@@ -87,60 +87,63 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 **TLS** – Transport Layer Security
 
 ## 4. Introduction
-OAuth is well equipped to authorize simple actions on behalf of resource owners, such as read access to one‘s contact list. When it comes to more complex authorization decisions, such as access to certain feature of a number of bank accounts, or the authorization of transactions, such as the initiation of a payment, the built-in support does not suffice. The „scope“ parameter, which ought to be used to determine the requested scope of an access token, is just defined as a space delimited list of flat string values. This is not sufficient to, for example, list resources and corresponding actions on those resources or to define amount, currency and other details of a payment transaction. Moreover, the scope value is not protected from modifications by the user, which might cause security issues.
+OAuth is well equipped to authorize simple actions on behalf of resource owners, such as read access to one‘s contact list. When it comes to more complex authorization decisions, such as access to certain features of a number of bank accounts, or the authorization of transactions, such as the initiation of a payment, the built-in support does not suffice. The „scope“ parameter, which ought to be used to determine the requested scope of an access token, is just defined as a space delimited list of flat string values. This is not sufficient to, for example, list resources and corresponding actions on those resources or to define amount, currency and other details of a payment transaction. Moreover, the length of the scope value is restricted by the maximum length of the authorization request URL, and the scope value is not protected from modifications by the user, which might cause security issues.
 
 The use cases mentioned above require a more expressive and secure way to parameterize authorization transactions.
 
-Different patterns to solve that challenge can be observed in the wild. They basically fall into two categories: either complex data structures are passed to the authorization request or authorization request refers to authorization data represented in a RESTful HTTP resource. So the solution space boils down to the typical „pass by value“ vs. „pass by reference“ design decision.
+Different patterns to solve that challenge can be observed in the wild. They basically fall into two categories: either complex data structures are passed in the authorization request or the authorization request refers to authorization data represented in a RESTful HTTP resource. So the solution space boils down to the typical „pass by value“ vs. „pass by reference“ design decision.
 
-This document describes a pattern to pass authorization data by reference designated as „lodging intent“. As the main advantage, this pattern can be used to (1) reliably pass data into the authorization process independent of URL length restrictions and escaping while the data is also (2) protected from modification without the need to digitally sign them, i.e. it’s easier to code.
+This document describes a pattern to pass authorization data by reference designated as „lodging intent“. As the main advantage, this pattern can be used to (1) reliably pass information into the authorization process independent of URL length restrictions while the information is also (2) protected from modification without the need to digitally sign it, reducing implementation costs.
 
 Note: this document only defines a pattern and not the actual interfaces and payload since those are use case and deployment specific.
 
 ## 5. Pattern Overview 
 Performing an authorization process using the lodging intent pattern and the code flow works as follows:
 
-First, the client creates a resource containing all data required to inform the authorization process at the authorization server. In the case of a payment initiation, the resource might consist of the debtors account number, amount and currency and further information about the payment. Creating the lodging intent might require an authorization on its own. In this case, the client needs to obtain a suitably scopes access token in advance, typically using the client credentials grant with the AS. The lodging resource service respond to the client with an id and/or a link to the newly created resource.
+First, the client creates a resource containing all data required to inform the authorization process at the authorization server. In the case of a payment initiation, the resource might consist of the debtors account number, amount and currency, and further information about the payment. Creating the lodging intent might require an authorization on its own. In this case, the client needs to obtain a suitably scoped access token in advance, typically using the client credentials grant with the AS. The lodging resource service responds to the client with an id and/or a link to the newly created resource.
 
-The client then sends the resource reference with the authorization request to the authorization server. The AS obtains the transaction data from the lodging resource and, after having authenticated the user, utilizes it to render a user consent’s user interface. For example in the payment case, the AS shows the debtor, the amount and additional information regarding the payment transaction to the user and asks for her consent.
+The client then sends the resource reference with the authorization request to the authorization server. The AS obtains the transaction data from the lodging resource and, after having authenticated the user, utilizes it to render a user consent user interface. For example in the payment case, the AS shows the debtor, the amount, and additional information regarding the payment transaction to the user and asks for her consent.
 
-If the user consent to the requested authorization, the AS associates the authorization data with the newly created (or just upgraded) grant and the respective access tokens issued based on this grant. Ultimately, the AS needs to provide the authorization data to the respective resource server, either embedded in the access token or in the token introspection response.
+If the user consents to the requested authorization, the AS associates the authorization data with the newly created (or just upgraded) grant and the respective access tokens issued based on this grant. Ultimately, the AS needs to provide the authorization data to the respective resource server, either embedded in the access token or in the token introspection response.
 
 ## 6. Detailed Description
 The following sections will describe the recommended process in detail.
 
-## 6.1. Obtain Access Token for intent creation (optional step)
+## 6.1. Obtain Access Token for Intent Creation (Optional Step)
 The AS might require clients to authenticate and get authorized as a prerequisite to create a lodging intent. The recommended approach is to use the OAuth client credentials grant type to authenticate the client and access tokens to convey the authorization towards the lodging intent resource.
 
 This requires the AS to define a certain scope the client needs to specify when asking for an access token.
 
 The following example shows how to obtain an access token using the example of a payment initiation API. The respective scope value is „payments_create“.
 
-```
-POST /token
-content­type: application/x­www­form­urlencoded
-host: as.example­bank.com
-client_id=3630BF72­E979­477A­A8FF­8A338F07C852&
+```http 
+POST /token HTTP/1.1
+Host: as.bank.example
+Content-Type: application/x-www-form-urlencoded
+
+client_id=3630BF72-E979-477A-A8FF-8A338F07C852&
 grant_type=client_credentials&
 scope=payments_create
 ```
 
 Please note the example does not show a particular client authentication method. Any method defined at [token endpoint authentication method iana registry] should be applicable.
 
-## 6.2. Create lodging intent
+## 6.2. Create Lodging Intent
 In the next step, the client uses the access token to create a new lodging intent.
 
 The data sent to the resource endpoint depends on the particular transaction and API type. The representation format is at the discretion of the AS, JSON is the recommendation since it allows to represent even complex structures in a simple and robust way.
 
 In our example, the client sends data describing a certain payment initiation transaction in JSON format:
 
-```
-POST /payments
-Content­Type:  application/json
+
+```http
+POST /payments HTTP/1.1
+Host: api.bank.example
+Content-Type:  application/json
 Authorization: Bearer eyJraWQiOiJOQnlW...
-host: api.example­bank.com
+
 {
-   “creditor“:“DE56378485858575858585“,
+   "creditor":"DE56378485858575858585",
    "instructedAmount": {"currency": "EUR", "amount": "123"},
    "remittanceInformationUnstructured": "Ref Number Merchant: 739466380"
 }
@@ -148,10 +151,12 @@ host: api.example­bank.com
 
 The lodging intent will respond with an id of and/or link to the newly created resource. This reference is used in the next step to link the resource into the authorization process.
 
-```
-HTTP/1.x 201 Created
+
+```http
+HTTP/1.1 201 Created
 Content-Type: application/json
 Location: /payments/36fc67776
+
 {
  "consentId": "36fc67776",
 }
@@ -159,45 +164,47 @@ Location: /payments/36fc67776
 
 Note: the lodging intent endpoint can be provided by the AS or the respective RS. Both options have up- and downsides, which will be discussed later on.
 
-## 6.3. Authorization request
-The client must send the reference to the lodging intent(s) to the authorization server as part of the authorization request. There are basically the following mechanism that can be used for that purpose:
+## 6.3. Authorization Request
+The client must send the reference to the lodging intent(s) to the authorization server as part of the authorization request. There are basically the following mechanisms that can be used for that purpose:
 
-## 6.3.1. Parameterized scope values
-The intent id can be made a part of the scope value used to ask for permission to access certain resources or perform a transaction. For example, the base scope value could be „payment“ and the resource is could be added in the concrete authorization request separated by colons, resulting in an effective scope value „payment:36fc67776“. This is show in the following example (with URI encoding):
+## 6.3.1. Parameterized Scope Values
+The intent id can be made a part of the scope value used to ask for permission to access certain resources or perform a transaction. For example, the base scope value could be „payment“ and the resource could be added in the concrete authorization request separated by colons, resulting in an effective scope value „payment:36fc67776“. This is shown in the following example (with URI encoding):
 
-```
+
+```http
 GET /authorise?responseType=code&
-client_id=3630BF72­E979­477A­A8FF­8A338F07C852&
+client_id=3630BF72-E979-477A-A8FF-8A338F07C852&
 redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb&
 scope=payment%3A36fc67776&
-state= S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
+state=S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
 code_challenge_method=S256&
 code_challenge=5c305578f8f19b2dcdb6c3c955c0aa709782590b4642eb890b97e
 43917cd0f36 HTTP/1.1
-Host: as.example­bank.com
+Host: as.bank.example
 ```
 
 This way the lodging intent adds further details regarding the authorization the client asks for, which fits the purpose of the scope parameter. It also allows the AS to determine whether a user already consented to a certain request by just comparing scope values.
 
-Note: most products nowadays only support scope values out of a discrete, pre-configured list of fixed string values. Supporting parameterized scope values will require modifications of such a product. Please also note, the more dramatic change in product logic will be related to the dynamic rendering of the user consent dialog based on the transaction authorization data (which is the same for all representations).
+Note: most products nowadays only support scope values out of a discrete, pre-configured list of fixed string values. Supporting parameterized scope values will require modifications of such products. In particular, major changes are required to support dynamic rendering of the user consent dialog based on the transaction authorization data (which is the same for all representations).
 
-## 6.3.2. Additional request parameter
-Instead of enriching the scope value, one could also refer to the additional data using another URI request parameter, as shown in the following example:
+## 6.3.2. Additional Request Parameter
+Instead of enriching the scope value, one could also refer to the additional data using a new custom URI request parameter, as shown in the following example:
 
-```
+
+```http
 GET /authorise?responseType=code&
-client_id=3630BF72­E979­477A­A8FF­8A338F07C852&
+client_id=3630BF72-E979-477A-A8FF-8A338F07C852&
 redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb&
 scope=payment&
 payment_intent=3A36fc67776&
-state= S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
+state=S8NJ7uqk5fY4EjNvP_G_FtyJu6pUsvH9jsYni9dMAJw&
 code_challenge_method=S256&
 code_challenge=5c305578f8f19b2dcdb6c3c955c0aa709782590b4642eb890b97e
 43917cd0f36 HTTP/1.1
-Host: as.example­bank.com
+Host: as.bank.example
 ```
 
-This approach requires the introduction of an additional request parameter, which is  related to the particular scope value. Most likely this means there needs to be a distinct URI query parameter per scope value type (e.g. API type). This approach might be easy to implement but the coupling between scope value and corresponding intent is not as direct as in the method described above.
+This approach requires the introduction of an additional request parameter, which is  related to the particular scope value. Most likely this means there needs to be a distinct URI query parameter per scope value type (e.g. API type). This approach might be easy to implement but the coupling between scope value and corresponding intent is not as clear as in the method described above.
 
 ## 6.3.3. Claim
 
@@ -206,26 +213,30 @@ Deployments using OpenID Connect might also consider to use distinct claim value
 ## 6.4 Authorization Process
 The authorization server obtains the lodging intent data and incorporates it into the process of rendering the user consent. In case of the payment initiation, the AS will need to ask the user to confirm the transfer of certain money to the creditor defined in the authorization data.
 
-The way the AS obtains the data depends on the what party provides the lodging intend implementation. Both AS or RS can provide this implementation with different advantages and drawbacks as described in the following:
+The way the AS obtains the data depends on the party that provides the lodging intent implementation. Both AS or RS can provide this implementation with different advantages and drawbacks as described in the following.
 
-## 6.4.1. AS provides Intent Implementation 
+## 6.4.1. AS Provides Intent Implementation 
 
-On first sight, implementing the lodging intend at the AS might be the obvious choice, since it just serves as an extension to a certain scope value. In such a case, the AS determines how and where the intend data are stored and can how it can be accessed in user consent and, latter on, when the data needs to be transferred to the RS. The RS will be provided with the authorization data either (1) encoded in the access token or (2) as part of the token introspection response.
+On first sight, implementing the lodging intent at the AS might be the obvious choice, since it just serves as an extension to a certain scope value. In such a case, the AS determines how and where the intent data is stored and how it can be accessed in user consent and, later on, when the data needs to be transferred to the RS. The RS will be provided with the authorization data either (1) encoded in the access token or (2) as part of the token introspection response.
 
-## 6.4.2. RS provides Intent Implementation
+## 6.4.2. RS Provides Intent Implementation
 
-But there are some advantages to implement the intend with the RS. First of all, the client can directly setup a resource or transaction with the RS in the first step and the RS may than dynamically decide whether there is a need for a user authorization. If so, the RS will be providing the relevant data to the AS to conduct the authorization process, which requires an well-defined interface between AS and RS. If the interface exist, the AS may also inform the RS about the context of the authorization (e.g. the respective user account), so the RS could dynamically adapt the user consent data. As one example, the RS could determine whether the respective user already consented to the RS‘s terms of service and just ask for it in case it is a new user. Or the RS informs the AS of the available debit accounts of the particular user and the AS could directly ask the user to select the account to be used for the transaction in authorization. This pattern benefits from the domain specific knowledge in the RS and keeps the AS very clean and generic. As a consequence, the must be a properly protected interface between AS and RS.
+There are some advantages to implement the intent with the RS. First of all, the client can directly setup a resource or transaction with the RS in the first step and the RS may than dynamically decide whether there is a need for a user authorization. If so, the RS will be providing the relevant data to the AS to conduct the authorization process, which requires a well-defined interface between AS and RS. If the interface exists, the AS may also inform the RS about the context of the authorization (e.g. the respective user account), so the RS can dynamically adapt the user consent data. As one example, the RS could determine whether the respective user already consented to the RS‘s terms of service and just ask new users for a consent. Or the RS informs the AS of the available debit accounts of the particular user and the AS could directly ask the user to select the account to be used for the transaction in authorization. This pattern benefits from the domain specific knowledge in the RS and keeps the AS very clean and generic. As a consequence, there must be a properly protected interface between AS and RS.
 
 ## 6.5. Convey Authorization Data to RS 
-When the client sends a request to the RS, it includes the access token issued in the previous step. It either directly (token data) or indirectly (token introspection response) refers to the authorization data contained in the lodging intent. If immutability of the lodging intent data cannot be ensured by the AS, this data should be included in order to ensure its integrity and authenticity between authorization process and service usage.
+When the client sends a request to the RS, it includes the access token issued in the previous step. The access token either directly (token data) or indirectly (token introspection response) refers to the authorization data contained in the lodging intent. If immutability of the lodging intent data cannot be ensured by the AS, this data should be included in order to ensure its integrity and authenticity between authorization process and service usage.
 
 The following example shows an introspection response containing the payment transaction data as confirmed by the user.
 
-```
+
+```http
+HTTP/1.1 200 Ok
+Content-Type: application/json
+
 {  
    "active":true,
    "iat":1532452084,
-   "iss":"https://as.example-bank.com",
+   "iss":"https://as.bank.example",
    "aud":"6a256bca-1e0b-4b0c-84fe-c9f78e0cb4a3",
    "scope":"payment:36fc67776",
    "creditor":"DE56378485858575858585",
@@ -234,20 +245,32 @@ The following example shows an introspection response containing the payment tra
 }
 ```
 
-## 7. Security considerations
-## 7.1. Swapping of the lodging intends
+## 7. Security Considerations
 
-An attacker could try to swap lodging intends among different clients and authorization transactions. The lodging intent MUST therefore be bound to the respective client who created it in order to detect swapping attempts. Additionally, the token response MUST return the scope value (or the respective request value) as received in the authorization request and the client MUST compare both values for equivalence or the authorization request MUST be signed.
+## 7.1. Guessing/Enumeration of Lodging Intents
 
-## 8. Privacy considerations
+Malicious clients or users might try to guess identifiers of lodging intents that were not created for them. In order to prevent this, lodging intent identifiers must contain sufficient entropy that makes guessing infeasible. Enumeration of lodging intents must be prevented.
+
+## 7.2. Swapping of the Lodging Intents
+
+An attacker could try to swap lodging intends among different clients and authorization transactions. The lodging intent MUST therefore be bound to the respective client which created it in order to detect swapping attempts. Additionally, the token response MUST return the scope value (or the respective request value) as received in the authorization request and the client MUST compare both values for equivalence or the authorization request MUST be signed.
+
+## 7.3. Reuse of Lodging Intent Identifiers
+
+Lodging intent ids must not be reused. Otherwise, a user who has consented to a transaction tied to a specific lodging intent id might inadvertently consent to a different transaction reusing the same lodging intent id.
+
+
+## 8. Privacy Considerations
 Depending on the data used to inform the user consent, the client might be required to obtain user consent prior passing user data to the lodging intent.
+
+The party implementing the lodging intent must ensure that lodging intent data is sufficiently protected, for example by restricting access to the lodging intent resource to the client and AS/RS.
 
 ## 9. Acknowledgement
 
 The following people contributed to this document:
 
 * Torsten Lodderstedt (yes.com), Editor
-*
+* Daniel Fett (yes.com)
 
 ## 11. Bibliography
 
