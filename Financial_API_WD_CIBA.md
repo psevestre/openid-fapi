@@ -133,11 +133,14 @@ In addition the Authorization server, for all operations,
 1. shall ensure unique authorization context exists in the authorization request or require a binding_message in the authentication request;
 1. shall not support CIBA push mode;
 1. shall support CIBA poll mode;
-1. may support CIBA ping mode.
+1. may support CIBA ping mode;
+1. shall require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1.
 
 **NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorise the transaction, as part of the authorisation process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
 
 **NOTE:** The FAPI CIBA profile only supports CIBA ping and poll modes, therefore it is only possible to retrieve access tokens and optionally refresh tokens from the token endpoint. The same security requirements for the token endpoint as detailed in [FAPI1] and [FAPI2] apply.
+
+**NOTE:** Given that the CIBA flow places an added level of trust on the Client, the FAPI CIBA profile requires the use of Signed Authentication Requests. This will enable the Authorization Server to store such requests, in an easily verifiable form, for future auditing purposes.
 
 #### 5.2.3 Confidential Client
 
@@ -147,6 +150,7 @@ A Confidential Client shall support the provisions specified in clause 5.2.4 of 
 
 In addition, the Confidential Client
 
+1. shall only send Signed Authentication Requests as defined in [CIBA] 7.1.1 to the Backchannel Authentication Endpoint;
 1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request.
 
 # 6. Accessing Protected Resources
