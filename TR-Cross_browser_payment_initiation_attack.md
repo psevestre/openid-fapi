@@ -221,7 +221,7 @@ Note: The payment transaction id is encoded in the OAuth standard authorization 
 Beside the changes required to make the flow OAuth 2.0 compliant, there are three important additions:
 
 **(1) Browser Binding (CSRF protection)**
-In messages #7 & #8 the merchant establishes a nonce that is stored in the browser session and sent to the bank (in the OAuth parameter “state”), which links this transaction to the particular browser session. In message #14, the merchant compares the state values in the session to the value of the state response parameter. Since it is the same value, this transaction was initiated in the same browser and the process can continue. 
+In messages \#7 & \#8 the merchant establishes a nonce that is stored in the browser session and sent to the bank (in the OAuth parameter “state”), which links this transaction to the particular browser session. In message \#14, the merchant compares the state values in the session to the value of the state response parameter. Since it is the same value, this transaction was initiated in the same browser and the process can continue. 
 
 **(2) Access Token for Payment Initiation**
 After this check (which only can take place at the merchant!), the merchant exchanges the OAuth code for an access token, which is used to initiate the payment. The code exchange request is authenticated using the credentials the merchant had set up with the bank (e.g. TLS Client Authentication using X.509 certificates). Only after checking the authorization code and its binding to the merchant’s client_id, the bank sends the access token to the merchant in the response (message #16). 
