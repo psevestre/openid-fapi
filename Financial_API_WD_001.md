@@ -144,8 +144,8 @@ The authorization server
 1. shall authenticate the confidential client at the token endpoint using one of the following methods:
     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
     2. `client_secret_jwt` or `private_key_jwt` as specified in section 9 of [OIDC];
-1. shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
-1. shall require a key of size 160 bits or larger if elliptic curve algorithms are used for the client authentication;
+1. shall require and use a key of size 2048 bits or larger for RSA algorithms;
+1. shall require and use a key of size 160 bits or larger for elliptic curve algorithms;
 1. shall require [RFC7636] with `S256` as the code challenge method;
 1. shall require redirect URIs to be pre-registered;
 1. shall require the `redirect_uri` parameter in the authorization request;

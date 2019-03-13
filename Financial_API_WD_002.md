@@ -177,7 +177,7 @@ In addition, the authorization server, for the write operation,
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
 1. shall support signed ID Tokens;
 1. should support signed and encrypted ID Token;
-1. shall require that all parameters are present inside the signed request object passed in the `request` or `request_uri` parameter;
+1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
 1. may support the request object endpoint as described in section 7;
 1. shall require [RFC7636] with S256 as the code challenge method for public clients only, if it supports public clients;
 1. shall require the request object to contain an `exp` claim; and
@@ -199,7 +199,7 @@ In addition, the public client for write operations
 1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
 1. shall verify that the authorization response was not tampered using ID Token as the detached signature
 1. shall send all parameters inside the authorization request's signed request object
-1. shall additionally send duplicates of the parameters/values using the OAuth 2.0 request syntax where required by the OAuth specification
+1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications
 
 To verify that the authorization response was not tampered using ID Token as the detached signature, the client shall verify that `s_hash` value
 is equal to the value calculated from the `state` value in the authorization response in addition to
