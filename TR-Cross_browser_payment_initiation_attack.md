@@ -221,13 +221,13 @@ Note: The payment transaction id is encoded in the OAuth standard authorization 
 Beside the changes required to make the flow OAuth 2.0 compliant, there are three important additions:
 
 **(1) Browser Binding (CSRF protection)**
-In messages \#7 & \#8 the merchant establishes a nonce that is stored in the browser session and sent to the bank (in the OAuth parameter “state”), which links this transaction to the particular browser session. In message \# 14, the merchant compares the state values in the session to the value of the state response parameter. Since it is the same value, this transaction was initiated in the same browser and the process can continue. 
+In messages \# 7 & \# 8 the merchant establishes a nonce that is stored in the browser session and sent to the bank (in the OAuth parameter “state”), which links this transaction to the particular browser session. In message \# 14, the merchant compares the state values in the session to the value of the state response parameter. Since it is the same value, this transaction was initiated in the same browser and the process can continue. 
 
 **(2) Access Token for Payment Initiation**
-After this check (which only can take place at the merchant!), the merchant exchanges the OAuth code for an access token, which is used to initiate the payment. The code exchange request is authenticated using the credentials the merchant had set up with the bank (e.g. TLS Client Authentication using X.509 certificates). Only after checking the authorization code and its binding to the merchant’s client_id, the bank sends the access token to the merchant in the response (message #16). 
+After this check (which only can take place at the merchant!), the merchant exchanges the OAuth code for an access token, which is used to initiate the payment. The code exchange request is authenticated using the credentials the merchant had set up with the bank (e.g. TLS Client Authentication using X.509 certificates). Only after checking the authorization code and its binding to the merchant’s client_id, the bank sends the access token to the merchant in the response (message \# 16). 
 
 **(3) Code Replay/Injection Prevention**
-In messages #7 & #8, the merchant establishes a nonce (the "code\_verifier") that is stored in the browser session and sends the SHA256 of this parameter in the OAuth parameter “code\_challenge” to the authorization server. In message #15, the merchant sends the "code\_verifier" along with the code to the authorization server. The authorization server compares the SHA-256 fingerprint of this parameter with the "code\_challange" initially sent with the authorization transaction in order to detect code replay attempts.
+In messages \# 7 & \# 8, the merchant establishes a nonce (the "code\_verifier") that is stored in the browser session and sends the SHA256 of this parameter in the OAuth parameter “code\_challenge” to the authorization server. In message \# 15, the merchant sends the "code\_verifier" along with the code to the authorization server. The authorization server compares the SHA-256 fingerprint of this parameter with the "code\_challange" initially sent with the authorization transaction in order to detect code replay attempts.
 
 ##Modified Payment Flow (Attack)
 
@@ -235,9 +235,9 @@ The following sequence diagram shows how the attack is prevented in the adapted 
 
 ![](fapi-cross-browser-payment-initiation-fix-oauth.png)
 
-If Bob forwards the authorization URL to Alice, as in the attack above, then Alice would be redirected and the code would be received by the merchant but it will be received in Alice’s session with the merchant. At this point, **the CSRF protection in step #15 by the merchant will detect and prevent the attack**. The merchant will therefore not start the payment activation. 
+If Bob forwards the authorization URL to Alice, as in the attack above, then Alice would be redirected and the code would be received by the merchant but it will be received in Alice’s session with the merchant. At this point, **the CSRF protection in step \# 15 by the merchant will detect and prevent the attack**. The merchant will therefore not start the payment activation. 
 
-Moreover, **Bob is unable to utilize the results of Alice's payment authorization** because he does not know the authorization code provided in #13 to the merchant in Alice's session. Without the authorization code, Bob cannot simulate the authorization response from the bank which is the pre-requisite for utilizing the payment initiation authorized by Alice to his benefit. 
+Moreover, **Bob is unable to utilize the results of Alice's payment authorization** because he does not know the authorization code provided in \# 13 to the merchant in Alice's session. Without the authorization code, Bob cannot simulate the authorization response from the bank which is the pre-requisite for utilizing the payment initiation authorized by Alice to his benefit. 
 
 #Summary
 
