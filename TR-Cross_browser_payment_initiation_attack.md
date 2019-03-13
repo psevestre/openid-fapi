@@ -1,4 +1,4 @@
-% Cross-Browser Payment Initiation Attack
+#Cross-Browser Payment Initiation Attack
 
 Publication Date: 01.03.2019
 
