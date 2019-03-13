@@ -199,7 +199,7 @@ In addition, the public client for write operations
 1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
 1. shall verify that the authorization response was not tampered using ID Token as the detached signature
 1. shall send all parameters inside the authorization request's signed request object
-1. shall additionally send duplicates of the parameters/values using the OAuth 2.0 request syntax where required by the OAuth specification
+1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications
 
 To verify that the authorization response was not tampered using ID Token as the detached signature, the client shall verify that `s_hash` value
 is equal to the value calculated from the `state` value in the authorization response in addition to
