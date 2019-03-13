@@ -1,6 +1,4 @@
-<header style="color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:26pt;font-family:"Arial";font-style:normal">
-Cross-Browser Payment Initiation Attack
-</header>
+% Cross-Browser Payment Initiation Attack
 
 Publication Date: 01.03.2019
 
@@ -215,7 +213,7 @@ sequence diagram.
 
 Note: This flow applies all recommendations given for securing redirect based flow in the [OAuth 2.0 Security Best Current Practice](https://tools.ietf.org/html/draft-ietf-oauth-security-topics), i.e. it goes beyond just protecting against the security issue discussed in this document. 
 
-In order to make the flow OAuth compliant, the authorization request and response (messages #8 & #13) are modified to use OAuth standard parameters. 
+In order to make the flow OAuth compliant, the authorization request and response (messages \# 8 & \# 13) are modified to use OAuth standard parameters. 
 Note: The payment transaction id is encoded in the OAuth standard authorization request parameter “scope”.
 
 Beside the changes required to make the flow OAuth 2.0 compliant, there are three important additions:
@@ -244,9 +242,7 @@ Moreover, **Bob is unable to utilize the results of Alice's payment authorizatio
 The solution proposed in this document is compatible to existing implementations of OAuth 2.0. It establishes multiple layers of defense against the "Cross-Browser Payment Initation Attack" as well as other attacks. The [OAuth 2.0 Security Best Practice, Section 2.1](https://tools.ietf.org/html/draft-ietf-oauth-security-topics-10#section-2.1) gives the the full set of recommendations how to protect Redirect-Based
 Flows using OAuth 2.0. 
 
-In addition the OpenID Foundation has published a [financial-grade
-security profile of OAuth 2.0](https://openid.net/wg/fapi/) which
-includes these best practices and additional security mechanisms.
+In addition the OpenID Foundation has published a [financial-grade security profile of OAuth 2.0](https://openid.net/wg/fapi/) which includes these best practices and additional security mechanisms.
 
 # Acknowledgement
 
