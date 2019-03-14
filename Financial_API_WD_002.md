@@ -184,6 +184,7 @@ In addition, the authorization server, for the write operation,
 1. shall authenticate the confidential client at the token endpoint using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
     2. `private_key_jwt` as specified in section 9 of [OIDC];
+1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
 
 #### 5.2.3 Public client
 
@@ -200,6 +201,7 @@ In addition, the public client for write operations
 1. shall verify that the authorization response was not tampered using ID Token as the detached signature
 1. shall send all parameters inside the authorization request's signed request object
 1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications
+1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes
 
 To verify that the authorization response was not tampered using ID Token as the detached signature, the client shall verify that `s_hash` value
