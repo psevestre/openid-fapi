@@ -173,7 +173,6 @@ Brian Campbell (Ping Identity)
 # Authors' Addresses
 
 Dr. Torsten Lodderstedt
-
 yes.com AG  
 Email: torsten@yes.com  
 URI: http://www.yes.com/  
