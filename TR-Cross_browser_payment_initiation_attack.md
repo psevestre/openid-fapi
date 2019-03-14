@@ -16,17 +16,11 @@ Idea: Bob (B) wants to make Alice (A) pay for the goods he ordered at the web si
 
 Payment flows that follow the following basic scheme are vulnerable to the attack:
 
-1.  The merchant is a PSD2 TPP and offers PSD2 Payment Initiation as
-    payment method.
+1.  The merchant is a PSD2 TPP and offers PSD2 Payment Initiation as payment method.
 2.  For payment, the user is redirected from the merchant to her bank.
-3.  The URL to which she is redirected designates (directly or
-    indirectly, e.g., by referring to a payment resource) the intended
-    receiver of the payment, the amount and currency to be transferred,
-    and the purpose/reference of the payment.
-4.  At this URL, the user is prompted to authenticate to the bank and
-    provide her consent to the transaction.
-5.  The actual transfer of funds is performed in the same step before
-    redirecting the user agent back to the merchant.
+3.  The URL to which she is redirected designates (directly or indirectly, e.g., by referring to a payment resource) the intended receiver of the payment, the amount and currency to be transferred, and the purpose/reference of the payment.
+4.  At this URL, the user is prompted to authenticate to the bank and provide her consent to the transaction.
+5.  The actual transfer of funds is performed in the same step before redirecting the user agent back to the merchant.
 
 As can be seen from the attack below, **the fact that the transfer of funds is performed before redirecting the user agent back to the merchant is what makes the API design vulnerable**: There is no check that the flow was started in the same user agent in which the authentication and payment were performed.
 
