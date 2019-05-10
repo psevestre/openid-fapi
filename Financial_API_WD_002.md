@@ -203,10 +203,7 @@ In addition, the public client for write operations
 1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications
 1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes
-
-To verify that the authorization response was not tampered using ID Token as the detached signature, the client shall verify that `s_hash` value
-is equal to the value calculated from the `state` value in the authorization response in addition to
-all the requirements in 3.3.2.12 of [OIDC].
+1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 
 #### 5.2.4 Confidential client
 
