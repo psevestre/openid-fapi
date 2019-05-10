@@ -411,13 +411,13 @@ and `s_hash` can be used to verify the validity of the authorization code, acces
 and state parameters. The server can verify that the state is the same as what was stored in the browser session at the time of the authorization request.
 
 ### 8.5 Session Fixation 
-An attacker could prepare an authorization request URL and trick a victim into authorizing access to the requested resources, e.g. by sending the URL via e-Mail or utilize it on a fake site. 
+An attacker could prepare an authorization request URL and trick a victim into authorizing access to the requested resources, e.g. by sending the URL via e-Mail or utilizing it on a fake site. 
 
-Basically, OAuth 2.0 prevents this kind of attack since the process for obtaining the access token needed to execute the respective privileges (code exchange, CSRF protection etc.) is designed in a way that the attacker will be unable to obtain and use the token as long as it does not control the victim's browser. 
+OAuth 2.0 prevents this kind of attack since the process for obtaining the access token (code exchange, CSRF protection etc.) is designed in a way that the attacker will be unable to obtain and use the token as long as it does not control the victim's browser. 
 
-However, if the API allows execution of any actions in the course of the authorization process before the access token is issued, this controls are rendered ineffective. Implementors of this specification therefore MUST ensure any action is executed using the access token issued by the authorization process. 
+However, if the API allows execution of any privileged action in the course of the authorization process before the access token is issued, these controls are rendered ineffective. Implementors of this specification therefore MUST ensure any action is executed using the access token issued by the authorization process. 
 
-For example, payments MUST NOT be executed in the authorisation process but after the RP has exchanged the authorization code for a token and send an "execute payment" request to a suitable OAuth protected endpoint. 
+For example, payments MUST NOT be executed in the authorization process but after the Client has exchanged the authorization code for a token and sent an "execute payment" request with the access token to a protected endpoint. 
 
 ### 8.6 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
