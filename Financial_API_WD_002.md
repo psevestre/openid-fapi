@@ -410,16 +410,7 @@ This can be mitigated by using OpenID Connect Hybrid Flow where the `c_hash`, `a
 and `s_hash` can be used to verify the validity of the authorization code, access token,
 and state parameters. The server can verify that the state is the same as what was stored in the browser session at the time of the authorization request.
 
-### 8.5 Session Fixation 
-An attacker could prepare an authorization request URL and trick a victim into authorizing access to the requested resources, e.g. by sending the URL via e-Mail or utilizing it on a fake site. 
-
-OAuth 2.0 prevents this kind of attack since the process for obtaining the access token (code exchange, CSRF protection etc.) is designed in a way that the attacker will be unable to obtain and use the token as long as it does not control the victim's browser. 
-
-However, if the API allows execution of any privileged action in the course of the authorization process before the access token is issued, these controls are rendered ineffective. Implementors of this specification therefore MUST ensure any action is executed using the access token issued by the authorization process. 
-
-For example, payments MUST NOT be executed in the authorization process but after the Client has exchanged the authorization code for a token and sent an "execute payment" request with the access token to a protected endpoint. 
-
-### 8.6 TLS considerations
+### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
 Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shall apply, with the following additional requirements:
@@ -431,7 +422,7 @@ Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shal
     * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
 1. For the `authorization_endpoint`, the authorization server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers.
 
-### 8.7 JWS algorithm considerations
+### 8.6 JWS algorithm considerations
 
 Both clients and authorization servers:
 
@@ -452,6 +443,26 @@ The OpenID Foundation maintains a list of certified implementations:
 https://openid.net/developers/certified/
 
 Deployments that use this specification should use a certified implementation.
+
+### 8.8 Session Fixation 
+An attacker could prepare an authorization request URL and trick a victim 
+into authorizing access to the requested resources, e.g. by sending the URL 
+via e-Mail or utilizing it on a fake site. 
+
+OAuth 2.0 prevents this kind of attack since the process for obtaining the 
+access token (code exchange, CSRF protection etc.) is designed in a way that the 
+attacker will be unable to obtain and use the token as long as it does not 
+control the victim's browser. 
+
+However, if the API allows execution of any privileged action in the course of 
+the authorization process before the access token is issued, these controls are 
+rendered ineffective. Implementors of this specification therefore MUST ensure 
+any action is executed using the access token issued by the authorization 
+process. 
+
+For example, payments MUST NOT be executed in the authorization process but 
+after the Client has exchanged the authorization code for a token and sent an 
+"execute payment" request with the access token to a protected endpoint. 
 
 ## 9. Privacy considerations
 
