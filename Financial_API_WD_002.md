@@ -225,7 +225,7 @@ For example, clients may use [JARM] in conjunction with the response type `code`
 
 The authorization server should advertise support for the [JARM] response modes using the `response_modes_supported` metadata parameter.
 
-If [JARM] is used to secure the authorization responses, the bullet points 2, 3, 4, and 8 of 5.2.2, the bullet points 3,4,5,6,7 of 5.2.3 and the bullet points 2 of 5.2.4 do not apply. 
+If [JARM] is used to secure the authorization responses, the bullet points 2, 3, 4, 8, and 9 of 5.2.2, the bullet points 3,4,5,6,7 of 5.2.3 and the bullet points 2 of 5.2.4 do not apply. 
 
 
 ## 6. Accessing protected resources (using tokens)
