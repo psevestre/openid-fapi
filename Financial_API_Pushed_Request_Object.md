@@ -21,7 +21,9 @@ Financial-grade API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
-* Part 3: Client Initiated Backchannel Authentication Profile
+* Financial-grade API: Client Initiated Backchannel Authentication Profile
+* Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+* Financial-grade API: Pushed Request Object
 
 Future parts may follow.
 
@@ -69,26 +71,11 @@ The following referenced documents are indispensable for the application of this
 [RFC6819] - OAuth 2.0 Threat Model and Security Considerations
 [RFC6819]: https://tools.ietf.org/html/rfc6819
 
-[RFC7515] - JSON Web Signature (JWS)
-[RFC7515]:https://tools.ietf.org/html/rfc7515
-
-[RFC7516] - JSON Web Encryption (JWE)
-[RFC7516]:https://tools.ietf.org/html/rfc7516
-
-[RFC7517] - JSON Web Key (JWK)
-[RFC7517]:https://tools.ietf.org/html/rfc7517
-
-[RFC7518] - JSON Web Algorithms (JWA)
-[RFC7518]:https://tools.ietf.org/html/rfc7518
-
 [RFC7519] - JSON Web Token (JWT)
 [RFC7519]:https://tools.ietf.org/html/rfc7519
 
 [BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 [BCP195]: https://tools.ietf.org/html/bcp195
-
-[RFC7591] - OAuth 2.0 Dynamic Client Registration Protocol
-[RFC7591]: https://tools.ietf.org/html/RFC7591
 
 [RFC8414] - OAuth 2.0 Authorization Server Metadata
 [RFC8414]: https://tools.ietf.org/html/rfc8414
@@ -99,20 +86,14 @@ The following referenced documents are indispensable for the application of this
 [OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
 [OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
 
-[OIDM] -  OAuth 2.0 Multiple Response Type Encoding Practices
-[OIDM]: http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-
-[OIFP] - OAuth 2.0 Form Post Response Mode
-[OIFP]: http://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html
-
 [draft-ietf-oauth-security-topics] - OAuth 2.0 Security Best Current Practice
 [draft-ietf-oauth-security-topics]: https://tools.ietf.org/html/draft-ietf-oauth-security-topics
 
-[OISM] - OpenID Connect Session Management 1.0
-[OISM]: http://openid.net/specs/openid-connect-session-1_0.html
+[IANA.OAuth.Parameters] - OAuth Parameters Registry
+[IANA.OAuth.Parameters]: https://www.iana.org/assignments/oauth-parameters
 
 ## 2. Terms and definitions
-For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
+For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], and [OIDC] apply.
 
 ## 3. Symbols and Abbreviated terms
 
@@ -135,34 +116,36 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 OpenID Connect and OAuth already support the transfer of authorization request parameters in JSON format in two ways:
 
 * the `request` parameter may carry the request data in a JWT
-* the `request_uri` contains a URI refering to a place where the AS may retrieve the request object. 
+* the `request_uri` parameter carries a URI referring to a place where the AS may retrieve the request object. 
 
-Both mechanisms contribute to the request security by allowing for the signing and encryption of authorization request data.
+Both mechanisms contribute to the security of the request by allowing for the signing and encryption of the authorization request data.
 
-The request URI additionally allows the client to just send a URI to the request object, which allows to transfer large amounts of request data without issues caused by URI length restrictions. 
+The request URI additionally allows the client to just send the URI value in the authorization request as a pointer to the request object, rather than the full content of the request object itself, which allows for the transfer of larger amounts of request data without issues caused by URI length restrictions. 
 
 However, the request URI mechanisms also has some downsides. The client needs to maintain and expose request objects. This might look easy on first sight, but the client needs to be able to handle inbound requests from the authorization server and, potentially, store a large number of objects in its database including the need to properly clean them up.
 
 It also means the availability and latency of the authorization process at the authorization server depends on the availability and latency of the client’s backend.
 
-Moreover, server-side requests brings all the problems of server-side request forgery.
+Moreover, in order to dereference the `request_uri` parameter the authorization has to make outbound HTTP requests, which brings with it all the potential problems of server-side request forgery.
 
-This specification tries to solve this problem by moving the responsibility for managing request objects from the client to the authorization server. The authorization server offers an additional "request object endpoint". The client calls this endpoint to create it's request objects and is provided with a unique URI for that particular request object, which in turn is sent into to the AS's authorization endpoint using the well-known `request_uri` parameter.  
+This specification addresses these problems by moving the responsibility for managing request objects from the client to the authorization server. The authorization server offers an additional "request object endpoint". The client calls this endpoint to deliver its request objects and is provided with a unique URI for that particular request object, which in turn is sent into to the AS's authorization endpoint as the value of the `request_uri` parameter.  
 
 There are two modes:
 
-1. The client posts the request object as JWT, which is equivalent to the existing mechanisms and provides non-repudation in addition to request integrity and authenticity.
-2. The client posts the "raw" request object in JSON format. The request is authenticate using the client’s token endpoint authentication method. This new mode leverages the direct TLS-protected communication channel between client and authorization server in order to simplify the implementation while still providing request authenticity and integrity. 
+1. The client posts the request object as a JWT, which is equivalent to the existing mechanisms and provides non-repudiation in addition to request integrity and authenticity.
+2. The client posts the "raw" request object in JSON format. The request is authenticated using the client’s token endpoint authentication method. This new mode leverages the direct TLS-protected communication channel between client and authorization server in order to simplify the implementation while still providing request authenticity and integrity. 
 
-The mode is determined by the client using the appropriate mime types, `application/jwt` or `application/json`.
+The mode is determined by the client using the appropriate mime type, `application/jwt` or `application/json`, in the `Content-Type` header of the `POST` request.
 
 ## 5. Request Object Endpoint
 This section describes the process of request object creation and its use in the authorization request.
 
 ### 5.1 Request Object Request
 
-1. The request object endpoint SHALL be a RESTful API at the authorization server that accepts signed request object as JWTs or plain JSON-formated request objects as HTTPS POST payload. The client indicates the format using the mime types, `application/jwt` for signed request objects as JWTs and `application/json` in case of JSON-formated request objects. 
-2. If the request object is signed, the signature serves as means for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'. If the request object is not signed, the client is expected to authenticate itself using one of its applicable token endpoint authentication methods.
+1. The request object endpoint shall be a RESTful API at the authorization server that accepts signed request object as JWTs or plain JSON-formatted request objects as the HTTPS `POST` payload. The client indicates the format using the mime types, `application/jwt` for request objects as JWTs or `application/json` in the case of JSON-formatted request objects. 
+2. If the request object is signed, the signature serves as means for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'. If the request object is not signed, the client is expected to authenticate itself using its registered token endpoint authentication method.
+
+(BC QUESTION: is there really value in allowing for the signature on the JWT to take place of client authentication? I understand that it can work that way but it means that client authentication at the endpoint has to behave differently conditional on the content-type of the request, which feels awkward and unnecessarily complex. It seems like it'd be more straightforward to just have client authentication at this endpoint work the same as it does for other endpoints to which the client makes direct requests (noting that `none` is a valid client auth method for public clients). Note that making this change would impact several other places in the document.)
 
 The following is an example of a JWT-based request:
 
@@ -201,12 +184,12 @@ Note: I intentionally removed `aud` and `iss` from the request object since they
 
 ### 5.2 Sucessful Response
 
-1.  In case of a JWT, the authorization server shall verify that the request object is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC]. In case of the JSON request object, the authorization checks whether the client was sucessfully authenticate and the request object is valid. 
-1. In the next step, the authorization server verifies whether the parameters sent are valid. For example, the authorization server checks, whether the redirect URI matches one of the redirect URIs configured for the server. It may also check whether the client is authorized for the scope it asked for. This validation allows the authorization server to refuse unauthorized or fraudulent requests early. 
+1.  In case of a JWT, the authorization server shall verify that the request object is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC]. In case of the JSON request object, the authorization checks whether the client was successfully authenticated and the request object is valid. 
+1. In the next step, the authorization server verifies whether the parameters sent are valid. For example, the authorization server checks, whether the redirect URI matches one of the redirect URIs configured for the server. It may also check whether the client is authorized for the scope for which it requested access. This validation allows the authorization server to refuse unauthorized or fraudulent requests early. 
 1. If the verification is successful, the server shall generate a request URI and
 return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
 claims at the top level with `201 Created` HTTP response code.
-1. The `request_uri` shall be based on a cryptographic random value so that it is difficult to predict for an attacker.
+1. The `request_uri` value shall be generated using a cryptographically strong pseudorandom algorithm such that it is computationally infeasible to predict or guess a valid value.   (BC QUESTION: should there some more guidance provided on or requirements around the structer of the URI value? For example it could use the RFC6755 subnamespace and registry and be of the form `urn:ietf:params:oauth:request_uri:<<random-part>>`, which gives a clear indication of what it is and would keep people from inventing their own URIs.)
 1. The request URI shall be bound to the client identifier of the client that posted the request object.
 1. Since the request URI can be replayed, its lifetime should be short and preferably limited to one-time use.
 1. The value of these claims in the JSON payload shall be as follows:
@@ -230,6 +213,8 @@ Content-Type: application/json
 }
 ```
 Question: What is the value of returning `iss` and `aud`? Does the `exp` really add anything given the text encourages one-time use of the request object?
+
+(BC QUESTION/RESPONSE: I suspect Nat will say there's value in explicitly identifying the participants in any exchange. But I'm not so sure myself (they are already identified by HTTPS and client authentication/identification) and worry a little that `iss` and `aud` will only confuse in this context (case in point the definition of `iss` above is rather confusing referring to JWT/RFC7519 for the definition of an authorization server issuer rather than RFC8414 but also mentioning 'the redirection URI' as the issuer for the AS). I also don't see what value `exp` adds here - is it anything more than a hint to the client about how long the request_uri will be valid? I don't see the use in that. And using something like `expires_in` similar to RFC6749 with a relative value of how long the URI is valid would be more appropriate for that anyway, if it were needed.)  
 
 ### 5.3 Error responses
 
@@ -284,3 +269,12 @@ The following people contributed to this document:
 * Vladimir Dzhuvinov (Connect2ID)
 
 ## 10. IANA Considerations
+
+### 10.1 OAuth Authorization Server Metadata Registration
+
+This specification requests registration of the following value in the IANA "OAuth Authorization Server Metadata" registry of [IANA.OAuth.Parameters] established by [RFC8414]. 
+
+* Metadata Name: request_object_endpoint
+* Metadata Description: Request Object Endpoint
+* Change Controller: OpenID Foundation FAPI Working Group - openid-specs-fapi@lists.openid.net
+* Specification Document(s): Section 5 of this document
