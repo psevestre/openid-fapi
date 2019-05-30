@@ -386,7 +386,7 @@ after the Client has exchanged the authorization code for a token and sent an
   implementations should consider encrypting the ID Token to lower the risk of personal information disclosure. 
 
 
-## 9. Acknowledgement
+## 10. Acknowledgement
 
 The following people contributed to this document:
 
@@ -406,7 +406,7 @@ The following people contributed to this document:
 * Ralph Bragg (Raidiam)
 * Brian Campbell (Ping Identity) 
 
-## 10. Bibliography
+## 11. Bibliography
 
 * [ISODIR2] ISO/IEC Directives Part 2
 * [RFC6749] The OAuth 2.0 Authorization Framework
