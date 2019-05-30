@@ -246,20 +246,20 @@ The protected resources supporting this document
 
 The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial-grade API - Part 1: Read-Only API Security Profile.
 
-## 7. Security considerations
+## 8. Security considerations
 
-### 7.1 Introduction
+### 8.1 Introduction
 As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations.
 
-### 7.2 Uncertainty of resource server handling of access tokens
+### 8.2 Uncertainty of resource server handling of access tokens
 There is no way that the client can find out whether the resource access was granted for the bearer token or holder of key token.
 The two differ in the risk profile and the client may want to differentiate them.
 The protected resources that conforms to this document shall not accept a plain bearer token.
 They shall only support token bound access tokens via [MTLS] or [OAUTB]. 
 
-### 7.3 Attacks using weak binding of authorization server endpoints
+### 8.3 Attacks using weak binding of authorization server endpoints
 
-#### 7.3.1 Introduction
+#### 8.3.1 Introduction
 
 In [RFC6749] and [RFC6750], the endpoints that the authorization server offers are not tightly bound together. 
 There is no notion of authorization server identifier (issuer identifier) and it is not indicated in 
@@ -268,14 +268,14 @@ While it is assumed in the OAuth model, it is not explicitly spelled out and thu
 use the same redirection URI for different authorization servers exposing an attack surface. 
 Several attacks have been identified and the threats are explained in detail in [RFC6819].
 
-#### 7.3.2 Client credential and authorization code phishing at token endpoint
+#### 8.3.2 Client credential and authorization code phishing at token endpoint
 
 In this attack, the client developer is social engineered into believing that the token endpoint has changed to the URL that is controlled by the attacker. 
 As the result, the client sends the `code` and the client secret to the attacker, which will be replayed subsequently. 
 
 When the FAPI client uses [MTLS] or [OAUTB], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
 
-#### 7.3.3 Identity provider (IdP) mix-up attack
+#### 8.3.3 Identity provider (IdP) mix-up attack
 In this attack, the client has registered multiple IdPs and one of them is a rogue IdP that returns the same `client_id` 
 that belongs to one of the honest IdPs. When a user clicks on a malicious link or visits a compromised site, 
 an authorization request is sent to the rogue IdP. 
@@ -288,23 +288,23 @@ At the point, the attacker has a valid code that can be exchanged for an access 
 This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss`. 
 The client then sends the `code` to the token endpoint that is associated with the issuer identifier thus it will not get to the attacker. 
 
-#### 7.3.4 Request object endpoint phishing resistance
+#### 8.3.4 Request object endpoint phishing resistance
 An attacker can use social engineering to have the administrator of the client set 
 the request object endpoint to a URL under the attacker's control. In this case, 
 sensitive information included in the request object will be revealed to the attacker. 
 To prevent this, the authorization server should communicate to the client developer 
 the proper change process repeatedly to help client developers to be less susceptible to such social engineering.
 
-#### 7.3.5 Access token phishing
+#### 8.3.5 Access token phishing
 When the FAPI client uses [MTLS] or [OAUTB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
 
 ### 8.4 Attacks that modify authorization requests and responses
 
-#### 7.4.1 Introduction
+#### 8.4.1 Introduction
 In [RFC6749] the authorization request and responses are not integrity protected. 
 Thus, an attacker can modify them. 
 
-#### 7.4.2 Authorization request parameter injection attack
+#### 8.4.2 Authorization request parameter injection attack
 
 In [RFC6749], the authorization request is sent as query parameter. 
 Although [RFC6749] mandates the use of TLS, the TLS is terminated in the browser and thus not protected within the browser; as a result an attacker can tamper the authorization request and insert any parameter values.
@@ -313,7 +313,7 @@ The use of a `request` object or `request_uri` in the authorization request will
 
 The IdP confusion attack reported in [SoK: Single Sign-On Security – An Evaluation of OpenID Connect](https://www.nds.rub.de/media/ei/veroeffentlichungen/2017/01/30/oidc-security.pdf) is an example of this kind of attack.
 
-#### 7.4.3 Authorization response parameter injection attack
+#### 8.4.3 Authorization response parameter injection attack
 This attack occurs when the victim and attacker use the same relying party client. The attacker is somehow able to
 capture the authorization code and state from the victim's authorization response and uses them in his own
 authorization response. 
@@ -322,7 +322,7 @@ This can be mitigated by using OpenID Connect Hybrid Flow where the `c_hash`, `a
 and `s_hash` can be used to verify the validity of the authorization code, access token,
 and state parameters. The server can verify that the state is the same as what was stored in the browser session at the time of the authorization request.
 
-### 7.5 TLS considerations
+### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
 Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shall apply, with the following additional requirements:
@@ -335,7 +335,7 @@ Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shal
 1. For the `authorization_endpoint`, the authorization server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers.
 1. When using the `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256` or `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384` cipher suites, key lengths of at least 2048 bits are required.
 
-### 7.6 JWS algorithm considerations
+### 8.6 JWS algorithm considerations
 
 Both clients and authorization servers:
 
@@ -343,7 +343,7 @@ Both clients and authorization servers:
 1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
 1. shall not use `none`;
 
-### 7.7 Incomplete or incorrect implementations of the specifications
+### 8.7 Incomplete or incorrect implementations of the specifications
 
 To achieve the full security benefits, it is important the implementation of this specification, and the underlying OpenID Connect and OAuth specifications, are both complete and correct.
 
