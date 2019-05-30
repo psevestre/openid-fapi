@@ -145,8 +145,6 @@ This section describes the process of request object creation and its use in the
 1. The request object endpoint shall be a RESTful API at the authorization server that accepts signed request object as JWTs or plain JSON-formatted request objects as the HTTPS `POST` payload. The client indicates the format using the mime types, `application/jwt` for request objects as JWTs or `application/json` in the case of JSON-formatted request objects. 
 2. If the request object is signed, the signature serves as means for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'. If the request object is not signed, the client is expected to authenticate itself using its registered token endpoint authentication method.
 
-(BC QUESTION: is there really value in allowing for the signature on the JWT to take place of client authentication? I understand that it can work that way but it means that client authentication at the endpoint has to behave differently conditional on the content-type of the request, which feels awkward and unnecessarily complex. It seems like it'd be more straightforward to just have client authentication at this endpoint work the same as it does for other endpoints to which the client makes direct requests (noting that `none` is a valid client auth method for public clients). Note that making this change would impact several other places in the document.)
-
 The following is an example of a JWT-based request:
 
 ```
