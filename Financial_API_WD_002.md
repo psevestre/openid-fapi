@@ -205,10 +205,7 @@ In addition, the public client for write operations
 1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications
 1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes
-
-To verify that the authorization response was not tampered using ID Token as the detached signature, the client shall verify that `s_hash` value
-is equal to the value calculated from the `state` value in the authorization response in addition to
-all the requirements in 3.3.2.12 of [OIDC].
+1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 
 #### 5.2.4 Confidential client
 
@@ -221,11 +218,14 @@ In addition to the provisions for the public client in clause 5.2.3 of this docu
 
 In addition to the provisions given in section 5.2.2, an authorization server may protect authorization responses to clients using the "JWT Secured Authorization Response Mode" [JARM].
 
-The [JARM] allows a client to request that an authorization server encode the authorization response (of any response type) in a JWT. It is an alternative  to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses.
+The [JARM] allows a client to request that an authorization server encode the authorization response (of any response type) in a JWT. It is an alternative to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses and can be used with plain OAuth.
+
+For example, clients may use [JARM] in conjunction with the response type `code`.
 
 The authorization server should advertise support for the [JARM] response modes using the `response_modes_supported` metadata parameter.
 
-If [JARM] is used to secure the authorization responses, the clauses 2, 3, and 4 of section 5.2.2. do not apply. For example, clients may use [JARM] in conjunction with the response type `code`.
+If [JARM] is used to secure the authorization responses, the bullet points 2, 3, 4, 8, and 9 of 5.2.2, the bullet points 3,4,5,6,7 of 5.2.3 and the bullet points 2 of 5.2.4 do not apply. 
+
 
 ## 6. Accessing protected resources (using tokens)
 
@@ -298,8 +298,7 @@ the proper change process repeatedly to help client developers to be less suscep
 #### 7.3.5 Access token phishing
 When the FAPI client uses [MTLS] or [OAUTB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
 
-
-### 7.4 Attacks that modify authorization requests and responses
+### 8.4 Attacks that modify authorization requests and responses
 
 #### 7.4.1 Introduction
 In [RFC6749] the authorization request and responses are not integrity protected. 
@@ -334,6 +333,7 @@ Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shal
     * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
     * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
 1. For the `authorization_endpoint`, the authorization server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers.
+1. When using the `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256` or `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384` cipher suites, key lengths of at least 2048 bits are required.
 
 ### 7.6 JWS algorithm considerations
 
@@ -357,7 +357,27 @@ https://openid.net/developers/certified/
 
 Deployments that use this specification should use a certified implementation.
 
-## 8. Privacy considerations
+### 8.8 Session Fixation 
+An attacker could prepare an authorization request URL and trick a victim 
+into authorizing access to the requested resources, e.g. by sending the URL 
+via e-Mail or utilizing it on a fake site. 
+
+OAuth 2.0 prevents this kind of attack since the process for obtaining the 
+access token (code exchange, CSRF protection etc.) is designed in a way that the 
+attacker will be unable to obtain and use the token as long as it does not 
+control the victim's browser. 
+
+However, if the API allows execution of any privileged action in the course of 
+the authorization process before the access token is issued, these controls are 
+rendered ineffective. Implementors of this specification therefore MUST ensure 
+any action is executed using the access token issued by the authorization 
+process. 
+
+For example, payments MUST NOT be executed in the authorization process but 
+after the Client has exchanged the authorization code for a token and sent an 
+"execute payment" request with the access token to a protected endpoint. 
+
+## 9. Privacy considerations
 
 * If the client is to be used by a single user, the client certificate will provide the means for the websites
   that belong to different administrative domains to collude and correlate the user's access.
