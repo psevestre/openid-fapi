@@ -21,7 +21,9 @@ Financial-grade API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
-* Part 3: Client Initiated Backchannel Authentication Profile
+* Financial-grade API: Client Initiated Backchannel Authentication Profile
+* Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+* Financial-grade API: Pushed Request Object
 
 Future parts may follow.
 
@@ -241,99 +243,6 @@ The protected resources supporting this document
 
 The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial-grade API - Part 1: Read-Only API Security Profile.
 
-## 7. Request object endpoint
-
-### 7.1 Introduction
-
-The client may not want to send the request object by value, either because it
-is too large, or because it contains sensitive data and the client does not want
-to encrypt the request object. In such cases it is possible to send the request
-object by reference using a `request_uri`. 
-
-Note that `request_uri` can be either URL or URN. 
-
-Although the request URI could be hosted by the client, within the FAPI spec it is
-hosted by the authorization server.
-The advantage of the authorization server hosting the request object is that
-it does not have to support outbound requests to a client specified request URI 
-nor rely on the entropy of the URI for the confidentiality of the request object. 
-
-When the request object is stored at the authorization server, the `request_uri` value typically is a URN. 
-
-This section defines the methods for the authorization server's request object endpoint to exchange a request object for a request URI.
-
-### 7.2 Request
-
-1. The request object endpoint shall be a RESTful API at the authorization server that accepts a signed request object as an HTTPS POST payload.
-1. The request object shall be signed for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'.
-
-The following is an example of such a request:
-
-```
-POST https://as.example.com/ros/ HTTP/1.1
-Host: as.example.com
-Content-Type: application/jws
-Content-Length: 1288
-
-eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.ew0KICJpc3MiOiA
-(... abbreviated for brevity ...)
-zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
-```
-
-### 7.3 Successful response
-
-1. The authorization server shall verify that the request object is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC].
-1. If the verification is successful, the server shall generate a request URI and
-return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
-claims at the top level with `201 Created` HTTP response code.
-1. The `request_uri` shall be based on a cryptographic random value so that it is difficult to predict for an attacker.
-1. The request URI shall be bound to the client identifier of the client that posted the request object.
-1. Since the request URI can be replayed, its lifetime should be short and preferably limited to one-time use.
-1. The value of these claims in the JSON payload shall be as follows:
-    * `request_uri` : The request URI corresponding to the request object posted. 
-    * `aud` : A JSON string that represents the client identifier of the client that posted the request object.
-    * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
-    * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
-
-The following is an example of such a response:
-
-```
-HTTP/1.1 201 Created
-Date: Tue, 2 May 2017 15:22:31 GMT
-Content-Type: application/json
-
-{
-    "iss": "https://as.example.com/",
-    "aud": "s6BhdRkqt3",
-    "request_uri": "urn:example:MTAyODAK",
-    "exp": 1493738581
-}
-```
-
-
-### 7.4 Error responses
-
-#### 7.4.1 Authorization required
-If the signature validation fails, the authorization server shall return `401 Unauthorized` HTTP error response.
-
-#### 7.4.2 Invalid request
-If the request object received is invalid, the authorization server shall return `400 Bad Request` HTTP error response.
-
-#### 7.4.3 Method not allowed
-If the request did not use POST, the authorization server shall return `405 Method Not Allowed` HTTP error response.
-
-#### 7.4.4 Request entity too large
-If the request size was beyond the upper bound that the authorization server allows, the authorization server shall return a `413 Request Entity Too Large` HTTP error response.
-
-#### 7.4.5 Too many requests
-If the request from the client per a time period goes beyond the number the authorization server allows, the authorization server shall return a `429 Too Many Requests` HTTP error response.
-
-### 7.5 OpenID Provider Discovery Metadata
-
-If the authorization server has a request object endpoint and supports [OIDD], it shall include the following OpenID Provider Metadata parameter in discovery responses:
-
-1. `request_object_endpoint` : The url of the request object endpoint at which the client can exchange a request object for a request URI.
-
 ## 8. Security considerations
 
 ### 8.1 Introduction
@@ -487,7 +396,7 @@ The following people contributed to this document:
 * Henrik Biering (Peercraft)
 * Tom Jones (Independent) 
 * Axel Nennker (Deutsche Telekom)
-* Torsten Lodderstedt (YES)
+* Torsten Lodderstedt (yes.com)
 * Ralph Bragg (Raidiam)
 * Brian Campbell (Ping Identity) 
 
