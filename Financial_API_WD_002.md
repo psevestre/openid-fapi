@@ -179,20 +179,21 @@ In addition, the authorization server, for the write operation,
 1. should support signed and encrypted ID Token;
 1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
 1. may support the request object endpoint as described in section 7;
-1. shall require [RFC7636] with S256 as the code challenge method for public clients only, if it supports public clients;
+1. (withdrawn);
 1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes; and
 1. shall authenticate the confidential client at the token endpoint using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
+1. shall not support public clients.
 
-#### 5.2.3 Public client
+#### 5.2.3 Confidential client
 
-A public client shall support the provisions specified in clause 5.2.3 of Financial-grade API - Part 1: Read-Only API Security Profile.
+A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of Financial-grade API - Part 1: Read-Only API Security Profile, except for [RFC7636] support.
 
-In addition, the public client for write operations
+In addition, the confidential client for write operations
 
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism; Note: [MTLS] shall be used with instance-specific keys and (self-signed) certificates to bind access tokens to the particular instance of a public client. It is NOT used as client authentication mechanisms.
+1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
 1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC];
 1. shall require JWS signed ID Token be returned from endpoints;
@@ -204,13 +205,9 @@ In addition, the public client for write operations
 1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes
 1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
+1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response.
 
-#### 5.2.4 Confidential client
-
-In addition to the provisions for the public client in clause 5.2.3 of this document, except for [RFC7636] support, the confidential client for write operations
-
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism (this overrides clause 5.2.3.1); Note: In case of confidential clients, [MTLS] can also be used as client authentication mechanism. 
-1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response
+#### 5.2.4 (withdrawn)
 
 #### 5.2.5 JWT Secured Authorization Response Mode
 
@@ -470,9 +467,6 @@ after the Client has exchanged the authorization code for a token and sent an
 
 ## 9. Privacy considerations
 
-* If the client is to be used by a single user, the client certificate will provide the means for the websites
-  that belong to different administrative domains to collude and correlate the user's access.
-  For this reason, public clients that reside on a user's terminal should avoid [MTLS] and use [OAUTB] instead.
 * When claims related to the subject are returned in the ID Token in the front channel, 
   implementations should consider encrypting the ID Token to lower the risk of personal information disclosure. 
 
