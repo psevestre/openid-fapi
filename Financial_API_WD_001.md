@@ -152,7 +152,7 @@ The authorization server
 1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
 1. shall require user authentication at LoA 2 as defined in [X.1254] or more;
 1. shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
-1. should verify that the authorization code (section 1.3.1 of [RFC6749]) has not been previously used;
+1. shall reject an authorization code (section 1.3.1 of [RFC6749]) if it has been previously used;
 1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
 1. shall return the list of granted scopes with the issued access token;
 1. shall provide opaque non-guessable access tokens with a minimum of 128 bits of entropy where the probability of an attacker guessing the generated token is less than or equal to 2^(-160) as per [RFC6749] section 10.10;
@@ -162,10 +162,6 @@ The authorization server
 1. shall require redirect URIs to use the https scheme;
 
     **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
-
-    **NOTE**: Section 4.1.3 of [RFC6749] does not provide guidance regarding `code reuse`, but this document provides limitation on `code reuse` in Section 3.1.3.2 of [OIDC].
-
-    **NOTE**: If replay identification of the authorization code is not possible, it is desirable to set the validity period of the authorization code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the authorization code cache if one is used.
 
     **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
 
