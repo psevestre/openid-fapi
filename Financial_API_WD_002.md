@@ -332,13 +332,19 @@ Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shal
 1. For the `authorization_endpoint`, the authorization server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers.
 1. When using the `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256` or `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384` cipher suites, key lengths of at least 2048 bits are required.
 
-### 8.6 JWS algorithm considerations
+### 8.6 Algorithm considerations
 
-Both clients and authorization servers:
+For JWS, both clients and authorization servers:
 
 1. shall use `PS256` or `ES256` algorithms;
 1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
 1. shall not use `none`;
+
+### 8.6.1 Encryption algorithm considerations
+
+For JWE, both clients and authorization servers
+
+1. shall not use the `RSA1_5` algorithm.
 
 ### 8.7 Incomplete or incorrect implementations of the specifications
 
