@@ -109,7 +109,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **CSRF** - Cross Site Request Forgery
 
-**FAPI** - Financial API
+**FAPI** - Financial-grade API
 
 **HTTP** – Hyper Text Transfer Protocol
 
