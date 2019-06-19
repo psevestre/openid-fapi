@@ -253,7 +253,7 @@ Malicious clients or users might try to guess identifiers of lodging intents tha
 
 ## 7.2. Swapping of the Lodging Intents
 
-An attacker could try to swap lodging intends among different clients and authorization transactions. The lodging intent MUST therefore be bound to the respective client which created it in order to detect swapping attempts. Additionally, the token response MUST return the scope value (or the respective request value) as received in the authorization request and the client MUST compare both values for equivalence or the authorization request MUST be signed.
+An attacker could try to swap lodging intents among different clients and authorization transactions. The lodging intent MUST therefore be bound to the respective client which created it in order to detect swapping attempts. Additionally, the token response MUST return the scope value (or the respective request value) as received in the authorization request and the client MUST compare both values for equivalence or the authorization request MUST be signed.
 
 ## 7.3. Reuse of Lodging Intent Identifiers
 
