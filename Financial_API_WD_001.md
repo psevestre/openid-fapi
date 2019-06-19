@@ -150,7 +150,7 @@ The authorization server
 1. shall require redirect URIs to be pre-registered;
 1. shall require the `redirect_uri` parameter in the authorization request;
 1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
-1. shall require user authentication at LoA 2 as defined in [X.1254] or more;
+1. shall require user authentication to an appropriate Level of Assurance for the operations the client will be authorised to perform on behalf of the user;
 1. shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
 1. should verify that the authorization code (section 1.3.1 of [RFC6749]) has not been previously used;
 1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
