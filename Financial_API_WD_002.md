@@ -90,9 +90,6 @@ The following referenced documents are indispensable for the application of this
 [OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
 [OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
 
-[OAUTB] - OAuth 2.0 Token Binding
-[OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding
-
 [MTLS] - OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
 
@@ -175,7 +172,7 @@ In addition, the authorization server, for the write operation,
 1. shall return ID Token as a detached signature to the authorization response;
 1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
+1. shall support [MTLS] as a holder of key mechanism;
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
 1. shall support signed ID Tokens;
 1. should support signed and encrypted ID Token;
@@ -189,13 +186,15 @@ In addition, the authorization server, for the write operation,
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
 1. shall not support public clients.
 
+**NOTE:** MTLS is currently the only holder of key mechanism that has been widely deployed. Future versions of this specification are likely to allow other holder of key mechanisms.
+
 #### 5.2.3 Confidential client
 
 A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of Financial-grade API - Part 1: Read-Only API Security Profile, except for [RFC7636] support.
 
 In addition, the confidential client for write operations
 
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
+1. shall support [MTLS] as a holder of key mechanism;
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
 1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC];
 1. shall require JWS signed ID Token be returned from endpoints;
@@ -237,7 +236,7 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return protec
 The protected resources supporting this document
 
 1. shall support the provisions specified in clause 6.2.1 Financial-grade API - Part 1: Read Only API Security Profile;
-1. shall adhere to the requirements in [MTLS] or [OAUTB].
+1. shall adhere to the requirements in [MTLS].
 
 #### 6.2.2 Client provisions
 
@@ -251,8 +250,9 @@ As a profile of the OAuth 2.0 Authorization Framework, this specification refere
 ### 8.2 Uncertainty of resource server handling of access tokens
 There is no way that the client can find out whether the resource access was granted for the bearer token or holder of key token.
 The two differ in the risk profile and the client may want to differentiate them.
-The protected resources that conforms to this document shall not accept a plain bearer token.
-They shall only support token bound access tokens via [MTLS] or [OAUTB]. 
+The protected resources that conform to this doc differentiate them.
+The protected resources that conform to this docuument shall not accept a plain bearer token.
+They shall only support bound access tokens via [MTLS].
 
 ### 8.3 Attacks using weak binding of authorization server endpoints
 
@@ -270,7 +270,7 @@ Several attacks have been identified and the threats are explained in detail in 
 In this attack, the client developer is social engineered into believing that the token endpoint has changed to the URL that is controlled by the attacker. 
 As the result, the client sends the `code` and the client secret to the attacker, which will be replayed subsequently. 
 
-When the FAPI client uses [MTLS] or [OAUTB], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
+When the FAPI client uses [MTLS], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
 
 #### 8.3.3 Identity provider (IdP) mix-up attack
 In this attack, the client has registered multiple IdPs and one of them is a rogue IdP that returns the same `client_id` 
@@ -293,7 +293,7 @@ To prevent this, the authorization server should communicate to the client devel
 the proper change process repeatedly to help client developers to be less susceptible to such social engineering.
 
 #### 8.3.5 Access token phishing
-When the FAPI client uses [MTLS] or [OAUTB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
+When the FAPI client uses [MTLS], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
 
 ### 8.4 Attacks that modify authorization requests and responses
 
@@ -416,7 +416,6 @@ The following people contributed to this document:
 * [RFC7519] JSON Web Token (JWT)
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
-* [OAUTB] OAuth 2.0 Token Binding
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [JARM] Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
