@@ -22,7 +22,9 @@ Financial API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
-* Part 3: Client Initiated Backchannel Authentication Profile
+* Financial-grade API: Client Initiated Backchannel Authentication Profile
+* Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+* Financial-grade API: Pushed Request Object
 
 Future parts may follow.
 
@@ -32,7 +34,7 @@ This part is intended to be used with [RFC6749], [RFC6750], [RFC7636], [OIDC] an
 
 The Financial-grade API Standard provides a profile for OAuth 2.0 suitable for use in financial services. The standard OAuth method for the client to send the resource owner to the authorization server is to use an HTTP redirect. Parts 1 and 2 of this specification support this interaction model and are suitable for use cases where the resource owner is interacting with the client on a device they control that has a web browser. There are however many use-cases for initiating payments where the resource owner is not interacting with the client in such a manner. For example, the resource owner may want to authorize a payment at a "point of sale" terminal at a shop or fuel station.
 
-This document is a profile of the OpenID Connect Client Initiated Backchannel Authentication Flow [CIBA] that supports this decoupled interaction method. The CIBA spec allows a client that gains knowledge of an identifier for the user to obtain tokens from the authorization server. The user consent is given at the user's Authentication Device mediated by the authorization server. This document profiles the CIBA specification to bring it in line with the rest of the other FAPI parts and provides security recommendations for its use with APIs that require financial-grade security. 
+This document is a profile of the OpenID Connect Client Initiated Backchannel Authentication Flow [CIBA] that supports this decoupled interaction method. The CIBA spec allows a client that gains knowledge of an identifier for the user to obtain tokens from the authorization server. The user consent is given at the user's Authentication Device mediated by the authorization server. This document profiles the CIBA specification to bring it in line with the other FAPI parts and provides security recommendations for its use with APIs that require financial-grade security. 
 
 Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementors are encouraged to understand the security considerations contained in section 7.5 before embarking on a 'from scratch' implementation.
 
@@ -46,7 +48,7 @@ These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-# **Financial-grade API: Client Initiated Backchannel Authentication Profile **
+# **Financial-grade API: Client Initiated Backchannel Authentication Profile**
 
 [TOC]
 
@@ -90,9 +92,7 @@ For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636
 
 **API** – Application Programming Interface
 
-**FAPI** - Financial API
-
-**FI** – Financial Institution
+**FAPI** - Financial-grade API
 
 **HTTP** – Hyper Text Transfer Protocol
 
@@ -121,7 +121,7 @@ The following sections specify a profile of CIBA that is suited for financial-gr
 
 As it is anticipated the this specification will primary be used for write operations there is no separate read-only profile.
 
-This spec should be read in conjunction with OpenID Connect Client Initiated Backchannel Authentication Core [CIBA] and with parts 1 [FAPI1] and 2 [FAPI2] of the Financial API specification.
+This spec should be read in conjunction with OpenID Connect Client Initiated Backchannel Authentication Core [CIBA] and with parts 1 [FAPI1] and 2 [FAPI2] of the Financial-grade API specification.
 
 #### 5.2.2 Authorization Server
 
@@ -136,7 +136,7 @@ In addition the Authorization server, for all operations,
 1. may support CIBA ping mode;
 1. shall require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1.
 
-**NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorise the transaction, as part of the authorisation process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
+**NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorize the transaction, as part of the authorization process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
 
 **NOTE:** The FAPI CIBA profile only supports CIBA ping and poll modes, therefore it is only possible to retrieve access tokens and optionally refresh tokens from the token endpoint. The same security requirements for the token endpoint as detailed in [FAPI1] and [FAPI2] apply.
 
@@ -171,25 +171,25 @@ In situations where the client does not control the consumption device, the clie
 
 ### 7.1 Introduction
 
-The [CIBA] specification introduces some new attack vectors not present in OAuth 2 redirect based flows. This profile aims to help implementers of [CIBA] for financial APIs to reduce or eliminate these attack vectors. There are however further security considerations that should be taken into account when implementing this specification.
+The [CIBA] specification introduces some new attack vectors not present in OAuth 2 redirect based flows. This profile aims to help implementers of [CIBA] for financial-grade APIs to reduce or eliminate these attack vectors. There are however further security considerations that should be taken into account when implementing this specification.
 
 ### 7.2 Authentication sessions started without a users knowledge or consent
 
 As this specification allows the client to initiate an authentication request it is important for the authorization server to know whether the user is aware and has consented to the authentication process. If widely known user identifiers (e.g. phone numbers) are used as the `login_hint` in the authentication request then this risk is worsened. An attacker could start unsolicited authentication sessions on large numbers of authentication devices, causing distress and potentially enabling fraud.
-For this reason this profile highly recommends `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept a `id_token_hint` as an alternative mechinism for Client Subject identification.
+For this reason this profile highly recommends `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept a `id_token_hint` as an alternative mechanism for Client Subject identification.
 
-Should a TPP wish to link the `id_token` returned from an authorization server to an identifier that can be provided in a more friendly manner as a key for the `id_token_hint`, care must be taken to ensure that customer identification mechanism used to retrieve the `id_token` is appropriate for the channel being used.
-For illustration a QR club card may be an appropriate identifier when using a POS terminal under CCTV but it might not be an appropriate identifier when used in online ecommerce.
+If a client wishes to store the `id_token` returned from an authorization server for later use as an `id_token_hint`, care must be taken to ensure that the customer identification mechanism used to retrieve the `id_token` is appropriate for the channel being used.
+For illustration a QR code on a 'club card' may be an appropriate identifier when using a POS terminal under CCTV but it might not be an appropriate identifier when used in online ecommerce.
 
-In addition, [CIBA] provides an optional `user_code` mechanism to specifically mitigate this issue, it may be appropriate to require the user of `user_code` in certain deployments. 
+In addition, [CIBA] provides an optional `user_code` mechanism to specifically mitigate this issue, it may be appropriate to require the use of `user_code` in certain deployments. 
 
 ### 7.3 Reliance on user to confirm binding messages
 
-Depending on the hint used to identify the user and the Client's Customer authentication processes, it may be possible for a fraudster to start a [CIBA] flow at the same time as a genuine flow but using the genuine user’s identifier. If the scope of access requested and the Client are the same then the only way to ensure that a user is authorising the correct transaction is for the user to compare the binding messages. If this risk is deemed unacceptable then implementers should consider alternative mechanisms to verify binding messages.
+Depending on the hint used to identify the user and the Client's Customer authentication processes, it may be possible for a fraudster to start a [CIBA] flow at the same time as a genuine flow but using the genuine user’s identifier. If the scope of access requested and the Client are the same then the only way to ensure that a user is authorizing the correct transaction is for the user to compare the binding messages. If this risk is deemed unacceptable then implementers should consider alternative mechanisms to verify binding messages.
 
-### 7.4 Loss of fruad markers to FI
+### 7.4 Loss of fraud markers to OpenID provider
 
-In a redirect-based flow, the FI can collect useful fraud markers from the user-agent. In a [CIBA] flow the separation of consumption and authentication devices reduces the data that can be collected. This could reduce the effectiveness of an FI's fraud detection system. 
+In a redirect-based flow, the authorization server can collect useful fraud markers from the user-agent. In a [CIBA] flow the separation of consumption and authentication devices reduces the data that can be collected. This could reduce the effectiveness of any fraud detection system.
 
 ### 7.5 Incomplete or incorrect implementations of the specifications
 
