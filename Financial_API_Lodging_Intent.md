@@ -109,7 +109,7 @@ If the user consents to the requested authorization, the AS associates the autho
 ## 6. Detailed Description
 The following sections will describe the recommended process in detail.
 
-## 6.1. Obtain Access Token for Intent Creation (Optional Step)
+### 6.1. Obtain Access Token for Intent Creation (Optional Step)
 The AS might require clients to authenticate and get authorized as a prerequisite to create a lodging intent. The recommended approach is to use the OAuth client credentials grant type to authenticate the client and access tokens to convey the authorization towards the lodging intent resource.
 
 This requires the AS to define a certain scope the client needs to specify when asking for an access token.
@@ -128,7 +128,7 @@ scope=payments_create
 
 Please note the example does not show a particular client authentication method. Any method defined at [token endpoint authentication method iana registry] should be applicable.
 
-## 6.2. Create Lodging Intent
+### 6.2. Create Lodging Intent
 In the next step, the client uses the access token to create a new lodging intent.
 
 The data sent to the resource endpoint depends on the particular transaction and API type. The representation format is at the discretion of the AS, JSON is the recommendation since it allows to represent even complex structures in a simple and robust way.
@@ -164,10 +164,10 @@ Location: /payments/36fc67776
 
 Note: the lodging intent endpoint can be provided by the AS or the respective RS. Both options have up- and downsides, which will be discussed later on.
 
-## 6.3. Authorization Request
+### 6.3. Authorization Request
 The client must send the reference to the lodging intent(s) to the authorization server as part of the authorization request. There are basically the following mechanisms that can be used for that purpose:
 
-## 6.3.1. Parameterized Scope Values
+#### 6.3.1. Parameterized Scope Values
 The intent id can be made a part of the scope value used to ask for permission to access certain resources or perform a transaction. For example, the base scope value could be „payment“ and the resource could be added in the concrete authorization request separated by colons, resulting in an effective scope value „payment:36fc67776“. This is shown in the following example (with URI encoding):
 
 
@@ -187,7 +187,7 @@ This way the lodging intent adds further details regarding the authorization the
 
 Note: most products nowadays only support scope values out of a discrete, pre-configured list of fixed string values. Supporting parameterized scope values will require modifications of such products. In particular, major changes are required to support dynamic rendering of the user consent dialog based on the transaction authorization data (which is the same for all representations).
 
-## 6.3.2. Additional Request Parameter
+#### 6.3.2. Additional Request Parameter
 Instead of enriching the scope value, one could also refer to the additional data using a new custom URI request parameter, as shown in the following example:
 
 
@@ -206,24 +206,24 @@ Host: as.bank.example
 
 This approach requires the introduction of an additional request parameter, which is  related to the particular scope value. Most likely this means there needs to be a distinct URI query parameter per scope value type (e.g. API type). This approach might be easy to implement but the coupling between scope value and corresponding intent is not as clear as in the method described above.
 
-## 6.3.3. Claim
+#### 6.3.3. Claim
 
 Deployments using OpenID Connect might also consider to use distinct claim values to convey the intent id. The binding between scope values and intent Id is comparable to the additional request parameter approach and always requires OpenID connect to request API authorization.
 
-## 6.4 Authorization Process
+### 6.4 Authorization Process
 The authorization server obtains the lodging intent data and incorporates it into the process of rendering the user consent. In case of the payment initiation, the AS will need to ask the user to confirm the transfer of certain money to the creditor defined in the authorization data.
 
 The way the AS obtains the data depends on the party that provides the lodging intent implementation. Both AS or RS can provide this implementation with different advantages and drawbacks as described in the following.
 
-## 6.4.1. AS Provides Intent Implementation 
+#### 6.4.1. AS Provides Intent Implementation 
 
 On first sight, implementing the lodging intent at the AS might be the obvious choice, since it just serves as an extension to a certain scope value. In such a case, the AS determines how and where the intent data is stored and how it can be accessed in user consent and, later on, when the data needs to be transferred to the RS. The RS will be provided with the authorization data either (1) encoded in the access token or (2) as part of the token introspection response.
 
-## 6.4.2. RS Provides Intent Implementation
+#### 6.4.2. RS Provides Intent Implementation
 
 There are some advantages to implement the intent with the RS. First of all, the client can directly setup a resource or transaction with the RS in the first step and the RS may than dynamically decide whether there is a need for a user authorization. If so, the RS will be providing the relevant data to the AS to conduct the authorization process, which requires a well-defined interface between AS and RS. If the interface exists, the AS may also inform the RS about the context of the authorization (e.g. the respective user account), so the RS can dynamically adapt the user consent data. As one example, the RS could determine whether the respective user already consented to the RS‘s terms of service and just ask new users for a consent. Or the RS informs the AS of the available debit accounts of the particular user and the AS could directly ask the user to select the account to be used for the transaction in authorization. This pattern benefits from the domain specific knowledge in the RS and keeps the AS very clean and generic. As a consequence, there must be a properly protected interface between AS and RS.
 
-## 6.5. Convey Authorization Data to RS 
+### 6.5. Convey Authorization Data to RS 
 When the client sends a request to the RS, it includes the access token issued in the previous step. The access token either directly (token data) or indirectly (token introspection response) refers to the authorization data contained in the lodging intent. If immutability of the lodging intent data cannot be ensured by the AS, this data should be included in order to ensure its integrity and authenticity between authorization process and service usage.
 
 The following example shows an introspection response containing the payment transaction data as confirmed by the user.
@@ -247,15 +247,15 @@ Content-Type: application/json
 
 ## 7. Security Considerations
 
-## 7.1. Guessing/Enumeration of Lodging Intents
+### 7.1. Guessing/Enumeration of Lodging Intents
 
 Malicious clients or users might try to guess identifiers of lodging intents that were not created for them. In order to prevent this, lodging intent identifiers must contain sufficient entropy that makes guessing infeasible. Enumeration of lodging intents must be prevented.
 
-## 7.2. Swapping of the Lodging Intents
+### 7.2. Swapping of the Lodging Intents
 
 An attacker could try to swap lodging intents among different clients and authorization transactions. The lodging intent MUST therefore be bound to the respective client which created it in order to detect swapping attempts. Additionally, the token response MUST return the scope value (or the respective request value) as received in the authorization request and the client MUST compare both values for equivalence or the authorization request MUST be signed.
 
-## 7.3. Reuse of Lodging Intent Identifiers
+### 7.3. Reuse of Lodging Intent Identifiers
 
 Lodging intent ids must not be reused. Otherwise, a user who has consented to a transaction tied to a specific lodging intent id might inadvertently consent to a different transaction reusing the same lodging intent id.
 
@@ -271,7 +271,5 @@ The following people contributed to this document:
 
 * Torsten Lodderstedt (yes.com), Editor
 * Daniel Fett (yes.com)
-
-## 11. Bibliography
-
-TBD
+* Sebastian Ebling (yes.com)
+* Brian Campbell (Ping Identity)
