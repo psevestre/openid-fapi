@@ -180,7 +180,7 @@ In addition, the authorization server, for the write operation,
 1. shall support signed ID Tokens;
 1. should support signed and encrypted ID Token;
 1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
-1. may support the request object endpoint as described in section 7;
+1. may support the request object endpoint as described in [PRO];
 1. (withdrawn);
 1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes; and
 1. shall authenticate the confidential client at the token endpoint using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
@@ -413,4 +413,5 @@ The following people contributed to this document:
 * [OAUTB] OAuth 2.0 Token Binding
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [JARM] Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
+* [PRO] Financial Services – Financial-grade API: Pushed Request Object
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
