@@ -99,6 +99,9 @@ The following referenced documents are indispensable for the application of this
 [JARM] - Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 [JARM]: https://bitbucket.org/openid/fapi/src/master/Financial_API_JWT_Secured_Authorization_Response_Mode.md
 
+[PRO] - Financial Services – Financial-grade API: Pushed Request Object
+[PRO]:https://bitbucket.org/openid/fapi/src/master/Financial_API_Pushed_Request_Object.md
+
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
@@ -413,5 +416,4 @@ The following people contributed to this document:
 * [OAUTB] OAuth 2.0 Token Binding
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [JARM] Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
-* [PRO] Financial Services – Financial-grade API: Pushed Request Object
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
