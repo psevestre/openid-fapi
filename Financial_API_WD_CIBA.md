@@ -66,15 +66,6 @@ The following referenced documents are indispensable for the application of this
 [ISODIR2] - ISO/IEC Directives Part 2
 [ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
 
-[RFC6749] - The OAuth 2.0 Authorization Framework
-[RFC6749]: https://tools.ietf.org/html/rfc6749
-
-[RFC6750] - The OAuth 2.0 Authorization Framework: Bearer Token Usage
-[RFC6750]: https://tools.ietf.org/html/rfc6750
-
-[OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
-[OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
-
 [CIBA] - OpenID Connect Client Initiated Backchannel Authentication Core
 [CIBA]: http://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html
 
@@ -227,8 +218,15 @@ The following people contributed heavily towards this document:
 * Henrik Biering (Peercraft)
 * Axel Nennker (Deutsche Telekom)
 * Ralph Bragg (RAiDiAM)
-
+* Joseph Heenan (Authlete)
 
 ## 11. Bibliography
 
-TODO
+[RFC6749] - The OAuth 2.0 Authorization Framework
+[RFC6749]: https://tools.ietf.org/html/rfc6749
+
+[RFC6750] - The OAuth 2.0 Authorization Framework: Bearer Token Usage
+[RFC6750]: https://tools.ietf.org/html/rfc6750
+
+[OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
+[OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
