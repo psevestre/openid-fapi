@@ -134,7 +134,7 @@ In addition the Authorization server, for all operations,
 1. shall not support CIBA push mode;
 1. shall support CIBA poll mode;
 1. may support CIBA ping mode;
-1. shall require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1.
+1. may require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1.
 
 **NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorize the transaction, as part of the authorization process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
 
@@ -150,7 +150,7 @@ A Confidential Client shall support the provisions specified in clause 5.2.4 of 
 
 In addition, the Confidential Client
 
-1. shall only send Signed Authentication Requests as defined in [CIBA] 7.1.1 to the Backchannel Authentication Endpoint;
+1. shall only send Signed Authentication Requests as defined in [CIBA] 7.1.1 to the Backchannel Authentication Endpoint if required by the Authorization Server;
 1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request.
 
 # 6. Accessing Protected Resources
