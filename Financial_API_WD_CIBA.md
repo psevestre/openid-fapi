@@ -185,7 +185,9 @@ In addition, [CIBA] provides an optional `user_code` mechanism to specifically m
 
 ### 7.3 Reliance on user to confirm binding messages
 
-Depending on the hint used to identify the user and the Client's Customer authentication processes, it may be possible for a fraudster to start a [CIBA] flow at the same time as a genuine flow but using the genuine user’s identifier. If the scope of access requested and the Client are the same then the only way to ensure that a user is authorizing the correct transaction is for the user to compare the binding messages. If this risk is deemed unacceptable then implementers should consider alternative mechanisms to verify binding messages.
+Depending on the hint used to identify the user and the Client's user authentication processes, it may be possible for a fraudster to start a malicious [CIBA] flow at the same time as a genuine flow, with both flows using the genuine user’s identifier. If the scope of access requested is similar then the only way to ensure that a user is authorizing the correct transaction is for the user to compare the binding messages on the Authentication and Consumption devices.
+
+If this risk is deemed unacceptable then implementers should either consider alternative mechanisms of verifying the binding message (e.g. conveying it to the Authentication device via a QR code), or use ephemeral user identifiers generated on the Authentication device.
 
 ### 7.4 Loss of fraud markers to OpenID provider
 
