@@ -209,6 +209,16 @@ Deployments that use this specification should use a certified implementation.
 
 CIBA Authorization Servers and Clients must follow the guidance around JWS Algorithms in [FAPI2] 8.6.
 
+### 7.8 CIBA token delivery modes
+
+[CIBA] defines 3 ways that tokens can be delivered to the client.
+
+The `push` mode is not permitted by this specification as it delivers tokens to the client by calling an endpoint owned by the client. This substantially differs from the established pattern of retrieving tokens by presenting client authentication to the token endpoint, and it may have security concerns that are currently unknown.
+
+The `poll` and `ping` modes both follow the established convention of retrieving tokens from the token endpoint and hence do not have this concern.
+
+The `ping` mode delivers a notification to an endpoint owned by the client. The information contained in this notification is limited to the `auth_req_id` for the request, as described in [CIBA] 10.2. The bearer token used by the authorization server to access this resource is not sender constrained. If the `backchannel_client_notification_endpoint`, the `auth_req_id` and the `client_notification_token` are known to an attacker, they may be able to force the client to call the token endpoint repeatedly or before the authentication has completed. For most deployments this is not a significant issue.
+
 ## 8. Privacy Considerations
 
 * TODO
