@@ -84,6 +84,9 @@ The following referenced documents are indispensable for the application of this
 [FAPI2] - FAPI Read Write API Security Profile
 [FAPI2]: https://openid.net/specs/openid-financial-api-part-2.html
 
+[FAPILI] - FAPI Lodging Intent
+[FAPILI]: https://bitbucket.org/openid/fapi/src/master/Financial_API_Pushed_Request_Object.md
+
 ## 3. Terms and definitions
 
 For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636, OpenID Connect Core and OpenID Connect Client Initiated Backchannel Authentication Core apply.
@@ -135,6 +138,9 @@ In addition the Authorization server, for all operations,
 1. shall support CIBA poll mode;
 1. may support CIBA ping mode;
 1. shall require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1.
+1. should not use the login_hint or login_hint_token to convey "intent ids" or any other authorization metadata
+
+**NOTE:** As per [CIBA], `login_hint`, `login_hint_token` and `id_token_hint` are used only to determine who the user is. In scenarios where complex authorization parameters need to be conveyed from the Client to the AS, implementers should consider the "lodging intent" pattern described in [FAPILI]. The use of parameterized scope values or the use of an additional request parameter are both supported by this specification. Examples of both patterns are shown in [FAPILI].
 
 **NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorize the transaction, as part of the authorization process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
 
