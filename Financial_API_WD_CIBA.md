@@ -128,11 +128,11 @@ In addition the Authorization server, for all operations,
 1. shall not support CIBA push mode;
 1. shall support CIBA poll mode;
 1. may support CIBA ping mode;
-1. shall require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1.
+1. shall require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1;
 1. shall require user authentication to an appropriate level for the operations the client will be authorised to perform on behalf of the user;
-1. shall, if it supports the acr claim and the client has requested acr, return an 'acr' claim in the resulting ID token
-1. shall require the Signed Authentication Request to contain `nbf` and `exp` claims that limit the lifetime of the request to no more than 60 minutes.
-1. may require clients to provide a `request_context` claim as defined in section 5.3 of this profile
+1. shall, if it supports the acr claim and the client has requested acr, return an 'acr' claim in the resulting ID token;
+1. shall require the Signed Authentication Request to contain `nbf` and `exp` claims that limit the lifetime of the request to no more than 60 minutes;
+1. may require clients to provide a `request_context` claim as defined in section 5.3 of this profile; and
 1. should not use the login_hint or login_hint_token to convey "intent ids" or any other authorization metadata
 
 **NOTE:** As per [CIBA], `login_hint`, `login_hint_token` and `id_token_hint` are used only to determine who the user is. In scenarios where complex authorization parameters need to be conveyed from the Client to the AS, implementers should consider the "lodging intent" pattern described in [FAPILI]. The use of parameterized scope values or the use of an additional request parameter are both supported by this specification. Examples of both patterns are shown in [FAPILI].
@@ -154,8 +154,8 @@ A Confidential Client shall support the provisions specified in clause 5.2.4 of 
 In addition, the Confidential Client
 
 1. shall only send Signed Authentication Requests as defined in [CIBA] 7.1.1 to the Backchannel Authentication Endpoint;
-1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request.
-1. shall ensure the Authorization Server has authenticated the user to an appropriate level for the client's intended purpose;
+1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request; and
+1. shall ensure the Authorization Server has authenticated the user to an appropriate level for the client's intended purpose.
 
 ### 5.3 Extensions to CIBA authentication request
 
@@ -163,7 +163,7 @@ This profile defines the following extensions to the authentication request defi
 
 1. `request_context`: OPTIONAL. a JSON object (the contents of which are not defined by this specification) containing information to inform fraud and threat decisions. For example, an ecosystem may require relying parties to provide geolocation for the consumption device.
 
-# 6. Accessing Protected Resources
+## 6. Accessing Protected Resources
 
 ### 6.1 Introduction
 
@@ -173,11 +173,10 @@ The provisions detailed in Parts 1 and 2 of the Financial API specification appl
 
 In situations where the client does not control the consumption device, the client
 
-1. shall not send `x-fapi-customer-ip-address` or `x-fapi-auth-date` headers;
+1. shall not send `x-fapi-customer-ip-address` or `x-fapi-auth-date` headers; and
 1. should send metadata about the consumption device, for example geolocation and device type.
 
-   
-# 7. Security Considerations
+## 7. Security Considerations
 
 ### 7.1 Introduction
 
