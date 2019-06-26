@@ -129,6 +129,7 @@ In addition the Authorization server, for all operations,
 1. shall support CIBA poll mode;
 1. may support CIBA ping mode;
 1. shall require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1.
+1. shall require the Signed Authentication Request to contain `nbf` and `exp` claims that limit the lifetime of the request to no more than 60 minutes.
 1. may require clients to provide a `request_context` claim as defined in section 5.3 of this profile
 1. should not use the login_hint or login_hint_token to convey "intent ids" or any other authorization metadata
 
