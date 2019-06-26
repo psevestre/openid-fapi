@@ -113,7 +113,7 @@ The following sections specify a profile of CIBA that is suited for financial-gr
 
 #### 5.2.1 Introduction
 
-As it is anticipated the this specification will primary be used for write operations there is no separate read-only profile.
+This profile applies to both Read-Only APIs and Read-and-Write APIs.
 
 This spec should be read in conjunction with OpenID Connect Client Initiated Backchannel Authentication Core [CIBA] and with parts 1 [FAPI1] and 2 [FAPI2] of the Financial-grade API specification.
 
