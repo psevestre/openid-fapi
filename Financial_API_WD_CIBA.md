@@ -210,6 +210,12 @@ Deployments that use this specification should use a certified implementation.
 
 CIBA Authorization Servers and Clients shall follow the guidance around JWT signing and encryption Algorithms in [FAPI2] 8.6 and 8.6.1.
 
+### 7.7 Authentication Device security
+
+This profile and the underlying specifications do not specify how the Authorization Server should initiate and perform user authentication and authorization of consent on the authentication device.
+
+Implementors must use appropriately strong methods to communicate with the authentication device and to authenticate the end user.
+
 ### 7.8 CIBA token delivery modes
 
 [CIBA] defines 3 ways that tokens can be delivered to the client.
