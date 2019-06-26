@@ -148,6 +148,8 @@ In addition the Authorization server, for all operations,
 
 **NOTE:** Given that the CIBA flow places an added level of trust on the Client, the FAPI CIBA profile requires the use of Signed Authentication Requests. This will enable the Authorization Server to store such requests, in an easily verifiable form, for future auditing purposes.
 
+**NOTE:** While the format of the `login_hint` and `login_hint_token` parameters are not defined by [CIBA] or this profile, implementers may wish to consider https://tools.ietf.org/html/draft-ietf-secevent-subject-identifiers for a standards based method of communicating user identifiers.
+
 #### 5.2.3 Confidential Client
 
 ##### 5.2.3.1 General Provisions
