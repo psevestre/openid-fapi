@@ -238,7 +238,7 @@ The `ping` mode delivers a notification to an endpoint owned by the client. The 
 
 ## 8. Privacy Considerations
 
-* TODO
+There are no additional privacy considerations beyond those in [CIBA] 15.
 
 ## 9. Acknowledgement
 
