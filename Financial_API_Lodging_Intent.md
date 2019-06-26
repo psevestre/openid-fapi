@@ -158,7 +158,7 @@ Content-Type: application/json
 Location: /payments/36fc67776
 
 {
- "consentId": "36fc67776",
+ "consentId": "36fc67776"
 }
 ```
 
@@ -172,7 +172,7 @@ The intent id can be made a part of the scope value used to ask for permission t
 
 
 ```http
-GET /authorise?responseType=code&
+GET /authorise?response_type=code&
 client_id=3630BF72-E979-477A-A8FF-8A338F07C852&
 redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb&
 scope=payment%3A36fc67776&
@@ -192,7 +192,7 @@ Instead of enriching the scope value, one could also refer to the additional dat
 
 
 ```http
-GET /authorise?responseType=code&
+GET /authorise?response_type=code&
 client_id=3630BF72-E979-477A-A8FF-8A338F07C852&
 redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb&
 scope=payment&
