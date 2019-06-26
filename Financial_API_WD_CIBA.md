@@ -18,7 +18,7 @@ The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID communit
 
 Final drafts adopted by the Workgroup through consensus are circulated publicly for the public review for 60 days and for the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the members casting a vote. There is a possibility that some of the elements of this document may be the subject to patent rights. OIDF shall not be held responsible for identifying any or all such patent rights.
 
-Financial API consists of the following parts:
+Financial-grade API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
@@ -119,7 +119,7 @@ This spec should be read in conjunction with OpenID Connect Client Initiated Bac
 
 #### 5.2.2 Authorization Server
 
-The Authorization Server shall support the provisions specified in clause 5.2.2 of Financial API - Part 1 and clause 5.2.2 of Financial API - Part 2.
+The Authorization Server shall support the provisions specified in clause 5.2.2 of Financial-grade API - Part 1 and clause 5.2.2 of Financial-grade API - Part 2.
 
 In addition the Authorization server, for all operations,
 
@@ -129,7 +129,7 @@ In addition the Authorization server, for all operations,
 1. shall support CIBA poll mode;
 1. may support CIBA ping mode;
 1. shall require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1;
-1. shall require user authentication to an appropriate level for the operations the client will be authorised to perform on behalf of the user;
+1. shall require user authentication to an appropriate level for the operations the client will be authorized to perform on behalf of the user;
 1. shall, if it supports the acr claim and the client has requested acr, return an 'acr' claim in the resulting ID token;
 1. shall require the Signed Authentication Request to contain `nbf` and `exp` claims that limit the lifetime of the request to no more than 60 minutes;
 1. may require clients to provide a `request_context` claim as defined in section 5.3 of this profile; and
@@ -149,7 +149,7 @@ In addition the Authorization server, for all operations,
 
 ##### 5.2.3.1 General Provisions
 
-A Confidential Client shall support the provisions specified in clause 5.2.4 of Financial API - Part 1 [FAPI1] and clause 5.2.4 of Financial API - Part 2 [FAPI2].
+A Confidential Client shall support the provisions specified in clause 5.2.4 of Financial-grade API - Part 1 [FAPI1] and clause 5.2.4 of Financial-grade API - Part 2 [FAPI2].
 
 In addition, the Confidential Client
 
@@ -167,7 +167,7 @@ This profile defines the following extensions to the authentication request defi
 
 ### 6.1 Introduction
 
-The provisions detailed in Parts 1 and 2 of the Financial API specification apply fully. The benefit of the CIBA specification is that once tokens are issued they can be used in the same manner as tokens issued via authorization code flows.
+The provisions detailed in Parts 1 and 2 of the Financial-grade API specification apply fully. The benefit of the CIBA specification is that once tokens are issued they can be used in the same manner as tokens issued via authorization code flows.
 
 ### 6.2 Client Provisions
 
@@ -185,7 +185,7 @@ The [CIBA] specification introduces some new attack vectors not present in OAuth
 ### 7.2 Authentication sessions started without a users knowledge or consent
 
 As this specification allows the client to initiate an authentication request it is important for the authorization server to know whether the user is aware and has consented to the authentication process. If widely known user identifiers (e.g. phone numbers) are used as the `login_hint` in the authentication request then this risk is worsened. An attacker could start unsolicited authentication sessions on large numbers of authentication devices, causing distress and potentially enabling fraud.
-For this reason this profile highly recommends `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept a `id_token_hint` as an alternative mechanism for Client Subject identification.
+For this reason this profile highly recommends `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept an `id_token_hint` as an alternative mechanism for Client Subject identification.
 
 If a client wishes to store the `id_token` returned from an authorization server for later use as an `id_token_hint`, care must be taken to ensure that the customer identification mechanism used to retrieve the `id_token` is appropriate for the channel being used.
 For illustration a QR code on a 'club card' may be an appropriate identifier when using a POS terminal under CCTV but it might not be an appropriate identifier when used in online ecommerce.
