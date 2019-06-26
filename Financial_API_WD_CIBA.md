@@ -255,6 +255,8 @@ The following people contributed heavily towards this document:
 * Axel Nennker (Deutsche Telekom)
 * Ralph Bragg (RAiDiAM)
 * Joseph Heenan (Authlete)
+* Torsten Lodderstedt (yes.com)
+* Takahiko Kawasaki (Authlete)
 
 ## 11. Bibliography
 
