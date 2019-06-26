@@ -129,6 +129,7 @@ In addition the Authorization server, for all operations,
 1. shall support CIBA poll mode;
 1. may support CIBA ping mode;
 1. shall require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1.
+1. may require clients to provide a `request_context` claim as defined in section 5.3 of this profile
 1. should not use the login_hint or login_hint_token to convey "intent ids" or any other authorization metadata
 
 **NOTE:** As per [CIBA], `login_hint`, `login_hint_token` and `id_token_hint` are used only to determine who the user is. In scenarios where complex authorization parameters need to be conveyed from the Client to the AS, implementers should consider the "lodging intent" pattern described in [FAPILI]. The use of parameterized scope values or the use of an additional request parameter are both supported by this specification. Examples of both patterns are shown in [FAPILI].
@@ -151,6 +152,12 @@ In addition, the Confidential Client
 
 1. shall only send Signed Authentication Requests as defined in [CIBA] 7.1.1 to the Backchannel Authentication Endpoint;
 1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request.
+
+### 5.3 Extensions to CIBA authentication request
+
+This profile defines the following extensions to the authentication request defined in [CIBA] section 7.1.
+
+1. `request_context`: OPTIONAL. a JSON object (the contents of which are not defined by this specification) containing information to inform fraud and threat decisions. For example, an ecosystem may require relying parties to provide geolocation for the consumption device.
 
 # 6. Accessing Protected Resources
 
