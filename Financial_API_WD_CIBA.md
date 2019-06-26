@@ -206,9 +206,9 @@ https://openid.net/developers/certified/
 
 Deployments that use this specification should use a certified implementation.
 
-### 7.6 JWS algorithm considerations
+### 7.6 JWS/JWE Algorithm considerations
 
-CIBA Authorization Servers and Clients must follow the guidance around JWS Algorithms in [FAPI2] 8.6.
+CIBA Authorization Servers and Clients shall follow the guidance around JWT signing and encryption Algorithms in [FAPI2] 8.6 and 8.6.1.
 
 ### 7.8 CIBA token delivery modes
 
