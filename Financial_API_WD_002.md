@@ -136,13 +136,15 @@ APIs are also different.
 This profile describes security provisions for the server and client that are appropriate for Financial-grade APIs by defining the measures to mitigate:
 
 * attacks that leverage the weak binding of endpoints in [RFC6749] (e.g. malicious endpoint attacks, IdP mix-up attacks),
-* attacks that modify authorization requests and responses unprotected in [RFC6749] by leveraging OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response. 
+* attacks that modify authorization requests and responses unprotected in [RFC6749] 
 
-While the name ID Token suggests that it is something  that provides the identity of the resource owner (subject), it is not necessarily so. While it does identify the authorization server by including the issuer identifier, 
-it is perfectly fine to have an ephemeral subject identifier. In this case, the ID Token acts as a detached signature of the issuer to the authorization response and it was an explicit design decision of OpenID Connect Core
-to make the ID Token act as a detached signature.
+The following ways are specified to cope with modifications of authorization responses. Implementation can leverage OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response or they utilize the JWT Secured Authorization Response Mode for OAuth 2.0 (JARM) that returns and protects all authorization response parameters in a JWT.
 
-This document leverages this fact and protects the authorization response by including the hash of all of the unprotected response parameters, e.g. `code` and `state`. 
+#### 5.1.1 ID Token as Detached Signature
+While the name ID Token (as used in the OpenID Connect Hybrid Flow) suggests that it is something that provides the identity of the resource owner (subject), it is not necessarily so. While it does identify the authorization server by including the issuer identifier, 
+it is perfectly fine to have an ephemeral subject identifier. In this case, the ID Token acts as a detached signature of the issuer to the authorization response and it was an explicit design decision of OpenID Connect Core to make the ID Token act as a detached signature.
+
+This document leverages this fact and protects the authorization response by including the hash of all of the unprotected response parameters, e.g. `code` and `state`, in the ID Token. 
 
 While the hash of the `code` is defined in [OIDC], the hash of the `state` is not defined. 
 Thus this document defines it as follows. 
@@ -155,6 +157,13 @@ in the `alg` header parameter of the ID Token's JOSE header. For instance,
 if the `alg` is `HS512`, hash the state value with SHA-512, then take the left-most 256 bits and base64url encode them.
 The `s_hash` value is a case sensitive string.
 
+#### 5.1.2 JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+
+An authorization server may protect authorization responses to clients using the "JWT Secured Authorization Response Mode" [JARM].
+
+The [JARM] allows a client to request that an authorization server encode the authorization response (of any response type) in a JWT. It is an alternative to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses and can be used with plain OAuth.
+
+For example, clients may use [JARM] in conjunction with the response type `code`.
 
 ### 5.2 Read and write API security provisions
 
@@ -171,14 +180,10 @@ The authorization server shall support the provisions specified in clause 5.2.2 
 In addition, the authorization server, for the write operation,
 
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
-1. shall require the `response_type` value `code id_token`;
-1. shall return ID Token as a detached signature to the authorization response;
-1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
+1. shall require the `response_type` value `code id_token` or the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt`;
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
 1. shall support [MTLS] as a holder of key mechanism;
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
-1. shall support signed ID Tokens;
-1. should support signed and encrypted ID Token;
 1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
 1. may support the request object endpoint as described in [PRO];
 1. (withdrawn);
@@ -188,6 +193,17 @@ In addition, the authorization server, for the write operation,
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
 1. shall not support public clients.
+
+In addition, if the `response_type` value `code id_token` is used, the authorization server
+
+1. shall support signed ID Tokens;
+1. should support signed and encrypted ID Token;
+1. shall return ID Token as a detached signature to the authorization response;
+1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
+
+In addition, if the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt` is used, the authorization server
+1. shall create JWT-secured authorization responses as specified in [JARM], section 4.3;
+1. shall advertise support for the [JARM] response modes using the `response_modes_supported` metadata parameter.
 
 **NOTE:** MTLS is currently the only holder of key mechanism that has been widely deployed. Future versions of this specification are likely to allow other holder of key mechanisms.
 
@@ -200,31 +216,27 @@ In addition, the confidential client for write operations
 1. shall support [MTLS] as a holder of key mechanism;
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
 1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC];
-1. shall require JWS signed ID Token be returned from endpoints;
-1. shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
-1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
-1. shall verify that the authorization response was not tampered using ID Token as the detached signature
 1. shall send all parameters inside the authorization request's signed request object
 1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications
 1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes
+
+In addition, if the `response_type` value `code id_token` is used, the client
+
+1. shall require JWS signed ID Token be returned from endpoints;
+1. shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
+1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
+1. shall verify that the authorization response was not tampered using ID Token as the detached signature
 1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response.
 
+In addition, if the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt` is used, the client
+
+1. shall verify the authorization responses as specified in [JARM], section 4.4;
+
 #### 5.2.4 (withdrawn)
 
-#### 5.2.5 JWT Secured Authorization Response Mode
-
-In addition to the provisions given in section 5.2.2, an authorization server may protect authorization responses to clients using the "JWT Secured Authorization Response Mode" [JARM].
-
-The [JARM] allows a client to request that an authorization server encode the authorization response (of any response type) in a JWT. It is an alternative to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses and can be used with plain OAuth.
-
-For example, clients may use [JARM] in conjunction with the response type `code`.
-
-The authorization server should advertise support for the [JARM] response modes using the `response_modes_supported` metadata parameter.
-
-If [JARM] is used to secure the authorization responses, the bullet points 2, 3, 4, 8, and 9 of 5.2.2, the bullet points 3,4,5,6,7 of 5.2.3 and the bullet points 2 of 5.2.4 do not apply. 
-
+#### 5.2.5 (withdrawn)
 
 ## 6. Accessing protected resources (using tokens)
 
@@ -285,7 +297,7 @@ then the authentication may be skipped and a code is generated and returned to t
 Since the client was interacting with the rogue IdP, the code is sent to the rogue IdP's token endpoint. 
 At the point, the attacker has a valid code that can be exchanged for an access token at the honest IdP.
 
-This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss`. 
+This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss` or [JARM] where the `iss` included in the response JWT. 
 The client then sends the `code` to the token endpoint that is associated with the issuer identifier thus it will not get to the attacker. 
 
 #### 8.3.4 Request object endpoint phishing resistance
@@ -320,7 +332,9 @@ authorization response.
 
 This can be mitigated by using OpenID Connect Hybrid Flow where the `c_hash`, `at_hash`,
 and `s_hash` can be used to verify the validity of the authorization code, access token,
-and state parameters. The server can verify that the state is the same as what was stored in the browser session at the time of the authorization request.
+and state parameters. It can also be mitgated using [JARM] by verifying the integrity of the authorization response JWT.
+
+The server can verify that the state is the same as what was stored in the browser session at the time of the authorization request.
 
 ### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
