@@ -202,6 +202,7 @@ In addition, if the `response_type` value `code id_token` is used, the authoriza
 1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
 
 In addition, if the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt` is used, the authorization server
+
 1. shall create JWT-secured authorization responses as specified in [JARM], section 4.3;
 1. shall advertise support for the [JARM] response modes using the `response_modes_supported` metadata parameter.
 
