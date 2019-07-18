@@ -196,12 +196,16 @@ In addition, the authorization server, for the write operation,
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
 1. shall not support public clients.
 
+#### 5.2.2.1 ID Token as detached signature
+
 In addition, if the `response_type` value `code id_token` is used, the authorization server
 
 1. shall support signed ID Tokens;
 1. should support signed and encrypted ID Token;
 1. shall return ID Token as a detached signature to the authorization response;
 1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
+
+#### 5.2.2.2 JARM
 
 In addition, if the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt` is used, the authorization server
 
@@ -224,6 +228,8 @@ In addition, the confidential client for write operations
 1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes
 
+#### 5.2.3.1 ID Token as detached signature
+
 In addition, if the `response_type` value `code id_token` is used, the client
 
 1. shall require JWS signed ID Token be returned from endpoints;
@@ -232,6 +238,8 @@ In addition, if the `response_type` value `code id_token` is used, the client
 1. shall verify that the authorization response was not tampered using ID Token as the detached signature
 1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response.
+
+#### 5.2.3.1 JARM
 
 In addition, if the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt` is used, the client
 
