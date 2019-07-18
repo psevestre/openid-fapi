@@ -180,7 +180,9 @@ The authorization server shall support the provisions specified in clause 5.2.2 
 In addition, the authorization server, for the write operation,
 
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
-1. shall require the `response_type` value `code id_token` or the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt`;
+1. shall require 
+	1. the `response_type` value `code id_token` or 
+	2. the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt`;
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
 1. shall support [MTLS] as a holder of key mechanism;
 1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
