@@ -233,6 +233,7 @@ In addition, the confidential client for write operations
 
 In addition, if the `response_type` value `code id_token` is used, the client
 
+1. shall include the value `openid` into the `scope` parameter in order to activate OIDC support
 1. shall require JWS signed ID Token be returned from endpoints;
 1. shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
 1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
