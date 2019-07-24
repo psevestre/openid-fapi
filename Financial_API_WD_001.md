@@ -182,6 +182,18 @@ Further, if it is desired to provide the authenticated user's identifier to the 
    as in Section 3.1.3.3 of [OIDC] with its `sub` value corresponding to the authenticated user
    and optional `acr` value in ID Token.
 
+##### 5.2.2.2 Client requesting openid scope
+
+If the client requests the openid scope, the authorization server
+
+1. shall require the `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
+
+##### 5.2.2.3 Clients not requesting openid scope
+
+If the client does not requests the openid scope, the authorization server
+
+1. shall require the `state` parameter defined in section 4.1.1 of [RFC6749].
+
 #### 5.2.3 Public client
 
 A public client
