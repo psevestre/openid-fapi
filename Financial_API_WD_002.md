@@ -109,7 +109,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **CSRF** - Cross Site Request Forgery
 
-**FAPI** - Financial API
+**FAPI** - Financial-grade API
 
 **HTTP** – Hyper Text Transfer Protocol
 
@@ -182,12 +182,13 @@ In addition, the authorization server, for the write operation,
 1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
 1. may support the request object endpoint as described in [PRO];
 1. (withdrawn);
-1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes; and
+1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; and
 1. shall authenticate the confidential client at the token endpoint using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
-1. shall not support public clients.
+1. shall not support public clients; and
+1. shall require the request object to contain an `nbf` claim that is no longer than 60 minutes in the past.
 
 **NOTE:** MTLS is currently the only holder of key mechanism that has been widely deployed. Future versions of this specification are likely to allow other holder of key mechanisms.
 
@@ -210,6 +211,7 @@ In addition, the confidential client for write operations
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes
 1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response.
+1. shall send a `nbf' claim in the request object
 
 #### 5.2.4 (withdrawn)
 
