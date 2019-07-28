@@ -153,7 +153,7 @@ A Confidential Client shall support the provisions specified in clause 5.2.4 of 
 
 In addition, the Confidential Client
 
-1. shall only send Signed Authentication Requests as defined in [CIBA] 7.1.1 to the Backchannel Authentication Endpoint if required by the Authorization Server;
+1. is recommended to only send Signed Authentication Requests as defined in [CIBA] 7.1.1 to the Backchannel Authentication Endpoint;
 1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request; and
 1. shall ensure the Authorization Server has authenticated the user to an appropriate level for the client's intended purpose.
 
