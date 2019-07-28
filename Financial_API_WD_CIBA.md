@@ -18,7 +18,7 @@ The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID communit
 
 Final drafts adopted by the Workgroup through consensus are circulated publicly for the public review for 60 days and for the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the members casting a vote. There is a possibility that some of the elements of this document may be the subject to patent rights. OIDF shall not be held responsible for identifying any or all such patent rights.
 
-Financial API consists of the following parts:
+Financial-grade API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
@@ -66,15 +66,6 @@ The following referenced documents are indispensable for the application of this
 [ISODIR2] - ISO/IEC Directives Part 2
 [ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
 
-[RFC6749] - The OAuth 2.0 Authorization Framework
-[RFC6749]: https://tools.ietf.org/html/rfc6749
-
-[RFC6750] - The OAuth 2.0 Authorization Framework: Bearer Token Usage
-[RFC6750]: https://tools.ietf.org/html/rfc6750
-
-[OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
-[OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
-
 [CIBA] - OpenID Connect Client Initiated Backchannel Authentication Core
 [CIBA]: http://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html
 
@@ -83,6 +74,9 @@ The following referenced documents are indispensable for the application of this
 
 [FAPI2] - FAPI Read Write API Security Profile
 [FAPI2]: https://openid.net/specs/openid-financial-api-part-2.html
+
+[FAPILI] - FAPI Lodging Intent
+[FAPILI]: https://bitbucket.org/openid/fapi/src/master/Financial_API_Pushed_Request_Object.md
 
 ## 3. Terms and definitions
 
@@ -119,13 +113,13 @@ The following sections specify a profile of CIBA that is suited for financial-gr
 
 #### 5.2.1 Introduction
 
-As it is anticipated the this specification will primary be used for write operations there is no separate read-only profile.
+This profile applies to both Read-Only APIs and Read-and-Write APIs.
 
 This spec should be read in conjunction with OpenID Connect Client Initiated Backchannel Authentication Core [CIBA] and with parts 1 [FAPI1] and 2 [FAPI2] of the Financial-grade API specification.
 
 #### 5.2.2 Authorization Server
 
-The Authorization Server shall support the provisions specified in clause 5.2.2 of Financial API - Part 1 and clause 5.2.2 of Financial API - Part 2.
+The Authorization Server shall support the provisions specified in clause 5.2.2 of Financial-grade API - Part 1 and clause 5.2.2 of Financial-grade API - Part 2.
 
 In addition the Authorization server, for all operations,
 
@@ -134,7 +128,14 @@ In addition the Authorization server, for all operations,
 1. shall not support CIBA push mode;
 1. shall support CIBA poll mode;
 1. may support CIBA ping mode;
-1. may require Backchannel Authentication Endpoint requests to be signed as described in [CIBA] 7.1.1.
+1. must support signed Backchannel Authentication Endpoint requests as described in [CIBA] 7.1.1.
+1. shall require user authentication to an appropriate level for the operations the client will be authorized to perform on behalf of the user;
+1. shall, if it supports the acr claim and the client has requested acr, return an 'acr' claim in the resulting ID token;
+1. shall require the Signed Authentication Request to contain `nbf` and `exp` claims that limit the lifetime of the request to no more than 60 minutes;
+1. may require clients to provide a `request_context` claim as defined in section 5.3 of this profile; and
+1. should not use the login_hint or login_hint_token to convey "intent ids" or any other authorization metadata
+
+**NOTE:** As per [CIBA], `login_hint`, `login_hint_token` and `id_token_hint` are used only to determine who the user is. In scenarios where complex authorization parameters need to be conveyed from the Client to the AS, implementers should consider the "lodging intent" pattern described in [FAPILI]. The use of parameterized scope values or the use of an additional request parameter are both supported by this specification. Examples of both patterns are shown in [FAPILI].
 
 **NOTE:** The binding message is required to protect the user by binding the session on the consumption device with the session on the authentication device. An example use case is when a user is paying at POS terminal. The user will enter their user identifier to start the [CIBA] flow, the terminal will then display a code, the user will receive a notification on their phone (the authentication device) to ask them to authenticate and authorize the transaction, as part of the authorization process the user will be shown a code and will be asked to check that it is the same as the one shown on the terminal.
 
@@ -142,32 +143,40 @@ In addition the Authorization server, for all operations,
 
 **NOTE:** Given that the CIBA flow places an added level of trust on the Client, the FAPI CIBA profile requires the use of Signed Authentication Requests. This will enable the Authorization Server to store such requests, in an easily verifiable form, for future auditing purposes.
 
+**NOTE:** While the format of the `login_hint` and `login_hint_token` parameters are not defined by [CIBA] or this profile, implementers may wish to consider https://tools.ietf.org/html/draft-ietf-secevent-subject-identifiers for a standards based method of communicating user identifiers.
+
 #### 5.2.3 Confidential Client
 
 ##### 5.2.3.1 General Provisions
 
-A Confidential Client shall support the provisions specified in clause 5.2.4 of Financial API - Part 1 [FAPI1] and clause 5.2.4 of Financial API - Part 2 [FAPI2].
+A Confidential Client shall support the provisions specified in clause 5.2.4 of Financial-grade API - Part 1 [FAPI1] and clause 5.2.4 of Financial-grade API - Part 2 [FAPI2].
 
 In addition, the Confidential Client
 
 1. shall only send Signed Authentication Requests as defined in [CIBA] 7.1.1 to the Backchannel Authentication Endpoint if required by the Authorization Server;
-1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request.
+1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request; and
+1. shall ensure the Authorization Server has authenticated the user to an appropriate level for the client's intended purpose.
 
-# 6. Accessing Protected Resources
+### 5.3 Extensions to CIBA authentication request
+
+This profile defines the following extensions to the authentication request defined in [CIBA] section 7.1.
+
+1. `request_context`: OPTIONAL. a JSON object (the contents of which are not defined by this specification) containing information to inform fraud and threat decisions. For example, an ecosystem may require relying parties to provide geolocation for the consumption device.
+
+## 6. Accessing Protected Resources
 
 ### 6.1 Introduction
 
-The provisions detailed in Parts 1 and 2 of the Financial API specification apply fully. The benefit of the CIBA specification is that once tokens are issued they can be used in the same manner as tokens issued via authorization code flows.
+The provisions detailed in Parts 1 and 2 of the Financial-grade API specification apply fully. The benefit of the CIBA specification is that once tokens are issued they can be used in the same manner as tokens issued via authorization code flows.
 
 ### 6.2 Client Provisions
 
 In situations where the client does not control the consumption device, the client
 
-1. shall not send `x-fapi-customer-ip-address` or `x-fapi-auth-date` headers;
+1. shall not send `x-fapi-customer-ip-address` or `x-fapi-auth-date` headers; and
 1. should send metadata about the consumption device, for example geolocation and device type.
 
-   
-# 7. Security Considerations
+## 7. Security Considerations
 
 ### 7.1 Introduction
 
@@ -176,7 +185,7 @@ The [CIBA] specification introduces some new attack vectors not present in OAuth
 ### 7.2 Authentication sessions started without a users knowledge or consent
 
 As this specification allows the client to initiate an authentication request it is important for the authorization server to know whether the user is aware and has consented to the authentication process. If widely known user identifiers (e.g. phone numbers) are used as the `login_hint` in the authentication request then this risk is worsened. An attacker could start unsolicited authentication sessions on large numbers of authentication devices, causing distress and potentially enabling fraud.
-For this reason this profile highly recommends `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept a `id_token_hint` as an alternative mechanism for Client Subject identification.
+For this reason this profile highly recommends `login_hint` to have the properties of a nonce with the expectation being that it will be generated from an authorization server owned client authentication device. Given the high levels of friction that this may impose it's anticipated that Authorization Servers may have to accept an `id_token_hint` as an alternative mechanism for Client Subject identification.
 
 If a client wishes to store the `id_token` returned from an authorization server for later use as an `id_token_hint`, care must be taken to ensure that the customer identification mechanism used to retrieve the `id_token` is appropriate for the channel being used.
 For illustration a QR code on a 'club card' may be an appropriate identifier when using a POS terminal under CCTV but it might not be an appropriate identifier when used in online ecommerce.
@@ -185,7 +194,9 @@ In addition, [CIBA] provides an optional `user_code` mechanism to specifically m
 
 ### 7.3 Reliance on user to confirm binding messages
 
-Depending on the hint used to identify the user and the Client's Customer authentication processes, it may be possible for a fraudster to start a [CIBA] flow at the same time as a genuine flow but using the genuine user’s identifier. If the scope of access requested and the Client are the same then the only way to ensure that a user is authorizing the correct transaction is for the user to compare the binding messages. If this risk is deemed unacceptable then implementers should consider alternative mechanisms to verify binding messages.
+Depending on the hint used to identify the user and the Client's user authentication processes, it may be possible for a fraudster to start a malicious [CIBA] flow at the same time as a genuine flow, with both flows using the genuine user’s identifier. If the scope of access requested is similar then the only way to ensure that a user is authorizing the correct transaction is for the user to compare the binding messages on the Authentication and Consumption devices.
+
+If this risk is deemed unacceptable then implementers should either consider alternative mechanisms of verifying the binding message (e.g. conveying it to the Authentication device via a QR code), or use ephemeral user identifiers generated on the Authentication device.
 
 ### 7.4 Loss of fraud markers to OpenID provider
 
@@ -205,13 +216,29 @@ https://openid.net/developers/certified/
 
 Deployments that use this specification should use a certified implementation.
 
-### 7.6 JWS algorithm considerations
+### 7.6 JWS/JWE Algorithm considerations
 
-CIBA Authorization Servers and Clients must follow the guidance around JWS Algorithms in [FAPI2] 8.6.
+CIBA Authorization Servers and Clients shall follow the guidance around JWT signing and encryption Algorithms in [FAPI2] 8.6 and 8.6.1.
+
+### 7.7 Authentication Device security
+
+This profile and the underlying specifications do not specify how the Authorization Server should initiate and perform user authentication and authorization of consent on the authentication device.
+
+Implementors must use appropriately strong methods to communicate with the authentication device and to authenticate the end user.
+
+### 7.8 CIBA token delivery modes
+
+[CIBA] defines 3 ways that tokens can be delivered to the client.
+
+The `push` mode is not permitted by this specification as it delivers tokens to the client by calling an endpoint owned by the client. This substantially differs from the established pattern of retrieving tokens by presenting client authentication to the token endpoint, and it may have security concerns that are currently unknown.
+
+The `poll` and `ping` modes both follow the established convention of retrieving tokens from the token endpoint and hence do not have this concern.
+
+The `ping` mode delivers a notification to an endpoint owned by the client. The information contained in this notification is limited to the `auth_req_id` for the request, as described in [CIBA] 10.2. The bearer token used by the authorization server to access this resource is not sender constrained. If the `backchannel_client_notification_endpoint`, the `auth_req_id` and the `client_notification_token` are known to an attacker, they may be able to force the client to call the token endpoint repeatedly or before the authentication has completed. For most deployments this is not a significant issue.
 
 ## 8. Privacy Considerations
 
-* TODO
+There are no additional privacy considerations beyond those in [CIBA] 15.
 
 ## 9. Acknowledgement
 
@@ -227,8 +254,17 @@ The following people contributed heavily towards this document:
 * Henrik Biering (Peercraft)
 * Axel Nennker (Deutsche Telekom)
 * Ralph Bragg (RAiDiAM)
-
+* Joseph Heenan (Authlete)
+* Torsten Lodderstedt (yes.com)
+* Takahiko Kawasaki (Authlete)
 
 ## 11. Bibliography
 
-TODO
+[RFC6749] - The OAuth 2.0 Authorization Framework
+[RFC6749]: https://tools.ietf.org/html/rfc6749
+
+[RFC6750] - The OAuth 2.0 Authorization Framework: Bearer Token Usage
+[RFC6750]: https://tools.ietf.org/html/rfc6750
+
+[OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
+[OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
