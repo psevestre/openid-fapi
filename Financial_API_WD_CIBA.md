@@ -128,7 +128,7 @@ In addition the Authorization server, for all operations,
 1. shall not support CIBA push mode;
 1. shall support CIBA poll mode;
 1. may support CIBA ping mode;
-1. must support signed Backchannel Authentication Endpoint requests as described in [CIBA] 7.1.1.
+1. shall support unsigned and signed Backchannel Authentication Endpoint requests as described in [CIBA] 7.1.1.
 1. shall require user authentication to an appropriate level for the operations the client will be authorized to perform on behalf of the user;
 1. shall, if it supports the acr claim and the client has requested acr, return an 'acr' claim in the resulting ID token;
 1. shall require the Signed Authentication Request to contain `nbf` and `exp` claims that limit the lifetime of the request to no more than 60 minutes;
@@ -153,7 +153,7 @@ A Confidential Client shall support the provisions specified in clause 5.2.4 of 
 
 In addition, the Confidential Client
 
-1. is recommended to only send Signed Authentication Requests as defined in [CIBA] 7.1.1 to the Backchannel Authentication Endpoint;
+1. should only send Signed Authentication Requests as defined in [CIBA] 7.1.1 to the Backchannel Authentication Endpoint;
 1. shall ensure sufficient authorization context exists in authorization request or shall include a binding_message in the authentication request; and
 1. shall ensure the Authorization Server has authenticated the user to an appropriate level for the client's intended purpose.
 
