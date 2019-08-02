@@ -236,6 +236,21 @@ The `poll` and `ping` modes both follow the established convention of retrieving
 
 The `ping` mode delivers a notification to an endpoint owned by the client. The information contained in this notification is limited to the `auth_req_id` for the request, as described in [CIBA] 10.2. The bearer token used by the authorization server to access this resource is not sender constrained. If the `backchannel_client_notification_endpoint`, the `auth_req_id` and the `client_notification_token` are known to an attacker, they may be able to force the client to call the token endpoint repeatedly or before the authentication has completed. For most deployments this is not a significant issue.
 
+### 7.9 TLS considerations
+
+As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
+
+The recommendations for Secure Use of Transport Layer Security in [BCP195] shall be followed, with the following additional requirements:
+
+1. TLS version 1.2 or later shall be used for all communications.
+1. A TLS server certificate check shall be performed, as per [RFC6125].
+1. For TLS versions below 1.3, only the following 4 cipher suites shall be permitted:
+    * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
+    * `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
+    * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
+    * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
+1. When using the `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256` or `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384` cipher suites, key lengths of at least 2048 bits are required.
+
 ## 8. Privacy Considerations
 
 There are no additional privacy considerations beyond those in [CIBA] 15.
