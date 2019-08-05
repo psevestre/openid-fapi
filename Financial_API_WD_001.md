@@ -141,7 +141,7 @@ The authorization server
 1. shall support confidential clients;
 1. should support public clients; 
 1. shall provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used;
-1. shall authenticate the confidential client at the token endpoint using one of the following methods:
+1. shall authenticate the confidential client using one of the following methods:
     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
     2. `client_secret_jwt` or `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require and use a key of size 2048 bits or larger for RSA algorithms;
