@@ -251,6 +251,20 @@ The recommendations for Secure Use of Transport Layer Security in [BCP195] shall
     * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
 1. When using the `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256` or `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384` cipher suites, key lengths of at least 2048 bits are required.
 
+### 7.10 Algorithm considerations
+
+For JWS, both clients and authorization servers:
+
+1. shall use `PS256` or `ES256` algorithms;
+1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
+1. shall not use `none`;
+
+### 7.10.1 Encryption algorithm considerations
+
+For JWE, both clients and authorization servers
+
+1. shall not use the `RSA1_5` algorithm.
+
 ## 8. Privacy Considerations
 
 There are no additional privacy considerations beyond those in [CIBA] 15.
