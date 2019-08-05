@@ -329,7 +329,7 @@ As confidential information is being exchanged, all interactions shall be encryp
 
 Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shall apply, with the following additional requirements:
 
-1. Only the following 4 cipher suites shall be permitted:
+1. For TLS versions below 1.3, only the following 4 cipher suites shall be permitted:
     * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
     * `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
     * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
