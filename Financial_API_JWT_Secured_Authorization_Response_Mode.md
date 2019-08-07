@@ -238,12 +238,11 @@ This is an example response (line breaks for display purposes only):
 ```
 HTTP/1.1 302 Found
 Location: https://client.example.com/cb?
-response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnRzLm
-V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwiY29kZSI6IlB5eU
-ZhdXgybzdRMFlmWEJVMzJqaHcuNUZYU1FwdnI4YWt2OUNlUkRTZDBRQSIsInN0YXRlIjoiUzhOSjd1cW
-s1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkTUFKdyJ9.HkdJ_TYgwBBj10C-aWuNUiA062Amq
-2b0_oyuc5P0aMTQphAqC2o9WbGSkpfuHVBowlb-zJ15tBvXDIABL_t83q6ajvjtq_pqsByiRK2dLVdUw
-KhW3P_9wjvI0K20gdoTNbNlP9Z41mhart4BqraIoI8e-L_EfAHfhCG_DDDv7Yg
+response=eyJraWQiOiJsYWViIiwiYWxnIjoiRVMyNTYifQ.eyAgImlzcyI6ICJodHRwczovL2FjY291
+bnRzLmV4YW1wbGUuY29tIiwgICJhdWQiOiAiczZCaGRSa3F0MyIsICAiZXhwIjogMTMxMTI4MTk3MCwg
+ICJjb2RlIjogIlB5eUZhdXgybzdRMFlmWEJVMzJqaHcuNUZYU1FwdnI4YWt2OUNlUkRTZDBRQSIsICAi
+c3RhdGUiOiAiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkTUFKdyJ9.4VdtknV
+Z9zFYDVLagJpVBD436bjPMcSgOaPDPFgTEkNyCs2uIHYJ2XML6d2w1AUsm5GBG77DBisZNhLWfug6dA
 ```
 
 Note: "query.jwt" MUST NOT be used in conjunction with response types that contain "token" or "id_token" unless the response JWT is encrypted to prevent token leakage in the URL. 
@@ -257,13 +256,12 @@ This is an example response (line breaks for display purposes only):
 ```
 HTTP/1.1 302 Found
 Location: https://client.example.com/cb#
-response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnRzLm
-V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwiYWNjZXNzX3Rva2
-VuIjoiMllvdG5GWkZFanIxekNzaWNNV3BBQSIsInN0YXRlIjoiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdH
-lKdTZwVXN2SDlqc1luaTlkTUFKdyIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMz
-YwMCIsInNjb3BlIjoiZXhhbXBsZSJ9.bgHLOu2dlDjtCnvTLK7hTN_JNwoZXEBnbXQx5vd9z17v1Hyzf
-Mqz00Vi002T-SWf2JEs3IVSvAe1xWLIY0TeuaiegklJx_gvB59SQIhXX2ifzRmqPoDdmJGaWZ3tnRyFW
-NnEogJDqGFCo2RHtk8fXkE5IEiBD0g-tN0GS_XnxlE
+response=eyJraWQiOiJsYWViIiwiYWxnIjoiRVMyNTYifQ.eyAgImlzcyI6ICJodHRwczovL2FjY291
+bnRzLmV4YW1wbGUuY29tIiwgICJhdWQiOiAiczZCaGRSa3F0MyIsICAiZXhwIjogMTMxMTI4MTk3MCwg
+ICJhY2Nlc3NfdG9rZW4iOiAiMllvdG5GWkZFanIxekNzaWNNV3BBQSIsICAic3RhdGUiOiAiUzhOSjd1
+cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkTUFKdyIsICAidG9rZW5fdHlwZSI6ICJiZWFy
+ZXIiLCAgImV4cGlyZXNfaW4iOiAzNjAwLCAgInNjb3BlIjogImV4YW1wbGUifQ.g_96IM2t_6Dazm1Jp
+b2gbO2EXe5IKTw2bYS7l9Y1RI8HbNPYN5EdNjxcWeL5LTQaUAZ2PtJoHbTdjMvNa3xbVg
 ```
 
 #### 4.3.3. Response Mode "form_post.jwt"
@@ -283,14 +281,14 @@ Pragma: no-cache
  <body onload="javascript:document.forms[0].submit()">
   <form method="post" action="https://client.example.com/cb">
     <input type="hidden" name="response"
-     value="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2
-      FjY291bnRzLmV4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTM
-      xMTI4MTk3MCwiYWNjZXNzX3Rva2VuIjoiMllvdG5GWkZFanIxekNzaWNNV3BBQSIs
-      InN0YXRlIjoiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkT
-      UFKdyIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMzYwMCIsIn
-      Njb3BlIjoiZXhhbXBsZSJ9.bgHLOu2dlDjtCnvTLK7hTN_JNwoZXEBnbXQx5vd9z1
-      7v1HyzfMqz00Vi002T-SWf2JEs3IVSvAe1xWLIY0TeuaiegklJx_gvB59SQIhXX2i
-      fzRmqPoDdmJGaWZ3tnRyFWNnEogJDqGFCo2RHtk8fXkE5IEiBD0g-tN0GS_XnxlE"/>
+     value="eyJraWQiOiJsYWViIiwiYWxnIjoiRVMyNTYifQ.eyAgImlzcyI6ICJodHRw
+     czovL2FjY291bnRzLmV4YW1wbGUuY29tIiwgICJhdWQiOiAiczZCaGRSa3F0MyIsIC
+     AiZXhwIjogMTMxMTI4MTk3MCwgICJhY2Nlc3NfdG9rZW4iOiAiMllvdG5GWkZFanIx
+     ekNzaWNNV3BBQSIsICAic3RhdGUiOiAiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdT
+     ZwVXN2SDlqc1luaTlkTUFKdyIsICAidG9rZW5fdHlwZSI6ICJiZWFyZXIiLCAgImV4
+     cGlyZXNfaW4iOiAzNjAwLCAgInNjb3BlIjogImV4YW1wbGUifQ.g_96IM2t_6Dazm1
+     Jpb2gbO2EXe5IKTw2bYS7l9Y1RI8HbNPYN5EdNjxcWeL5LTQaUAZ2PtJoHbTdjMvNa
+     3xbVg"/>
     </form>
    </body>
   </html>  
@@ -302,14 +300,13 @@ which results in the following POST request to the client's redirect URI.
   Host: client.example.org
   Content-Type: application/x-www-form-urlencoded
 
-  response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2
-      FjY291bnRzLmV4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTM
-      xMTI4MTk3MCwiYWNjZXNzX3Rva2VuIjoiMllvdG5GWkZFanIxekNzaWNNV3BBQSIs
-      InN0YXRlIjoiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkT
-      UFKdyIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMzYwMCIsIn
-      Njb3BlIjoiZXhhbXBsZSJ9.bgHLOu2dlDjtCnvTLK7hTN_JNwoZXEBnbXQx5vd9z1
-      7v1HyzfMqz00Vi002T-SWf2JEs3IVSvAe1xWLIY0TeuaiegklJx_gvB59SQIhXX2i
-      fzRmqPoDdmJGaWZ3tnRyFWNnEogJDqGFCo2RHtk8fXkE5IEiBD0g-tN0GS_XnxlE
+   response=eyJraWQiOiJsYWViIiwiYWxnIjoiRVMyNTYifQ.eyAgImlzcyI6ICJodHRw
+   czovL2FjY291bnRzLmV4YW1wbGUuY29tIiwgICJhdWQiOiAiczZCaGRSa3F0MyIsICAi
+   ZXhwIjogMTMxMTI4MTk3MCwgICJhY2Nlc3NfdG9rZW4iOiAiMllvdG5GWkZFanIxekNz
+   aWNNV3BBQSIsICAic3RhdGUiOiAiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2
+   SDlqc1luaTlkTUFKdyIsICAidG9rZW5fdHlwZSI6ICJiZWFyZXIiLCAgImV4cGlyZXNf
+   aW4iOiAzNjAwLCAgInNjb3BlIjogImV4YW1wbGUifQ.g_96IM2t_6Dazm1Jpb2gbO2EX
+   e5IKTw2bYS7l9Y1RI8HbNPYN5EdNjxcWeL5LTQaUAZ2PtJoHbTdjMvNa3xbVg
 ```  
     
 #### 4.3.4 Response Mode "jwt"

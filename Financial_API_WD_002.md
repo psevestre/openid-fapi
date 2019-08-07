@@ -109,7 +109,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **CSRF** - Cross Site Request Forgery
 
-**FAPI** - Financial API
+**FAPI** - Financial-grade API
 
 **HTTP** – Hyper Text Transfer Protocol
 
@@ -163,7 +163,7 @@ An authorization server may protect authorization responses to clients using the
 
 The [JARM] allows a client to request that an authorization server encode the authorization response (of any response type) in a JWT. It is an alternative to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses and can be used with plain OAuth.
 
-For example, clients may use [JARM] in conjunction with the response type `code`.
+This specification facilitates use of [JARM] in conjunction with the response type `code`.
 
 ### 5.2 Read and write API security provisions
 
@@ -186,16 +186,21 @@ In addition, the authorization server, for the write operation,
 1. (withdrawn)
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
 1. shall support [MTLS] as a holder of key mechanism;
-1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
+1. (withdrawn);
+1. (moved to 5.2.2.1);
+1. (moved to 5.2.2.1);
 1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
 1. may support the request object endpoint as described in [PRO];
 1. (withdrawn);
-1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes; and
+1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; and
 1. shall authenticate the confidential client at the token endpoint using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
-1. shall not support public clients.
+1. shall not support public clients; and
+1. shall require the request object to contain an `nbf` claim that is no longer than 60 minutes in the past.
+
+**NOTE:** MTLS is currently the only holder of key mechanism that has been widely deployed. Future versions of this specification are likely to allow other holder of key mechanisms.
 
 #### 5.2.2.1 ID Token as detached signature
 
@@ -214,8 +219,6 @@ In addition, if the `response_type` value `code` is used in conjunction with the
 1. shall create JWT-secured authorization responses as specified in [JARM], section 4.3;
 1. shall advertise support for the [JARM] response modes using the `response_modes_supported` metadata parameter.
 
-**NOTE:** MTLS is currently the only holder of key mechanism that has been widely deployed. Future versions of this specification are likely to allow other holder of key mechanisms.
-
 #### 5.2.3 Confidential client
 
 A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of Financial-grade API - Part 1: Read-Only API Security Profile, except for [RFC7636] support.
@@ -224,11 +227,18 @@ In addition, the confidential client for write operations
 
 1. shall support [MTLS] as a holder of key mechanism;
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
-1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC];
+1. shall ensure the Authorization Server has authenticated the user to an appropriate Level of Assurance for the client's intended purpose;
+1. (moved to 5.2.3.1);
+1. (withdrawn);
+1. (withdrawn);
+1. (5.2.3.1)
 1. shall send all parameters inside the authorization request's signed request object
 1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications
 1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes
+1. (moved to 5.2.3.1)
+1. (moved to 5.2.3.1).
+1. shall send a `nbf' claim in the request object
 
 #### 5.2.3.1 ID Token as detached signature
 
