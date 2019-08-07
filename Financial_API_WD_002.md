@@ -176,7 +176,7 @@ In addition, the authorization server, for the write operation,
 1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
 1. shall support [MTLS] as a holder of key mechanism;
-1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
+1. (withdrawn);
 1. shall support signed ID Tokens;
 1. should support signed and encrypted ID Token;
 1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
@@ -200,10 +200,10 @@ In addition, the confidential client for write operations
 
 1. shall support [MTLS] as a holder of key mechanism;
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
-1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC];
+1. shall ensure the Authorization Server has authenticated the user to an appropriate Level of Assurance for the client's intended purpose;
 1. shall require JWS signed ID Token be returned from endpoints;
-1. shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
-1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
+1. (withdrawn);
+1. (withdrawn);
 1. shall verify that the authorization response was not tampered using ID Token as the detached signature
 1. shall send all parameters inside the authorization request's signed request object
 1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications
