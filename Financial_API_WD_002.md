@@ -182,7 +182,7 @@ In addition, the authorization server, for the write operation,
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
 1. shall require 
 	1. the `response_type` value `code id_token` or 
-	2. the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt`;
+	2. the `response_type` value `code` in conjunction with the `response_mode` value `jwt`;
 1. (withdrawn)
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
 1. shall support [MTLS] as a holder of key mechanism;
@@ -203,13 +203,13 @@ In addition, if the `response_type` value `code id_token` is used, the authoriza
 
 1. shall support [OIDC]
 1. shall support signed ID Tokens;
-1. should support signed and encrypted ID Token;
+1. should support signed and encrypted ID Tokens;
 1. shall return ID Token as a detached signature to the authorization response;
 1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
 
 #### 5.2.2.2 JARM
 
-In addition, if the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt` is used, the authorization server
+In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the authorization server
 
 1. shall create JWT-secured authorization responses as specified in [JARM], section 4.3;
 1. shall advertise support for the [JARM] response modes using the `response_modes_supported` metadata parameter.
@@ -244,7 +244,7 @@ In addition, if the `response_type` value `code id_token` is used, the client
 
 #### 5.2.3.1 JARM
 
-In addition, if the `response_type` value `code` in conjunction with any of the following `response_mode` values: `query.jwt`, `fragment.jwt`, `form_post.jwt`, or `jwt` is used, the client
+In addition, if the `response_type` value `code` in conjunction with any of the `response_mode` value `jwt` is used, the client
 
 1. shall verify the authorization responses as specified in [JARM], section 4.4;
 
