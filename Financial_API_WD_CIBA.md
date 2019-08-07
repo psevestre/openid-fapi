@@ -236,6 +236,35 @@ The `poll` and `ping` modes both follow the established convention of retrieving
 
 The `ping` mode delivers a notification to an endpoint owned by the client. The information contained in this notification is limited to the `auth_req_id` for the request, as described in [CIBA] 10.2. The bearer token used by the authorization server to access this resource is not sender constrained. If the `backchannel_client_notification_endpoint`, the `auth_req_id` and the `client_notification_token` are known to an attacker, they may be able to force the client to call the token endpoint repeatedly or before the authentication has completed. For most deployments this is not a significant issue.
 
+### 7.9 TLS considerations
+
+As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
+
+The recommendations for Secure Use of Transport Layer Security in [BCP195] shall be followed, with the following additional requirements:
+
+1. TLS version 1.2 or later shall be used for all communications.
+1. A TLS server certificate check shall be performed, as per [RFC6125].
+1. For TLS versions below 1.3, only the following 4 cipher suites shall be permitted:
+    * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
+    * `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
+    * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
+    * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
+1. When using the `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256` or `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384` cipher suites, key lengths of at least 2048 bits are required.
+
+### 7.10 Algorithm considerations
+
+For JWS, both clients and authorization servers:
+
+1. shall use `PS256` or `ES256` algorithms;
+1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
+1. shall not use `none`;
+
+### 7.10.1 Encryption algorithm considerations
+
+For JWE, both clients and authorization servers
+
+1. shall not use the `RSA1_5` algorithm.
+
 ## 8. Privacy Considerations
 
 There are no additional privacy considerations beyond those in [CIBA] 15.
@@ -268,3 +297,94 @@ The following people contributed heavily towards this document:
 
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
+
+## Appendix A - Examples
+
+The following are non-normative examples of the FAPI-CIBA requests and responses.
+
+All examples use private_key_jwt client authentication with the following key:
+
+```
+{
+  "kty": "EC",
+  "d": "gM__X2faDsb4s6QLer9h-y4KzLIgwt5Jz2dJi5r64Pc",
+  "use": "sig",
+  "kid": "thrwqnuer",
+  "crv": "P-256",
+  "x": "YPczq3aBrd8PjtFsXX_HPZNwnzp89vAGjgQXm4cOgdQ",
+  "y": "eqE4OZu0V07qXi9ojhQAeqKndWp0QwUfB3aNp4dYYPQ",
+  "alg": "ES256"
+}
+```
+
+### A.1 Signed Authentication Request
+
+This example includes various optional fields, some of which may not be applicable to some deployments. Line wraps within values are for display purposes only.
+
+```
+POST /backchannel-authorization-endpoint HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+request=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InRocndxbnVl
+ciJ9.eyJpc3MiOiIzMDExODMzNzM4MTQ5NzkiLCJhdWQiOiJodHRwczovL3NlcnZ
+lci5leGFtcGxlLmNvbS8iLCJpYXQiOjE1NjQ5MDI3MzgsIm5iZiI6MTU2NDkwMjc
+zOCwiZXhwIjoxNTY0OTAzMDM4LCJqdGkiOiJBSnhaUnBOcWxnNjJVVGR5MzdndSI
+sInNjb3BlIjoib3BlbmlkIHBheW1lbnRzIiwiYWNyX3ZhbHVlcyI6InVybjptYWN
+lOmluY29tbW9uOmlhcDpzaWx2ZXIgdXJuOm1hY2U6aW5jb21tb246aWFwOmJyb25
+6ZSIsImNsaWVudF9ub3RpZmljYXRpb25fdG9rZW4iOiJfTWlVT1kwN0VPQ3ZXUjV
+CVnVPTD0iLCJsb2dpbl9oaW50Ijoiam9obkBleGFtcGxlLmNvbSIsImJpbmRpbmd
+fbWVzc2FnZSI6IlMyNFIiLCJ1c2VyX2NvZGUiOiI2MzY1IiwicmVxdWVzdGVkX2V
+4cGlyeSI6IjEyMCIsInJlcXVlc3RfY29udGV4dCI6eyJsb2NhdGlvbiI6eyJsYXQ
+iOjUxLjE3Mzk3LCJsbmciOi0xLjgyMjM4fX0sInBheW1lbnRfaW50ZW50Ijp7ImF
+tb3VudCI6IjE2NS44OCIsImN1cnJlbmN5IjoiR0JQIiwiY3JlZGl0b3JfYWNjb3V
+udCI6eyJzY2hlbWVfbmFtZSI6IlVLLk9CSUUuU29ydENvZGVBY2NvdW50TnVtYmV
+yIiwiaWRlbnRpZmljYXRpb24iOiIwODA4MDAyMTMyNTY5OCIsIm5hbWUiOiJBQ01
+FIEluYyJ9fX0.6YQ2j27lXlsfw5QFUoDDbkXJnu8ldi6Tw8LwUEg_C1w2ru_tksY
+yIN81jv4Q0NXwRBtWsojahPFynZJa39Q3Yg&
+client_assertion=eyJraWQiOiJ0aHJ3cW51ZXIiLCJhbGciOiJFUzI1NiJ9.ey
+JzdWIiOiIzMDExODMzNzM4MTQ5NzkiLCJhdWQiOiJodHRwczovL3NlcnZlci5leG
+FtcGxlLmNvbS9iYWNrY2hhbm5lbC1hdXRob3JpemF0aW9uLWVuZHBvaW50IiwiaX
+NzIjoiMzAxMTgzMzczODE0OTc5IiwiZXhwIjoxNTY0OTAyNzk4LCJpYXQiOjE1Nj
+Q5MDI3MzgsImp0aSI6IjZzUlZ3VnVabHgxREVCY0hFSGh4In0.L6RuPl-rCPSpqG
+wC2Uzesc2Nq_6s8dpaQH6X5o0y3dRdPjrRjZOycLGIFZGWhxfXLAzoO_3enB-RwA
+NVG7nH3A&
+client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-asser
+tion-type%3Ajwt-bearer
+```
+
+which contains the JWT payload:
+
+```
+{
+  "iss": "301183373814979",
+  "aud": "https://server.example.com/",
+  "iat": 1564902738,
+  "nbf": 1564902738,
+  "exp": 1564903038,
+  "jti": "AJxZRpNqlg62UTdy37gu",
+  "scope": "openid payments",
+  "acr_values": "urn:mace:incommon:iap:silver urn:mace:incommon:iap:bronze",
+  "client_notification_token": "_MiUOY07EOCvWR5BVuOL=",
+  "login_hint": "john@example.com",
+  "binding_message": "S24R",
+  "user_code": "6365",
+  "requested_expiry": "120",
+  "request_context": {
+    "location": {
+      "lat": 51.17397,
+      "lng": -1.82238
+    }
+  },
+  "payment_intent": {
+    "amount": "165.88",
+    "currency": "GBP",
+    "creditor_account": {
+      "scheme_name": "UK.OBIE.SortCodeAccountNumber",
+      "identification": "08080021325698",
+      "name": "ACME Inc"
+    }
+  }
+}
+```
+
