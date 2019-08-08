@@ -5,7 +5,10 @@ The following provides a clause by clause breakdown comparing [Financial-grade A
 
 |  **[https://openid.net/specs/openid-financial-api-part-2.html](https://openid.net/specs/openid-financial-api-part-2.html)** | **CDS Guidance** | **Modifies Upstream Standard** | **Summary** |
 | --- | --- | --- | --- |
-|  [1. Scope](https://openid.net/specs/openid-financial-api-part-2.html#scope) | No | N/A | The CDS security profile [introduction](https://consumerdatastandardsaustralia.github.io/standards/#security-profile) states that *"this information security profile builds upon the foundations of the Financial-grade API Read Write Profile [FAPI-RW] and other standards relating to Open ID Connect 1.0 [OIDC]"*.<br/><br/>It is assumed that without explicit guidance there is adoption of the upstream profile. <br /><br />**NOTE:** For the sake of completeness the FAPI-RW profile is compared independently of [FAPI-R](fap-part1.md). |
+|  [1. Scope](https://openid.net/specs/openid-financial-api-part-2.html#scope) | No | N/A | The CDS security profile [introduction](https://consumerdatastandardsaustralia.github.io/standards/#security-profile) states that *"this information security profile builds upon the foundations of the Financial-grade API Read Write Profile [FAPI-RW] and other standards relating to Open ID Connect 1.0 [OIDC]"*.<br/><br/>It is assumed that without explicit guidance there is adoption of the upstream profile. 
+  
+  
+**NOTE:** For the sake of completeness the FAPI-RW profile is compared independently of [FAPI-R](fap-part1.md). |
 |  [2. Normative references](https://openid.net/specs/openid-financial-api-part-2.html#normative-references) | No | N/A |  |
 |  [3. Terms and definitions](https://openid.net/specs/openid-financial-api-part-2.html#terms-and-definitions) | No | N/A |  |
 |  [4. Symbols and Abbreviated terms](https://openid.net/specs/openid-financial-api-part-2.html#symbols-and-abbreviated-terms) | No | N/A |  |
