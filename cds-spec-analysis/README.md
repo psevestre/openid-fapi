@@ -30,6 +30,7 @@ The following are the list of modifications made which have known breaking impac
     * This is a *Mandatory to Implement* for [Dynamic OP within OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html#DynamicMTI)
     * This changes the default value at `/.well-known/openid-configuration`
     * [6.2. Passing a Request Object by Reference](https://openid.net/specs/openid-connect-core-1_0.html#RequestUriParameter) is not possible
+    * *Possible? request_uri disabling could impede maximum size of mandated sign & encrypt of certain tokens within the CDS (ie. POST or query string length limitations?)*
 
 * `client_id` is missing in example token responses (and not mentioned as required):
     * [OAuth2 Framework 3.2.1 Client Authentication](oauth2-framework-rfc6749.md#3.2.1): This disables substitution attack protections
