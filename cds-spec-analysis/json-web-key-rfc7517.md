@@ -25,7 +25,8 @@ The following provides a clause by clause breakdown comparing [JSON Web Key (JWK
 |  [7. Encrypted JWK and Encrypted JWK Set Formats](https://tools.ietf.org/html/rfc7517#section-7) | No | N/A | Non Public Key Material is never intended to be disclosed by OPs to the Register |
 |  [8. IANA Considerations](https://tools.ietf.org/html/rfc7517#section-8) | No | N/A |  |
 |  [9. Security Considerations](https://tools.ietf.org/html/rfc7517#section-9) | No | N/A |  |
-|  [9.1. Key Provenance and Trust](https://tools.ietf.org/html/rfc7517#section-9.1) | Yes | Yes :octagonal_sign: | *"One should place no more trust in the data cryptographically secured by a key than in the method by which it was obtained and in the trustworthiness of the entity asserting an association with the key."*<br/><br/>ACCC Register design expects that JWK sets will be accepted, without tamper/signing/encryption verbatim for all participants directly from the register |
+|  [9.1. Key Provenance and Trust](https://tools.ietf.org/html/rfc7517#section-9.1) | Yes | Yes :octagonal_sign: | *"One should place no more trust in the data cryptographically secured by a key than in the method by which it was obtained and in the trustworthiness of the entity asserting an association with the key."* |
+| | | |  ACCC Register design expects that JWK sets will be accepted, without tamper/signing/encryption verbatim for all participants directly from the register |
 |  [9.2. Preventing Disclosure of Non-public Key Information](https://tools.ietf.org/html/rfc7517#section-9.2) | No | N/A |  |
 |  [9.3. RSA Private Key Representations and Blinding](https://tools.ietf.org/html/rfc7517#section-9.3) | No | N/A |  |
 |  [9.4. Key Entropy and Random Values](https://tools.ietf.org/html/rfc7517#section-9.4) | No | N/A |  |

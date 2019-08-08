@@ -54,6 +54,7 @@ The following provides a clause by clause breakdown comparing [JSON Web Token (J
 |  [10.4. Header Parameter Names Registration](https://tools.ietf.org/html/rfc7519#section-10.4) | Implicit | No | FAPI-RW and OpenID Core Connect specifications register header parameters |
 |  [10.4.1. Registry Contents](https://tools.ietf.org/html/rfc7519#section-10.4.1) | No | N/A |  |
 |  [11. Security Considerations](https://tools.ietf.org/html/rfc7519#section-11) | No | N/A |  |
-|  [11.1. Trust Decisions](https://tools.ietf.org/html/rfc7519#section-11.1) | Yes | Yes :octagonal_sign: | *"In particular, the key(s) used to sign and/or encrypt the JWT will typically need to verifiably be under the control of the party identified as the issuer of the JWT."*<br/><br/>ACCC Register design expects that JWK sets will be accepted, without tamper/signing/encryption verbatim for all participants directly from the register |
+|  [11.1. Trust Decisions](https://tools.ietf.org/html/rfc7519#section-11.1) | Yes | Yes :octagonal_sign: | *"In particular, the key(s) used to sign and/or encrypt the JWT will typically need to verifiably be under the control of the party identified as the issuer of the JWT."* |
+| | | |  ACCC Register design expects that JWK sets will be accepted, without tamper/signing/encryption verbatim for all participants directly from the register |
 |  [11.2. Signing and Encryption Order](https://tools.ietf.org/html/rfc7519#section-11.2) | No | N/A |  |
 |  [12. Privacy Considerations](https://tools.ietf.org/html/rfc7519#section-12) | No | N/A |  |

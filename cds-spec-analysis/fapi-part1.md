@@ -32,9 +32,9 @@ The following provides a clause by clause breakdown comparing [Financial-grade A
 | | | | - *Item 10*: Standards **DO NOT** require the HTTP Date header |
 | | | | - *Item 13*: CORS headers **ARE NOT** specified |
 |  [6.2.2. Client provisions](https://openid.net/specs/openid-financial-api-part-1.html#client-provisions) | Yes | Yes | The following alterations to this clause are made within the [CDS Headers](https://consumerdatastandardsaustralia.github.io/standards/#http-headers) specification: |
-| | | | - 3. `x-fapi-auth-date` is **MANDATORY** for all authenticated calls |
-| | | | - 4. `x-fapi-customer-ip-address` is **MANDATORY** for attended callsand is tied to [CDS Performance Requirements](https://consumerdatastandardsaustralia.github.io/standards/#performance-requirements) |
-| | | | - 5. `x-fapi-interaction-id` is **MANDATORY** |
+| | | | - *Item 3*: `x-fapi-auth-date` is **MANDATORY** for all authenticated calls |
+| | | | - *Item 4*: `x-fapi-customer-ip-address` is **MANDATORY** for attended callsand is tied to [CDS Performance Requirements](https://consumerdatastandardsaustralia.github.io/standards/#performance-requirements) |
+| | | | - *Item 5*: `x-fapi-interaction-id` is **MANDATORY** |
 |  [7. Security considerations](https://openid.net/specs/openid-financial-api-part-1.html#security-considerations) | No | N/A |  |
 |  [7.1. TLS considerations](https://openid.net/specs/openid-financial-api-part-1.html#tls-considerations) | Yes | No | CDS [guidance on TLS](https://consumerdatastandardsaustralia.github.io/standards/#transaction-security) requirements is aligned with this clause |
 |  [7.2. Message source authentication failure](https://openid.net/specs/openid-financial-api-part-1.html#message-source-authentication-failure) | Yes | No | CDS [guidance on Request Object](https://consumerdatastandardsaustralia.github.io/standards/#request-object) appears to be aligned with this clause |
