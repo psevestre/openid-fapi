@@ -4,7 +4,9 @@ The following provides a clause by clause breakdown comparing [Vectors of Trust 
 
 |  **[https://tools.ietf.org/html/rfc8485](https://tools.ietf.org/html/rfc8485)** | **CDS Guidance** | **Modifies Upstream Standard** | **Summary** |
 | --- | :---: | :---: | --- |
-| [1. Introduction](https://tools.ietf.org/html/rfc8485#section-1) | Yes | No | The CDS Standards declare that a single VoT claim within the acr attribute MAY be provided for non VoT responses. <br /><br />Formalised VoT responses are **OPTIONALLY** supported and are populated within the [FAPI-R](fapi-part1.md) claims of `vot` and `vtm`<br /><br />The purposes of this review relates to whether the optional support in CDS alters this RFC. |
+| [1. Introduction](https://tools.ietf.org/html/rfc8485#section-1) | Yes | No | The CDS Standards declare that a single VoT claim within the acr attribute MAY be provided for non VoT responses.  |
+| | | | Formalised VoT responses are **OPTIONALLY** supported and are populated within the [FAPI-R](fapi-part1.md) claims of `vot` and `vtm` |
+| | | | The purposes of this review relates to whether the optional support in CDS alters this RFC. |
 | [1.1 Notational Conventions](https://tools.ietf.org/html/rfc8485#section-1.1)  | Implicit | N/A | [Aligned to Standards](https://consumerdatastandardsaustralia.github.io/standards/#introduction "Aligned to Standards") |
 | [1.2. Terminology](https://tools.ietf.org/html/rfc8485#section-1.2)  | No | N/A |  |
 | [1.3 Identity Model](https://tools.ietf.org/html/rfc8485#section-1.3)  | No | N/A | In the context of the CDS the *identity subject* is assumed to be the *CDR Consumer* and the *identity provider* is assumed to be the *CDR Data Holder* |
@@ -18,7 +20,7 @@ The following provides a clause by clause breakdown comparing [Vectors of Trust 
 | [3.1. On-the-Wire Representation](https://tools.ietf.org/html/rfc8485#section-3.1) | Implicit | Yes |  |
 | [3.2. In OpenID Connect](https://tools.ietf.org/html/rfc8485#section-3.2) | Implicit | No | ***NOTE:*** `vot` and `vtm` is only required for optional LoA support, otherwise the `acr` claim is used using the format `urn:cds.au:cdr:#` |
 | [4. Requesting Vector Values](https://tools.ietf.org/html/rfc8485#section-4) | Implicit | Yes | No request values specified but format is non compliant |
-| [4.1. In OpenID Connect](https://tools.ietf.org/html/rfc8485#section-4.1) | Implicit | Yes :o2: | The CDS specifies that the `vot` value is a single **string** not an **array of strings**. |
+| [4.1. In OpenID Connect](https://tools.ietf.org/html/rfc8485#section-4.1) | Implicit | Yes :octagonal_sign: | The CDS specifies that the `vot` value is a single **string** not an **array of strings**. |
 | [5. Trustmarks](https://tools.ietf.org/html/rfc8485#section-5) | Implicit | No | Trust Marks are supported in `vtm` response |
 | [6. Defining New Vector Values](https://tools.ietf.org/html/rfc8485#section-6) | No | N/A | |
 | [7.  IANA Considerations](https://tools.ietf.org/html/rfc8485#section-7) | No | N/A | |

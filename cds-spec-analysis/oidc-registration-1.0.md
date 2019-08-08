@@ -4,12 +4,14 @@ The following provides a clause by clause breakdown comparing [OpenID Connect Dy
 
 | **[https://openid.net/specs/openid-connect-registration-1_0.html](https://openid.net/specs/openid-connect-registration-1_0.html)** | **CDS Guidance** | **Modifies Upstream Standard** | **Summary** |
 | --- | --- | --- | --- |
-| [1. Introduction](https://openid.net/specs/openid-connect-registration-1_0.html#Introduction) | Yes | N/A | While the CDS references the OpenID Connect Dynamic Registration specification, Dynamic Client Registration is **NOT SUPPORTED**. <br /><br />Guidance from the DSB has indicated that Dynamic Client Registration can be **optionally** supported by Data Holders (ie. OPs). <br /><br />This comparison assesses whether this is possible while still being compliant to the CDS and associated ACCC Register |
+| [1. Introduction](https://openid.net/specs/openid-connect-registration-1_0.html#Introduction) | Yes | N/A | While the CDS references the OpenID Connect Dynamic Registration specification, Dynamic Client Registration is **NOT SUPPORTED**. |
+| | | | Guidance from the DSB has indicated that Dynamic Client Registration can be **optionally** supported by Data Holders (ie. OPs). |
+| | | |  This comparison assesses whether this is possible while still being compliant to the CDS and associated ACCC Register |
 | [1.1. Requirements Notation and Conventions](https://openid.net/specs/openid-connect-registration-1_0.html#rnc) | Implicit         | N/A                            | [Aligned to Standards](https://consumerdatastandardsaustralia.github.io/standards/#introduction "Aligned to Standards") |
 | [1.2. Terminology](https://openid.net/specs/openid-connect-registration-1_0.html#Terminology) | No | N/A |  |
-| [2. Client Metadata](https://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata) | Implicit | No :interrobang: | The CDR Register API currently [only supports](https://cdr-register.github.io/register/#get-accredited-data-recipients-with-metadata) a single `redirect_uri` per client. |
+| [2. Client Metadata](https://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata) | Implicit | No :warning: | The CDR Register API currently [only supports](https://cdr-register.github.io/register/#get-accredited-data-recipients-with-metadata) a single `redirect_uri` per client. |
 | [2.1. Metadata Languages and Scripts](https://openid.net/specs/openid-connect-registration-1_0.html#LanguagesAndScripts) | No | No | The CDS only supports `en-GB` at this time |
-| [3. Client Registration Endpoint](https://openid.net/specs/openid-connect-registration-1_0.html#ClientRegistration) | No | No :interrobang: | The CDS and Register information do not provide metadata to disclose the Client Registration Endpoint |
+| [3. Client Registration Endpoint](https://openid.net/specs/openid-connect-registration-1_0.html#ClientRegistration) | No | No :warning: | The CDS and Register information do not provide metadata to disclose the Client Registration Endpoint |
 | [3.1. Client Registration Request](https://openid.net/specs/openid-connect-registration-1_0.html#RegistrationRequest) | No | N/A |  |
 | [3.2. Client Registration Response](https://openid.net/specs/openid-connect-registration-1_0.html#RegistrationResponse) | No | No | The CDS uses `private_key_jwt` auth method exclusively and therefore `client_secret` is **NOT SUPPORTED**. |
 | [3.3. Client Registration Error Response](https://openid.net/specs/openid-connect-registration-1_0.html#RegistrationError) | No | N/A |  |
@@ -18,7 +20,7 @@ The following provides a clause by clause breakdown comparing [OpenID Connect Dy
 | [4.2. Client Read Request](https://openid.net/specs/openid-connect-registration-1_0.html#ReadRequest) | No | N/A |  |
 | [4.3. Client Read Response](https://openid.net/specs/openid-connect-registration-1_0.html#ReadResponse) | No | N/A |  |
 | [4.4. Client Read Error Response](https://openid.net/specs/openid-connect-registration-1_0.html#ReadError) | No | N/A |  |
-| [5. "sector\_identifier\_uri" Validation](https://openid.net/specs/openid-connect-registration-1_0.html#SectorIdentifierValidation) | No | No | `sector_identifier_uri` is not currently used anywhere within the CDS but may be useful to allow for `redirect_uri` modifications without rquiring reregistration of CDR Consumers |
+| [5. "sector\_identifier\_uri" Validation](https://openid.net/specs/openid-connect-registration-1_0.html#SectorIdentifierValidation) | No | No | `sector_identifier_uri` is not currently used anywhere within the CDS but may be useful to allow for `redirect_uri` modifications without requiring reregistration of CDR Consumers |
 | [6. String Operations](https://openid.net/specs/openid-connect-registration-1_0.html#StringOps) | No | N/A |  |
 | [7. Validation](https://openid.net/specs/openid-connect-registration-1_0.html#Validation) | No | N/A |  |
 | [8. Implementation Considerations](https://openid.net/specs/openid-connect-registration-1_0.html#ImplementationConsiderations) | No | N/A |  |
