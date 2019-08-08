@@ -15,7 +15,8 @@ The CDS makes a number of changes to globally adopted specifications. In additio
 The following are the list of modifications made which have known breaking impacts on certified implementations:
 
 * Explicit removal (and *banning*) of `iss` from Request Object specification:
-   * *Genesis of this change appears to be [here](https://bitbucket.org/openid/fapi/issues/190/aud-iss-should-be-mandatory-in-requests). This had a comment first of `aud` and `iss` being mandatory then a comment later discussing the removal of `iss` claim due to `client_id` being same. Potential compatibility issues were asked by WG member but the thread was focused on making aud mandatory.*
+  
+  *Genesis of this change appears to be [here](https://bitbucket.org/openid/fapi/issues/190/aud-iss-should-be-mandatory-in-requests). This had a comment first of `aud` and `iss` being mandatory then a comment later discussing the removal of `iss` claim due to `client_id` being same. Potential compatibility issues were asked by WG member but the thread was focused on making aud mandatory.*
 
 	* [FAPI-RW 8.3.3](fapi-part2.md#8.3.3): Removal of `iss` reintroduces mitigation for Identity Provider (IdP) mix-up attack
 	* [OAuth2 JWT Profile Section 3](oauth2-jwt-profile-rfc7523.md#3): Use of `client-id` as a substitute for `iss` (as directed) is likely to cause required format validation failures
