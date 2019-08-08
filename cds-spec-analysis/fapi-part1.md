@@ -14,11 +14,11 @@ The following provides a clause by clause breakdown comparing [Financial-grade A
 |  [5.1. Introduction](https://openid.net/specs/openid-financial-api-part-1.html#introduction) | No | N/A |  |
 |  [5.2. Read-only API security provisions](https://openid.net/specs/openid-financial-api-part-1.html#read-only-api-security-provisions) | No | N/A |  |
 |  [5.2.1. Introduction](https://openid.net/specs/openid-financial-api-part-1.html#introduction-1) | No | N/A |  |
-|  [5.2.2. Authorization server](https://openid.net/specs/openid-financial-api-part-1.html#authorization-server) | Yes | Yes :o2: | The CDS modifies the statements in this clause as follows: |
-|      |     |     |    * *Item 1:* Public Clients are [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#oidc-client-types) |
-|      |     |     |    * *Item 4 (1)*: Mutual TLS for OAuth Client Authentication is [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#client-authentication) |
-|      |     |     |    * *Item 4 (2):* `client_secret_jwt` is [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#authentication-flows) |
-|      |     |     |    * *Item 4 (2):*  `private_key_jwt` is [**REQUIRED**](https://consumerdatastandardsaustralia.github.io/standards/#authentication-flows) |
+|  [5.2.2. Authorization server](https://openid.net/specs/openid-financial-api-part-1.html#authorization-server) | Yes | Yes :o2: | The CDS modifies the statements in this clause as follows: 
+- *Item 1:* Public Clients are [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#oidc-client-types) 
+- *Item 4 (1)*: Mutual TLS for OAuth Client Authentication is [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#client-authentication)
+- *Item 4 (2):* `client_secret_jwt` is [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#authentication-flows)
+- *Item 4 (2):*  `private_key_jwt` is [**REQUIRED**](https://consumerdatastandardsaustralia.github.io/standards/#authentication-flows) |
 |  [5.2.2.1. Returning authenticated user's identifier Authorization server](https://openid.net/specs/openid-financial-api-part-1.html#returning-authenticated-users-identifier-authorization-server) | No | N/A | |
 |  [5.2.3. Public client](https://openid.net/specs/openid-financial-api-part-1.html#public-client) | Yes | Yes :o2: | Public Clients are [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#oidc-client-types) |
 |  [5.2.4. Confidential client](https://openid.net/specs/openid-financial-api-part-1.html#confidential-client) | Yes | Yes :o2: | <ul><li>Mutual TLS for OAuth Client Authentication is [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#client-authentication)</li><li>`client_secret_jwt` is [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#authentication-flows)</li><li>`private_key_jwt` is [**REQUIRED**](https://consumerdatastandardsaustralia.github.io/standards/#authentication-flows)</li></ul> |
