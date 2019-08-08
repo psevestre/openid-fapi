@@ -5,7 +5,10 @@ The following provides a clause by clause breakdown comparing [Financial-grade A
 
 |  **https://openid.net/specs/openid-financial-api-part-1.html** | **CDS Guidance** | **Modifies Upstream Standard** | **Summary** |
 | --- | --- | --- | --- |
-|  [1. Scope](https://openid.net/specs/openid-financial-api-part-1.html#scope) | Yes | N/A | The CDS specify *"This information security profile builds upon the foundations of the Financial-grade API Read Write Profile [FAPI-RW] and other standards relating to Open ID Connect 1.0 [OIDC]."*<br/><br/>It is assumed that without explicit guidance there is adoption of the upstream profile. For the sake of completeness the FAPI-R profile is compared independently of [FAPI-RW](fapi-part2.md). |
+|  [1. Scope](https://openid.net/specs/openid-financial-api-part-1.html#scope) | Yes | N/A | The CDS specify *"This information security profile builds upon the foundations of the Financial-grade API Read Write Profile [FAPI-RW] and other standards relating to Open ID Connect 1.0 [OIDC]."*
+  
+  
+It is assumed that without explicit guidance there is adoption of the upstream profile. For the sake of completeness the FAPI-R profile is compared independently of [FAPI-RW](fapi-part2.md). |
 |  [2. Normative references](https://openid.net/specs/openid-financial-api-part-1.html#normative-references) | No | N/A |  |
 |  [3. Terms and definitions](https://openid.net/specs/openid-financial-api-part-1.html#terms-and-definitions) | No | N/A |  |
 |  [4. Symbols and abbreviated terms](https://openid.net/specs/openid-financial-api-part-1.html#symbols-and-abbreviated-terms) | No | N/A |  |
