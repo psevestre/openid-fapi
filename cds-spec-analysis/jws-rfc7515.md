@@ -21,7 +21,7 @@ The following provides a clause by clause breakdown comparing [JSON Web Signatur
 |  [4.1.6. "x5c" (X.509 Certificate Chain) Header Parameter](https://tools.ietf.org/html/rfc7515#section-4.1.6) | No | N/A | Does not appear to be used |
 |  [4.1.7. "x5t" (X.509 Certificate SHA-1 Thumbprint) Header Parameter](https://tools.ietf.org/html/rfc7515#page-12) | No | N/A | Does not appear to be used |
 |  [4.1.8. "x5t#S256" (X.509 Certificate SHA-256 Thumbprint) Header Parameter](https://tools.ietf.org/html/rfc7515#page-12) | No | N/A | Does not appear to be used |
-|  [4.1.9. "typ" (Type) Header Parameter](https://tools.ietf.org/html/rfc7515#section-4.1.9) | Yes | Yes :stop_sign: | The [example](https://consumerdatastandardsaustralia.github.io/standards/#client-authentication) specifies this as ***JWT*** but it appears to be ***JOSE***. The CDS appears to make this **MANDATORY** |
+|  [4.1.9. "typ" (Type) Header Parameter](https://tools.ietf.org/html/rfc7515#section-4.1.9) | Yes | Yes :o2: | The [example](https://consumerdatastandardsaustralia.github.io/standards/#client-authentication) specifies this as ***JWT*** but it appears to be ***JOSE***. The CDS appears to make this **MANDATORY** |
 |  [4.1.10. "cty" (Content Type) Header Parameter](https://tools.ietf.org/html/rfc7515#section-4.1.10) | No | N/A | Does not appear to be used |
 |  [4.1.11. "crit" (Critical) Header Parameter](https://tools.ietf.org/html/rfc7515#section-4.1.11) | No | N/A | Does not appear to be used |
 |  [4.2. Public Header Parameter Names](https://tools.ietf.org/html/rfc7515#section-4.2) | No | N/A | No known additions to parameter names |
@@ -46,7 +46,7 @@ The following provides a clause by clause breakdown comparing [JSON Web Signatur
 |  [10. Security Considerations](https://tools.ietf.org/html/rfc7515#section-10) | No | N/A |  |
 |  [10.1. Key Entropy and Random Values](https://tools.ietf.org/html/rfc7515#section-10.1) | No | N/A |  |
 |  [10.2. Key Protection](https://tools.ietf.org/html/rfc7515#section-10.2) | No | N/A |  |
-|  [10.3. Key Origin Authentication](https://tools.ietf.org/html/rfc7515#section-10.3) | Yes | Yes :stop_sign: | Key Origin Authentication is currently determined by ACCC Register publishing. This content is unsigned and relies entirely on TLS and non-tampered payloads |
+|  [10.3. Key Origin Authentication](https://tools.ietf.org/html/rfc7515#section-10.3) | Yes | Yes :o2: | Key Origin Authentication is currently determined by ACCC Register publishing. This content is unsigned and relies entirely on TLS and non-tampered payloads |
 |  [10.4. Cryptographic Agility](https://tools.ietf.org/html/rfc7515#section-10.4) | No | N/A | [Reference JWA Review](jwa-rfc7518.md) |
 |  [10.5. Differences between Digital Signatures and MACs](https://tools.ietf.org/html/rfc7515#section-10.5) | No | N/A | Digital Signatures appear to be in use |
 |  [10.6. Algorithm Validation](https://tools.ietf.org/html/rfc7515#section-10.6) | Yes | Unknown :question: |  |

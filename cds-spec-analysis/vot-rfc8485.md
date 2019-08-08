@@ -18,7 +18,7 @@ The following provides a clause by clause breakdown comparing [Vectors of Trust 
 | [3.1. On-the-Wire Representation](https://tools.ietf.org/html/rfc8485#section-3.1) | Implicit | Yes |  |
 | [3.2. In OpenID Connect](https://tools.ietf.org/html/rfc8485#section-3.2) | Implicit | No | ***NOTE:*** `vot` and `vtm` is only required for optional LoA support, otherwise the `acr` claim is used using the format `urn:cds.au:cdr:#` |
 | [4. Requesting Vector Values](https://tools.ietf.org/html/rfc8485#section-4) | Implicit | Yes | No request values specified but format is non compliant |
-| [4.1. In OpenID Connect](https://tools.ietf.org/html/rfc8485#section-4.1) | Implicit | Yes :stop_sign: | The CDS specifies that the `vot` value is a single **string** not an **array of strings**. |
+| [4.1. In OpenID Connect](https://tools.ietf.org/html/rfc8485#section-4.1) | Implicit | Yes :o2: | The CDS specifies that the `vot` value is a single **string** not an **array of strings**. |
 | [5. Trustmarks](https://tools.ietf.org/html/rfc8485#section-5) | Implicit | No | Trust Marks are supported in `vtm` response |
 | [6. Defining New Vector Values](https://tools.ietf.org/html/rfc8485#section-6) | No | N/A | |
 | [7.  IANA Considerations](https://tools.ietf.org/html/rfc8485#section-7) | No | N/A | |
