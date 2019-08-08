@@ -24,14 +24,12 @@ The following are the list of modifications made which have known breaking impac
     * [OIDC Core 3.3.2.2 Authentication Request Validation](oidc-core-1.0.md#3.3.2.2): With no separation of `client_id` from `iss`, third-party login handling (ie. delegated auth handler) is not possible
     * [OIDC Core 7 Self-Issued OP](oidc-core-1.0.md#7): Self-Issued OP is not possible without `iss`
     * [OIDC Discovery 4.3 OpenID Provider Configuration](oidc-discovery-1.0.md#4.3): Validation of `issuer` element from Discovery document is tied to `iss` and therefore not possible
-    
-
 * `vot` claim has been modified from String[] (array of String) to simply String
-  * All `vot` responses will be invalid format
+    * All `vot` responses will be invalid format
 * `request_uri` has been removed from Request Object:
-  * This is a *Mandatory to Implement* for [Dynamic OP within OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html#DynamicMTI)
-  * This changes the default value at `/.well-known/openid-configuration`
-  * [6.2. Passing a Request Object by Reference](https://openid.net/specs/openid-connect-core-1_0.html#RequestUriParameter) is not possible
+    * This is a *Mandatory to Implement* for [Dynamic OP within OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html#DynamicMTI)
+    * This changes the default value at `/.well-known/openid-configuration`
+    * [6.2. Passing a Request Object by Reference](https://openid.net/specs/openid-connect-core-1_0.html#RequestUriParameter) is not possible
 
 * `client_id` is missing in example token responses (and not mentioned as required):
   * [OAuth2 Framework 3.2.1 Client Authentication](oauth2-framework-rfc6749.md#3.2.1): This disables substitution attack protections
