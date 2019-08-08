@@ -15,14 +15,15 @@ The CDS makes a number of changes to globally adopted specifications. In additio
 The following are the list of modifications made which have known breaking impacts on certified implementations:
 
 * Explicit removal (and *banning*) of `iss` from Request Object specification:
-  
   *Genesis of this change appears to be [here](https://bitbucket.org/openid/fapi/issues/190/aud-iss-should-be-mandatory-in-requests). This had a comment first of `aud` and `iss` being mandatory then a comment later discussing the removal of `iss` claim due to `client_id` being same. Potential compatibility issues were asked by WG member but the thread was focused on making aud mandatory.*
+  
     * [FAPI-RW 8.3.3](fapi-part2.md#8.3.3): Removal of `iss` reintroduces mitigation for Identity Provider (IdP) mix-up attack
     * [OAuth2 JWT Profile Section 3](oauth2-jwt-profile-rfc7523.md#3): Use of `client-id` as a substitute for `iss` (as directed) is likely to cause required format validation failures
     * [OIDC Core 5.7 Claim Stability](oidc-core-1.0.md#5.7): Use of `client-id` as a substitute means `client_id`+`sub` which increases chance of collision
     * [OIDC Core 3.3.2.2 Authentication Request Validation](oidc-core-1.0.md#3.3.2.2): With no separation of `client_id` from `iss`, third-party login handling (ie. delegated auth handler) is not possible
     * [OIDC Core 7 Self-Issued OP](oidc-core-1.0.md#7): Self-Issued OP is not possible without `iss`
     * [OIDC Discovery 4.3 OpenID Provider Configuration](oidc-discovery-1.0.md#4.3): Validation of `issuer` element from Discovery document is tied to `iss` and therefore not possible
+    
 * `vot` claim has been modified from String[] (array of String) to simply String
     * All `vot` responses will be invalid format
 * `request_uri` has been removed from Request Object:
