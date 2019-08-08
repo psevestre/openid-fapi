@@ -2,9 +2,7 @@
 
 This document summarises the differences of the proposed [Consumer Data Standards](https://consumerdatastandardsaustralia.github.io/standards/) and [ACCC Register](https://cdr-register.github.io/register/) when compared against the international standards and specifications they seek to adopt. The Consumer Data Standards are the underlying technical standards currently being developed to deliver on the Australian Government's Consumer Data Right legislation, which was passed 1 August 2019. The ACCC is the lead regulator of the [Consumer Data Right](https://www.accc.gov.au/focus-areas/consumer-data-right-cdr-0).
 
-This document has been put together to summarise and provide reporting back to the [OpenID FAPI Working Group](https://openid.net/wg/fapi/).
-
-There are two versions of this readme. This one which is intended to split between breaking changes, non-spec compliant but not breaking and profile oriented modifications. The second is by groups of specifications and is available at [README_GROUP.md](README_GROUP.md).
+This document has been put together to summarise and provide reporting back to the [OpenID FAPI Working Group](https://openid.net/wg/fapi/). It is split between breaking changes, non-spec compliant but believed to be non-breaking and changes which could be seen as Australia's "Profile" related changes.
 
 ## Summary of Observations
 
