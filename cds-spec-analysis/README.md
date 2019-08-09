@@ -1,6 +1,6 @@
 # How the CDS differs from International Standards and Specifications
 
-This document summarises the differences of the proposed [Consumer Data Standards](https://consumerdatastandardsaustralia.github.io/standards/) and [ACCC Register](https://cdr-register.github.io/register/) when compared against the international standards and specifications they seek to adopt. The Consumer Data Standards are the underlying technical standards currently being developed to deliver on the Australian Government's Consumer Data Right legislation, which was passed 1 August 2019. The ACCC is the lead regulator of the [Consumer Data Right](https://www.accc.gov.au/focus-areas/consumer-data-right-cdr-0).
+This document summarises the differences of the proposed [Consumer Data Standards](https://consumerdatastandardsaustralia.github.io/standards/) and [ACCC Register](https://cdr-register.github.io/register/) when compared against the international standards and specifications they seek to adopt. The Consumer Data Standards are the underlying technical standards currently being developed to deliver on the Australian Government's Consumer Data Right legislation, which was passed 1 August 2019. The ACCC is the lead regulator of the [Consumer Data Right](https://www.accc.gov.au/focus-areas/consumer-data-right-cdr-0). The banking sector is the first of multiple industries intended, energy and telco being the next. 
 
 This document has been put together to summarise and provide reporting back to the [OpenID FAPI Working Group](https://openid.net/wg/fapi/). It is split between breaking changes, non-spec compliant but believed to be non-breaking and changes which could be seen as Australia's "Profile" related changes.
 
@@ -39,12 +39,18 @@ The following are the list of modifications made which have known breaking impac
 
 #### ACCC Register
 
-The current proposed design of the Register is to provide a complete "data dump" of all participants to be loaded statically into participants auth packages. This is expected to be checked for validity based on a "cache refresh time" that is currently being debated but thought to be <4hrs.
+*NOTE: The Register documentation is [under active change](https://cdr-register.github.io/) with weekly calls to discuss things to resolve. All members of Australian Banking Association and FinTech Australia are invited.*
+
+*For those familiar with UK Open Banking*: A Banking sector Holder is similar to ASPSP, a Recipient is similar to TPP
+
+The current proposed design of the Register is to provide a complete "data dump" of all participants to be loaded statically into the participants auth packages. 
+
+This is expected to be checked for validity based on a "cache refresh time" that is currently being debated but thought to be <4hrs. In addition it may be triggered by a ["forced refresh" API call](https://consumerdatastandardsaustralia.github.io/standards/#metadata-update) issued by the ACCC Register.
 
 The JWKS provided by the register is:
 
-* Intended to be a single text field containing a flattened JSON of the entire JWKS
-* Not intended to be signed or encrypted, ie. has no integrity protection beyond layer-3 TLS establishment
+* Intended to be a JSON representation (via OpenAPI specification) of the intended JWKS to be statically loaded into both Holder and Recipient auth systems
+* Not intended to be signed or encrypted, ie. has no integrity protection beyond layer-3 MTLS establishment from the ACCC certificate authority of which both Holder and Recipient are trust chain participants
 
 ### Non-Spec Compliant Changes
 
