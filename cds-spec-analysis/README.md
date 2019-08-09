@@ -51,11 +51,11 @@ The JWKS provided by the register is:
 The following are a list of modifications which are divergent from their specification and may or may not be breaking but are notable:
 
 * Introspection methods modified:
-  * Introspection of Access Tokens is not allowed
-  * Introspection of ID Tokens is not allowed
-  * Introspection of Refresh Tokens is allowed but may ONLY include `active` and `exp` claims and no others
+    * Introspection of Access Tokens is not allowed
+    * Introspection of ID Tokens is not allowed
+    * Introspection of Refresh Tokens is allowed but may ONLY include `active` and `exp` claims and no others
 * `scope` is NOT A REQUIRED parameter in token requests with no guidance on the default value
-  * Lack of default value guidance means behaviour is unknown
+    * Lack of default value guidance means behaviour is unknown
 * `profile` scope MUST be supported (but `scope` isn't required) 
 * OAUTB support is REMOVED
 * JWT Secured Authorization Response Mode is NOT SUPPORTED
