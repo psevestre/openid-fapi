@@ -59,14 +59,13 @@ The following are a list of modifications which are divergent from their specifi
 * `profile` scope MUST be supported (but `scope` isn't required) 
 * OAUTB support is REMOVED
 * JWT Secured Authorization Response Mode is NOT SUPPORTED
-
-   * JARM was recommended by an Independent Security Review but not adopted on basis of ["Due to the need to understand the impacts of this recommendation it will not be incorporated into the standards at this stage but will be considered for incorporation in the next phase of the regime"](https://github.com/ConsumerDataStandardsAustralia/standards/issues/78)
+     * JARM was recommended by an Independent Security Review but not adopted on basis of ["Due to the need to understand the impacts of this recommendation it will not be incorporated into the standards at this stage but will be considered for incorporation in the next phase of the regime"](https://github.com/ConsumerDataStandardsAustralia/standards/issues/78)
 
 * `jwks_uri` based key rotation is not possible as ACCC is Static Registration only
 * Mandatory to Implement components of OpenID Core have been modified:
-  * Parameter's for OP not implemented: `prompt`, `display` and `max_age`
-  * Locale Support is not implemented
-  * (Repeated) request_uri has been removed from Request Object which breaks [Dynamic OP within OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html#DynamicMTI)
+    * Parameter's for OP not implemented: `prompt`, `display` and `max_age`
+    * Locale Support is not implemented
+    * (Repeated) request_uri has been removed from Request Object which breaks [Dynamic OP within OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html#DynamicMTI)
 * The `/.well-known/openid-configuration` endpoint is modified as follows:
     *  `userinfo_endpoint` is MANDATORY
     *  `scopes_supported` is MANDATORY
