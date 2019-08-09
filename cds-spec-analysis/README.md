@@ -68,17 +68,17 @@ The following are a list of modifications which are divergent from their specifi
   * Locale Support is not implemented
   * (Repeated) request_uri has been removed from Request Object which breaks [Dynamic OP within OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html#DynamicMTI)
 * The `/.well-known/openid-configuration` endpoint is modified as follows:
-  *  `userinfo_endpoint` is MANDATORY
-  *  `scopes_supported` is MANDATORY
-  *  `acr_values_supported` is MANDATORY
-  *  `vot_values_supported` is MANDATORY
-  *  `claims_supported` is MANDATORY
-  *  `response_types_supported` is OPTIONAL
-  *  `subject_types_supported` is OPTIONAL
-  *  `id_token_signing_alg_values_supported` is OPTIONAL
-  *  `introspection_endpoint` has been CREATED and is MANDATORY
-  *  `revocation_endpoint` has been CREATED and is MANDATORY
-  *  `request_uri_parameter_supported` has it's default value IMPLICITLY changed to `false` because `request_uri` is globally DISABLED
+    *  `userinfo_endpoint` is MANDATORY
+    *  `scopes_supported` is MANDATORY
+    *  `acr_values_supported` is MANDATORY
+    *  `vot_values_supported` is MANDATORY
+    *  `claims_supported` is MANDATORY
+    *  `response_types_supported` is OPTIONAL
+    *  `subject_types_supported` is OPTIONAL
+    *  `id_token_signing_alg_values_supported` is OPTIONAL
+    *  `introspection_endpoint` has been CREATED and is MANDATORY
+    *  `revocation_endpoint` has been CREATED and is MANDATORY
+    *  `request_uri_parameter_supported` has it's default value IMPLICITLY changed to `false` because `request_uri` is globally DISABLED
 
 ### Profile Based Changes
 
