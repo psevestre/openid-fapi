@@ -34,7 +34,7 @@ The following are the list of modifications made which have known breaking impac
 
 * `iss` analgous with `client_id` has follow on effects as there is no separation in provided in example token responses (and not mentioned as required):
     * [OAuth2 Framework 3.2.1 Client Authentication](oauth2-framework-rfc6749.md#3.2.1): This disables substitution attack protections
-    * *Update (2019-08-12): Some feedback has been received that token's do not include client_id, this is true, what is raised here is that `iss` supplied in token responses will always equal `client_id` from the Request Object because it is is specified as analgous with `iss` (when this not always true from a specification perspective). Further analysis is required to potentially remove this point*
+    * *Update (2019-08-12): Some feedback has been received that token's do not include client_id, this is true, what is raised here is that `aud` supplied in token responses will always equal `client_id` from the Request Object because it is is specified as analgous with `iss` (when this not always true from a specification perspective). Further analysis is required to potentially remove this point.*
 
 **Final Note:** The specification is not in a format similar to IETF or OpenID. Identifying what changes from upstream specifications has been very challenging and involved line by line analysis. **Adopting a standardised documentation method similar to these existing formats would be more consistent with a typical Implementors Draft and preferred.**
 
