@@ -165,6 +165,8 @@ The [JARM] allows a client to request that an authorization server encode the au
 
 This specification facilitates use of [JARM] in conjunction with the response type `code`.
 
+Note: JARM can be used to protect OpenID Connect authentication responses. In this case, the OpenID RP would use response type `code`, response mode `jwt` and scope `openid`. This means JARM protects the authentication response and the ID Token containing identity data is obtained from the token endpoint, which nicely decouples message protection and id providing.
+
 ### 5.2 Read and write API security provisions
 
 #### 5.2.1 Introduction
@@ -217,7 +219,6 @@ In addition, if the `response_type` value `code id_token` is used, the authoriza
 In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the authorization server
 
 1. shall create JWT-secured authorization responses as specified in [JARM], section 4.3;
-1. shall advertise support for the [JARM] response modes using the `response_modes_supported` metadata parameter.
 
 #### 5.2.3 Confidential client
 
