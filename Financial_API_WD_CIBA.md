@@ -317,7 +317,7 @@ All examples use private_key_jwt client authentication with the following key:
 }
 ```
 
-### A.1 Signed Authentication Request
+### A.1 Signed Authentication Request with private_key_jwt client authentication
 
 This example includes various optional fields, some of which may not be applicable to some deployments. Line wraps within values are for display purposes only.
 
@@ -344,11 +344,10 @@ FIEluYyJ9fX0.6YQ2j27lXlsfw5QFUoDDbkXJnu8ldi6Tw8LwUEg_C1w2ru_tksY
 yIN81jv4Q0NXwRBtWsojahPFynZJa39Q3Yg&
 client_assertion=eyJraWQiOiJ0aHJ3cW51ZXIiLCJhbGciOiJFUzI1NiJ9.ey
 JzdWIiOiIzMDExODMzNzM4MTQ5NzkiLCJhdWQiOiJodHRwczovL3NlcnZlci5leG
-FtcGxlLmNvbS9iYWNrY2hhbm5lbC1hdXRob3JpemF0aW9uLWVuZHBvaW50IiwiaX
-NzIjoiMzAxMTgzMzczODE0OTc5IiwiZXhwIjoxNTY0OTAyNzk4LCJpYXQiOjE1Nj
-Q5MDI3MzgsImp0aSI6IjZzUlZ3VnVabHgxREVCY0hFSGh4In0.L6RuPl-rCPSpqG
-wC2Uzesc2Nq_6s8dpaQH6X5o0y3dRdPjrRjZOycLGIFZGWhxfXLAzoO_3enB-RwA
-NVG7nH3A&
+FtcGxlLmNvbS8iLCJpc3MiOiIzMDExODMzNzM4MTQ5NzkiLCJleHAiOjE1NjQ5MD
+I3OTgsImlhdCI6MTU2NDkwMjczOCwianRpIjoiNnNSVndWdVpseDFERUJjSEVIaH
+gifQ.b9fpM3hUv5Nex9DZOYS8AGUiBMIFnlvf5YgRmUqzBhljIGr4M5f-mkt2VOM
+ImaKe-LaUMeD5y_PZGaBiDTo50A&
 client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-asser
 tion-type%3Ajwt-bearer
 ```
