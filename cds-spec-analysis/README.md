@@ -4,6 +4,8 @@ This document summarises the differences of the proposed [Consumer Data Standard
 
 This document has been put together to summarise and provide reporting back to the [OpenID FAPI Working Group](https://openid.net/wg/fapi/). It is split between breaking changes, non-spec compliant but believed to be non-breaking and changes which could be seen as Australia's "Profile" related changes.
 
+This is intended to be a living document and as such the authors welcome any recommendations, changes or alterations. If you have alterations we welcome your feedback which can be sent via the FAPI WG Chair contactable at [openid-specs-fapi-owner@lists.openid.net](mailto:openid-specs-fapi-owner@lists.openid.net).
+
 ## Summary of Observations
 
 The CDS makes a number of changes to globally adopted specifications. In addition observations which may compromise the overall security of the ecosystem are also summarised.
@@ -126,7 +128,7 @@ The following is a list of modifications which while different from the upstream
 
 ## Corrections
 
-The author(s) welcome corrections to the above statements either via a Pull Request or by opening an issue on this repository.
+This is intended to be a living document and as such the authors welcome any recommendations, changes or alterations. If you have alterations we welcome your feedback which can be sent via the FAPI WG Chair contactable at [openid-specs-fapi-owner@lists.openid.net](mailto:openid-specs-fapi-owner@lists.openid.net).
 
 ## Detailed Reviews
 
