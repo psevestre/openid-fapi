@@ -10,29 +10,38 @@ The CDS makes a number of changes to globally adopted specifications. In additio
 
 ### Breaking Changes
 
+Breaking changes documented here-in result in a number of outcomes, notably:
+
+- Existing infrastructure cannot be reused requiring new (and therefore duplicated) builds to meet the CDS requirements
+- Unknown race conditions and/or security vulnerabilities may be introduced due to lack of international adoption, diverse testing and deployment. 
+  
+  OpenID Connect is now over 5 years old and has 100s (possibly 1000s) of implementations worldwide. Within software development this is commonly referred to as [Linus's Law](https://en.wikipedia.org/wiki/Linus%27s_Law) whereby *"given enough eyeballs, all bugs are shallow"*
+- [Interoperability](https://en.wikipedia.org/wiki/Interoperability) between implementations will, potentially significantly, be impacted. The result of this lack of interoperability has significant flow on effects with respect to software vendor diversity and competition
+- [Existing certification processes](https://openid.net/certification/faq/) will be non-functional requiring a separate certification process to be established and maintained by the creating entity
+
 #### Consumer Data Standards
 
 The following are the list of modifications made which have known breaking impacts on certified implementations:
 
-* Explicit removal (and *banning*) of `iss` from Request Object specification:
+1. Explicit removal (and *banning*) of `iss` from Request Object specification:
   *Genesis of this change appears to be [here](https://bitbucket.org/openid/fapi/issues/190/aud-iss-should-be-mandatory-in-requests). This had a comment first of `aud` and `iss` being mandatory then a comment later discussing the removal of `iss` claim due to `client_id` being same. Potential compatibility issues were asked by WG member but the thread was focused on making aud mandatory.*
   
-    * [FAPI-RW 8.3.3](fapi-part2.md#8.3.3): Removal of `iss` reintroduces mitigation for Identity Provider (IdP) mix-up attack
+    * [FAPI-RW 8.3.3](fapi-part2.md#8.3.3): Removal of `iss` removes mitigation for Identity Provider (IdP) mix-up attack
     * [OAuth2 JWT Profile Section 3](oauth2-jwt-profile-rfc7523.md#3): Use of `client-id` as a substitute for `iss` (as directed) is likely to cause required format validation failures
     * [OIDC Core 5.7 Claim Stability](oidc-core-1.0.md#5.7): Use of `client-id` as a substitute means `client_id`+`sub` which increases chance of collision
     * [OIDC Core 3.3.2.2 Authentication Request Validation](oidc-core-1.0.md#3.3.2.2): With no separation of `client_id` from `iss`, third-party login handling (ie. delegated auth handler) is not possible
     * [OIDC Core 7 Self-Issued OP](oidc-core-1.0.md#7): Self-Issued OP is not possible without `iss`
     * [OIDC Discovery 4.3 OpenID Provider Configuration](oidc-discovery-1.0.md#4.3): Validation of `issuer` element from Discovery document is tied to `iss` and therefore not possible
     
-* `vot` claim has been modified from String[] (array of String) to simply String
+2. `vot` claim has been modified from String[] (array of String) to simply String
     * All `vot` responses will be invalid format
-* `request_uri` has been removed from Request Object:
+3. `request_uri` has been removed from Request Object:
     * This is a *Mandatory to Implement* for [Dynamic OP within OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html#DynamicMTI)
     * This changes the default value at `/.well-known/openid-configuration`
     * [6.2. Passing a Request Object by Reference](https://openid.net/specs/openid-connect-core-1_0.html#RequestUriParameter) is not possible
     * *Possible? request_uri disabling could impede maximum size of mandated sign & encrypt of certain tokens within the CDS (ie. POST or query string length limitations?)*
 
-* `iss` analgous with `client_id` has follow on effects as there is no separation in provided in example token responses (and not mentioned as required):
+4. `iss` analgous with `client_id` has follow on effects as there is no separation in provided in example token responses (and not mentioned as required):
     * [OAuth2 Framework 3.2.1 Client Authentication](oauth2-framework-rfc6749.md#3.2.1): This disables substitution attack protections
     * *Update (2019-08-12): Some feedback has been received that token's do not include client_id, this is true, what is raised here is that `aud` supplied in token responses will always equal `client_id` from the Request Object because it is is specified as analgous with `iss` (when this not always true from a specification perspective). Further analysis is required to potentially remove this point.*
 
