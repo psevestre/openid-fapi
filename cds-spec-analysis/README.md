@@ -6,11 +6,7 @@ This document has been put together to summarise and provide reporting back to t
 
 This is intended to be a living document and as such the authors welcome any recommendations, changes or alterations. If you have alterations we welcome your feedback which can be sent via the FAPI WG Chair contactable at [openid-specs-fapi-owner@lists.openid.net](mailto:openid-specs-fapi-owner@lists.openid.net).
 
-## Summary of Observations
-
-The CDS makes a number of changes to globally adopted specifications. In addition observations which may compromise the overall security of the ecosystem are also summarised.
-
-### Breaking Changes
+### Outcomes
 
 Breaking changes documented here-in result in a number of outcomes, notably:
 
@@ -18,6 +14,10 @@ Breaking changes documented here-in result in a number of outcomes, notably:
 - Unknown race conditions and/or security vulnerabilities may be introduced due to lack of international adoption, diverse testing and deployment. OpenID Connect is now over 5 years old and has 100s (possibly 1000s) of implementations worldwide. Within software development this is commonly referred to as [Linus's Law](https://en.wikipedia.org/wiki/Linus%27s_Law) whereby *"given enough eyeballs, all bugs are shallow"*
 - [Interoperability](https://en.wikipedia.org/wiki/Interoperability) between implementations will, potentially significantly, be impacted. The result of this lack of interoperability has significant flow on effects with respect to software vendor diversity and competition
 - [Existing certification processes](https://openid.net/certification/faq/) will be non-functional requiring a separate certification process to be established and maintained by the creating entity
+
+## Summary of Observations
+
+The CDS makes a number of changes to globally adopted specifications. In addition observations which may compromise the overall security of the ecosystem are also summarised.
 
 #### Consumer Data Standards
 
