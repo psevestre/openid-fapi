@@ -92,6 +92,9 @@ The following referenced documents are indispensable for the application of this
 [IANA.OAuth.Parameters] - OAuth Parameters Registry
 [IANA.OAuth.Parameters]: https://www.iana.org/assignments/oauth-parameters
 
+[JAR] - The OAuth 2.0 Authorization Framework: JWT Secured Authorization Request (JAR)
+[JAR]: https://tools.ietf.org/html/draft-ietf-oauth-jwsreq
+
 ## 2. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], and [OIDC] apply.
 
@@ -130,60 +133,55 @@ Moreover, in order to dereference the `request_uri` parameter the authorization 
 
 This specification addresses these problems by moving the responsibility for managing request objects from the client to the authorization server. The authorization server offers an additional "request object endpoint". The client calls this endpoint to deliver its request objects and is provided with a unique URI for that particular request object, which in turn is sent into to the AS's authorization endpoint as the value of the `request_uri` parameter.  
 
-There are two modes:
-
-1. The client posts the request object as a JWT, which is equivalent to the existing mechanisms and provides non-repudiation in addition to request integrity and authenticity.
-2. The client posts the "raw" request object in JSON format. The request is authenticated using the client’s token endpoint authentication method. This new mode leverages the direct TLS-protected communication channel between client and authorization server in order to simplify the implementation while still providing request authenticity and integrity. 
-
-The mode is determined by the client using the appropriate mime type, `application/jwt` or `application/json`, in the `Content-Type` header of the `POST` request.
+This draft allows the client to send the request object via a direct POST request to the AS rather than as a redirect URI query parameter. 
 
 ## 5. Request Object Endpoint
 This section describes the process of request object creation and its use in the authorization request.
 
 ### 5.1 Request Object Request
 
-1. The request object endpoint shall be a RESTful API at the authorization server that accepts signed request object as JWTs or plain JSON-formatted request objects as the HTTPS `POST` payload. The client indicates the format using the mime types, `application/jwt` for request objects as JWTs or `application/json` in the case of JSON-formatted request objects. 
-2. If the request object is signed, the signature serves as means for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'. If the request object is not signed, the client is expected to authenticate itself using its registered token endpoint authentication method.
+The request object endpoint shall be a RESTful API at the authorization server that accepts `x-www-form-urlencoded` POST. 
 
-The following is an example of a JWT-based request:
+The request object is sent in the parameter `request` as definded in [JAR].
 
-```
-POST https://as.example.com/ros/ HTTP/1.1
-Host: as.example.com
-Content-Type: application/jwt
-Content-Length: 1288
+All rules for signing and encrypting request objects as defined in [JAR] apply. Additionally, because the communication is HTTPS-protected, clients may decide to not sign the request object. 
 
-eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.ew0KICJpc3MiOiA
-(... abbreviated for brevity ...)
-zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
-```
+Confidential clients are required to authenticate towards the request object endpoint using any of the applicable token endpoint authentication method defined in the IANA "OAuth Token Endpoint Authentication Methods" registry [RFC 7591](https://tools.ietf.org/html/rfc7591). 
 
-The following is an example of a unsigned request object using BASIC authentication with client credentials:
+The following is an example of a request using a signed request object. The client is authenticated using its client secret `BASIC` authorization:
 
 ```
 POST https://as.example.com/ros/ HTTP/1.1
 Host: as.example.com
+Content-Type: application/x-www-form-urlencoded
 Authorization: Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3
-Content-Type: application/json
-Content-Length: 1288
 
-{  
-   "response_type":"code",
-   "client_id":"s6BhdRkqt3",
-   "redirect_uri":"https://client.example.org/cb",
-   "scope":"accounts",
-   "state":"af0ifjsldkj",
-   "code_challenge_method":"S256",
-   "code_challenge":"5c305578f8f19b2dcdb6c3c955c0a...97e43917cd"
-}
+request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.eyJpc3MiOiJzNkJoZFJrcXQzI
+iwiYXVkIjoiaHR0cHM6Ly9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJyZXNwb25zZV90eXBlIjoiY2
+9kZSIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczovL2N
+saWVudC5leGFtcGxlLm9yZy9jYiIsInNjb3BlIjoiYWlzIiwic3RhdGUiOiJhZjBpZmpzbGRr
+aiIsImNvZGVfY2hhbGxlbmdlIjoibi0wUzZfV3pBMk1qIiwiY29kZV9jaGFsbGVuZ2VfbWV0a
+G9kIjoiUzI1NiJ9.wr6yVszC1W-9M3TeYTD0kL_kZET56kA2UN-pYGuhCV7mQXqpQmYiu9bfv
+3_keeGS1inSAvX4_Q578VuMkPT8orfIQX2R4qrlG8fC3B35P7p_FBfpiFC6dh68EcZ1RB8Q7F
+WXXKWokG2PoJKpjC9nnh0JLobkmcRjZagrPjQwifxdhZqE4fVMH8cACV6_5khyDBP4FxgWDb9
+xRIzRiaR9mwZ5l44vUnQNfWaS_KyukKTsNr_Nj4yuoNThmenlb-vaozM8OUt3BPpLarWBCI7M
+A1SO2FmEXuRE6PGV9oedHewcv8Hf9Z0qIvupav8dxaBp0uQcc64_UYWy7p70_powI5DXImegG
+UrmViV72SxmDHnX_PIwflVlEHAas0iOaf6IFbK-V7frtzR9mFwXt5PJdCwPlk3AkDFhduXSsb
+WinJ-VXMybWLHqml6tK3GhA93wNfTwlBUE8A6zUhZpHKh9xOuXPtvOgB18kxresKpAh06t7VA
+-zMzqwxIz9AckUxh2JFs7atDuLCbycBs6te13kTGr355nFzCn-F-bJuePEUcrKEQ7m-_IVbvD
+wTqK_oNHJe1ehMj1MicQ9rttuOxDh8HxCj4qkCFgFRcmtHV-cjVzVyAl6uRQ6CUEgGlRm_Eic
+ol2bV-MtPPylAjDK0VP_uaxXndLDSeFqunQKYWD1Eo
 ```
-Note: I intentionally removed `aud` and `iss` from the request object since they don't seem to be necessary in this case.
-
 
 ### 5.2 Sucessful Response
 
-1.  In case of a JWT, the authorization server shall verify that the request object is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC]. In case of the JSON request object, the authorization checks whether the client was successfully authenticated and the request object is valid. 
-1. In the next step, the authorization server verifies whether the parameters sent are valid. For example, the authorization server checks, whether the redirect URI matches one of the redirect URIs configured for the server. It may also check whether the client is authorized for the scope for which it requested access. This validation allows the authorization server to refuse unauthorized or fraudulent requests early. 
+The AS MUST process the request as follows:
+
+1. If the client is a confidential client, the AS first authenticates the client.  
+1. The AS decrypts the request object (if applicable) as specified in [JAR], section 6.1.
+1. The AS validates the request object signature as specified in [JAR], section 6.2.
+1. In the next step, the authorization server verifies whether the parameters sent are 
+valid as specified in [JAR], section 6.3. For example, the authorization server checks, whether the redirect URI matches one of the redirect URIs configured for the server. It may also check whether the client is authorized for the scope for which it requested access. This validation allows the authorization server to refuse unauthorized or fraudulent requests early.  
 1. If the verification is successful, the server shall generate a request URI and
 return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
 claims at the top level with `201 Created` HTTP response code.
@@ -193,7 +191,7 @@ claims at the top level with `201 Created` HTTP response code.
 1. The value of these claims in the JSON payload shall be as follows:
     * `request_uri` : The request URI corresponding to the request object posted. 
     * `aud` : A JSON string that represents the client identifier of the client that posted the request object.
-    * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
+    * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
     * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
 
 The following is an example of such a response:
@@ -265,6 +263,7 @@ The following people contributed to this document:
 * Nat Sakimura (Nomura Research Institute) -- Chair
 * Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
 * Vladimir Dzhuvinov (Connect2ID)
+* Takahiko Kawasaki (Authlete, Inc.)
 
 ## 10. IANA Considerations
 
