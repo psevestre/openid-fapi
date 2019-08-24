@@ -257,7 +257,7 @@ In addition, if the `response_type` value `code id_token` is used, the client
 
 #### 5.2.3.1 JARM
 
-In addition, if the `response_type` value `code` us used in conjunction with the `response_mode` value `jwt`, the client
+In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the client
 
 1. shall verify the authorization responses as specified in [JARM], section 4.4;
 
