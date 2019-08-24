@@ -161,11 +161,13 @@ The `s_hash` value is a case sensitive string.
 
 An authorization server may protect authorization responses to clients using the "JWT Secured Authorization Response Mode" [JARM].
 
-The [JARM] allows a client to request that an authorization server encode the authorization response (of any response type) in a JWT. It is an alternative to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses and can be used with plain OAuth.
+The [JARM] allows a client to request that an authorization server encodes the authorization response (of any response type) in a JWT. It is an alternative to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses and can be used with plain OAuth.
 
 This specification facilitates use of [JARM] in conjunction with the response type `code`.
 
-Note: JARM can be used to protect OpenID Connect authentication responses. In this case, the OpenID RP would use response type `code`, response mode `jwt` and scope `openid`. This means JARM protects the authentication response and the ID Token containing identity data is obtained from the token endpoint, which nicely decouples message protection and id providing.
+Note: [JARM] can be used to protect OpenID Connect authentication responses. In this case, the OpenID RP would use response type `code`, response mode `jwt` and scope `openid`. This means [JARM] protects the authentication response (instead of the ID Token) and the ID Token containing End-User Claims is obtained from the token endpoint. This facilitates privacy since no End-User Claims are sent through the front channel. It also provides decoupling of 
+message protection and identity providing since a client (or RP) can basically use [JARM] to protect all 
+authorization responses and turn on OpenID if needed (e.g. to log the user in).
 
 ### 5.2 Read and write API security provisions
 
@@ -185,7 +187,7 @@ In addition, the authorization server, for the write operation,
 1. shall require 
 	1. the `response_type` value `code id_token` or 
 	2. the `response_type` value `code` in conjunction with the `response_mode` value `jwt`;
-1. (withdrawn)
+1. (moved to 5.2.2.1)
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
 1. shall support [MTLS] as a holder of key mechanism;
 1. (withdrawn);
@@ -232,7 +234,7 @@ In addition, the confidential client for write operations
 1. (moved to 5.2.3.1);
 1. (withdrawn);
 1. (withdrawn);
-1. (5.2.3.1)
+1. (moved 5.2.3.1);
 1. shall send all parameters inside the authorization request's signed request object
 1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications
 1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL
@@ -247,15 +249,15 @@ In addition, if the `response_type` value `code id_token` is used, the client
 
 1. shall include the value `openid` into the `scope` parameter in order to activate [OIDC] support
 1. shall require JWS signed ID Token be returned from endpoints;
-1. shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
-1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
+1. (withdrawn);
+1. (withdrawn);
 1. shall verify that the authorization response was not tampered using ID Token as the detached signature
 1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response.
 
 #### 5.2.3.1 JARM
 
-In addition, if the `response_type` value `code` in conjunction with any of the `response_mode` value `jwt` is used, the client
+In addition, if the `response_type` value `code` us used in conjunction with the `response_mode` value `jwt`, the client
 
 1. shall verify the authorization responses as specified in [JARM], section 4.4;
 
