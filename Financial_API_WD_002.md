@@ -253,7 +253,7 @@ In addition, if the `response_type` value `code id_token` is used, the client
 1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response.
 
-#### 5.2.3.1 JARM
+#### 5.2.3.2 JARM
 
 In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the client
 
