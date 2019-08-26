@@ -1,4 +1,4 @@
-# Financial-grade API: Deployment Advice
+# Financial-grade API: Implementation and Deployment Advice
 
 ## Warning
 
@@ -25,7 +25,7 @@ Financial-grade API consists of the following parts:
 * Financial-grade API: Client Initiated Backchannel Authentication Profile
 * Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 * Financial-grade API: Pushed Request Object
-* Financial-grade API: Deployment Advice
+* Financial-grade API: Implementation and Deployment Advice
 
 Future parts may follow.
 
@@ -45,7 +45,7 @@ These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-# **Financial-grade API: Deployment Advice**
+# **Financial-grade API: Implementation and Deployment Advice**
 
 [TOC]
 
@@ -93,7 +93,7 @@ For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636
 
 **TLS** – Transport Layer Security
 
-## 5 Deployment Advice
+## 5 Implementation and Deployment Advice
 
 ### 5.1 Public clients
 
