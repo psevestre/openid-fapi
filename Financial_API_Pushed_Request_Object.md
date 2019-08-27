@@ -37,7 +37,7 @@ The Financial-grade API aims to provide specific implementation guidelines for o
  
 This document defines a new mode for handling request objects called "pushed request objects" that allows the client to create the request object at the authorization server. This relieves the client from the burden to maintain request objects and facilitates the stability of the authorization process as the authorization server does not need to call back to the client in order to obtain the authorization request data. 
 
-Due to the use of TLS and the aibility to directly authenticate the client over the TLS connection, this mechanism can support plain JSON request objects in addition to the "classical" JWTs.  
+Due to the use of TLS and the aibility to directly authenticate the client over the TLS connection, this mechanism can support both signed and unsigned JWTs.  
 
 ### Notational Conventions
 
@@ -79,6 +79,9 @@ The following referenced documents are indispensable for the application of this
 
 [RFC8414] - OAuth 2.0 Authorization Server Metadata
 [RFC8414]: https://tools.ietf.org/html/rfc8414
+
+[RFC7591] - OAuth 2.0 Dynamic Client Registration Protocol
+[RFC7591]: https://tools.ietf.org/html/rfc7591
 
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
@@ -142,13 +145,20 @@ This section describes the process of request object creation and its use in the
 
 The request object endpoint shall be a RESTful API at the authorization server that accepts `x-www-form-urlencoded` POST. 
 
-The request object is sent in the parameter `request` as definded in [JAR].
+The rules for client authentication as defined in [RFC6749] for token endpoint requests 
+apply for the request object endpoint as well. 
 
-All rules for signing and encrypting request objects as defined in [JAR] apply. Additionally, because the communication is HTTPS-protected, clients may decide to not sign the request object. 
+Confidential clients are required to authenticate towards the request object endpoint using the authentication method registered for their `client_id`. If applicable, the `token_endpoint_auth_method` client metadata parameter indicates the registered authentication method for the client to use when making direct requests to the authorization server, including requests to the token endpoint and the request object endpoint (and others). Applicable token endpoint authentication methods are registered in the IANA "OAuth Token Endpoint Authentication Methods" registry [IANA.OAuth.Parameters] defined by [RFC7591].
 
-Confidential clients are required to authenticate towards the request object endpoint using any of the applicable token endpoint authentication method defined in the IANA "OAuth Token Endpoint Authentication Methods" registry [RFC 7591](https://tools.ietf.org/html/rfc7591). 
+Note that there's some potential ambiguity around the appropriate audience 
+value to use when JWT client assertion based authentication is employed. To address that ambiguity the issuer URL of the AS according to [RFC8414] MUST be used as the value of the audience. 
 
-The following is an example of a request using a signed request object. The client is authenticated using its client secret `BASIC` authorization:
+The request object is sent in the parameter `request` as defined in [JAR].
+
+The rules for signing and encryption of the request object as defined in [JAR] apply.  
+
+The following is an example of a request using a signed request object. The client is 
+authenticated using its client secret `BASIC` authorization:
 
 ```
 POST https://as.example.com/ros/ HTTP/1.1
@@ -156,21 +166,42 @@ Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
 Authorization: Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3
 
-request=eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.eyJpc3MiOiJzNkJoZFJrcXQzI
-iwiYXVkIjoiaHR0cHM6Ly9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJyZXNwb25zZV90eXBlIjoiY2
-9kZSIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczovL2N
-saWVudC5leGFtcGxlLm9yZy9jYiIsInNjb3BlIjoiYWlzIiwic3RhdGUiOiJhZjBpZmpzbGRr
-aiIsImNvZGVfY2hhbGxlbmdlIjoibi0wUzZfV3pBMk1qIiwiY29kZV9jaGFsbGVuZ2VfbWV0a
-G9kIjoiUzI1NiJ9.wr6yVszC1W-9M3TeYTD0kL_kZET56kA2UN-pYGuhCV7mQXqpQmYiu9bfv
-3_keeGS1inSAvX4_Q578VuMkPT8orfIQX2R4qrlG8fC3B35P7p_FBfpiFC6dh68EcZ1RB8Q7F
-WXXKWokG2PoJKpjC9nnh0JLobkmcRjZagrPjQwifxdhZqE4fVMH8cACV6_5khyDBP4FxgWDb9
-xRIzRiaR9mwZ5l44vUnQNfWaS_KyukKTsNr_Nj4yuoNThmenlb-vaozM8OUt3BPpLarWBCI7M
-A1SO2FmEXuRE6PGV9oedHewcv8Hf9Z0qIvupav8dxaBp0uQcc64_UYWy7p70_powI5DXImegG
-UrmViV72SxmDHnX_PIwflVlEHAas0iOaf6IFbK-V7frtzR9mFwXt5PJdCwPlk3AkDFhduXSsb
-WinJ-VXMybWLHqml6tK3GhA93wNfTwlBUE8A6zUhZpHKh9xOuXPtvOgB18kxresKpAh06t7VA
--zMzqwxIz9AckUxh2JFs7atDuLCbycBs6te13kTGr355nFzCn-F-bJuePEUcrKEQ7m-_IVbvD
-wTqK_oNHJe1ehMj1MicQ9rttuOxDh8HxCj4qkCFgFRcmtHV-cjVzVyAl6uRQ6CUEgGlRm_Eic
-ol2bV-MtPPylAjDK0VP_uaxXndLDSeFqunQKYWD1Eo
+request=eeyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.eyJpc3MiOiJzNkJoZFJrcX
+QzIiwiYXVkIjoiaHR0cHM6Ly9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJyZXNwb25zZV90eXBlI
+joiY29kZSIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRw
+czovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsInNjb3BlIjoiYWlzIiwic3RhdGUiOiJhZjB
+pZmpzbGRraiIsImNvZGVfY2hhbGxlbmdlIjoiWTJObVl6TmpZbU0yWXpnNFpqZG1abUZpTm
+pVMU1HUXdNRFptWm1ObE56UmlOVGc1TmpVeE16azRNbVpoTlRGa1kySmtZbVZrTVRobE5XV
+TNaalpsTlE9PSIsImNvZGVfY2hhbGxlbmdlX21ldGhvZCI6IlMyNTYifQ.aly590CZvSzXU
+t8JZD8PjXocyk-Zn7l2q70Kn8dSFci4n5PmhlY6pNu2SMZuC6K8psovuXhW4CRd6LgQn0w2
+jrxo_00kE3qNqgibB1QUl72ey3pYtUYJNzVi9YFre3vNDzdvo_3IqpzvraECzN3uwyXuSe1
+__Jd66c91i2lhh3IedYZWKXIJ0_1doi4QxqJe_97yBC79ofInealGQeYOwO6rMXiVaGm47C
+wr60dV-l5cba0kLIb3zSeOznT6eN_jdn88hQAgQr7LgiUNBNNy6RvUaBvU6vd2b4YNKGUtf
+pVS98miSl5YQ56QKVm5Eb3wzVwQWPvHLX0biKYQ_j72iQ
+```
+
+Since the communication is HTTPS-protected, clients may decide to send an 
+unsigned JWT (using the JWS algorithm `none`) as the request object. This 
+generally simplifies use of the request object pattern in cases where 
+the additional security properties of the application level signature are 
+not needed. It also allows public clients to protect the authorization request 
+from modifications without the need to establish a secret with the AS.
+
+The following is an example of a public client sending a unsigned request object to the AS:
+
+```
+POST https://as.example.com/ros/ HTTP/1.1
+Host: as.example.com
+Content-Type: application/x-www-form-urlencoded
+
+request=eyJhbGciOiAibm9uZSJ9.ewogICJpc3MiOiAiczZCaGRSa3F0MyIsCiAgImF1ZCI
+6ICJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsCiAgInJlc3BvbnNlX3R5cGUiOiAiY29
+kZSIsCiAgImNsaWVudF9pZCI6ICJzNkJoWGJjdDQiLAogICJyZWRpcmVjdF91cmkiOiAiaHR
+0cHM6Ly9jbGllbnQyLmV4YW1wbGUub3JnL2NiIiwKICAic2NvcGUiOiAiYWlzIiwKICAic3R
+hdGUiOiAiYWYwaWZqc2lhYmMiLAogICJjb2RlX2NoYWxsZW5nZSI6ICJZVGhpWmpZM016Wmp
+ZamMzWWpObU9XWmhOMk00TkRWbE5qVXpZVGd6TjJaaVpqUXdPV0l3WWpnNE5tSmhPVEkyT1R
+NeE5EWTBOMlE1TURJME56TmhNQT09IiwKICAiY29kZV9jaGFsbGVuZ2VfbWV0aG9kIjogIlM
+yNTYiCn0=.
 ```
 
 ### 5.2 Sucessful Response
@@ -178,8 +209,8 @@ ol2bV-MtPPylAjDK0VP_uaxXndLDSeFqunQKYWD1Eo
 The AS MUST process the request as follows:
 
 1. If the client is a confidential client, the AS first authenticates the client.  
-1. The AS decrypts the request object (if applicable) as specified in [JAR], section 6.1.
-1. The AS validates the request object signature as specified in [JAR], section 6.2.
+1. If applicable, the AS decrypts the request object (if applicable) as specified in [JAR], section 6.1.
+1. If applicable, the AS validates the request object signature as specified in [JAR], section 6.2.
 1. In the next step, the authorization server verifies whether the parameters sent are 
 valid as specified in [JAR], section 6.3. For example, the authorization server checks, whether the redirect URI matches one of the redirect URIs configured for the server. It may also check whether the client is authorized for the scope for which it requested access. This validation allows the authorization server to refuse unauthorized or fraudulent requests early.  
 1. If the verification is successful, the server shall generate a request URI and
@@ -191,7 +222,7 @@ claims at the top level with `201 Created` HTTP response code.
 1. The value of these claims in the JSON payload shall be as follows:
     * `request_uri` : The request URI corresponding to the request object posted. 
     * `aud` : A JSON string that represents the client identifier of the client that posted the request object.
-    * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
+    * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. The value MUST be the issuer URL of the AS as defined in [8414].
     * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
 
 The following is an example of such a response:
@@ -208,9 +239,10 @@ Content-Type: application/json
     "exp": 1493738581
 }
 ```
+
 Question: What is the value of returning `iss` and `aud`? Does the `exp` really add anything given the text encourages one-time use of the request object?
 
-(BC QUESTION/RESPONSE: I suspect Nat will say there's value in explicitly identifying the participants in any exchange. But I'm not so sure myself (they are already identified by HTTPS and client authentication/identification) and worry a little that `iss` and `aud` will only confuse in this context (case in point the definition of `iss` above is rather confusing referring to JWT/RFC7519 for the definition of an authorization server issuer rather than RFC8414 but also mentioning 'the redirection URI' as the issuer for the AS). I also don't see what value `exp` adds here - is it anything more than a hint to the client about how long the request_uri will be valid? I don't see the use in that. And using something like `expires_in` similar to RFC6749 with a relative value of how long the URI is valid would be more appropriate for that anyway, if it were needed.)  
+(BC QUESTION/RESPONSE: I suspect Nat will say there's value in explicitly identifying the participants in any exchange. But I'm not so sure myself (they are already identified by HTTPS and client authentication/identification) and worry a little that `iss` and `aud` will only confuse in this context (case in point the definition of `iss` above is rather confusing referring to JWT [RFC7519] for the definition of an authorization server issuer rather than [RFC8414] but also mentioning 'the redirection URI' as the issuer for the AS). I also don't see what value `exp` adds here - is it anything more than a hint to the client about how long the request_uri will be valid? I don't see the use in that. And using something like `expires_in` similar to RFC6749 with a relative value of how long the URI is valid would be more appropriate for that anyway, if it were needed.)  
 
 ### 5.3 Error responses
 
@@ -248,8 +280,21 @@ If the authorization server has a request object endpoint, it shall include the 
 1. `request_object_endpoint` : The url of the request object endpoint at which the client can exchange a request object for a request URI.
 
 ## 7. Security considerations
-TBD
 
+### 7.1. Request URI Guessing
+An attacker could attempt to guess and replay a valid request URI value and 
+try to impersonat the respective client. The AS MUST consider the considerations
+given in [JAR], section 10.2, clause d on request URI entropy.
+
+### 7.2 Request Object Replay
+An attacker could replay a request URI captured from a legit authorization request.
+In order to cope with such attacks, the AS SHOULD make the request URIs one-time use.
+
+### 7.3 Client Policy Change
+The client policy might change between the lodging of the request object and the 
+authorization request using a particular request object. It is therefore recommended 
+that the AS checks the request parameter against the client policy when processing 
+the authorization request.
 
 ## 8. Privacy considerations
 TBD
@@ -264,6 +309,8 @@ The following people contributed to this document:
 * Dave Tonge (Momentum Financial Technology) -- UK Implementation Entity Liaison
 * Vladimir Dzhuvinov (Connect2ID)
 * Takahiko Kawasaki (Authlete, Inc.)
+* Joseph Heenan (Authlete) 
+* Filip Skokan
 
 ## 10. IANA Considerations
 
