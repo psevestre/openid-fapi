@@ -66,6 +66,8 @@ The JWKS provided by the register is:
 
 The following are a list of modifications which are divergent from their specification and may or may not be breaking but are notable:
 
+* Unregistered `refresh_token_expires_at` claim is MANDATORY for ongoing consent (ie. not once off)
+  * *Update 2019-08-27*: Following related discussion [in FAPI #251](https://bitbucket.org/openid/fapi/issues/251/refresh-token-expiry-time) with highlight that this claim is named differently between standards (and appears to have slightly different business rules) this modification has been upgraded to a Non-Spec Compliant Change
 * Introspection methods modified:
     * Introspection of Access Tokens is not allowed
     * Introspection of ID Tokens is not allowed
@@ -111,10 +113,8 @@ The following is a list of modifications which while different from the upstream
 * Response type of `code id_token token` is REMOVED
 * Signed only token support is REMOVED (`Sign`+`Encrypt` only)
 * `typ` header is MANDATORY and expected to ALWAYS be *JOSE*
-* Unregistered (but common) `refresh_token_expires_at` claim is MANDATORY for ongoing consent (ie. not once off)
 * Unregistered and New `sharing_expires_at` claim is ADDED and is MANDATORY for ongoing consent (ie. not once off)
 * `expires_in` claim changed to MANDATORY
-* `refresh_token_expires_in` claim changed to MANDATORY
 * `sharing_expires_in` claim is CREATED, is unregistered and does not comply with collision avoidance rules (See RFC6749 *8.2 Defining New Endpoint Parameters*)
 * JWT Client Authorization Grants are DISABLED
 * `s_hash` is MANDATORY which means `state` in the Request Object is MANDATORY
