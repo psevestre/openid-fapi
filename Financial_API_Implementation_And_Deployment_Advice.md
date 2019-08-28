@@ -51,10 +51,7 @@ and are not to be interpreted with their natural language meanings.
 
 ## 1. Scope
 
-This document specifies the method for an application to:
-
-* obtain OAuth tokens via a backchannel authentication flow in an appropriately secure manner for financial data access and other similar situations where the risk is higher;
-* use tokens to interact with protected data via REST endpoints.
+This document gives general guidance on the implementation and successful deployment of the FAPI specifications, primarily based on lessons learnt from previous deployments of Financial-grade APIs.
 
 ## 2. Normative references
 
