@@ -218,7 +218,7 @@ valid as specified in [JAR], section 6.3. For example, the authorization server 
 1. Since the request URI can be replayed, its lifetime should be short and preferably limited to one-time use.
 1. The value of these claims in the JSON payload shall be as follows:
     * `request_uri` : The request URI corresponding to the request object posted. 
-    * `expires_in` : A JSON number that represents the lifetime time of the request URI in seconds.
+    * `expires_in` : A JSON number that represents the lifetime of the request URI in seconds.
 
 The following is an example of such a response:
 
