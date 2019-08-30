@@ -83,7 +83,7 @@ The following referenced documents are indispensable for the application of this
 [RFC7591] - OAuth 2.0 Dynamic Client Registration Protocol
 [RFC7591]: https://tools.ietf.org/html/rfc7591
 
-  - OpenID Connect Core 1.0 incorporating errata set 1
+[OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
 
 [OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
@@ -128,13 +128,11 @@ Both mechanisms contribute to the security of the request by allowing for the si
 
 The request URI additionally allows the client to just send the URI value in the authorization request as a pointer to the request object, rather than the full content of the request object itself, which allows for the transfer of larger amounts of request data without issues caused by URI length restrictions. 
 
-However, the request URI mechanisms also has some downsides. The client needs to maintain and expose request objects. This might look easy on first sight, but the client needs to be able to handle inbound requests from the authorization server and, potentially, store a large number of objects in its database including the need to properly clean them up.
+However, the request URI mechanisms also has some downsides. Neither [JAR] nor [OIDC] specify a mechanism to let the client lodge the request object at a trusted service, such as the AS, before sending the authorization request. The client therefore either needs to use a non-standard mechanism for request object management or it is required to maintain and expose request objects itself. 
 
-It also means the availability and latency of the authorization process at the authorization server depends on the availability and latency of the client’s backend.
+This might look easy on first sight, but the client needs to be able to handle inbound requests from the authorization server and, potentially, store a large number of objects in its database including the need to properly clean them up. It also means the availability and latency of the authorization process at the authorization server depends on the availability and latency of the client’s backend. Moreover, in order to dereference the `request_uri` parameter the authorization has to make outbound HTTP requests, which brings with it all the potential problems of server-side request forgery.
 
-Moreover, in order to dereference the `request_uri` parameter the authorization has to make outbound HTTP requests, which brings with it all the potential problems of server-side request forgery.
-
-This specification addresses these problems by moving the responsibility for managing request objects from the client to the authorization server. The authorization server offers an additional "request object endpoint". The client calls this endpoint to deliver its request objects and is provided with a unique URI for that particular request object, which in turn is sent into to the AS's authorization endpoint as the value of the `request_uri` parameter.  
+This specification addresses these problems by defining an OAuth extension that allows the client to lodge request objects at the authorization server. The authorization server offers an additional "request object endpoint". The client calls this endpoint to deliver its request objects and is provided with a unique URI for that particular request object, which in turn is sent into to the AS's authorization endpoint as the value of the `request_uri` parameter.  
 
 This draft allows the client to send the request object via a direct POST request to the AS rather than as a redirect URI query parameter. 
 
