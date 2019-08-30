@@ -98,6 +98,9 @@ The following referenced documents are indispensable for the application of this
 [JAR] - The OAuth 2.0 Authorization Framework: JWT Secured Authorization Request (JAR)
 [JAR]: https://tools.ietf.org/html/draft-ietf-oauth-jwsreq
 
+[RFC7231] - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content
+[RFC7231]:https://tools.ietf.org/html/rfc7231
+
 ## 2. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], and [OIDC] apply.
 
@@ -257,8 +260,8 @@ If the request object received is invalid, the authorization server shall return
 #### 5.3.4 Method not allowed
 If the request did not use POST, the authorization server shall return `405 Method Not Allowed` HTTP error response.
 
-#### 5.3.5 Request entity too large
-If the request size was beyond the upper bound that the authorization server allows, the authorization server shall return a `413 Request Entity Too Large` HTTP error response.
+#### 5.3.5 Payload Too Large
+If the request size was beyond the upper bound that the authorization server allows, the authorization server shall return a `413 Payload Too Large` HTTP error response as defined in [RFC7231].
 
 #### 5.3.6 Too many requests
 If the request from the client per a time period goes beyond the number the authorization server allows, the authorization server shall return a `429 Too Many Requests` HTTP error response.
