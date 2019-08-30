@@ -83,7 +83,7 @@ The following referenced documents are indispensable for the application of this
 [RFC7591] - OAuth 2.0 Dynamic Client Registration Protocol
 [RFC7591]: https://tools.ietf.org/html/rfc7591
 
-[OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
+  - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
 
 [OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
