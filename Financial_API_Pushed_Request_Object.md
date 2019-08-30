@@ -215,14 +215,12 @@ valid as specified in [JAR], section 6.3. For example, the authorization server 
 1. If the verification is successful, the server shall generate a request URI and
 return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
 claims at the top level with `201 Created` HTTP response code.
-1. The `request_uri` value shall be generated using a cryptographically strong pseudorandom algorithm such that it is computationally infeasible to predict or guess a valid value.   (BC QUESTION: should there some more guidance provided on or requirements around the structer of the URI value? For example it could use the RFC6755 subnamespace and registry and be of the form `urn:ietf:params:oauth:request_uri:<<random-part>>`, which gives a clear indication of what it is and would keep people from inventing their own URIs.)
+1. The `request_uri` value shall be generated using a cryptographically strong pseudorandom algorithm such that it is computationally infeasible to predict or guess a valid value.   
 1. The request URI shall be bound to the client identifier of the client that posted the request object.
 1. Since the request URI can be replayed, its lifetime should be short and preferably limited to one-time use.
 1. The value of these claims in the JSON payload shall be as follows:
     * `request_uri` : The request URI corresponding to the request object posted. 
-    * `aud` : A JSON string that represents the client identifier of the client that posted the request object.
-    * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. The value MUST be the issuer URL of the AS as defined in [8414].
-    * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
+    * `expires_in` : A JSON number that represents the lifetime time of the request URI in seconds.
 
 The following is an example of such a response:
 
@@ -232,16 +230,10 @@ Date: Tue, 2 May 2017 15:22:31 GMT
 Content-Type: application/json
 
 {
-    "iss": "https://as.example.com/",
-    "aud": "s6BhdRkqt3",
     "request_uri": "urn:example:MTAyODAK",
-    "exp": 1493738581
+    "expires_in": 3600
 }
-```
-
-Question: What is the value of returning `iss` and `aud`? Does the `exp` really add anything given the text encourages one-time use of the request object?
-
-(BC QUESTION/RESPONSE: I suspect Nat will say there's value in explicitly identifying the participants in any exchange. But I'm not so sure myself (they are already identified by HTTPS and client authentication/identification) and worry a little that `iss` and `aud` will only confuse in this context (case in point the definition of `iss` above is rather confusing referring to JWT [RFC7519] for the definition of an authorization server issuer rather than [RFC8414] but also mentioning 'the redirection URI' as the issuer for the AS). I also don't see what value `exp` adds here - is it anything more than a hint to the client about how long the request_uri will be valid? I don't see the use in that. And using something like `expires_in` similar to RFC6749 with a relative value of how long the URI is valid would be more appropriate for that anyway, if it were needed.)  
+``` 
 
 ### 5.3 Error responses
 
