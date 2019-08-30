@@ -212,9 +212,7 @@ The AS MUST process the request as follows:
 1. If applicable, the AS validates the request object signature as specified in [JAR], section 6.2.
 1. In the next step, the authorization server verifies whether the parameters sent are 
 valid as specified in [JAR], section 6.3. For example, the authorization server checks, whether the redirect URI matches one of the redirect URIs configured for the server. It may also check whether the client is authorized for the scope for which it requested access. This validation allows the authorization server to refuse unauthorized or fraudulent requests early.  
-1. If the verification is successful, the server shall generate a request URI and
-return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
-claims at the top level with `201 Created` HTTP response code.
+1. If the verification is successful, the server shall generate a request URI and return a JSON payload that contains `request_uri` and `expires_in` claims at the top level with `201 Created` HTTP response code.
 1. The `request_uri` value shall be generated using a cryptographically strong pseudorandom algorithm such that it is computationally infeasible to predict or guess a valid value.   
 1. The request URI shall be bound to the client identifier of the client that posted the request object.
 1. Since the request URI can be replayed, its lifetime should be short and preferably limited to one-time use.
