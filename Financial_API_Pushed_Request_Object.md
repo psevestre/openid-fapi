@@ -217,8 +217,8 @@ valid as specified in [JAR], section 6.3. For example, the authorization server 
 1. The request URI shall be bound to the client identifier of the client that posted the request object.
 1. Since the request URI can be replayed, its lifetime should be short and preferably limited to one-time use.
 1. The value of these claims in the JSON payload shall be as follows:
-    * `request_uri` : The request URI corresponding to the request object posted. 
-    * `expires_in` : A JSON number that represents the lifetime of the request URI in seconds.
+    * `request_uri` : The request URI corresponding to the request object posted. This URI is used as reference to the respective request object in subsequent authorization requests only. The way the authorization process obtains the request object data is at the discretion of the authorization server and out of scope of this specification. There is no need to make the request object data available to other parties via this URI.
+    * `expires_in` : A JSON number that represents the lifetime of the request URI in seconds. The request URI lifetime is at the discretion of the AS. There is no dependency defined by this draft between the value of `expires_in` and an `exp` claim that might be contained in the respective request object. 
 
 The following is an example of such a response:
 
