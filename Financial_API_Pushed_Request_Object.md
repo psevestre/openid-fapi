@@ -210,6 +210,7 @@ The AS MUST process the request as follows:
 1. If the client is a confidential client, the AS first authenticates the client.  
 1. If applicable, the AS decrypts the request object (if applicable) as specified in [JAR], section 6.1.
 1. If applicable, the AS validates the request object signature as specified in [JAR], section 6.2.
+1. If the client is a confidential client, the authorization server MUST check whether the authenticated `client_id` matches the `iss` and `client_id` claim in the request objects. If they do not match, the authorization server MUST refuse to process the request. 
 1. In the next step, the authorization server verifies whether the parameters sent are 
 valid as specified in [JAR], section 6.3. For example, the authorization server checks, whether the redirect URI matches one of the redirect URIs configured for the server. It may also check whether the client is authorized for the scope for which it requested access. This validation allows the authorization server to refuse unauthorized or fraudulent requests early.  
 1. If the verification is successful, the server shall generate a request URI and return a JSON payload that contains `request_uri` and `expires_in` claims at the top level with `201 Created` HTTP response code.
