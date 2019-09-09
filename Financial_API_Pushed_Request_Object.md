@@ -229,7 +229,7 @@ Date: Tue, 2 May 2017 15:22:31 GMT
 Content-Type: application/json
 
 {
-    "request_uri": "urn:example:MTAyODAK",
+    "request_uri": "urn:example:GkurKxf5T0Y-mnPFCHqWOMiZi4VS138cQO_V7PZHAdM",
     "expires_in": 3600
 }
 ``` 
