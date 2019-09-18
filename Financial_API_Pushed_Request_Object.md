@@ -211,19 +211,16 @@ The AS MUST process the request as follows:
 1. If the client is a confidential client, the AS first authenticates the client.  
 1. If applicable, the AS decrypts the request object (if applicable) as specified in [JAR], section 6.1.
 1. If applicable, the AS validates the request object signature as specified in [JAR], section 6.2.
+1. If the client is a confidential client, the authorization server MUST check whether the authenticated `client_id` matches the `client_id` and, if present, the `iss` claim in the request objects. If they do not match, the authorization server MUST refuse to process the request. 
 1. In the next step, the authorization server verifies whether the parameters sent are 
 valid as specified in [JAR], section 6.3. For example, the authorization server checks, whether the redirect URI matches one of the redirect URIs configured for the server. It may also check whether the client is authorized for the scope for which it requested access. This validation allows the authorization server to refuse unauthorized or fraudulent requests early.  
-1. If the verification is successful, the server shall generate a request URI and
-return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
-claims at the top level with `201 Created` HTTP response code.
-1. The `request_uri` value shall be generated using a cryptographically strong pseudorandom algorithm such that it is computationally infeasible to predict or guess a valid value.   (BC QUESTION: should there some more guidance provided on or requirements around the structer of the URI value? For example it could use the RFC6755 subnamespace and registry and be of the form `urn:ietf:params:oauth:request_uri:<<random-part>>`, which gives a clear indication of what it is and would keep people from inventing their own URIs.)
+1. If the verification is successful, the server shall generate a request URI and return a JSON payload that contains `request_uri` and `expires_in` claims at the top level with `201 Created` HTTP response code.
+1. The `request_uri` value shall be generated using a cryptographically strong pseudorandom algorithm such that it is computationally infeasible to predict or guess a valid value.   
 1. The request URI shall be bound to the client identifier of the client that posted the request object.
 1. Since the request URI can be replayed, its lifetime should be short and preferably limited to one-time use.
 1. The value of these claims in the JSON payload shall be as follows:
-    * `request_uri` : The request URI corresponding to the request object posted. 
-    * `aud` : A JSON string that represents the client identifier of the client that posted the request object.
-    * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. The value MUST be the issuer URL of the AS as defined in [8414].
-    * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
+    * `request_uri` : The request URI corresponding to the request object posted. This URI is used as reference to the respective request object in subsequent authorization requests only. The way the authorization process obtains the request object data is at the discretion of the authorization server and out of scope of this specification. There is no need to make the request object data available to other parties via this URI.
+    * `expires_in` : A JSON number that represents the lifetime of the request URI in seconds. The request URI lifetime is at the discretion of the AS. There is no dependency defined by this draft between the value of `expires_in` and an `exp` claim that might be contained in the respective request object. 
 
 The following is an example of such a response:
 
@@ -233,16 +230,10 @@ Date: Tue, 2 May 2017 15:22:31 GMT
 Content-Type: application/json
 
 {
-    "iss": "https://as.example.com/",
-    "aud": "s6BhdRkqt3",
-    "request_uri": "urn:example:MTAyODAK",
-    "exp": 1493738581
+    "request_uri": "urn:example:GkurKxf5T0Y-mnPFCHqWOMiZi4VS138cQO_V7PZHAdM",
+    "expires_in": 3600
 }
-```
-
-Question: What is the value of returning `iss` and `aud`? Does the `exp` really add anything given the text encourages one-time use of the request object?
-
-(BC QUESTION/RESPONSE: I suspect Nat will say there's value in explicitly identifying the participants in any exchange. But I'm not so sure myself (they are already identified by HTTPS and client authentication/identification) and worry a little that `iss` and `aud` will only confuse in this context (case in point the definition of `iss` above is rather confusing referring to JWT [RFC7519] for the definition of an authorization server issuer rather than [RFC8414] but also mentioning 'the redirection URI' as the issuer for the AS). I also don't see what value `exp` adds here - is it anything more than a hint to the client about how long the request_uri will be valid? I don't see the use in that. And using something like `expires_in` similar to RFC6749 with a relative value of how long the URI is valid would be more appropriate for that anyway, if it were needed.)  
+``` 
 
 ### 5.3 Error responses
 
