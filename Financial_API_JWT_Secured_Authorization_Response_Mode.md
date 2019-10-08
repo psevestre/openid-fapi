@@ -144,16 +144,18 @@ The JWT always contains the following data utilized to secure the transmission:
 * `aud` - the client_id of the client the response is intended for
 * `exp` - expiration of the JWT. A maximum JWT lifetime of 10 minutes is RECOMMENDED.
  
-The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types, even in case of an error response. Authorization endpoint response parameter names and string values are included as JSON strings and numerical values (e.g., `expires_in` value) are included as JSON numbers. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token".
+The JWT MUST furthermore contain the authorization endpoint response parameters as defined for the particular response types, even in case of an error response. Authorization endpoint response parameter names and string values are included as JSON strings and numerical values (e.g., `expires_in` value) are included as JSON numbers. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token".
 
 Note: Additional authorization endpoint response parameters defined by extensions, e.g. `session_state` as defined in [OISM], will also be added to the JWT. 
+
+The JWT response document MAY contain further element, e.g. the claims defined in [RFC7519]. Implementation SHOULD adhere to the respective processing rules and ignore unrecognized elements.
 
 #### 4.1.1 Response Type "code"
 
 For the grant type authorization "code" the JWT contains the response parameters as defined in [RFC6749], sections 4.1.2:
 
 * `code` - the authorization code
-* `state` - the state value as sent by the client in the authorization request
+* `state` - the state value as sent by the client in the authorization request, if the client include a `state` parameter
 
 The following example shows the JWT claims for a successful "code" authorization response:
 
@@ -172,7 +174,7 @@ In case of an error response, the JWT contains the error response parameters as 
 * `error` - the error code
 * `error_description` (OPTIONAL) - a human readable description of the error
 * `error_uri` (OPTIONAL) - a URI identifying a human-readable web page with information about the error
-* `state` - the state value as sent by the client in the authorization request
+* `state` - the state value as sent by the client in the authorization request (if applicable)
 
 The following example shows the JWT payload for such an error response:
 
@@ -194,7 +196,7 @@ For the grant type "token" the JWT contains the response parameters as defined i
 * `token_type` - the type of the access token
 * `expires_in` - when the access token expires
 * `scope` - the scope granted with the access token
-*  `state` - the state value as sent by the client in the authorization request
+*  `state` - the state value as sent by the client in the authorization request (if applicable)
 
 The following example shows the claims of the JWT for a successful "token" authorization response:
 
@@ -319,14 +321,14 @@ Assumption: the client remembers the authorization server to which it sent the a
 
 The client is obliged to process the JWT secured response as follows:
 
-1. (OPTIONAL) The client decrypts the JWT using the key determined by the `kid` JWT header parameter. The key might be a private key, where the corresponding public key is registered with the expected issuer of the response ("use":"enc" via the client's metadata `jwks` or `jwks_uri`) or a key derived from its client secret (see section 4.2). 
-1. The client obtains the `state` parameter from the JWT and checks its binding to the user agent. If the check fails, the client MUST abort processing and refuse the response. 
+1. (OPTIONAL) The client decrypts the JWT using the default key for the respective issuer or, if applicable, determined by the `kid` JWT header parameter. The key might be a private key, where the corresponding public key is registered with the expected issuer of the response ("use":"enc" via the client's metadata `jwks` or `jwks_uri`) or a key derived from its client secret (see section 4.2). 
 1. The client obtains the `iss` element from the JWT and checks whether its value is well known and identifies the expected issuer of the authorization process in examination. If the check fails, the client MUST abort processing and refuse the response.
 1. The client obtains the `aud` element from the JWT and checks whether it matches the client id the client used to identify itself in the corresponding authorization request. If the check fails, the client MUST abort processing and refuse the response.
 1. The client checks the JWT's `exp` element to determine if the JWT is still valid. If the check fails, the client MUST abort processing and refuse the response. 
-1. The client obtains the key needed to check the signature based on the JWT's `iss` element and the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
+1. The client obtains the key needed to check the signature based on the JWT's `iss` element and, if present, the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
 
-Note: The `state` value is treated as a one-time-use CSRF token. It MUST be invalidated after the check (step 2) was performed.
+The client will perform further checks, e.g. for CSRF detection, which are out of scope of this specification.
+
 Note: The way the client obtains the keys for verifying the JWT's signature (step 5) is out of scope of this draft. Established mechanism such as [OIDD] or [RFC8414] SHOULD be utilized.
 
 The client MUST NOT process the grant type specific authorization response parameters before all checks succeed. 
@@ -446,6 +448,3 @@ This specification requests registration of the following value in the IANA "OAu
 * Metadata Description: JSON array containing a list of algorithms supported by the authorization server for introspection response encryption (enc value).
 * Change Controller: IESG
 * Specification Document(s): Section 5 of [[ this specification ]]
-
-## 11. Bibliography
-TBD
