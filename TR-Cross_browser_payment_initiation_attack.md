@@ -1,4 +1,4 @@
-#Cross-Browser Payment Initiation Attack
+# Cross-Browser Payment Initiation Attack
 
 Publication Date: 01.03.2019
 
@@ -172,7 +172,7 @@ Brian Campbell (Ping Identity)
 
 # Authors' Addresses
 
-Dr. Torsten Lodderstedt
+Dr. Torsten Lodderstedt  
 yes.com AG  
 Email: torsten@yes.com  
 URI: http://www.yes.com/  
