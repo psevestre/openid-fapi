@@ -21,7 +21,9 @@ Financial-grade API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
-* Part 3: Client Initiated Backchannel Authentication Profile
+* Financial-grade API: Client Initiated Backchannel Authentication Profile
+* Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+* Financial-grade API: Pushed Request Object
 
 Future parts may follow.
 
@@ -88,14 +90,14 @@ The following referenced documents are indispensable for the application of this
 [OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
 [OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
 
-[OAUTB] - OAuth 2.0 Token Binding
-[OAUTB]: https://tools.ietf.org/html/draft-ietf-oauth-token-binding
-
 [MTLS] - OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 [MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
 
 [JARM] - Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 [JARM]: https://bitbucket.org/openid/fapi/src/master/Financial_API_JWT_Secured_Authorization_Response_Mode.md
+
+[PRO] - Financial Services – Financial-grade API: Pushed Request Object
+[PRO]:https://bitbucket.org/openid/fapi/src/master/Financial_API_Pushed_Request_Object.md
 
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
@@ -107,7 +109,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **CSRF** - Cross Site Request Forgery
 
-**FAPI** - Financial API
+**FAPI** - Financial-grade API
 
 **HTTP** – Hyper Text Transfer Protocol
 
@@ -134,13 +136,15 @@ APIs are also different.
 This profile describes security provisions for the server and client that are appropriate for Financial-grade APIs by defining the measures to mitigate:
 
 * attacks that leverage the weak binding of endpoints in [RFC6749] (e.g. malicious endpoint attacks, IdP mix-up attacks),
-* attacks that modify authorization requests and responses unprotected in [RFC6749] by leveraging OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response. 
+* attacks that modify authorization requests and responses unprotected in [RFC6749] 
 
-While the name ID Token suggests that it is something  that provides the identity of the resource owner (subject), it is not necessarily so. While it does identify the authorization server by including the issuer identifier, 
-it is perfectly fine to have an ephemeral subject identifier. In this case, the ID Token acts as a detached signature of the issuer to the authorization response and it was an explicit design decision of OpenID Connect Core
-to make the ID Token act as a detached signature.
+The following ways are specified to cope with modifications of authorization responses. Implementation can leverage OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response or they can utilize the JWT Secured Authorization Response Mode for OAuth 2.0 (JARM) that returns and protects all authorization response parameters in a JWT.
 
-This document leverages this fact and protects the authorization response by including the hash of all of the unprotected response parameters, e.g. `code` and `state`. 
+#### 5.1.1 ID Token as Detached Signature
+While the name ID Token (as used in the OpenID Connect Hybrid Flow) suggests that it is something that provides the identity of the resource owner (subject), it is not necessarily so. While it does identify the authorization server by including the issuer identifier, 
+it is perfectly fine to have an ephemeral subject identifier. In this case, the ID Token acts as a detached signature of the issuer to the authorization response and it was an explicit design decision of OpenID Connect Core to make the ID Token act as a detached signature.
+
+This document leverages this fact and protects the authorization response by including the hash of all of the unprotected response parameters, e.g. `code` and `state`, in the ID Token. 
 
 While the hash of the `code` is defined in [OIDC], the hash of the `state` is not defined. 
 Thus this document defines it as follows. 
@@ -153,6 +157,17 @@ in the `alg` header parameter of the ID Token's JOSE header. For instance,
 if the `alg` is `HS512`, hash the state value with SHA-512, then take the left-most 256 bits and base64url encode them.
 The `s_hash` value is a case sensitive string.
 
+#### 5.1.2 JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+
+An authorization server may protect authorization responses to clients using the "JWT Secured Authorization Response Mode" [JARM].
+
+The [JARM] allows a client to request that an authorization server encodes the authorization response (of any response type) in a JWT. It is an alternative to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses and can be used with plain OAuth.
+
+This specification facilitates use of [JARM] in conjunction with the response type `code`.
+
+Note: [JARM] can be used to protect OpenID Connect authentication responses. In this case, the OpenID RP would use response type `code`, response mode `jwt` and scope `openid`. This means [JARM] protects the authentication response (instead of the ID Token) and the ID Token containing End-User Claims is obtained from the token endpoint. This facilitates privacy since no End-User Claims are sent through the front channel. It also provides decoupling of 
+message protection and identity providing since a client (or RP) can basically use [JARM] to protect all 
+authorization responses and turn on OpenID if needed (e.g. to log the user in).
 
 ### 5.2 Read and write API security provisions
 
@@ -169,61 +184,84 @@ The authorization server shall support the provisions specified in clause 5.2.2 
 In addition, the authorization server, for the write operation,
 
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
-1. shall require the `response_type` value `code id_token`;
-1. shall return ID Token as a detached signature to the authorization response;
-1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
+1. shall require 
+	1. the `response_type` value `code id_token` or 
+	2. the `response_type` value `code` in conjunction with the `response_mode` value `jwt`;
+1. (moved to 5.2.2.1)
 1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism;
-1. shall support user authentication at LoA 3 or greater as defined in [X.1254];
-1. shall support signed ID Tokens;
-1. should support signed and encrypted ID Token;
+1. shall support [MTLS] as a holder of key mechanism;
+1. (withdrawn);
+1. (moved to 5.2.2.1);
+1. (moved to 5.2.2.1);
 1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
-1. may support the request object endpoint as described in section 7;
-1. shall require [RFC7636] with S256 as the code challenge method for public clients only, if it supports public clients;
-1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes; and
-1. shall authenticate the confidential client at the token endpoint using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
+1. may support the request object endpoint as described in [PRO];
+1. (withdrawn);
+1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; and
+1. shall authenticate the confidential client using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
+1. shall not support public clients; and
+1. shall require the request object to contain an `nbf` claim that is no longer than 60 minutes in the past.
 
-#### 5.2.3 Public client
+**NOTE:** MTLS is currently the only holder of key mechanism that has been widely deployed. Future versions of this specification are likely to allow other holder of key mechanisms.
 
-A public client shall support the provisions specified in clause 5.2.3 of Financial-grade API - Part 1: Read-Only API Security Profile.
+#### 5.2.2.1 ID Token as detached signature
 
-In addition, the public client for write operations
+In addition, if the `response_type` value `code id_token` is used, the authorization server
 
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism; Note: [MTLS] shall be used with instance-specific keys and (self-signed) certificates to bind access tokens to the particular instance of a public client. It is NOT used as client authentication mechanisms.
+1. shall support [OIDC]
+1. shall support signed ID Tokens;
+1. should support signed and encrypted ID Tokens;
+1. shall return ID Token as a detached signature to the authorization response;
+1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
+
+#### 5.2.2.2 JARM
+
+In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the authorization server
+
+1. shall create JWT-secured authorization responses as specified in [JARM], section 4.3;
+
+#### 5.2.3 Confidential client
+
+A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of Financial-grade API - Part 1: Read-Only API Security Profile, except for [RFC7636] support.
+
+In addition, the confidential client for write operations
+
+1. shall support [MTLS] as a holder of key mechanism;
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
-1. shall request user authentication at LoA 3 or greater by requesting the `acr` claim as an essential claim as defined in section 5.5.1.1 of [OIDC];
-1. shall require JWS signed ID Token be returned from endpoints;
-1. shall verify that the `acr` claim in an ID Token indicates that user authentication was performed at LoA3 or greater;
-1. shall verify that the `amr` claim in an ID Token contains values appropriate for the LoA indicated by the `acr` claim;
-1. shall verify that the authorization response was not tampered using ID Token as the detached signature
+1. shall ensure the Authorization Server has authenticated the user to an appropriate Level of Assurance for the client's intended purpose;
+1. (moved to 5.2.3.1);
+1. (withdrawn);
+1. (withdrawn);
+1. (moved 5.2.3.1);
 1. shall send all parameters inside the authorization request's signed request object
 1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications
 1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes
+1. (moved to 5.2.3.1)
+1. (moved to 5.2.3.1).
+1. shall send a `nbf' claim in the request object
+
+#### 5.2.3.1 ID Token as detached signature
+
+In addition, if the `response_type` value `code id_token` is used, the client
+
+1. shall include the value `openid` into the `scope` parameter in order to activate [OIDC] support
+1. shall require JWS signed ID Token be returned from endpoints;
+1. shall verify that the authorization response was not tampered using ID Token as the detached signature
 1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
+1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response.
 
-#### 5.2.4 Confidential client
+#### 5.2.3.2 JARM
 
-In addition to the provisions for the public client in clause 5.2.3 of this document, except for [RFC7636] support, the confidential client for write operations
+In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the client
 
-1. shall support [OAUTB] or [MTLS] as a holder of key mechanism (this overrides clause 5.2.3.1); Note: In case of confidential clients, [MTLS] can also be used as client authentication mechanism. 
-1. should require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response
+1. shall verify the authorization responses as specified in [JARM], section 4.4;
 
-#### 5.2.5 JWT Secured Authorization Response Mode
+#### 5.2.4 (withdrawn)
 
-In addition to the provisions given in section 5.2.2, an authorization server may protect authorization responses to clients using the "JWT Secured Authorization Response Mode" [JARM].
-
-The [JARM] allows a client to request that an authorization server encode the authorization response (of any response type) in a JWT. It is an alternative to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses and can be used with plain OAuth.
-
-For example, clients may use [JARM] in conjunction with the response type `code`.
-
-The authorization server should advertise support for the [JARM] response modes using the `response_modes_supported` metadata parameter.
-
-If [JARM] is used to secure the authorization responses, the bullet points 2, 3, 4, 8, and 9 of 5.2.2, the bullet points 3,4,5,6,7 of 5.2.3 and the bullet points 2 of 5.2.4 do not apply. 
-
+#### 5.2.5 (withdrawn)
 
 ## 6. Accessing protected resources (using tokens)
 
@@ -238,104 +276,11 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return protec
 The protected resources supporting this document
 
 1. shall support the provisions specified in clause 6.2.1 Financial-grade API - Part 1: Read Only API Security Profile;
-1. shall adhere to the requirements in [MTLS] or [OAUTB].
+1. shall adhere to the requirements in [MTLS].
 
 #### 6.2.2 Client provisions
 
 The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial-grade API - Part 1: Read-Only API Security Profile.
-
-## 7. Request object endpoint
-
-### 7.1 Introduction
-
-The client may not want to send the request object by value, either because it
-is too large, or because it contains sensitive data and the client does not want
-to encrypt the request object. In such cases it is possible to send the request
-object by reference using a `request_uri`. 
-
-Note that `request_uri` can be either URL or URN. 
-
-Although the request URI could be hosted by the client, within the FAPI spec it is
-hosted by the authorization server.
-The advantage of the authorization server hosting the request object is that
-it does not have to support outbound requests to a client specified request URI 
-nor rely on the entropy of the URI for the confidentiality of the request object. 
-
-When the request object is stored at the authorization server, the `request_uri` value typically is a URN. 
-
-This section defines the methods for the authorization server's request object endpoint to exchange a request object for a request URI.
-
-### 7.2 Request
-
-1. The request object endpoint shall be a RESTful API at the authorization server that accepts a signed request object as an HTTPS POST payload.
-1. The request object shall be signed for client authentication and as evidence of the client submitting the request object, which is referred to as 'non-repudiation'.
-
-The following is an example of such a request:
-
-```
-POST https://as.example.com/ros/ HTTP/1.1
-Host: as.example.com
-Content-Type: application/jws
-Content-Length: 1288
-
-eyJhbGciOiJSUzI1NiIsImtpZCI6ImsyYmRjIn0.ew0KICJpc3MiOiA
-(... abbreviated for brevity ...)
-zCYIb_NMXvtTIVc1jpspnTSD7xMbpL-2QgwUsAlMGzw
-```
-
-### 7.3 Successful response
-
-1. The authorization server shall verify that the request object is valid, the signature algorithm is not `none`, and the signature is correct as in clause 6.3 of [OIDC].
-1. If the verification is successful, the server shall generate a request URI and
-return a JSON payload that contains `request_uri`, `aud`, `iss`, and `exp`
-claims at the top level with `201 Created` HTTP response code.
-1. The `request_uri` shall be based on a cryptographic random value so that it is difficult to predict for an attacker.
-1. The request URI shall be bound to the client identifier of the client that posted the request object.
-1. Since the request URI can be replayed, its lifetime should be short and preferably limited to one-time use.
-1. The value of these claims in the JSON payload shall be as follows:
-    * `request_uri` : The request URI corresponding to the request object posted. 
-    * `aud` : A JSON string that represents the client identifier of the client that posted the request object.
-    * `iss` : A JSON string that represents the issuer identifier of the authorization server as defined in [RFC7519]. When a pure OAuth 2.0 is used, the value is the redirection URI. When OpenID Connect is used, the value is the issuer value of the authorization server.
-    * `exp` : A JSON number that represents the expiry time of the request URI as defined in [RFC7519].
-
-The following is an example of such a response:
-
-```
-HTTP/1.1 201 Created
-Date: Tue, 2 May 2017 15:22:31 GMT
-Content-Type: application/json
-
-{
-    "iss": "https://as.example.com/",
-    "aud": "s6BhdRkqt3",
-    "request_uri": "urn:example:MTAyODAK",
-    "exp": 1493738581
-}
-```
-
-
-### 7.4 Error responses
-
-#### 7.4.1 Authorization required
-If the signature validation fails, the authorization server shall return `401 Unauthorized` HTTP error response.
-
-#### 7.4.2 Invalid request
-If the request object received is invalid, the authorization server shall return `400 Bad Request` HTTP error response.
-
-#### 7.4.3 Method not allowed
-If the request did not use POST, the authorization server shall return `405 Method Not Allowed` HTTP error response.
-
-#### 7.4.4 Request entity too large
-If the request size was beyond the upper bound that the authorization server allows, the authorization server shall return a `413 Request Entity Too Large` HTTP error response.
-
-#### 7.4.5 Too many requests
-If the request from the client per a time period goes beyond the number the authorization server allows, the authorization server shall return a `429 Too Many Requests` HTTP error response.
-
-### 7.5 OpenID Provider Discovery Metadata
-
-If the authorization server has a request object endpoint and supports [OIDD], it shall include the following OpenID Provider Metadata parameter in discovery responses:
-
-1. `request_object_endpoint` : The url of the request object endpoint at which the client can exchange a request object for a request URI.
 
 ## 8. Security considerations
 
@@ -345,8 +290,9 @@ As a profile of the OAuth 2.0 Authorization Framework, this specification refere
 ### 8.2 Uncertainty of resource server handling of access tokens
 There is no way that the client can find out whether the resource access was granted for the bearer token or holder of key token.
 The two differ in the risk profile and the client may want to differentiate them.
-The protected resources that conforms to this document shall not accept a plain bearer token.
-They shall only support token bound access tokens via [MTLS] or [OAUTB]. 
+The protected resources that conform to this doc differentiate them.
+The protected resources that conform to this docuument shall not accept a plain bearer token.
+They shall only support bound access tokens via [MTLS].
 
 ### 8.3 Attacks using weak binding of authorization server endpoints
 
@@ -364,7 +310,7 @@ Several attacks have been identified and the threats are explained in detail in 
 In this attack, the client developer is social engineered into believing that the token endpoint has changed to the URL that is controlled by the attacker. 
 As the result, the client sends the `code` and the client secret to the attacker, which will be replayed subsequently. 
 
-When the FAPI client uses [MTLS] or [OAUTB], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
+When the FAPI client uses [MTLS], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
 
 #### 8.3.3 Identity provider (IdP) mix-up attack
 In this attack, the client has registered multiple IdPs and one of them is a rogue IdP that returns the same `client_id` 
@@ -376,7 +322,7 @@ then the authentication may be skipped and a code is generated and returned to t
 Since the client was interacting with the rogue IdP, the code is sent to the rogue IdP's token endpoint. 
 At the point, the attacker has a valid code that can be exchanged for an access token at the honest IdP.
 
-This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss`. 
+This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss` or [JARM] where the `iss` included in the response JWT. 
 The client then sends the `code` to the token endpoint that is associated with the issuer identifier thus it will not get to the attacker. 
 
 #### 8.3.4 Request object endpoint phishing resistance
@@ -387,7 +333,7 @@ To prevent this, the authorization server should communicate to the client devel
 the proper change process repeatedly to help client developers to be less susceptible to such social engineering.
 
 #### 8.3.5 Access token phishing
-When the FAPI client uses [MTLS] or [OAUTB], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
+When the FAPI client uses [MTLS], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
 
 ### 8.4 Attacks that modify authorization requests and responses
 
@@ -411,14 +357,16 @@ authorization response.
 
 This can be mitigated by using OpenID Connect Hybrid Flow where the `c_hash`, `at_hash`,
 and `s_hash` can be used to verify the validity of the authorization code, access token,
-and state parameters. The server can verify that the state is the same as what was stored in the browser session at the time of the authorization request.
+and state parameters. It can also be mitgated using [JARM] by verifying the integrity of the authorization response JWT.
+
+The server can verify that the state is the same as what was stored in the browser session at the time of the authorization request.
 
 ### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
 Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shall apply, with the following additional requirements:
 
-1. Only the following 4 cipher suites shall be permitted:
+1. For TLS versions below 1.3, only the following 4 cipher suites shall be permitted:
     * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
     * `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
     * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
@@ -426,13 +374,19 @@ Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shal
 1. For the `authorization_endpoint`, the authorization server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers.
 1. When using the `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256` or `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384` cipher suites, key lengths of at least 2048 bits are required.
 
-### 8.6 JWS algorithm considerations
+### 8.6 Algorithm considerations
 
-Both clients and authorization servers:
+For JWS, both clients and authorization servers:
 
 1. shall use `PS256` or `ES256` algorithms;
 1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
 1. shall not use `none`;
+
+### 8.6.1 Encryption algorithm considerations
+
+For JWE, both clients and authorization servers
+
+1. shall not use the `RSA1_5` algorithm.
 
 ### 8.7 Incomplete or incorrect implementations of the specifications
 
@@ -470,9 +424,6 @@ after the Client has exchanged the authorization code for a token and sent an
 
 ## 9. Privacy considerations
 
-* If the client is to be used by a single user, the client certificate will provide the means for the websites
-  that belong to different administrative domains to collude and correlate the user's access.
-  For this reason, public clients that reside on a user's terminal should avoid [MTLS] and use [OAUTB] instead.
 * When claims related to the subject are returned in the ID Token in the front channel, 
   implementations should consider encrypting the ID Token to lower the risk of personal information disclosure. 
 
@@ -493,7 +444,7 @@ The following people contributed to this document:
 * Henrik Biering (Peercraft)
 * Tom Jones (Independent) 
 * Axel Nennker (Deutsche Telekom)
-* Torsten Lodderstedt (YES)
+* Torsten Lodderstedt (yes.com)
 * Ralph Bragg (Raidiam)
 * Brian Campbell (Ping Identity) 
 
@@ -507,7 +458,6 @@ The following people contributed to this document:
 * [RFC7519] JSON Web Token (JWT)
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
-* [OAUTB] OAuth 2.0 Token Binding
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [JARM] Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
