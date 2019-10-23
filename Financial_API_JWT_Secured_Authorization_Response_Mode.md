@@ -155,7 +155,7 @@ The JWT response document MAY contain further element, e.g. the claims defined i
 For the grant type authorization "code" the JWT contains the response parameters as defined in [RFC6749], sections 4.1.2:
 
 * `code` - the authorization code
-* `state` - the state value as sent by the client in the authorization request, if the client include a `state` parameter
+* `state` - the state value as sent by the client in the authorization request, if the client included a `state` parameter
 
 The following example shows the JWT claims for a successful "code" authorization response:
 
@@ -327,7 +327,7 @@ The client is obliged to process the JWT secured response as follows:
 1. The client checks the JWT's `exp` element to determine if the JWT is still valid. If the check fails, the client MUST abort processing and refuse the response. 
 1. The client obtains the key needed to check the signature based on the JWT's `iss` element and, if present, the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
 
-The client will perform further checks, e.g. for CSRF detection, which are out of scope of this specification.
+The client will perform further checks, e.g. for CSRF detection, which are out of scope of this specification. Please see [draft-ietf-oauth-security-topics] for more security recommendations.
 
 Note: The way the client obtains the keys for verifying the JWT's signature (step 5) is out of scope of this draft. Established mechanism such as [OIDD] or [RFC8414] SHOULD be utilized.
 
