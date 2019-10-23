@@ -76,7 +76,7 @@ The following referenced documents are indispensable for the application of this
 [FAPI2]: https://openid.net/specs/openid-financial-api-part-2.html
 
 [FAPILI] - FAPI Lodging Intent
-[FAPILI]: https://bitbucket.org/openid/fapi/src/master/Financial_API_Pushed_Request_Object.md
+[FAPILI]: https://bitbucket.org/openid/fapi/src/master/Financial_API_Lodging_Intent.md
 
 ## 3. Terms and definitions
 
