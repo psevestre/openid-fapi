@@ -1,7 +1,7 @@
 
 # FAPI-R Security Profile Comparison
 
-The following provides a clause by clause breakdown comparing [Financial-grade API - Part 1: Read-Only API Security Profile](https://openid.net/specs/openid-financial-api-part-1.html) to the published [Consumer Data Standards v0.9.5](https://consumerdatastandardsaustralia.github.io/standards).
+The following provides a clause by clause breakdown comparing [Financial-grade API - Part 1: Read-Only API Security Profile](https://openid.net/specs/openid-financial-api-part-1.html) to the published [Consumer Data Standards v1.1.1](https://consumerdatastandardsaustralia.github.io/standards).
 
 |  **https://openid.net/specs/openid-financial-api-part-1.html** | **CDS Guidance** | **Modifies Upstream Standard** | **Summary** |
 | --- | --- | --- | --- |
@@ -15,9 +15,10 @@ The following provides a clause by clause breakdown comparing [Financial-grade A
 |  [5.2. Read-only API security provisions](https://openid.net/specs/openid-financial-api-part-1.html#read-only-api-security-provisions) | No | N/A |  |
 |  [5.2.1. Introduction](https://openid.net/specs/openid-financial-api-part-1.html#introduction-1) | No | N/A |  |
 |  [5.2.2. Authorization server](https://openid.net/specs/openid-financial-api-part-1.html#authorization-server) | Yes | Yes :octagonal_sign: | The CDS modifies the statements in this clause as follows: 
-| | | | - *Item 1:* Public Clients are [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#oidc-client-types) |
+| | | | - *Item 2:* Public Clients are [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#oidc-client-types) |
 | | | | - *Item 4 (1)*: Mutual TLS for OAuth Client Authentication is [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#client-authentication) |
 | | | | - *Item 4 (2):* `client_secret_jwt` is [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#authentication-flows) |
+| | | | - *Item 4 (2):*  `private_key_jwt` is [**REQUIRED**](https://consumerdatastandardsaustralia.github.io/standards/#authentication-flows) |
 | | | | - *Item 4 (2):*  `private_key_jwt` is [**REQUIRED**](https://consumerdatastandardsaustralia.github.io/standards/#authentication-flows) |
 |  [5.2.2.1. Returning authenticated user's identifier Authorization server](https://openid.net/specs/openid-financial-api-part-1.html#returning-authenticated-users-identifier-authorization-server) | No | N/A | |
 |  [5.2.3. Public client](https://openid.net/specs/openid-financial-api-part-1.html#public-client) | Yes | Yes :octagonal_sign: | Public Clients are [**NOT SUPPORTED**](https://consumerdatastandardsaustralia.github.io/standards/#oidc-client-types) |
@@ -28,13 +29,13 @@ The following provides a clause by clause breakdown comparing [Financial-grade A
 |  [6.1. Introduction](https://openid.net/specs/openid-financial-api-part-1.html#introduction-2) | No | N/A |  |
 |  [6.2. Read-only access provisions](https://openid.net/specs/openid-financial-api-part-1.html#read-only-access-provisions) | No | N/A |  |
 |  [6.2.1. Protected resources provisions](https://openid.net/specs/openid-financial-api-part-1.html#protected-resources-provisions) | Yes | Yes :octagonal_sign: | The following alterations to this clause are made within the [CDS Headers](https://consumerdatastandardsaustralia.github.io/standards/#http-headers) specification: |
-| | | | - *Item 9:* Standards **DO NOT** set an explicit charset |
+| | | | - *Item 9:* Standards specify an explicit charset of `application/json` which is not aligned. *NOTE: This clause in FAPI is scheduled to alter to be aligned to CDS*  |
 | | | | - *Item 10*: Standards **DO NOT** require the HTTP Date header |
-| | | | - *Item 13*: CORS headers **ARE NOT** specified |
-|  [6.2.2. Client provisions](https://openid.net/specs/openid-financial-api-part-1.html#client-provisions) | Yes | Yes | The following alterations to this clause are made within the [CDS Headers](https://consumerdatastandardsaustralia.github.io/standards/#http-headers) specification: |
+| | | | - *Item 13*: CORS headers are specified for Unauthenticated Endpoints |
+|  [6.2.2. Client provisions](https://openid.net/specs/openid-financial-api-part-1.html#client-provisions) | Yes | Yes :octagonal_sign: | The following alterations to this clause are made within the [CDS Headers](https://consumerdatastandardsaustralia.github.io/standards/#http-headers) specification: |
 | | | | - *Item 3*: `x-fapi-auth-date` is **MANDATORY** for all authenticated calls |
-| | | | - *Item 4*: `x-fapi-customer-ip-address` is **MANDATORY** for attended callsand is tied to [CDS Performance Requirements](https://consumerdatastandardsaustralia.github.io/standards/#performance-requirements) |
-| | | | - *Item 5*: `x-fapi-interaction-id` is **MANDATORY** |
+| | | | - *Item 4*: `x-fapi-customer-ip-address` is **MANDATORY** for attended calls and is tied to [CDS Performance Requirements](https://consumerdatastandardsaustralia.github.io/standards/#performance-requirements) |
+| | | | - Addition of `x-cds-client-headers` header containing *"The customer's original standard http headers Base64 encoded, including the original User Agent header, if the customer is currently logged in to the data recipient. Mandatory for customer present calls. Not required for unattended or unauthenticated calls."* |
 |  [7. Security considerations](https://openid.net/specs/openid-financial-api-part-1.html#security-considerations) | No | N/A |  |
 |  [7.1. TLS considerations](https://openid.net/specs/openid-financial-api-part-1.html#tls-considerations) | Yes | No | CDS [guidance on TLS](https://consumerdatastandardsaustralia.github.io/standards/#transaction-security) requirements is aligned with this clause |
 |  [7.2. Message source authentication failure](https://openid.net/specs/openid-financial-api-part-1.html#message-source-authentication-failure) | Yes | No | CDS [guidance on Request Object](https://consumerdatastandardsaustralia.github.io/standards/#request-object) appears to be aligned with this clause |
