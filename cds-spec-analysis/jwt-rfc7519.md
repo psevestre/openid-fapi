@@ -15,9 +15,7 @@ The following provides a clause by clause breakdown comparing [JSON Web Token (J
 | | | | - Both of these claims are **MANDATORY** |
 |  [4.1. Registered Claim Names](https://tools.ietf.org/html/rfc7519#section-4.1) | Yes | Yes :octagonal_sign: | - *"Applications using JWTs should define which specific claims they use and when they are required or optional"*
 | | | | The CDS [Request Object](https://consumerdatastandardsaustralia.github.io/standards/#request-object) example appears to make some of these claims **MANDATORY**. | 
-| | | | The specification explicitly **REMOVES** the `iss` claim. |
-|  [4.1.1. "iss" (Issuer) Claim](https://tools.ietf.org/html/rfc7519#section-4.1.1) | Implicit | Yes :octagonal_sign: | The OpenID Connect Core specification [states that within Request Objects](https://openid.net/specs/openid-connect-core-1_0.html#RequestObject) this claim **SHOULD** be provided. |
-| | | | The CDS explicitly **REMOVES** this claim from the Request Object. |
+|  [4.1.1. "iss" (Issuer) Claim](https://tools.ietf.org/html/rfc7519#section-4.1.1) | Implicit | No | The OpenID Connect Core specification [states that within Request Objects](https://openid.net/specs/openid-connect-core-1_0.html#RequestObject) this claim **SHOULD** be provided. |
 |  [4.1.2. "sub" (Subject) Claim](https://tools.ietf.org/html/rfc7519#section-4.1.2) | Yes | No :question: | The CDS [Request Object](https://consumerdatastandardsaustralia.github.io/standards/#request-object) includes this claim in the example. |
 | | | | It does not specify if this claim is required, it is assumed it is **OPTIONAL**. |
 |  [4.1.3. "aud" (Audience) Claim](https://tools.ietf.org/html/rfc7519#section-4.1.3) | Implicit | No :question: | The OpenID Connect Core specification [states that within Request Objects](https://openid.net/specs/openid-connect-core-1_0.html#RequestObject) this claim **SHOULD** be provided. |
@@ -54,7 +52,6 @@ The following provides a clause by clause breakdown comparing [JSON Web Token (J
 |  [10.4. Header Parameter Names Registration](https://tools.ietf.org/html/rfc7519#section-10.4) | Implicit | No | FAPI-RW and OpenID Core Connect specifications register header parameters |
 |  [10.4.1. Registry Contents](https://tools.ietf.org/html/rfc7519#section-10.4.1) | No | N/A |  |
 |  [11. Security Considerations](https://tools.ietf.org/html/rfc7519#section-11) | No | N/A |  |
-|  [11.1. Trust Decisions](https://tools.ietf.org/html/rfc7519#section-11.1) | Yes | Yes :octagonal_sign: | *"In particular, the key(s) used to sign and/or encrypt the JWT will typically need to verifiably be under the control of the party identified as the issuer of the JWT."* |
-| | | |  ACCC Register design expects that JWK sets will be accepted, without tamper/signing/encryption verbatim for all participants directly from the register |
+|  [11.1. Trust Decisions](https://tools.ietf.org/html/rfc7519#section-11.1) | Yes | No | *"In particular, the key(s) used to sign and/or encrypt the JWT will typically need to verifiably be under the control of the party identified as the issuer of the JWT."* |
 |  [11.2. Signing and Encryption Order](https://tools.ietf.org/html/rfc7519#section-11.2) | No | N/A |  |
 |  [12. Privacy Considerations](https://tools.ietf.org/html/rfc7519#section-12) | No | N/A |  |

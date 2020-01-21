@@ -1,7 +1,7 @@
 
 # OpenID Connect Discovery Comparison
 
-The following provides a clause by clause breakdown comparing [OpenID Connect Discovery 1.0 incorporating errata set 1](https://openid.net/specs/openid-connect-discovery-1_0.html) to the published [Consumer Data Standards v0.9.5](https://consumerdatastandardsaustralia.github.io/standards). 
+The following provides a clause by clause breakdown comparing [OpenID Connect Discovery 1.0 incorporating errata set 1](https://openid.net/specs/openid-connect-discovery-1_0.html) to the published [Consumer Data Standards v1.1.1](https://consumerdatastandardsaustralia.github.io/standards). 
 
 |  **https://openid.net/specs/openid-connect-discovery-1_0.html** | **CDS Guidance** | **Modifies Upstream Standard** | **Summary** |
 | --- | --- | --- | --- |
@@ -17,7 +17,7 @@ The following provides a clause by clause breakdown comparing [OpenID Connect Di
 | [2.2.2. User Input using URL Syntax](https://openid.net/specs/openid-connect-discovery-1_0.html#URLSyntax) | Implicit | N/A |  |
 | [2.2.3. User Input using Hostname and Port Syntax](https://openid.net/specs/openid-connect-discovery-1_0.html#HostPortExample) | Implicit | N/A |  |
 | [2.2.4. User Input using "acct" URI Syntax](https://openid.net/specs/openid-connect-discovery-1_0.html#AcctURISyntax) | Implicit | N/A |  |
-| [3. OpenID Provider Metadata](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata) | Yes | Yes :octagonal_sign: |  The CDS specifies that a [discovery endpoint](https://consumerdatastandardsaustralia.github.io/standards/#end-points) from Data Holders is **MANDATORY**. While the introductory statement within the CDS states alignment with this section it modifies the metadata requirements and adds additional attributes [not documented](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata) in the OpenID Discovery specification. |
+| [3. OpenID Provider Metadata](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata) | Yes | Yes :octagonal_sign: |  The CDS specifies that a [discovery endpoint](https://consumerdatastandardsaustralia.github.io/standards/#end-points) from Data Holders is **MANDATORY**. While the CDS is broadly aligned with this specification the specification modifies mandatory metadata and adds additional  [not documented](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata) and unregistered attributes to the OpenID Connect Discovery document. |
 | [4. Obtaining OpenID Provider Configuration Information](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig) | Implicit | N/A |  |
 | [4.1. OpenID Provider Configuration Request](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest) | Implicit | N/A |  |
 | [4.2. OpenID Provider Configuration Response](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationResponse) | Yes | Yes :octagonal_sign: | The CDS [specifies](https://consumerdatastandardsaustralia.github.io/standards/#end-points) a number of changes to the OpenID Discovery metadata response. |
@@ -25,7 +25,6 @@ The following provides a clause by clause breakdown comparing [OpenID Connect Di
 | | | | - `userinfo_endpoint` |
 | | | | - `scopes_supported` |
 | | | | - `acr_values_supported` | 
-| | | | - `vot_values_supported` where the Provider supports VoT |
 | | | | - `claims_supported` |
 | | | | The following items are altered to **OPTIONAL**: |
 | | | | - `response_types_supported` |
@@ -36,7 +35,7 @@ The following provides a clause by clause breakdown comparing [OpenID Connect Di
 | | | | - `revocation_endpoint` |
 | | | | The following items have had their default value altered but are **OMITTED**: |
 | | | |  - `request_uri_parameter_supported`: Default value should be `false` as `request_uri` is explicitly disabled within the CDS |
-| [4.3. OpenID Provider Configuration Validation](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationValidation) | Implicit | Yes :octagonal_sign: | The CDS specifies the `issuer` value is to be set to the *"URL that the Data Holder asserts as its Issuer Identifier"* which would typically be valid however as the CDS spec in some cases removes `iss` and in other cases specifies `iss` is equal to `client_id` this will result in `issuer` validation ***never*** being successful |
+| [4.3. OpenID Provider Configuration Validation](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationValidation) | Implicit | No | The CDS specifies the `issuer` value is to be set to the *"URL that the Data Holder asserts as its Issuer Identifier"* |
 | [5. String Operations](https://openid.net/specs/openid-connect-discovery-1_0.html#StringOps) | No | N/A |  |
 | [6. Implementation Considerations](https://openid.net/specs/openid-connect-discovery-1_0.html#ImplementationConsiderations) | No | N/A | *All of these Relying Parties and OpenID Providers MUST implement the features that are listed in this specification as being "REQUIRED" or are described with a "MUST"*  |
 | [6.1. Pre-Final IETF Specifications](https://openid.net/specs/openid-connect-discovery-1_0.html#PreFinalIETFSpecs) | No | N/A |  |

@@ -1,6 +1,6 @@
 # JWT Profile for Oauth2 (RFC7523) Comparison
 
-The following provides a clause by clause breakdown comparing [JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants (RFC7523)](https://tools.ietf.org/html/rfc7523) to the published [Consumer Data Standards v0.9.5](https://consumerdatastandardsaustralia.github.io/standards).
+The following provides a clause by clause breakdown comparing [JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants (RFC7523)](https://tools.ietf.org/html/rfc7523) to the published [Consumer Data Standards v1.1.1](https://consumerdatastandardsaustralia.github.io/standards).
 
 |  **https://tools.ietf.org/html/rfc7523** | **CDS Guidance** | **Modifies Upstream Standard?** | **Summary** |
 | --- | :---: | :---: | --- |
@@ -11,7 +11,7 @@ The following provides a clause by clause breakdown comparing [JSON Web Token (J
 |  [2 HTTP Parameter Bindings for Transporting Assertions](https://tools.ietf.org/html/rfc7523#section-2) | Implicit :warning: | No |  |
 |  [2.1 Using JWTs as Authorization Grants](https://tools.ietf.org/html/rfc7523#section-2.1) | Yes | No | The CDS supports only the `private_key_jwt` client authentication method and therefore the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant type is **REMOVED** |
 |  [2.2 Using JWTs for Client Authentication](https://tools.ietf.org/html/rfc7523#section-2.2) | Yes | No | OpenID Connect Core Specification specifies the `client_id` is **MANDATORY** |
-|  [3 JWT Format and Processing Requirements](https://tools.ietf.org/html/rfc7523#section-3) | Yes | Yes :octagonal_sign: :question: | The CDS specifies that `iss` is to be set to the same value as `client-id`. This clause specifies RFC3986 is a **URI** standard which means `client-id` is *invalid* but the comparison is simple string, not *technically* a failure?
+|  [3 JWT Format and Processing Requirements](https://tools.ietf.org/html/rfc7523#section-3) | Yes | No | 
 |  [3.1 Authorization Grant Processing](https://tools.ietf.org/html/rfc7523#section-3.1) | Yes | Yes :octagonal_sign: | JWT Authorization Grants are **DISABLED** as part of [Client Authentication](https://consumerdatastandardsaustralia.github.io/standards/#client-authentication). Continuation of *2.1* 
 | [3.2 Client Authentication Processing](https://tools.ietf.org/html/rfc7523#section-3.2) | Implicit :warning: | N/A | CDS does not explicitly document error states |
 |  [4 Authorization Grant Example](https://tools.ietf.org/html/rfc7523#section-4) | Implicit :warning: | N/A | Keys different due to above changes |

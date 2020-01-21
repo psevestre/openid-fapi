@@ -20,18 +20,18 @@ The following provides a clause by clause breakdown comparing [The OAuth 2.0 Aut
 | [1.9 Notational Conventions](https://tools.ietf.org/html/rfc6749#section-1.9) | Implicit | N/A | [Aligned to Standards](https://consumerdatastandardsaustralia.github.io/standards/#introduction "Aligned to Standards") |
 | [2. Client Registration](https://tools.ietf.org/html/rfc6749#section-2) | Implicit | No | Client Registration is handled by ACCC Register |
 | [2.1. Client Types](https://tools.ietf.org/html/rfc6749#section-2.1) | Implicit | No | The CDS Standards support only `Confidential` client types. For the purposes of accuracy the use case intended for use by the CDS is a `web application` |
-| [2.2. Client Identifier](https://tools.ietf.org/html/rfc6749#section-2.2) | Implicit | Yes | It is unclear how the client identifier is specified. It is assumed to be issued by the ACCC Register. |
+| [2.2. Client Identifier](https://tools.ietf.org/html/rfc6749#section-2.2) | Implicit | Yes | Client Identifiers are expected to be issued by the OP following the presentation of a Register signed SSA by the RP to the OP via the Registration endpoint. |
 | [2.3. Client Authentication](https://tools.ietf.org/html/rfc6749#section-2.3) | Implicit | N/A | Confidential client secured by MTLS |
 | [2.3.1. Client Password](https://tools.ietf.org/html/rfc6749#section-2.3.1) | Implicit | N/A | Hybrid Flow disables `Client Password` based authentication |
 | [2.3.2. Other Authentication Methods](https://tools.ietf.org/html/rfc6749#section-2.3.2) | Implicit | N/A | Hybrid Flow does not support other authentication methods |
-| [2.4. Unregistered Clients](https://tools.ietf.org/html/rfc6749#section-2.4) | Yes | Yes :warning: | CDS requires all clients to be registered by proxy of only supporting `Confidential` clients |
+| [2.4. Unregistered Clients](https://tools.ietf.org/html/rfc6749#section-2.4) | Yes | No | CDS requires all clients to be registered by proxy of only supporting `Confidential` clients |
 | [3. Protocol Endpoints](https://tools.ietf.org/html/rfc6749#section-3) | Yes | N/A | CDS Standards specify authorization and token endpoints |
 | [3.1. Authorization Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1) | Yes | N/A |  |
 | [3.1.1. Response Type](https://tools.ietf.org/html/rfc6749#section-3.1.1) | Yes | Yes :warning: | CDS uses the Hybrid Flow model defined by the OpenID Connect Core specification. CDS further constrains this model to EXCLUSIVELY support only `code id_token` response types |
-| [3.1.2. Redirection Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2) | Implicit | No | The `redirect_uri` is required as part of the OpenID Connect Core [authentication request](https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest). As `redirect_uri` is also supplied by the ACCC Register design it is assumed that implementors will perform equality validation between these two values. |
+| [3.1.2. Redirection Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2) | Implicit | No | The `redirect_uri` is required as part of the OpenID Connect Core [authentication request](https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest). |
 | [3.2. Token Endpoint](https://tools.ietf.org/html/rfc6749#section-3.2) | No | N/A |  |
-| [3.2.1. Client Authentication](https://tools.ietf.org/html/rfc6749#section-3.2.1) | Yes | Yes :octagonal_sign: | The CDS example payloads do not include a `client_id` in token responses. This disables substitution attack protections. |
-| [3.3. Access Token Scope](https://tools.ietf.org/html/rfc6749#section-3.3) | Yes | Unknown :question: :octagonal_sign: | CDS example payloads do not include `scope` parameters in the request. This clause states *If the client omits the scope parameter when requesting authorization, the authorization server MUST either process the request using a pre-defined default value or fail the reques tindicating an invalid scope.  The authorization server SHOULD document its scope requirements and default value (if defined).* |
+| [3.2.1. Client Authentication](https://tools.ietf.org/html/rfc6749#section-3.2.1) | Yes | No |  |
+| [3.3. Access Token Scope](https://tools.ietf.org/html/rfc6749#section-3.3) | Yes | No | |
 | [4. Obtaining Authorization](https://tools.ietf.org/html/rfc6749#section-4) | Implicit | N/A |  |
 | [4.1. Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1) | Implicit | No | CDS use `code` + `id_token` as part of the [hybrid flow model](https://openid.net/specs/openid-connect-core-1_0.html#HybridFlowAuth) inherited from the OpenID Connect Core specification. |
 | [4.1.1. Authorization Request](https://tools.ietf.org/html/rfc6749#section-4.1.1) | Implicit | No |  |
@@ -75,7 +75,7 @@ The following provides a clause by clause breakdown comparing [The OAuth 2.0 Aut
 | [10.6. Authorization Code Redirection URI Manipulation](https://tools.ietf.org/html/rfc6749#section-10.6) | Implicit | N/A |  |
 | [10.7. Resource Owner Password Credentials](https://tools.ietf.org/html/rfc6749#section-10.7) | Implicit | N/A |  |
 | [10.8. Request Confidentiality](https://tools.ietf.org/html/rfc6749#section-10.8) | Implicit | N/A |  |
-| [10.9. Ensuring Endpoint Authenticity](https://tools.ietf.org/html/rfc6749#section-10.9) | Yes | Yes :octagonal_sign: | Unclear as to whether all endpoints involved in interaction are secured by TLS certificates that recipients can independently verify (ie. ACCC signed certificates) |
+| [10.9. Ensuring Endpoint Authenticity](https://tools.ietf.org/html/rfc6749#section-10.9) | Yes | Yes :question: | [Discussion is occurring](https://github.com/ConsumerDataStandardsAustralia/standards-maintenance/issues/95) about what the approach for TLS certificate verification should be. |
 | [10.10. Credentials-Guessing Attacks](https://tools.ietf.org/html/rfc6749#section-10.10) | No | N/A | It is assumed these risks are managed by OP's (aka Data Holders) |
 | [10.11. Phishing Attacks](https://tools.ietf.org/html/rfc6749#section-10.11) | No | N/A |  |
 | [10.12. Cross-Site Request Forgery](https://tools.ietf.org/html/rfc6749#section-10.12) | No | N/A | |

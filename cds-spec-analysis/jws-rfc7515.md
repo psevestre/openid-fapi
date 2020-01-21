@@ -46,7 +46,7 @@ The following provides a clause by clause breakdown comparing [JSON Web Signatur
 |  [10. Security Considerations](https://tools.ietf.org/html/rfc7515#section-10) | No | N/A |  |
 |  [10.1. Key Entropy and Random Values](https://tools.ietf.org/html/rfc7515#section-10.1) | No | N/A |  |
 |  [10.2. Key Protection](https://tools.ietf.org/html/rfc7515#section-10.2) | No | N/A |  |
-|  [10.3. Key Origin Authentication](https://tools.ietf.org/html/rfc7515#section-10.3) | Yes | Yes :octagonal_sign: | Key Origin Authentication is currently determined by ACCC Register publishing. This content is unsigned and relies entirely on TLS and non-tampered payloads |
+|  [10.3. Key Origin Authentication](https://tools.ietf.org/html/rfc7515#section-10.3) | Yes | No |  |
 |  [10.4. Cryptographic Agility](https://tools.ietf.org/html/rfc7515#section-10.4) | No | N/A | [Reference JWA Review](jwa-rfc7518.md) |
 |  [10.5. Differences between Digital Signatures and MACs](https://tools.ietf.org/html/rfc7515#section-10.5) | No | N/A | Digital Signatures appear to be in use |
 |  [10.6. Algorithm Validation](https://tools.ietf.org/html/rfc7515#section-10.6) | Yes | Unknown :question: |  |

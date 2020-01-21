@@ -1,6 +1,6 @@
 # OAuth 2.0 Token Introspection
 
-The following provides a clause by clause breakdown comparing [OAuth 2.0 Token Introspection](https://tools.ietf.org/html/rfc7662) to the published [Consumer Data Standards v0.9.5](https://consumerdatastandardsaustralia.github.io/standards).
+The following provides a clause by clause breakdown comparing [OAuth 2.0 Token Introspection](https://tools.ietf.org/html/rfc7662) to the published [Consumer Data Standards v1.1.1](https://consumerdatastandardsaustralia.github.io/standards).
 
 |  **https://tools.ietf.org/html/rfc7662** | **CDS Guidance** | **Modifies Upstream Standard** | **Summary** |
 | --- | --- | --- | --- |
@@ -10,7 +10,7 @@ The following provides a clause by clause breakdown comparing [OAuth 2.0 Token I
 |  [1.2.  Terminology](https://tools.ietf.org/html/rfc7662#section-1.2) | No | N/A |  |
 |  [2.  Introspection Endpoint](https://tools.ietf.org/html/rfc7662#section-2) | Yes | No | MTLS in use.  |
 |  [2.1.  Introspection Request](https://tools.ietf.org/html/rfc7662#section-2.1) | Yes | Yes :octagonal_sign: | Only introspection of *Refresh Tokens* is permitted. `token` value of `access_token` is **NOT** permitted |
-|  [2.2.  Introspection Response](https://tools.ietf.org/html/rfc7662#section-2.2) | Yes | Yes :octagonal_sign: | The [CDS](https://consumerdatastandardsaustralia.github.io/standards/#end-points) allows only the `active` and `exp` claims. All other attributes are explicitly **NOT ALLOWED**. |
+|  [2.2.  Introspection Response](https://tools.ietf.org/html/rfc7662#section-2.2) | Yes | Yes :octagonal_sign: | The [CDS](https://consumerdatastandardsaustralia.github.io/standards/#end-points) allows only the `active` and `exp` claims. `exp` claim has been altered from **OPTIONAL** to **MANDATORY**. All other attributes are explicitly **NOT ALLOWED**. |
 |  [2.3.  Error Response](https://tools.ietf.org/html/rfc7662#section-2.3) | No | N/A |  |
 |  [3.  IANA Considerations](https://tools.ietf.org/html/rfc7662#section-3) | No | N/A |  |
 |  [3.1.  OAuth Token Introspection Response Registry](https://tools.ietf.org/html/rfc7662#section-3.1) | No | N/A |  |
