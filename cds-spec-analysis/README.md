@@ -74,6 +74,7 @@ The following items are likely to result in existing OIDC certified implementati
 The following items, if implemented, appear likely to result in the failure of FAPI Conformance:
 
 * Signed ID Token's are **NOT SUPPORTED** in CDS which breaks FAPI Part 2 5.2.2 Item 8 which specifies signed only ID Token support as **MANDATORY**
+* HTTP Date Header's are **NOT REQUIRED**
 
 ### FAPI -> CDS Validation
 
@@ -90,7 +91,6 @@ The following items are likely to result in existing FAPI certified implementati
 * Signed only ID Tokens are **NOT SUPPORTED**
 * Signed and Encrypted ID Tokens are **MANDATORY**
 * Request Object Endpoint is **NOT SUPPORTED**
-* HTTP Date Header's are **NOT REQUIRED**
 * `x-fapi-auth-date` is altered to **MANDATORY**
 * `x-fapi-customer-ip-address` is altered to **MANDATORY**
 
