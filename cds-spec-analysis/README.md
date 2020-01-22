@@ -21,6 +21,13 @@ Breaking changes documented here-in result in a number of outcomes, notably:
 
 This section seeks to outline the impacts of implementing the CDS against existing implementations which are certified to OIDC or FAPI specifications. For the purposes of this section "OIDC" includes all relevent specifications in the OpenID Connect suite.
 
+### CDS -> FAPI Certification
+
+The following items, if implemented, appear likely to result in the failure of FAPI Conformance:
+
+* Signed ID Token's are **NOT SUPPORTED** in CDS which breaks FAPI Part 2 5.2.2 Item 8 which specifies signed only ID Token support as **MANDATORY**
+* HTTP Date Header's are **NOT REQUIRED**
+
 ### CDS -> OpenID Certification
 
 The following items, if implemented, appear likely to result in the failure of OIDC Conformance:
@@ -33,6 +40,24 @@ The following items, if implemented, appear likely to result in the failure of O
     * `subject_types_supported`
     * `id_token_signing_alg_values_supported`
 * Implementations supporting Claims Languages & Scripts. CDS **does not** support any language other than English (likely `en-AU`)
+
+### FAPI -> CDS Validation
+
+The following items are likely to result in existing FAPI certified implementations failing validation to the CDS:
+
+* Public Clients are **NOT SUPPORTED**
+* Mutual TLS for OAuth Client Authentication is **NOT SUPPORTED**
+* `client_secret_jwt` support is **NOT SUPPORTED**
+* `private_key_jwt` support is **MANDATORY**
+* `request_uri` support is **NOT SUPPORTED**
+* `response_type` of `code id_token token` is **NOT SUPPORTED**
+* Detached Signature support is ambiguous as CDS Example does not appear to demonstrate them
+* `s_hash` support is **MANDATORY**
+* Signed only ID Tokens are **NOT SUPPORTED**
+* Signed and Encrypted ID Tokens are **MANDATORY**
+* Request Object Endpoint is **NOT SUPPORTED**
+* `x-fapi-auth-date` is altered to **MANDATORY**
+* `x-fapi-customer-ip-address` is altered to **MANDATORY**
 
 ### OpenID -> CDS Validation
 
@@ -69,32 +94,6 @@ The following items are likely to result in existing OIDC certified implementati
     * `display` parameter
     * Locale Support
     * `max_age` parameter
-
-### CDS -> FAPI Certification
-
-The following items, if implemented, appear likely to result in the failure of FAPI Conformance:
-
-* Signed ID Token's are **NOT SUPPORTED** in CDS which breaks FAPI Part 2 5.2.2 Item 8 which specifies signed only ID Token support as **MANDATORY**
-* HTTP Date Header's are **NOT REQUIRED**
-
-### FAPI -> CDS Validation
-
-The following items are likely to result in existing FAPI certified implementations failing validation to the CDS:
-
-* Public Clients are **NOT SUPPORTED**
-* Mutual TLS for OAuth Client Authentication is **NOT SUPPORTED**
-* `client_secret_jwt` support is **NOT SUPPORTED**
-* `private_key_jwt` support is **MANDATORY**
-* `request_uri` support is **NOT SUPPORTED**
-* `response_type` of `code id_token token` is **NOT SUPPORTED**
-* Detached Signature support is ambiguous as CDS Example does not appear to demonstrate them
-* `s_hash` support is **MANDATORY**
-* Signed only ID Tokens are **NOT SUPPORTED**
-* Signed and Encrypted ID Tokens are **MANDATORY**
-* Request Object Endpoint is **NOT SUPPORTED**
-* `x-fapi-auth-date` is altered to **MANDATORY**
-* `x-fapi-customer-ip-address` is altered to **MANDATORY**
-
 
 ## Summary of Observations
 
