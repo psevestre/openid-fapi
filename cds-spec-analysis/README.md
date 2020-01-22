@@ -2,9 +2,9 @@
 
 **2019-01-22: Update in progress**
 
-This document summarises the differences of the proposed [Consumer Data Standards](https://consumerdatastandardsaustralia.github.io/standards/) and [ACCC Register](https://cdr-register.github.io/register/) when compared against the international standards and specifications they seek to adopt. The Consumer Data Standards are the underlying technical standards currently being developed to deliver on the Australian Government's Consumer Data Right legislation, which was passed 1 August 2019. The ACCC is the lead regulator of the [Consumer Data Right](https://www.accc.gov.au/focus-areas/consumer-data-right-cdr-0). The banking sector is the first of multiple industries intended, energy and telco being the next. 
+This document summarises the differences of the proposed [Consumer Data Standards](https://consumerdatastandardsaustralia.github.io/standards/) when compared against the international standards and specifications they seek to adopt. The Consumer Data Standards are the underlying technical standards currently being developed to deliver on the Australian Government's Consumer Data Right legislation, which was passed 1 August 2019. The ACCC is the lead regulator of the [Consumer Data Right](https://www.accc.gov.au/focus-areas/consumer-data-right-cdr-0). The banking sector is the first of multiple industries intended, energy and telco being the next. 
 
-This document has been put together to summarise and provide reporting back to the [OpenID FAPI Working Group](https://openid.net/wg/fapi/). It is split between breaking changes, non-spec compliant but believed to be non-breaking and changes which could be seen as Australia's "Profile" related changes.
+This document has been put together to summarise and provide reporting back to the [OpenID FAPI Working Group](https://openid.net/wg/fapi/). It contains a set of specific comparisons for implementers to understand impacts of the CDS and a summary of changes split between breaking changes, non-spec compliant but believed to be non-breaking and changes which could be seen as Australia's "Profile" related changes.
 
 This is intended to be a living document and as such the authors welcome any recommendations, changes or alterations. If you have alterations we welcome your feedback which can be sent via the FAPI WG Chair contactable at [openid-specs-fapi-owner@lists.openid.net](mailto:openid-specs-fapi-owner@lists.openid.net).
 
@@ -12,10 +12,88 @@ This is intended to be a living document and as such the authors welcome any rec
 
 Breaking changes documented here-in result in a number of outcomes, notably:
 
-- Existing infrastructure cannot be reused requiring new (and therefore duplicated) builds to meet the desired requirements
-- Unknown race conditions and/or security vulnerabilities may be introduced due to lack of international adoption, diverse testing and deployment. OpenID Connect is now over 5 years old and has 100s (possibly 1000s) of implementations worldwide. Within software development this is commonly referred to as [Linus's Law](https://en.wikipedia.org/wiki/Linus%27s_Law) whereby *"given enough eyeballs, all bugs are shallow"*
-- [Interoperability](https://en.wikipedia.org/wiki/Interoperability) between implementations will, potentially significantly, be impacted. The result of this lack of interoperability has significant flow on effects with respect to software vendor diversity and competition
-- [Existing certification processes](https://openid.net/certification/faq/) will be non-functional requiring a separate certification process to be established and maintained by the creating entity
+* Existing infrastructure cannot be reused requiring new (and therefore duplicated) builds to meet the desired requirements
+* Unknown race conditions and/or security vulnerabilities may be introduced due to lack of international adoption, diverse testing and deployment. OpenID Connect is now over 5 years old and has 100s (possibly 1000s) of implementations worldwide. Within software development this is commonly referred to as [Linus's Law](https://en.wikipedia.org/wiki/Linus%27s_Law) whereby *"given enough eyeballs, all bugs are shallow"*
+* [Interoperability](https://en.wikipedia.org/wiki/Interoperability) between implementations will, potentially significantly, be impacted. The result of this lack of interoperability has significant flow on effects with respect to software vendor diversity and competition
+* [Existing certification processes](https://openid.net/certification/faq/) will be non-functional requiring a separate certification process to be established and maintained by the creating entity
+
+## Scenario Impact Analysis
+
+This section seeks to outline the impacts of implementing the CDS against existing implementations which are certified to OIDC or FAPI specifications. For the purposes of this section "OIDC" includes all relevent specifications in the OpenID Connect suite.
+
+### CDS -> OpenID Certification
+
+The following items, if implemented, appear likely to result in the failure of OIDC Conformance:
+
+* `request_uri` support is **removed** but is a Mandatory to Implement for Dynamic OP within OpenID Connect Core
+* Metadata response attribute `request_uri_parameter_supported` has had it's default altered to `false` and omitted from the discovery document
+* Metadata response is altered with a number of items converted to **OPTIONAL**:
+    * `response_types_supported`
+    * `subject_types_supported`
+    * `id_token_signing_alg_values_supported`
+* Implementations supporting Claims Languages & Scripts. CDS **does not** support any language other than English (likely `en-AU`)
+
+### OpenID -> CDS Validation
+
+The following items are likely to result in existing OIDC certified implementations failing validation to the CDS:
+
+* Metadata response is altered with a number of items converted to **MANDATORY**:
+    * `userinfo_endpoint`
+    * `scopes_supported`
+    * `acr_values_supported`
+    * `claims_supported`
+* Metadata response is altered with a number of items converted to **OPTIONAL**:
+    * `response_types_supported`
+    * `subject_types_supported`
+    * `id_token_signing_alg_values_supported`
+* Metadata response is altered with a number of items **ADDED** and made **MANDATORY**:
+    * `introspection_endpoint`
+    * `revocation_endpoint`
+* Metadata response attribute `request_uri_parameter_supported` has had it's default altered to `false` and omitted from the discovery document
+* `acr` claim is **MANDATORY** and therefore essential
+* `acr` claim format is an explicit and unregistered claim value of `urn:cds.au:cdr:#` where # represents an LoA value of 2 or 3
+* `state` and `nonce` claims are **MANDATORY** and therefore essential
+* `c_hash` is **REQUIRED** in ID Token responses
+* `updated_at` claim is **REQUIRED**
+* Signed only ID Tokens are **NOT SUPPORTED**
+* Signed and Encrypted ID Tokens are **MANDATORY**
+* `response_type` **MUST** only be `code id_token`, no other response types are supported
+* Address Claims are **NOT SUPPORTED**
+* Introduction of **MANDATORY** unregistered and CDS specific claim of `sharing_expires_at`
+* Claim Languages are not supported, all responses are assumed to be `en-AU`
+* `profile` scope is **REQUIRED**
+* `request_uri` is **NOT SUPPORTED**
+* Certain *Mandatory to Implement* requirements are not supported:
+    * `prompt` parameter
+    * `display` parameter
+    * Locale Support
+    * `max_age` parameter
+
+### CDS -> FAPI Certification
+
+The following items, if implemented, appear likely to result in the failure of FAPI Conformance:
+
+* Signed ID Token's are **NOT SUPPORTED** in CDS which breaks FAPI Part 2 5.2.2 Item 8 which specifies signed only ID Token support as **MANDATORY**
+
+### FAPI -> CDS Validation
+
+The following items are likely to result in existing FAPI certified implementations failing validation to the CDS:
+
+* Public Clients are **NOT SUPPORTED**
+* Mutual TLS for OAuth Client Authentication is **NOT SUPPORTED**
+* `client_secret_jwt` support is **NOT SUPPORTED**
+* `private_key_jwt` support is **MANDATORY**
+* `request_uri` support is **NOT SUPPORTED**
+* `response_type` of `code id_token token` is **NOT SUPPORTED**
+* Detached Signature support is ambiguous as CDS Example does not appear to demonstrate them
+* `s_hash` support is **MANDATORY**
+* Signed only ID Tokens are **NOT SUPPORTED**
+* Signed and Encrypted ID Tokens are **MANDATORY**
+* Request Object Endpoint is **NOT SUPPORTED**
+* HTTP Date Header's are **NOT REQUIRED**
+* `x-fapi-auth-date` is altered to **MANDATORY**
+* `x-fapi-customer-ip-address` is altered to **MANDATORY**
+
 
 ## Summary of Observations
 
@@ -25,93 +103,108 @@ The CDS makes a number of changes to globally adopted specifications. In additio
 
 The following are the list of modifications made which have known breaking impacts on certified implementations:
 
-1. Explicit removal (and *banning*) of `iss` from Request Object specification:
-  *Genesis of this change appears to be [here](https://bitbucket.org/openid/fapi/issues/190/aud-iss-should-be-mandatory-in-requests). This had a comment first of `aud` and `iss` being mandatory then a comment later discussing the removal of `iss` claim due to `client_id` being same. Potential compatibility issues were asked by WG member but the thread was focused on making aud mandatory.*
-  
-    * [FAPI-RW 8.3.3](fapi-part2.md#8.3.3): Removal of `iss` removes mitigation for Identity Provider (IdP) mix-up attack
-    * [OAuth2 JWT Profile Section 3](oauth2-jwt-profile-rfc7523.md#3): Use of `client-id` as a substitute for `iss` (as directed) is likely to cause required format validation failures
-    * [OIDC Core 5.7 Claim Stability](oidc-core-1.0.md#5.7): Use of `client-id` as a substitute means `client_id`+`sub` which increases chance of collision
-    * [OIDC Core 3.3.2.2 Authentication Request Validation](oidc-core-1.0.md#3.3.2.2): With no separation of `client_id` from `iss`, third-party login handling (ie. delegated auth handler) is not possible
-    * [OIDC Core 7 Self-Issued OP](oidc-core-1.0.md#7): Self-Issued OP is not possible without `iss`
-    * [OIDC Discovery 4.3 OpenID Provider Configuration](oidc-discovery-1.0.md#4.3): Validation of `issuer` element from Discovery document is tied to `iss` and therefore not possible
-    
-2. `vot` claim has been modified from String[] (array of String) to simply String
-    * All `vot` responses will be invalid format
-3. `request_uri` has been removed from Request Object:
+1. Support for signed only ID Token's is explicitly **removed**.
+2. `request_uri` has been removed from Request Object:
     * This is a *Mandatory to Implement* for [Dynamic OP within OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html#DynamicMTI)
     * This changes the default value at `/.well-known/openid-configuration`
     * [6.2. Passing a Request Object by Reference](https://openid.net/specs/openid-connect-core-1_0.html#RequestUriParameter) is not possible
     * *Possible? request_uri disabling could impede maximum size of mandated sign & encrypt of certain tokens within the CDS (ie. POST or query string length limitations?)*
-
-4. `iss` analgous with `client_id` has follow on effects as there is no separation in provided in example token responses (and not mentioned as required):
-    * [OAuth2 Framework 3.2.1 Client Authentication](oauth2-framework-rfc6749.md#3.2.1): This disables substitution attack protections
-    * *Update (2019-08-12): Some feedback has been received that token's do not include client_id, this is true, what is raised here is that `aud` supplied in token responses will always equal `client_id` from the Request Object because it is is specified as analgous with `iss` (when this not always true from a specification perspective). Further analysis is required to potentially remove this point.*
+    * Request Object Endpoint cannot be supported
 
 **Final Note:** The specification is not in a format similar to IETF or OpenID. Identifying what changes from upstream specifications has been very challenging and involved line by line analysis. **Adopting a standardised documentation method similar to these existing formats would be more consistent with a typical Implementors Draft and preferred.**
 
 ### Non-Spec Compliant Changes
 
-The following are a list of modifications which are divergent from their specification and may or may not be breaking but are notable:
+The following are a list of modifications which are divergent from their specification.
 
-* Unregistered `refresh_token_expires_at` claim is MANDATORY for ongoing consent (ie. not once off)
-  * *Update 2019-08-27*: Following related discussion [in FAPI #251](https://bitbucket.org/openid/fapi/issues/251/refresh-token-expiry-time) with highlight that this claim is named differently between standards (and appears to have slightly different business rules) this modification has been upgraded to a Non-Spec Compliant Change
-* Introspection methods modified:
-    * Introspection of Access Tokens is not allowed
-    * Introspection of ID Tokens is not allowed
-    * Introspection of Refresh Tokens is allowed but may ONLY include `active` and `exp` claims and no others
-* `scope` is NOT A REQUIRED parameter in token requests with no guidance on the default value
-    * Lack of default value guidance means behaviour is unknown
-* `profile` scope MUST be supported (but `scope` isn't required) 
-* OAUTB support is REMOVED
-* JWT Secured Authorization Response Mode is NOT SUPPORTED
-     * JARM was recommended by an Independent Security Review but not adopted on basis of ["Due to the need to understand the impacts of this recommendation it will not be incorporated into the standards at this stage but will be considered for incorporation in the next phase of the regime"](https://github.com/ConsumerDataStandardsAustralia/standards/issues/78)
+### FAPI Part 1
 
-* `jwks_uri` based key rotation is not possible as ACCC is Static Registration only
-* Mandatory to Implement components of OpenID Core have been modified:
-    * Parameter's for OP not implemented: `prompt`, `display` and `max_age`
-    * Locale Support is not implemented
-    * (Repeated) request_uri has been removed from Request Object which breaks [Dynamic OP within OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html#DynamicMTI)
-* The `/.well-known/openid-configuration` endpoint is modified as follows:
-    *  `userinfo_endpoint` is MANDATORY
-    *  `scopes_supported` is MANDATORY
-    *  `acr_values_supported` is MANDATORY
-    *  `vot_values_supported` is MANDATORY
-    *  `claims_supported` is MANDATORY
-    *  `response_types_supported` is OPTIONAL
-    *  `subject_types_supported` is OPTIONAL
-    *  `id_token_signing_alg_values_supported` is OPTIONAL
-    *  `introspection_endpoint` has been CREATED and is MANDATORY
-    *  `revocation_endpoint` has been CREATED and is MANDATORY
-    *  `request_uri_parameter_supported` has it's default value IMPLICITLY changed to `false` because `request_uri` is globally DISABLED
+* Public Clients are **NOT SUPPORTED**
+* Mutual TLS for OAuth Client Authentication is **NOT SUPPORTED**
+* `client_secret_jwt` support is **NOT SUPPORTED**
+* `private_key_jwt` support is **MANDATORY**
+* Charset specification in `Content-Type` header is **REMOVED**
+* HTTP Date Header's are **NOT REQUIRED**
+* `x-fapi-auth-date` is altered to **MANDATORY**
+* `x-fapi-customer-ip-address` is altered to **MANDATORY**
+* `x-cds-client-headers` has been added and is **OPTIONAL**
 
-### Profile Based Changes
+### FAPI Part 2
 
-The following is a list of modifications which while different from the upstream specification could be justified as of a "situational" nature and aren't believed to break existing implementations:
+* Public Clients are **NOT SUPPORTED**
+* Mutual TLS for OAuth Client Authentication is **NOT SUPPORTED**
+* `client_secret_jwt` support is **NOT SUPPORTED**
+* `private_key_jwt` support is **MANDATORY**
+* `request_uri` support is **NOT SUPPORTED**
+* `response_type` of `code id_token token` is **NOT SUPPORTED**
+* Detached Signature support is ambiguous as CDS Example does not appear to demonstrate them
+* `s_hash` support is **MANDATORY**
+* OAUTB is **NOT SUPPORTED**
+* Signed only ID Tokens are **NOT SUPPORTED**
+* Signed and Encrypted ID Tokens are **MANDATORY**
+* Request Object Endpoint is **NOT SUPPORTED**
+* HTTP Date Header's are **NOT REQUIRED**
+* `x-fapi-auth-date` is altered to **MANDATORY**
+* `x-fapi-customer-ip-address` is altered to **MANDATORY**
 
-* Public Client support is REMOVED
-* Mutual TLS for OAuth Client is REMOVED
-* `client_secret_jwt` support is REMOVED
-* MISSING explicit charset header
-* MISSING explicit HTTP Date header
-* CORS headers are NOT SPECIFIED
-* `x-fapi-auth-date` is altered to MANDATORY
-* `x-fapi-customer-ip-address` is altered to MANDATORY when a business rule of customer presence (versus unattended) is true
-* `x-fapi-interaction-id` is altered to MANDATORY
-* Response type of `code id_token token` is REMOVED
-* Signed only token support is REMOVED (`Sign`+`Encrypt` only)
-* `typ` header is MANDATORY and expected to ALWAYS be *JOSE*
-* Unregistered and New `sharing_expires_at` claim is ADDED and is MANDATORY for ongoing consent (ie. not once off)
-* `expires_in` claim changed to MANDATORY
-* `sharing_expires_in` claim is CREATED, is unregistered and does not comply with collision avoidance rules (See RFC6749 *8.2 Defining New Endpoint Parameters*)
-* JWT Client Authorization Grants are DISABLED
-* `s_hash` is MANDATORY which means `state` in the Request Object is MANDATORY
-* `nonce` is MANDATORY which means `nonce` in the Request Object is MANDATORY
-* `acr` is MANDATORY unless LoA `vot` and `vtm` claims are provided
-* `acr` claim format is a CUSTOM URN of `urn:cds.au:cdr:#`
-* ID Token's must be `Sign`+`Encrypt` ONLY
-* `prompt` is OPTIONAL but Consent is always expected
-* `updated_at` claim within ID Token is MANDATORY
-* `sharing_expires_at` claim has been ADDED for CDS consent management and is MANDATORY
+### OpenID Connect Core 1.0 (Errata Set 1)
+
+* `nonce` claim is **MANDATORY**
+* `acr` claim is **MANDATORY** and therefore essential
+* `acr` claim format is an explicit and unregistered claim value of `urn:cds.au:cdr:#` where # represents an LoA value of 2 or 3
+* Signed only ID Tokens are **NOT SUPPORTED**
+* Signed and Encrypted ID Tokens are **MANDATORY**
+* `state` and `nonce` are **MANDATORY** within Request Object
+* `response_type` **MUST** only be `code id_token`, no other response types are supported
+* `prompt` parameter is **NOT REQUIRED**
+* **REQUIRED** claim of `redirect_uri` is not documented (but perhaps assumed)
+* `c_hash` is **REQUIRED** in ID Token responses
+* `updated_at` claim is **REQUIRED**
+* Address Claims are **NOT SUPPORTED**
+* Introduction of **MANDATORY** unregistered and CDS specific claim of `sharing_expires_at`
+* Claim Languages are not supported, all responses are assumed to be `en-AU`
+* `profile` scope is **REQUIRED**
+* `request_uri` is **NOT SUPPORTED**
+* Certain *Mandatory to Implement* requirements are not supported:
+    * `prompt` parameter
+    * `display` parameter
+    * Locale Support
+    * `max_age` parameter
+
+### OpenID Connect Discovery Comparison
+
+* Discovery Endpoint is **MANDATORY** under CDS
+* Metadata response is altered with a number of items converted to **MANDATORY**:
+    * `userinfo_endpoint`
+    * `scopes_supported`
+    * `acr_values_supported`
+    * `claims_supported`
+* Metadata response is altered with a number of items converted to **OPTIONAL**:
+    * `response_types_supported`
+    * `subject_types_supported`
+    * `id_token_signing_alg_values_supported`
+* Metadata response is altered with a number of items **ADDED** and made **MANDATORY**:
+    * `introspection_endpoint`
+    * `revocation_endpoint`
+* Metadata response attribute `request_uri_parameter_supported` has had it's default altered to `false` and omitted from the discovery document
+
+### OAuth 2.0 Authorization Framework (RFC6749)
+
+* `implicit` grant type is **NOT SUPPORTED**
+* `password_credentials` grant type is **NOT SUPPORTED**
+* `expires_in` claim is **MANDATORY**
+* `refresh_token_expires_at` is **MANDATORY** for requests for continuous consent
+* Native clients are **NOT SUPPORTED**
+* *Ensuring Endpoint Authenticity* may be impacted by [ongoing discussion](https://github.com/ConsumerDataStandardsAustralia/standards-maintenance/issues/95)
+
+### OAuth 2.0 Token Introspection
+
+* Access Token introspection is **NOT SUPPORTED**
+* ID Token introspection is **NOT SUPPORTED**
+* Refresh Token introspection is **MANDATORY**
+* Only `active` and `exp` claims in introspection responses are **SUPPORTED**
+* `exp` claim is **MANDATORY**
+
 
 ## Corrections
 
