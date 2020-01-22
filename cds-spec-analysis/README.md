@@ -215,5 +215,4 @@ The following table provides a summary of the specifications and standards revie
 | OpenID Connect Core 1.0 incorporating errata set 1 | [https://openid.net/specs/openid-connect-core-1_0.html](https://openid.net/specs/openid-connect-core-1_0.html) | [oidc-core-1.0.md](oidc-core-1.0.md) |
 | OpenID Connect Discovery 1.0 incorporating errata set 1 | [https://openid.net/specs/openid-connect-discovery-1_0.html](https://openid.net/specs/openid-connect-discovery-1_0.html) | [oidc-discovery-1.0.md](oidc-discovery-1.0.md) |
 | OpenID Connect Dynamic Client Registration 1.0 incorporating errata set 1 | [https://openid.net/specs/openid-connect-registration-1_0.html](https://openid.net/specs/openid-connect-registration-1_0.html) | [oidc-registration-1.0.md](oidc-registration-1.0.md) |
-| Vectors of Trust | [https://tools.ietf.org/html/rfc8485](https://tools.ietf.org/html/rfc8485) | [vot-rfc8485.md](vot-rfc8485.md) |
 
