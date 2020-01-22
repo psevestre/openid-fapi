@@ -21,6 +21,8 @@ Breaking changes documented here-in result in a number of outcomes, notably:
 
 This section seeks to outline the impacts of implementing the CDS against existing implementations which are certified to OIDC or FAPI specifications. For the purposes of this section "OIDC" includes all relevent specifications in the OpenID Connect suite.
 
+**PLEASE READ**: EACH of these scenarios is to be viewed **IN ISOLATION**. For instance, for `CDS -> OpenID Certification` if an implementer had a CDS conformant implementation an OpenID conformance check would fail because `request_uri_parameter_supported` default value has been changed. Conversely, for `OpenID -> CDS Validation` if an implementer had an OpenID conformant implementation a CDS conformance check would fail because `acr` claim is mandatory.
+
 ### CDS -> FAPI Certification
 
 The following items, if implemented, appear likely to result in the failure of FAPI Conformance:
@@ -64,10 +66,10 @@ The following items are likely to result in existing FAPI certified implementati
 The following items are likely to result in existing OIDC certified implementations failing validation to the CDS:
 
 * Metadata response is altered with a number of items converted to **MANDATORY**:
-    * `userinfo_endpoint`
     * `scopes_supported`
     * `acr_values_supported`
     * `claims_supported`
+    * `userinfo_endpoint`: *NOTE*: This is aligned with OIDC for Dynamic OP
 * Metadata response is altered with a number of items converted to **OPTIONAL**:
     * `response_types_supported`
     * `subject_types_supported`
