@@ -99,8 +99,6 @@ The following items are likely to result in existing FAPI certified implementati
 
 The CDS makes a number of changes to globally adopted specifications. In addition observations which may compromise the overall security of the ecosystem are also summarised.
 
-#### Consumer Data Standards
-
 The following are the list of modifications made which have known breaking impacts on certified implementations:
 
 1. Support for signed only ID Token's is explicitly **removed**.
