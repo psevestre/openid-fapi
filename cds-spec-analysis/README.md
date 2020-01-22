@@ -1,6 +1,6 @@
 # How the CDS differs from International Standards and Specifications
 
-**2019-01-22: Update in progress**
+**2019-01-22: Update in progress, please contact the mailing list if you wish to suggest alterations or corrections.**
 
 This document summarises the differences of the proposed [Consumer Data Standards](https://consumerdatastandardsaustralia.github.io/standards/) when compared against the international standards and specifications they seek to adopt. The Consumer Data Standards are the underlying technical standards currently being developed to deliver on the Australian Government's Consumer Data Right legislation, which was passed 1 August 2019. The ACCC is the lead regulator of the [Consumer Data Right](https://www.accc.gov.au/focus-areas/consumer-data-right-cdr-0). The banking sector is the first of multiple industries intended, energy and telco being the next. 
 
