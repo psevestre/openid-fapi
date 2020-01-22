@@ -17,7 +17,7 @@ Breaking changes documented here-in result in a number of outcomes, notably:
 * Existing infrastructure cannot be reused requiring new (and therefore duplicated) builds to meet the desired requirements
 * Unknown race conditions and/or security vulnerabilities may be introduced due to lack of international adoption, diverse testing and deployment. OpenID Connect is now over 5 years old and has 100s (possibly 1000s) of implementations worldwide. Within software development this is commonly referred to as [Linus's Law](https://en.wikipedia.org/wiki/Linus%27s_Law) whereby *"given enough eyeballs, all bugs are shallow"*
 * [Interoperability](https://en.wikipedia.org/wiki/Interoperability) between implementations will, potentially significantly, be impacted. The result of this lack of interoperability has significant flow on effects with respect to software vendor diversity and competition
-* [Existing certification processes](https://openid.net/certification/faq/) will be non-functional requiring a separate certification process to be established and maintained by the creating entity
+* [Existing certification processes](https://openid.net/certification/faq/) may be non-functional requiring a separate certification process to be established and maintained by the creating entity
 
 ## Scenario Impact Analysis
 
