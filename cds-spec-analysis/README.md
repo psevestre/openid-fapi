@@ -8,6 +8,8 @@ This document has been put together to summarise and provide reporting back to t
 
 This is intended to be a living document and as such the authors welcome any recommendations, changes or alterations. If you have alterations we welcome your feedback which can be sent via the FAPI WG Chair contactable at [openid-specs-fapi-owner@lists.openid.net](mailto:openid-specs-fapi-owner@lists.openid.net).
 
+**Final Note:** The specification is not in a format similar to IETF or OpenID. Identifying what changes from upstream specifications has been very challenging and involved line by line analysis. **Adopting a standardised documentation method similar to these existing formats would be more consistent with a typical Implementors Draft and preferred.**
+
 ### Outcomes
 
 Breaking changes documented here-in result in a number of outcomes, notably:
@@ -97,21 +99,6 @@ The following items are likely to result in existing OIDC certified implementati
     * Locale Support
     * `max_age` parameter
 
-## Summary of Observations
-
-The CDS makes a number of changes to globally adopted specifications. In addition observations which may compromise the overall security of the ecosystem are also summarised.
-
-The following are the list of modifications made which have known breaking impacts on certified implementations:
-
-1. Support for signed only ID Token's is explicitly **removed**.
-2. `request_uri` has been removed from Request Object:
-    * This is a *Mandatory to Implement* for [Dynamic OP within OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html#DynamicMTI)
-    * This changes the default value at `/.well-known/openid-configuration`
-    * [6.2. Passing a Request Object by Reference](https://openid.net/specs/openid-connect-core-1_0.html#RequestUriParameter) is not possible
-    * *Possible? request_uri disabling could impede maximum size of mandated sign & encrypt of certain tokens within the CDS (ie. POST or query string length limitations?)*
-    * Request Object Endpoint cannot be supported
-
-**Final Note:** The specification is not in a format similar to IETF or OpenID. Identifying what changes from upstream specifications has been very challenging and involved line by line analysis. **Adopting a standardised documentation method similar to these existing formats would be more consistent with a typical Implementors Draft and preferred.**
 
 ### Non-Spec Compliant Changes
 
