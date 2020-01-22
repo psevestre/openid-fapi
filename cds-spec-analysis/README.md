@@ -26,6 +26,7 @@ This section seeks to outline the impacts of implementing the CDS against existi
 The following items, if implemented, appear likely to result in the failure of OIDC Conformance:
 
 * `request_uri` support is **removed** but is a Mandatory to Implement for Dynamic OP within OpenID Connect Core
+    * *NOTE*: Some WG members have questioned whether the `request_uri` MTI is being enforced in other implementations now?
 * Metadata response attribute `request_uri_parameter_supported` has had it's default altered to `false` and omitted from the discovery document
 * Metadata response is altered with a number of items converted to **OPTIONAL**:
     * `response_types_supported`
