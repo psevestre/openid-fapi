@@ -100,11 +100,11 @@ The following items are likely to result in existing OIDC certified implementati
     * `max_age` parameter
 
 
-### Non-Spec Compliant Changes
+# Per Specification Modifications
 
 The following are a list of modifications which are divergent from their specification.
 
-### FAPI Part 1
+## FAPI Part 1
 
 * Public Clients are **NOT SUPPORTED**
 * Mutual TLS for OAuth Client Authentication is **NOT SUPPORTED**
@@ -116,7 +116,7 @@ The following are a list of modifications which are divergent from their specifi
 * `x-fapi-customer-ip-address` is altered to **MANDATORY**
 * `x-cds-client-headers` has been added and is **OPTIONAL**
 
-### FAPI Part 2
+## FAPI Part 2
 
 * Public Clients are **NOT SUPPORTED**
 * Mutual TLS for OAuth Client Authentication is **NOT SUPPORTED**
@@ -134,7 +134,7 @@ The following are a list of modifications which are divergent from their specifi
 * `x-fapi-auth-date` is altered to **MANDATORY**
 * `x-fapi-customer-ip-address` is altered to **MANDATORY**
 
-### OpenID Connect Core 1.0 (Errata Set 1)
+## OpenID Connect Core 1.0 (Errata Set 1)
 
 * `nonce` claim is **MANDATORY**
 * `acr` claim is **MANDATORY** and therefore essential
@@ -158,7 +158,7 @@ The following are a list of modifications which are divergent from their specifi
     * Locale Support
     * `max_age` parameter
 
-### OpenID Connect Discovery Comparison
+## OpenID Connect Discovery Comparison
 
 * Discovery Endpoint is **MANDATORY** under CDS
 * Metadata response is altered with a number of items converted to **MANDATORY**:
@@ -175,7 +175,7 @@ The following are a list of modifications which are divergent from their specifi
     * `revocation_endpoint`
 * Metadata response attribute `request_uri_parameter_supported` has had it's default altered to `false` and omitted from the discovery document
 
-### OAuth 2.0 Authorization Framework (RFC6749)
+## OAuth 2.0 Authorization Framework (RFC6749)
 
 * `implicit` grant type is **NOT SUPPORTED**
 * `password_credentials` grant type is **NOT SUPPORTED**
@@ -184,7 +184,7 @@ The following are a list of modifications which are divergent from their specifi
 * Native clients are **NOT SUPPORTED**
 * *Ensuring Endpoint Authenticity* may be impacted by [ongoing discussion](https://github.com/ConsumerDataStandardsAustralia/standards-maintenance/issues/95)
 
-### OAuth 2.0 Token Introspection
+## OAuth 2.0 Token Introspection
 
 * Access Token introspection is **NOT SUPPORTED**
 * ID Token introspection is **NOT SUPPORTED**
@@ -193,11 +193,11 @@ The following are a list of modifications which are divergent from their specifi
 * `exp` claim is **MANDATORY**
 
 
-## Corrections
+# Corrections
 
 This is intended to be a living document and as such the authors welcome any recommendations, changes or alterations. If you have alterations we welcome your feedback which can be sent via the FAPI WG Chair contactable at [openid-specs-fapi-owner@lists.openid.net](mailto:openid-specs-fapi-owner@lists.openid.net).
 
-## Detailed Reviews
+# Detailed Reviews
 
 The following table provides a summary of the specifications and standards reviewed as part of this summary:
 
