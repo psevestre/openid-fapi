@@ -30,7 +30,7 @@ This section seeks to outline the impacts of implementing the CDS against existi
 The following items, if implemented, appear likely to result in the failure of FAPI Conformance:
 
 * ~~Signed ID Token's are **NOT SUPPORTED** in CDS which breaks FAPI Part 2 5.2.2 Item 8 which specifies signed only ID Token support as **MANDATORY**~~
-    * *Note:* This has been removed following discussions at the FAPI WG meeting on 2020-01-22. The intent of the authors was to require at least signed tokens. Requiring signed+encrypted tokens is an ecosystem choice and while not explicitly required is encouraged. The implementation of signed+encrypted appears to reduce the number of available libraries supporting JWS (15) to the number of libraries supporting JWE (6). Surprisingly this appears to preclude .NET implementations (ie. there does not appear to be a certified JWE implementation in .NET)
+    * *Note:* This has been removed following discussions at the FAPI WG meeting on 2020-01-22. The intent of the authors was to require at least signed tokens. Requiring signed+encrypted tokens is an ecosystem choice and while not explicitly required is not discouraged. The implementation of signed+encrypted appears to reduce the number of available libraries supporting JWS (15) to the number of libraries supporting JWE (6). Surprisingly this appears to preclude .NET implementations (ie. there does not appear to be a certified JWE implementation in .NET)
 * HTTP Date Header's are **NOT REQUIRED**
 
 ### CDS -> OpenID Certification
