@@ -12,6 +12,7 @@ This is the official repository for OpenID Foundation Financial-grade API (FAPI)
   * [Baseline Profile](FAPI_2_0_Baseline_Profile.md)
   * [Advanced Profile](FAPI_2_0_Advanced_Profile.md)
   * [Attacker Model](FAPI_2_0_Attacker_Model.md)
+  * [Grant Management API](FAPI_2_0_Grant_Management_API.md)
 * Other documents
   * [FAPI JWT Secured Authorization Response Mode](Financial_API_JWT_Secured_Authorization_Response_Mode.md)
   * [Cross-Browser Payment Initiation Attack](TR-Cross_browser_payment_initiation_attack.md)
