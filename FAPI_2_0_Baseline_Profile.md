@@ -103,8 +103,8 @@ In the following, a profile of the following technologies is defined:
   * OAuth 2.0 Bearer Tokens [@!RFC6750]
   * OAuth 2.0 PKCE [@!RFC7636]
   * OAuth 2.0 Mutual-TLS Client Authentication [@!RFC8705]
-  * OAuth 2.0 Pushed Authorization Requests [@!I-D.lodderstedt-oauth-par]
-  * OAuth 2.0 Rich Authorization Requests [@!I-D.lodderstedt-oauth-rar]
+  * OAuth 2.0 Pushed Authorization Requests (PAR) [@!I-D.lodderstedt-oauth-par]
+  * OAuth 2.0 Rich Authorization Requests (RAR) [@!I-D.lodderstedt-oauth-rar]
   * OAuth 2.0 Authorization Server Metadata [@!RFC8414]
   
 ### Requirements for Authorization Servers
@@ -117,8 +117,9 @@ Authorization servers
     according to [@I-D.lodderstedt-oauth-par]
  1. MUST NOT support authorization requests sent without
     [@I-D.lodderstedt-oauth-par] or authorization request parameters
-    sent outside of [@I-D.lodderstedt-oauth-par] except for
-    `request_uri` or without client authentication
+    sent outside of the PAR request, except for
+    `request_uri`
+ 1. MUST NOT support pushed authorization requests without client authentication
  1. MUST support rich authorization requests according to [@I-D.lodderstedt-oauth-rar]
  1. MUST support confidential clients as defined in [@!RFC6749]
  1. MUST support client authentication and sender-constraining of access tokens using Mutual TLS as described in [@!RFC8705]
@@ -219,7 +220,7 @@ Resource servers with the FAPI endpoints
  * disallow scopes? if yes, use RAR transport for openid claim
  * Response types? ID Token in front channel?
  * 
- * (include?) shall require user authentication at LoA 2/3 as defined in [X.1254] or more
+ * lifetime for request objects?
  * (to be moved to grant management):
      * shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
      * should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
