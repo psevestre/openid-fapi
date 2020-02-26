@@ -201,20 +201,18 @@ Resource servers with the FAPI endpoints
 
 ## Differences to FAPI 1.0
 
-| FAPI 1.0 Read/Write                                     | FAPI 2.0                    | Reasons                                                                                                                                 |
-|:--------------------------------------------------------|:----------------------------|:----------------------------------------------------------------------------------------------------------------------------------------|
-| JAR, JARM                                               | PAR                         | integrity protection and compatibility improvements for authorization requests; only code in response                                   |
-| -                                                       | RAR                         | support complex and structured information about authorizations                                                                         |
-| `s_hash`                                                | -                           | state integrity is protected by PAR; protection provided by state is now provided by PKCE                                               |
-| public clients                                          | -                           | public clients lack support for many important security features; dynamic registration might be an alternative for some implementations |
-| symmetric client authentication                         | only asymmetric methods     | improve security                                                                                                                        |
-| `client_secret_jwt` or `private_key_jwt`                | OAuth Mutual TLS            | improve interoperability (?)                                                                                                            |
-| pre-registered redirect URIs                            | redirect URIs in PAR        | pre-registration is not required with client authentication and PAR                                                                     |
-| -                                                       | MUST adhere to Security BCP |                                                                                                                                         |
-| response types `code id_token` or `code id_token token` | response type `code`        | improve security: no ID token in front-channel; not needed                                                                              |
-| ID token as detached signature                          | -                           | ID token does not need to serve as a detached signature                                                                                 |
-| `exp` claim in request object                           | -                           | ?                                                                                                                                       |
-|                                                         |                             |                                                                                                                                         |
+| FAPI 1.0 Read/Write                      | FAPI 2.0                    | Reasons                                                                                               |
+|:-----------------------------------------|:----------------------------|:------------------------------------------------------------------------------------------------------|
+| JAR, JARM                                | PAR                         | integrity protection and compatibility improvements for authorization requests; only code in response |
+| -                                        | RAR                         | support complex and structured information about authorizations                                       |
+| `s_hash`                                 | -                           | state integrity is protected by PAR; protection provided by state is now provided by PKCE             |
+| symmetric client authentication          | only asymmetric methods     | improve security                                                                                      |
+| `private_key_jwt`                        | OAuth Mutual TLS            | improve interoperability (?)                                                                          |
+| pre-registered redirect URIs             | redirect URIs in PAR        | pre-registration is not required with client authentication and PAR                                   |
+| -                                        | MUST adhere to Security BCP |                                                                                                       |
+| response types `code id_token` or `code` | response type `code`        | improve security: no ID token in front-channel; not needed                                            |
+| ID Token as detached signature           | -                           | ID token does not need to serve as a detached signature                                               |
+| `exp` claim in request object            | -                           | ?                                                                                                     |
 
 ## Open questions:
  * disallow scopes? if yes, use RAR transport for openid claim
