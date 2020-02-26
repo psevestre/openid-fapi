@@ -141,20 +141,20 @@ The authorization server
 1. shall support confidential clients;
 1. should support public clients; 
 1. shall provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used;
-1. shall authenticate the confidential client at the token endpoint using one of the following methods:
+1. shall authenticate the confidential client using one of the following methods:
     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
     2. `client_secret_jwt` or `private_key_jwt` as specified in section 9 of [OIDC];
-1. shall require a key of size 2048 bits or larger if RSA algorithms are used for the client authentication;
-1. shall require a key of size 160 bits or larger if elliptic curve algorithms are used for the client authentication;
+1. shall require and use a key of size 2048 bits or larger for RSA algorithms;
+1. shall require and use a key of size 160 bits or larger for elliptic curve algorithms;
 1. shall require [RFC7636] with `S256` as the code challenge method;
 1. shall require redirect URIs to be pre-registered;
 1. shall require the `redirect_uri` parameter in the authorization request;
 1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
-1. shall require user authentication at LoA 2 as defined in [X.1254] or more;
+1. shall require user authentication to an appropriate Level of Assurance for the operations the client will be authorised to perform on behalf of the user;
 1. shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
-1. should verify that the authorization code (section 1.3.1 of [RFC6749]) has not been previously used;
+1. shall reject an authorization code (section 1.3.1 of [RFC6749]) if it has been previously used;
 1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
-1. shall return the list of granted scopes with the issued access token;
+1. shall return the list of granted scopes with the issued access token if the request was passed in the front channel and was not integrity protected;
 1. shall provide opaque non-guessable access tokens with a minimum of 128 bits of entropy where the probability of an attacker guessing the generated token is less than or equal to 2^(-160) as per [RFC6749] section 10.10;
 1. should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
 1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
@@ -163,13 +163,11 @@ The authorization server
 
     **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
 
-    **NOTE**: Section 4.1.3 of [RFC6749] does not provide guidance regarding `code reuse`, but this document provides limitation on `code reuse` in Section 3.1.3.2 of [OIDC].
-
-    **NOTE**: If replay identification of the authorization code is not possible, it is desirable to set the validity period of the authorization code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the authorization code cache if one is used.
-
     **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
 
-##### 5.2.2.1 Returning authenticated user's identifier Authorization server
+    **NOTE**: The requirement to return the list of granted scopes allows clients to detect when the authorization request was modified to include different scopes. Servers must still return the granted scopes if they are different from those requested.
+
+##### 5.2.2.1 Returning authenticated user's identifier
 
 Further, if it is desired to provide the authenticated user's identifier to the client in the token response, the authorization server:
 
@@ -181,6 +179,18 @@ Further, if it is desired to provide the authenticated user's identifier to the 
 1. shall issue an ID Token in the token response when `openid` was included in the requested `scope`
    as in Section 3.1.3.3 of [OIDC] with its `sub` value corresponding to the authenticated user
    and optional `acr` value in ID Token.
+
+##### 5.2.2.2 Client requesting openid scope
+
+If the client requests the openid scope, the authorization server
+
+1. shall require the `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
+
+##### 5.2.2.3 Clients not requesting openid scope
+
+If the client does not requests the openid scope, the authorization server
+
+1. shall require the `state` parameter defined in section 4.1.1 of [RFC6749].
 
 #### 5.2.3 Public client
 
@@ -236,7 +246,7 @@ The resource server with the FAPI endpoints
 1. shall identify the associated entity to the access token;
 1. shall only return the resource identified by the combination of the entity implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750];
 1. shall encode the response in UTF-8 if applicable; 
-1. shall send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8` if applicable;
+1. shall send the `Content-type` HTTP header `Content-Type: application/json` if applicable;
 1. shall send the server date in HTTP Date header as in section 7.1.1.2 of [RFC7231];
 1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
 1. shall log the value of `x-fapi-interaction-id` in the log entry.

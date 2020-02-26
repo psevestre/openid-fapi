@@ -144,16 +144,18 @@ The JWT always contains the following data utilized to secure the transmission:
 * `aud` - the client_id of the client the response is intended for
 * `exp` - expiration of the JWT. A maximum JWT lifetime of 10 minutes is RECOMMENDED.
  
-The JWT furthermore contains the authorization endpoint response parameters as defined for the particular response types, even in case of an error response. Authorization endpoint response parameter names and string values are included as JSON strings and numerical values (e.g., `expires_in` value) are included as JSON numbers. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token".
+The JWT MUST furthermore contain the authorization endpoint response parameters as defined for the particular response types, even in case of an error response. Authorization endpoint response parameter names and string values are included as JSON strings and numerical values (e.g., `expires_in` value) are included as JSON numbers. This pattern is applicable to all response types including those defined in [OIDM]. The following subsections illustrate the pattern with the response types "code" and "token".
 
 Note: Additional authorization endpoint response parameters defined by extensions, e.g. `session_state` as defined in [OISM], will also be added to the JWT. 
+
+The JWT response document MAY contain further element, e.g. the claims defined in [RFC7519]. Implementation SHOULD adhere to the respective processing rules and ignore unrecognized elements.
 
 #### 4.1.1 Response Type "code"
 
 For the grant type authorization "code" the JWT contains the response parameters as defined in [RFC6749], sections 4.1.2:
 
 * `code` - the authorization code
-* `state` - the state value as sent by the client in the authorization request
+* `state` - the state value as sent by the client in the authorization request, if the client included a `state` parameter
 
 The following example shows the JWT claims for a successful "code" authorization response:
 
@@ -172,7 +174,7 @@ In case of an error response, the JWT contains the error response parameters as 
 * `error` - the error code
 * `error_description` (OPTIONAL) - a human readable description of the error
 * `error_uri` (OPTIONAL) - a URI identifying a human-readable web page with information about the error
-* `state` - the state value as sent by the client in the authorization request
+* `state` - the state value as sent by the client in the authorization request (if applicable)
 
 The following example shows the JWT payload for such an error response:
 
@@ -194,7 +196,7 @@ For the grant type "token" the JWT contains the response parameters as defined i
 * `token_type` - the type of the access token
 * `expires_in` - when the access token expires
 * `scope` - the scope granted with the access token
-*  `state` - the state value as sent by the client in the authorization request
+*  `state` - the state value as sent by the client in the authorization request (if applicable)
 
 The following example shows the claims of the JWT for a successful "token" authorization response:
 
@@ -238,12 +240,11 @@ This is an example response (line breaks for display purposes only):
 ```
 HTTP/1.1 302 Found
 Location: https://client.example.com/cb?
-response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnRzLm
-V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwiY29kZSI6IlB5eU
-ZhdXgybzdRMFlmWEJVMzJqaHcuNUZYU1FwdnI4YWt2OUNlUkRTZDBRQSIsInN0YXRlIjoiUzhOSjd1cW
-s1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkTUFKdyJ9.HkdJ_TYgwBBj10C-aWuNUiA062Amq
-2b0_oyuc5P0aMTQphAqC2o9WbGSkpfuHVBowlb-zJ15tBvXDIABL_t83q6ajvjtq_pqsByiRK2dLVdUw
-KhW3P_9wjvI0K20gdoTNbNlP9Z41mhart4BqraIoI8e-L_EfAHfhCG_DDDv7Yg
+response=eyJraWQiOiJsYWViIiwiYWxnIjoiRVMyNTYifQ.eyAgImlzcyI6ICJodHRwczovL2FjY291
+bnRzLmV4YW1wbGUuY29tIiwgICJhdWQiOiAiczZCaGRSa3F0MyIsICAiZXhwIjogMTMxMTI4MTk3MCwg
+ICJjb2RlIjogIlB5eUZhdXgybzdRMFlmWEJVMzJqaHcuNUZYU1FwdnI4YWt2OUNlUkRTZDBRQSIsICAi
+c3RhdGUiOiAiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkTUFKdyJ9.4VdtknV
+Z9zFYDVLagJpVBD436bjPMcSgOaPDPFgTEkNyCs2uIHYJ2XML6d2w1AUsm5GBG77DBisZNhLWfug6dA
 ```
 
 Note: "query.jwt" MUST NOT be used in conjunction with response types that contain "token" or "id_token" unless the response JWT is encrypted to prevent token leakage in the URL. 
@@ -257,13 +258,12 @@ This is an example response (line breaks for display purposes only):
 ```
 HTTP/1.1 302 Found
 Location: https://client.example.com/cb#
-response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FjY291bnRzLm
-V4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTMxMTI4MTk3MCwiYWNjZXNzX3Rva2
-VuIjoiMllvdG5GWkZFanIxekNzaWNNV3BBQSIsInN0YXRlIjoiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdH
-lKdTZwVXN2SDlqc1luaTlkTUFKdyIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMz
-YwMCIsInNjb3BlIjoiZXhhbXBsZSJ9.bgHLOu2dlDjtCnvTLK7hTN_JNwoZXEBnbXQx5vd9z17v1Hyzf
-Mqz00Vi002T-SWf2JEs3IVSvAe1xWLIY0TeuaiegklJx_gvB59SQIhXX2ifzRmqPoDdmJGaWZ3tnRyFW
-NnEogJDqGFCo2RHtk8fXkE5IEiBD0g-tN0GS_XnxlE
+response=eyJraWQiOiJsYWViIiwiYWxnIjoiRVMyNTYifQ.eyAgImlzcyI6ICJodHRwczovL2FjY291
+bnRzLmV4YW1wbGUuY29tIiwgICJhdWQiOiAiczZCaGRSa3F0MyIsICAiZXhwIjogMTMxMTI4MTk3MCwg
+ICJhY2Nlc3NfdG9rZW4iOiAiMllvdG5GWkZFanIxekNzaWNNV3BBQSIsICAic3RhdGUiOiAiUzhOSjd1
+cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkTUFKdyIsICAidG9rZW5fdHlwZSI6ICJiZWFy
+ZXIiLCAgImV4cGlyZXNfaW4iOiAzNjAwLCAgInNjb3BlIjogImV4YW1wbGUifQ.g_96IM2t_6Dazm1Jp
+b2gbO2EXe5IKTw2bYS7l9Y1RI8HbNPYN5EdNjxcWeL5LTQaUAZ2PtJoHbTdjMvNa3xbVg
 ```
 
 #### 4.3.3. Response Mode "form_post.jwt"
@@ -283,14 +283,14 @@ Pragma: no-cache
  <body onload="javascript:document.forms[0].submit()">
   <form method="post" action="https://client.example.com/cb">
     <input type="hidden" name="response"
-     value="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2
-      FjY291bnRzLmV4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTM
-      xMTI4MTk3MCwiYWNjZXNzX3Rva2VuIjoiMllvdG5GWkZFanIxekNzaWNNV3BBQSIs
-      InN0YXRlIjoiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkT
-      UFKdyIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMzYwMCIsIn
-      Njb3BlIjoiZXhhbXBsZSJ9.bgHLOu2dlDjtCnvTLK7hTN_JNwoZXEBnbXQx5vd9z1
-      7v1HyzfMqz00Vi002T-SWf2JEs3IVSvAe1xWLIY0TeuaiegklJx_gvB59SQIhXX2i
-      fzRmqPoDdmJGaWZ3tnRyFWNnEogJDqGFCo2RHtk8fXkE5IEiBD0g-tN0GS_XnxlE"/>
+     value="eyJraWQiOiJsYWViIiwiYWxnIjoiRVMyNTYifQ.eyAgImlzcyI6ICJodHRw
+     czovL2FjY291bnRzLmV4YW1wbGUuY29tIiwgICJhdWQiOiAiczZCaGRSa3F0MyIsIC
+     AiZXhwIjogMTMxMTI4MTk3MCwgICJhY2Nlc3NfdG9rZW4iOiAiMllvdG5GWkZFanIx
+     ekNzaWNNV3BBQSIsICAic3RhdGUiOiAiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdT
+     ZwVXN2SDlqc1luaTlkTUFKdyIsICAidG9rZW5fdHlwZSI6ICJiZWFyZXIiLCAgImV4
+     cGlyZXNfaW4iOiAzNjAwLCAgInNjb3BlIjogImV4YW1wbGUifQ.g_96IM2t_6Dazm1
+     Jpb2gbO2EXe5IKTw2bYS7l9Y1RI8HbNPYN5EdNjxcWeL5LTQaUAZ2PtJoHbTdjMvNa
+     3xbVg"/>
     </form>
    </body>
   </html>  
@@ -302,14 +302,13 @@ which results in the following POST request to the client's redirect URI.
   Host: client.example.org
   Content-Type: application/x-www-form-urlencoded
 
-  response=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2
-      FjY291bnRzLmV4YW1wbGUuY29tIiwiYXVkIjoiczZCaGRSa3F0MyIsImV4cCI6MTM
-      xMTI4MTk3MCwiYWNjZXNzX3Rva2VuIjoiMllvdG5GWkZFanIxekNzaWNNV3BBQSIs
-      InN0YXRlIjoiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2SDlqc1luaTlkT
-      UFKdyIsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJleHBpcmVzX2luIjoiMzYwMCIsIn
-      Njb3BlIjoiZXhhbXBsZSJ9.bgHLOu2dlDjtCnvTLK7hTN_JNwoZXEBnbXQx5vd9z1
-      7v1HyzfMqz00Vi002T-SWf2JEs3IVSvAe1xWLIY0TeuaiegklJx_gvB59SQIhXX2i
-      fzRmqPoDdmJGaWZ3tnRyFWNnEogJDqGFCo2RHtk8fXkE5IEiBD0g-tN0GS_XnxlE
+   response=eyJraWQiOiJsYWViIiwiYWxnIjoiRVMyNTYifQ.eyAgImlzcyI6ICJodHRw
+   czovL2FjY291bnRzLmV4YW1wbGUuY29tIiwgICJhdWQiOiAiczZCaGRSa3F0MyIsICAi
+   ZXhwIjogMTMxMTI4MTk3MCwgICJhY2Nlc3NfdG9rZW4iOiAiMllvdG5GWkZFanIxekNz
+   aWNNV3BBQSIsICAic3RhdGUiOiAiUzhOSjd1cWs1Zlk0RWpOdlBfR19GdHlKdTZwVXN2
+   SDlqc1luaTlkTUFKdyIsICAidG9rZW5fdHlwZSI6ICJiZWFyZXIiLCAgImV4cGlyZXNf
+   aW4iOiAzNjAwLCAgInNjb3BlIjogImV4YW1wbGUifQ.g_96IM2t_6Dazm1Jpb2gbO2EX
+   e5IKTw2bYS7l9Y1RI8HbNPYN5EdNjxcWeL5LTQaUAZ2PtJoHbTdjMvNa3xbVg
 ```  
     
 #### 4.3.4 Response Mode "jwt"
@@ -322,14 +321,14 @@ Assumption: the client remembers the authorization server to which it sent the a
 
 The client is obliged to process the JWT secured response as follows:
 
-1. (OPTIONAL) The client decrypts the JWT using the key determined by the `kid` JWT header parameter. The key might be a private key, where the corresponding public key is registered with the expected issuer of the response ("use":"enc" via the client's metadata `jwks` or `jwks_uri`) or a key derived from its client secret (see section 4.2). 
-1. The client obtains the `state` parameter from the JWT and checks its binding to the user agent. If the check fails, the client MUST abort processing and refuse the response. 
+1. (OPTIONAL) The client decrypts the JWT using the default key for the respective issuer or, if applicable, determined by the `kid` JWT header parameter. The key might be a private key, where the corresponding public key is registered with the expected issuer of the response ("use":"enc" via the client's metadata `jwks` or `jwks_uri`) or a key derived from its client secret (see section 4.2). 
 1. The client obtains the `iss` element from the JWT and checks whether its value is well known and identifies the expected issuer of the authorization process in examination. If the check fails, the client MUST abort processing and refuse the response.
 1. The client obtains the `aud` element from the JWT and checks whether it matches the client id the client used to identify itself in the corresponding authorization request. If the check fails, the client MUST abort processing and refuse the response.
 1. The client checks the JWT's `exp` element to determine if the JWT is still valid. If the check fails, the client MUST abort processing and refuse the response. 
-1. The client obtains the key needed to check the signature based on the JWT's `iss` element and the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
+1. The client obtains the key needed to check the signature based on the JWT's `iss` element and, if present, the `kid` header element and checks its signature. If the check fails, the client MUST abort processing and refuse the response.
 
-Note: The `state` value is treated as a one-time-use CSRF token. It MUST be invalidated after the check (step 2) was performed.
+The client will perform further checks, e.g. for CSRF detection, which are out of scope of this specification. Please see [draft-ietf-oauth-security-topics] for more security recommendations.
+
 Note: The way the client obtains the keys for verifying the JWT's signature (step 5) is out of scope of this draft. Established mechanism such as [OIDD] or [RFC8414] SHOULD be utilized.
 
 The client MUST NOT process the grant type specific authorization response parameters before all checks succeed. 
@@ -449,6 +448,3 @@ This specification requests registration of the following value in the IANA "OAu
 * Metadata Description: JSON array containing a list of algorithms supported by the authorization server for introspection response encryption (enc value).
 * Change Controller: IESG
 * Specification Document(s): Section 5 of [[ this specification ]]
-
-## 11. Bibliography
-TBD
