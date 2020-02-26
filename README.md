@@ -1,11 +1,21 @@
-# README #
+# OpenID Foundation Financial-grade API #
 
-This is the official repository for OpenID Foundation Financial API (FAPI) Working Group. 
+This is the official repository for OpenID Foundation Financial-grade API (FAPI) Working Group. 
 
 ### What is this repository for? ###
 
-* Financial API
-* Version 0.1
+* Financial-grade API
+  * [Part 1: Read Only API Security Profile](Financial_API_WD_001.md)
+  * [Part 2: Read & Write API Security Profile](Financial_API_WD_002.md)
+  * [Client Initiated Backchannel Authentication Profile](Financial_API_WD_CIBA.md)
+* Financial-grade API Version 2.0
+  * [Baseline Profile](FAPI_2_0_Baseline_Profile.md)
+  * [Advanced Profile](FAPI_2_0_Advanced_Profile.md)
+  * [Attacker Model](FAPI_2_0_Attacker_Model.md)
+* Other documents
+  * [FAPI JWT Secured Authorization Response Mode](Financial_API_JWT_Secured_Authorization_Response_Mode.md)
+  * [Cross-Browser Payment Initiation Attack](TR-Cross_browser_payment_initiation_attack.md)
+
 
 OpenID Foundation FAPI Working Group is creating a Financial API standard that is applicable internationally. It is taking requirements from Open Banking Standard document, and has started working on based on the [contributed FS-ISAC Durable Data API](http://lists.openid.net/pipermail/openid-specs-fapi/attachments/20160609/df29d295/attachment-0001.pdf). 
 
