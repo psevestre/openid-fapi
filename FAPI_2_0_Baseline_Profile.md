@@ -1,5 +1,5 @@
 %%%
-title = "FAPI 2.0"
+title = "FAPI 2.0 Baseline Profile"
 abbrev = "fapi-evolution"
 ipr = "trust200902"
 workgroup = "connect"
