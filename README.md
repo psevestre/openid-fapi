@@ -5,18 +5,18 @@ This is the official repository for OpenID Foundation Financial-grade API (FAPI)
 ### What is this repository for? ###
 
 * Financial-grade API
-  * [Part 1: Read Only API Security Profile](Financial_API_WD_001.md)
-  * [Part 2: Read & Write API Security Profile](Financial_API_WD_002.md)
-  * [Client Initiated Backchannel Authentication Profile](Financial_API_WD_CIBA.md)
-  * [JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)](Financial_API_JWT_Secured_Authorization_Response_Mode.md)
-  * [Pushed Request Object](Financial_API_Pushed_Request_Object.md)
+    * [Part 1: Read Only API Security Profile](Financial_API_WD_001.md)
+    * [Part 2: Read & Write API Security Profile](Financial_API_WD_002.md)
+    * [Client Initiated Backchannel Authentication Profile](Financial_API_WD_CIBA.md)
+    * [JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)](Financial_API_JWT_Secured_Authorization_Response_Mode.md)
+    * [Pushed Request Object](Financial_API_Pushed_Request_Object.md)
 * Financial-grade API Version 2.0
-  * [Baseline Profile](FAPI_2_0_Baseline_Profile.md)
-  * [Advanced Profile](FAPI_2_0_Advanced_Profile.md)
-  * [Attacker Model](FAPI_2_0_Attacker_Model.md)
-  * [Grant Management](FAPI_2_0_Grant_Management.md)
+    * [Baseline Profile](FAPI_2_0_Baseline_Profile.md)
+    * [Advanced Profile](FAPI_2_0_Advanced_Profile.md)
+    * [Attacker Model](FAPI_2_0_Attacker_Model.md)
+    * [Grant Management](FAPI_2_0_Grant_Management.md)
 * Other documents
-  * [Cross-Browser Payment Initiation Attack](TR-Cross_browser_payment_initiation_attack.md)
+    * [Cross-Browser Payment Initiation Attack](TR-Cross_browser_payment_initiation_attack.md)
 
 
 OpenID Foundation FAPI Working Group is creating a Financial API standard that is applicable internationally. It is taking requirements from Open Banking Standard document, and has started working on based on the [contributed FS-ISAC Durable Data API](http://lists.openid.net/pipermail/openid-specs-fapi/attachments/20160609/df29d295/attachment-0001.pdf). 
