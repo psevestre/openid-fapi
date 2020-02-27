@@ -136,8 +136,6 @@ Authorization servers
 
 If it is desired to provide the authenticated user's identifier to the client in the token response, the authorization server:
 
-1. MUST support signed ID Tokens
-1. SHOULD support signed and encrypted ID Tokens
 1. MUST support the authentication request as in Section 3.1.2.1 of [OIDC];
 1. MUST perform the authentication request verification as in Section 3.1.2.2 of [OIDC];
 1. MUST authenticate the user as in Section 3.1.2.2 and 3.1.2.3 of [OIDC];
@@ -160,7 +158,6 @@ Clients
  1. MUST use PKCE [@!RFC7636] with `S256` as the code challenge method
  1. MUST send access tokens in the HTTP header as in Section 2.1 of
     OAuth 2.0 Bearer Token Usage [RFC6750];
- 1. MUST support signed and encrypted ID Tokens
  1. MAY send the last time the customer logged into the client in the
     `x-fapi-auth-date` header where the value is supplied as a
     HTTP-date as in section 7.1.1.1 of [RFC7231], e.g.,
@@ -201,18 +198,19 @@ Resource servers with the FAPI endpoints
 
 ## Differences to FAPI 1.0
 
-| FAPI 1.0 Read/Write                      | FAPI 2.0                    | Reasons                                                                                               |
-|:-----------------------------------------|:----------------------------|:------------------------------------------------------------------------------------------------------|
-| JAR, JARM                                | PAR                         | integrity protection and compatibility improvements for authorization requests; only code in response |
-| -                                        | RAR                         | support complex and structured information about authorizations                                       |
-| `s_hash`                                 | -                           | state integrity is protected by PAR; protection provided by state is now provided by PKCE             |
-| symmetric client authentication          | only asymmetric methods     | improve security                                                                                      |
-| `private_key_jwt`                        | OAuth Mutual TLS            | improve interoperability (?)                                                                          |
-| pre-registered redirect URIs             | redirect URIs in PAR        | pre-registration is not required with client authentication and PAR                                   |
-| -                                        | MUST adhere to Security BCP |                                                                                                       |
-| response types `code id_token` or `code` | response type `code`        | improve security: no ID token in front-channel; not needed                                            |
-| ID Token as detached signature           | -                           | ID token does not need to serve as a detached signature                                               |
-| `exp` claim in request object            | -                           | ?                                                                                                     |
+| FAPI 1.0 Read/Write                      | FAPI 2.0                            | Reasons                                                                                               |
+|:-----------------------------------------|:------------------------------------|:------------------------------------------------------------------------------------------------------|
+| JAR, JARM                                | PAR                                 | integrity protection and compatibility improvements for authorization requests; only code in response |
+| -                                        | RAR                                 | support complex and structured information about authorizations                                       |
+| -                                        | MUST adhere to Security BCP         |                                                                                                       |
+| `s_hash`                                 | -                                   | state integrity is protected by PAR; protection provided by state is now provided by PKCE             |
+| `private_key_jwt`                        | OAuth Mutual TLS                    | improve interoperability (?)                                                                          |
+| pre-registered redirect URIs             | redirect URIs in PAR                | pre-registration is not required with client authentication and PAR                                   |
+| response types `code id_token` or `code` | response type `code`                | improve security: no ID token in front-channel; not needed                                            |
+| ID Token as detached signature           | -                                   | ID token does not need to serve as a detached signature                                               |
+| signed and encypted ID Tokens            | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
+| `exp` claim in request object            | -                                   | ?                                                                                                     |
+
 
 ## Open questions:
  * disallow scopes? if yes, use RAR transport for openid claim
