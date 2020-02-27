@@ -106,6 +106,7 @@ In the following, a profile of the following technologies is defined:
   * OAuth 2.0 Pushed Authorization Requests (PAR) [@!I-D.lodderstedt-oauth-par]
   * OAuth 2.0 Rich Authorization Requests (RAR) [@!I-D.lodderstedt-oauth-rar]
   * OAuth 2.0 Authorization Server Metadata [@!RFC8414]
+  * OpenID Connect Core 1.0 incorporating errata set 1 [@!OpenID]
   
 ### Requirements for Authorization Servers
 
@@ -122,7 +123,10 @@ Authorization servers
  1. MUST NOT support pushed authorization requests without client authentication
  1. MUST support rich authorization requests according to [@I-D.lodderstedt-oauth-rar]
  1. MUST support confidential clients as defined in [@!RFC6749]
- 1. MUST support client authentication and sender-constraining of access tokens using Mutual TLS as described in [@!RFC8705]
+ 1. MUST support and sender-constraining of access tokens using Mutual TLS as described in [@!RFC8705]
+ 1. MUST authenticate clients using one of the following methods:
+     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [@!RFC8705]
+     2. `private_key_jwt` as specified in section 9 of [@!OpenID]
  1. MUST require PKCE [@!RFC7636] with `S256` as the code challenge method
  1. MUST only issue authorization codes, access tokens, and refresh tokens that are sender-constrained 
  1. MUST require the `redirect_uri` parameter in authorization requests and evaluate only this parameter to ensure authenticity and integrity of the redirect URI
@@ -136,13 +140,13 @@ Authorization servers
 
 If it is desired to provide the authenticated user's identifier to the client in the token response, the authorization server:
 
-1. MUST support the authentication request as in Section 3.1.2.1 of [OIDC];
-1. MUST perform the authentication request verification as in Section 3.1.2.2 of [OIDC];
-1. MUST authenticate the user as in Section 3.1.2.2 and 3.1.2.3 of [OIDC];
-1. MUST provide the authentication response as in Section 3.1.2.4 and 3.1.2.5 of [OIDC] depending on the outcome of the authentication;
-1. MUST perform the token request verification as in Section 3.1.3.2 of [OIDC]; and
+1. MUST support the authentication request as in Section 3.1.2.1 of [@!OpenID]
+1. MUST perform the authentication request verification as in Section 3.1.2.2 of [@!OpenID]
+1. MUST authenticate the user as in Section 3.1.2.2 and 3.1.2.3 of [@!OpenID]
+1. MUST provide the authentication response as in Section 3.1.2.4 and 3.1.2.5 of [@!OpenID] depending on the outcome of the authentication
+1. MUST perform the token request verification as in Section 3.1.3.2 of [@!OpenID]
 1. MUST issue an ID Token in the token response when `openid` was included in the requested `scope`
-   as in Section 3.1.3.3 of [OIDC] with its `sub` value corresponding to the authenticated user
+   as in Section 3.1.3.3 of [@!OpenID] with its `sub` value corresponding to the authenticated user
    and optional `acr` value in ID Token.
 
 
@@ -153,22 +157,25 @@ Clients
  1. MUST use the authorization code grant described in [@!RFC6749]
  1. MUST use pushed authorization requests according to
     [@I-D.lodderstedt-oauth-par]
- 1. MUST use client authentication and sender-constrained access
+ 1. MUST use sender-constrained access
     tokens using Mutual TLS as described in [@!RFC8705]
+ 1. MUST support client authentication using one of the following methods:
+     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [@!RFC8705]
+     2. `private_key_jwt` as specified in section 9 of [@!OpenID]
  1. MUST use PKCE [@!RFC7636] with `S256` as the code challenge method
  1. MUST send access tokens in the HTTP header as in Section 2.1 of
-    OAuth 2.0 Bearer Token Usage [RFC6750];
+    OAuth 2.0 Bearer Token Usage [RFC6750]
  1. MAY send the last time the customer logged into the client in the
     `x-fapi-auth-date` header where the value is supplied as a
     HTTP-date as in section 7.1.1.1 of [RFC7231], e.g.,
-    `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
+    `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`
  1. MAY send the customer’s IP address if this data is available in
     the `x-fapi-customer-ip-address` header, e.g.,
-    `x-fapi-customer-ip-address: 198.51.100.119`; and
+    `x-fapi-customer-ip-address: 198.51.100.119`
  1. MAY send the `x-fapi-interaction-id` request header whose value is
     a [RFC4122] UUID to the server to help correlate log entries
     between client and server, e.g., `x-fapi-interaction-id:
-    c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
+    c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
  
 ### Requirements for Resource Servers
 
@@ -176,12 +183,12 @@ The FAPI 2.0 endpoints are OAuth 2.0 protected resource endpoints that return pr
 
 Resource servers with the FAPI endpoints
 
-1. MUST accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
-1. MUST not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750];
-1. MUST verify that the access token is neither expired nor revoked;
-1. MUST verify that the scope associated with the access token authorizes the reading of the resource it is representing;
+1. MUST accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750]
+1. MUST not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750]
+1. MUST verify that the access token is neither expired nor revoked
+1. MUST verify that the scope associated with the access token authorizes the reading of the resource it is representing
 1. MUST verify sender-constraining for access tokens
-1. MUST identify the associated entity to the access token;
+1. MUST identify the associated entity to the access token
 1. MUST only return the resource identified by the combination of the entity implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750]
 1. MUST set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
 1. MUST log the value of `x-fapi-interaction-id` in the log entry
@@ -191,7 +198,7 @@ Resource servers with the FAPI endpoints
 
  1. RSA keys MUST have a minimum length of 2048 bits.
  1. Elliptic curve keys MUST have a minimum length of 160 bits.
- 1. authorization servers MUST provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used
+ 1. authorization servers MUST provide a client secret that adheres to the requirements in section 16.19 of [@!OpenID] if a symmetric key is used
  1. Access tokens MUST be non-guessable with a minimum of 128 bits of entropy where the probability of an attacker guessing the generated token is less than or equal to 2^(-160) as per [RFC6749] section 10.10.
     
 
@@ -204,7 +211,6 @@ Resource servers with the FAPI endpoints
 | -                                        | RAR                                 | support complex and structured information about authorizations                                       |
 | -                                        | MUST adhere to Security BCP         |                                                                                                       |
 | `s_hash`                                 | -                                   | state integrity is protected by PAR; protection provided by state is now provided by PKCE             |
-| `private_key_jwt`                        | OAuth Mutual TLS                    | improve interoperability (?)                                                                          |
 | pre-registered redirect URIs             | redirect URIs in PAR                | pre-registration is not required with client authentication and PAR                                   |
 | response types `code id_token` or `code` | response type `code`                | improve security: no ID token in front-channel; not needed                                            |
 | ID Token as detached signature           | -                                   | ID token does not need to serve as a detached signature                                               |
@@ -219,8 +225,8 @@ Resource servers with the FAPI endpoints
  * lifetime for request objects?
  * (to be moved to grant management):
      * shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
-     * should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
-     * should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
+     * should clearly identify long-term grants to the user during authorization as in 16.18 of [@!OpenID]; and 
+     * should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [@!OpenID].
  * (relevance/meaning unclear):
      * shall return token responses that conform to section 4.1.4 of [RFC6749]; 
      * shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
