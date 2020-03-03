@@ -149,6 +149,7 @@ Authorization servers
  1. MUST require the `redirect_uri` parameter in authorization requests and evaluate only this parameter to ensure authenticity and integrity of the redirect URI
  1. MUST require that redirect URIs use the `https` scheme
  1. MUST verify, if possible, that the authorization code (section 1.3.1 of [RFC6749]) has not been previously used
+ 1. MUST provide a means for resource servers to verify the validity, integrity, sender-constraining, scope (incl. `authorization_details`), expiration and revocation status of an access token, either by providing an introspection endpoint [@!RFC7662], by exposing signature verification keys, or by deployment-specific means.
 
 **NOTE**: If replay identification of the authorization code is not possible, it is desirable to set the validity period of the authorization code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the authorization code cache if one is used.
 
@@ -202,8 +203,8 @@ Resource servers with the FAPI endpoints
 
 1. MUST accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750]
 1. MUST not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750]
-1. MUST verify that the access token is neither expired nor revoked
-1. MUST verify that the scope associated with the access token authorizes the reading of the resource it is representing
+1. MUST verify the validity, integrity, expiration and revocation status of access tokens
+1. MUST verify that the scope (incl. `authorization_details`) of the access token authorizes the access to the resource it is representing
 1. MUST verify sender-constraining for access tokens
 1. MUST identify the associated entity to the access token
 1. MUST only return the resource identified by the combination of the entity implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750]
@@ -231,7 +232,7 @@ Resource servers with the FAPI endpoints
 | pre-registered redirect URIs             | redirect URIs in PAR                | pre-registration is not required with client authentication and PAR                                   |
 | response types `code id_token` or `code` | response type `code`                | improve security: no ID token in front-channel; not needed                                            |
 | ID Token as detached signature           | -                                   | ID token does not need to serve as a detached signature                                               |
-| signed and encypted ID Tokens            | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
+| signed and encrypted ID Tokens            | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
 | `exp` claim in request object            | -                                   | ?                                                                                                     |
 
 
@@ -252,7 +253,6 @@ Resource servers with the FAPI endpoints
      * (RS) MUST send the `Content-type` HTTP header `Content-Type: application/json; charset=UTF-8` if applicable;
      * (RS) MUST send the server date in HTTP Date header as in section 7.1.1.2 of [RFC7231];
      * (RS) SHOULD support CORS for JS clients
-     * (Client) SHOULD require both JWS signed and JWE encrypted ID Tokens to be returned from endpoints to protect any sensitive personally identifiable information (PII) contained in the ID Token provided as a detached signature in the authorization response
  * Check Sections 7/8
 
      
