@@ -90,10 +90,27 @@ OIDF FAPI is an API security profile based on the OAuth 2.0
 Authorization Framework [@!RFC6749]. It aims to reach the security
 goals laid out in the [Attacker Model].
 
-## Network Layer
+## Network Layer Protections
 
-To protect against network attackers, all interactions MUST be
-encrypted using TLS version 1.2 or later and follow [@!RFC7525].
+To protect against network attackers, clients, authorization servers,
+and resource servers MUST only offer TLS protected endpoints and MUST
+establish connections to other servers using TLS. TLS connections MUST
+be set up to use TLS version 1.2 or later and follow [@!RFC7525].
+
+Endpoints for the use by web browsers MUST use methods to ensure that
+connections cannot be downgraded using TLS Stripping attacks. A
+preloaded [@preload] HTTP Strict Transport Security policy [@!RFC6797]
+can be used for this purpose. Some top-level domains, like .bank and
+.insurance, have set such a policy and therefore protect all
+second-level domains below them.
+
+For a comprehensive protection against network attackers, all
+endpoints SHOULD additionally use DNSSEC to protect against DNS
+spoofing attacks that can lead to the issuance of rogue
+domain-validated TLS certificates. Note: Even if an endpoint uses only
+organization validated (OV) or extended validation (EV) TLS
+certificates, rogue domain-validated certificates can be used to
+impersonate the endpoints and conduct man-in-the-middle attacks.
 
 ## Profile
 
@@ -264,25 +281,12 @@ Resource servers with the FAPI endpoints
   </front>
 </reference>
 
-<reference anchor="RFC8705" target="https://www.rfc-editor.org/info/rfc8705">
+<reference anchor="preload" target="https://hstspreload.org/">
 <front>
-<title>
-OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens
-</title>
-<author initials="B." surname="Campbell" fullname="B. Campbell">
-<organization/>
-</author>
-<author initials="J." surname="Bradley" fullname="J. Bradley">
-<organization/>
-</author>
-<author initials="N." surname="Sakimura" fullname="N. Sakimura">
-<organization/>
-</author>
-<author initials="T." surname="Lodderstedt" fullname="T. Lodderstedt">
-<organization/>
-</author>
-<date year="2020" month="February"/>
+<title>HSTS Preload List Submission</title>
+    <author fullname="Anonymous">
+      <organization></organization>
+    </author>
 </front>
-<seriesInfo name="RFC" value="8705"/>
 </reference>
 
