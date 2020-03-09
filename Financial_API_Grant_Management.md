@@ -1,13 +1,13 @@
 %%%
 title = "Grant Management for OAuth 2.0"
-abbrev = "fapi-grant-management-1_0"
+abbrev = "fapi-grant-management"
 ipr = "none"
 workgroup = "fapi"
 keyword = ["security", "oauth", "grant management", "consent management"]
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "fapi-grant-managemnent-1_0-00"
+value = "fapi-grant-management-00"
 status = "standard"
 
 [[author]]
