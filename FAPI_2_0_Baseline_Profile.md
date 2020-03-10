@@ -120,8 +120,8 @@ In the following, a profile of the following technologies is defined:
   * OAuth 2.0 Bearer Tokens [@!RFC6750]
   * OAuth 2.0 PKCE [@!RFC7636]
   * OAuth 2.0 Mutual-TLS Client Authentication [@!RFC8705]
-  * OAuth 2.0 Pushed Authorization Requests (PAR) [@!I-D.lodderstedt-oauth-par]
-  * OAuth 2.0 Rich Authorization Requests (RAR) [@!I-D.lodderstedt-oauth-rar]
+  * OAuth 2.0 Pushed Authorization Requests (PAR) [@!I-D.ietf-oauth-par]
+  * OAuth 2.0 Rich Authorization Requests (RAR) [@!I-D.ietf-oauth-rar]
   * OAuth 2.0 Authorization Server Metadata [@!RFC8414]
   * OpenID Connect Core 1.0 incorporating errata set 1 [@!OpenID]
   
@@ -132,13 +132,13 @@ Authorization servers
  1. MUST adhere to [@I-D.ietf-oauth-security-topics]
  1. MUST support the authorization code grant described in [@!RFC6749]
  1. MUST support client-authenticated pushed authorization requests
-    according to [@I-D.lodderstedt-oauth-par]
+    according to [@I-D.ietf-oauth-par]
  1. MUST NOT support authorization requests sent without
     [@I-D.lodderstedt-oauth-par] or authorization request parameters
     sent outside of the PAR request, except for
     `request_uri`
  1. MUST NOT support pushed authorization requests without client authentication
- 1. MUST support rich authorization requests according to [@I-D.lodderstedt-oauth-rar]
+ 1. MUST support rich authorization requests according to [@I-D.ietf-oauth-rar]
  1. MUST support confidential clients as defined in [@!RFC6749]
  1. MUST support and sender-constraining of access tokens using Mutual TLS as described in [@!RFC8705]
  1. MUST authenticate clients using one of the following methods:
@@ -174,7 +174,7 @@ Clients
 
  1. MUST use the authorization code grant described in [@!RFC6749]
  1. MUST use pushed authorization requests according to
-    [@I-D.lodderstedt-oauth-par]
+    [@I-D.ietf-oauth-par]
  1. MUST use sender-constrained access
     tokens using Mutual TLS as described in [@!RFC8705]
  1. MUST support client authentication using one of the following methods:
@@ -187,7 +187,7 @@ Clients
     `x-fapi-auth-date` header where the value is supplied as a
     HTTP-date as in section 7.1.1.1 of [RFC7231], e.g.,
     `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`
- 1. MAY send the customerâ€™s IP address if this data is available in
+ 1. MAY send the customer’s IP address if this data is available in
     the `x-fapi-customer-ip-address` header, e.g.,
     `x-fapi-customer-ip-address: 198.51.100.119`
  1. MAY send the `x-fapi-interaction-id` request header whose value is
