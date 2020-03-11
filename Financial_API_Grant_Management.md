@@ -30,7 +30,6 @@ organization="biza.io"
 initials="D."
 surname="Postnikov"
 fullname="Dima Postnikov"
-organization="Commonwealth Bank"
     [author.address]
     email = "dima@postnikov.net"
     
@@ -82,12 +81,12 @@ This specification introduces the following new authorization request parameters
 * `get`: the authorization server determines the grant based on the `client_id` of the authorization request and the user id of the resource owner determined via user authentication and provides the grant id in the corresponding token response. 
 * `new`: the authorization server will create a fresh grant irrespective of any pre-existing grant for the client identified by the `client_id` in the autorization request and the resource owner identified by the user authentication (including Single SignOn). The authorization server will provide the client with the `grant_id` of the new grant in the corresponding token response. 
 * `set`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request. The authorization server SHOULD attempt to update the privileges associated with this grant as result of the authorization process. This mode can be used to ensure the authorization process is performed by the same user that originally approved a certain grant and results in updated privileges for this grant. 
-* `reset`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request, to revoke all privileges associated with this grant but keep the grant itself and add any privileges as requested by the client and approved by the resource owner in the course of the processing of this authorization request. This mode can be used to ensure the authorization process is performed by the same user that originally approved a certain grant while renmoving all previously assigned privileges. 
+* `reset`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request, to revoke all privileges associated with this grant but keep the grant itself and add any privileges as requested by the client and approved by the resource owner in the course of the processing of this authorization request. This mode can be used to ensure the authorization process is performed by the same user that originally approved a certain grant while removing all previously assigned privileges. 
 
 The following example 
 
 ```http
-GET /authorize?rresponse_type=code&
+GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
      &grant_mode=get
      &scope=read
