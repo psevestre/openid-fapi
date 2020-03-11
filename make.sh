@@ -1,9 +1,10 @@
 #!/bin/bash
 
-FILENAME=`echo $1 | cut -f1 -d'.'`
+FILENAME=`grep -m1 value $1 | cut -d'"' -f2`
 
-mmark $FILENAME.md | sed 's/<?rfc sortrefs="yes"?>/<?rfc sortrefs="yes"?><?rfc private="Draft"?>/' > $FILENAME.xml
+mmark $1 > $FILENAME.xml
 
 `which xml2rfc` --html $FILENAME.xml 
 
 `which xml2rfc` --text $FILENAME.xml
+
