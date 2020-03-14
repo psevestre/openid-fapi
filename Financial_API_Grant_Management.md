@@ -248,7 +248,13 @@ If the request lacks a valid access token, the authorization server responds wit
 
 # Privacy Consideration {#Privacy}
 
-tracking via grant_id(?)
+grant_id is issued by the authorization server for each established grant between a client and a user. This should prevent correlation between different clients.
+
+grant_id is not be based on PII that can make possible to identify the user.
+
+OPEN: 
+* Should grant reference client's policy_uri?
+* tracking via grant_id(?). Tracking in what context?
 
 # Security Considerations {#Security}
 
