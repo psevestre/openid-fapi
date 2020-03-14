@@ -161,11 +161,14 @@ The client is supposed to manage its grants along with the respective tokens and
 
 ## Authorization server's metadata
 
+`grant_id_supported`
+OPTIONAL. Boolean value specifying whether the authorization server supports grant_id issuance as defined in this specification, with true indicating support. If omitted, the default value is false.
+
 `grant_management_endpoint`
 OPTIONAL. URL of the authorization server's Grant Management Endpoint.
 
 `grant_management_supported`
-OPTIONAL. Boolean value specifying whether the authorization server supports FAPI Grant Management, with true indicating support. If omitted, the default value is false.
+OPTIONAL. Boolean value specifying whether the authorization server supports Grant Management as defined in this specification, with true indicating support. If omitted, the default value is false.
 
 ## API authorization
 
