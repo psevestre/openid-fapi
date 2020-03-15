@@ -231,6 +231,7 @@ The privileges associated with the grant will be provided in a JSON object with 
 * `scope`: String value as defined in [@RFC6749] representing the scope associated with the grant.
 * `authorization_details`: JSON Object as defined in [@I-D.ietf-oauth-rar].
 * `claims`: JSON object as defined in [@OpenID].
+* `resources`: List of `resource` values as defined in [@RFC8707]
 
 The response structure MAY also include further elements defined by other extensions. 
 
