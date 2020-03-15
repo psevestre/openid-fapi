@@ -159,6 +159,17 @@ The Grant Management API will not expose any tokens associated with a certain gr
 
 The client is supposed to manage its grants along with the respective tokens and ensure its usage in the correct user context. 
 
+## Authorization server's metadata
+
+`grant_id_supported`
+OPTIONAL. Boolean value specifying whether the authorization server supports grant_id issuance as defined in this specification, with true indicating support. If omitted, the default value is false.
+
+`grant_management_endpoint`
+OPTIONAL. URL of the authorization server's Grant Management Endpoint.
+
+`grant_management_supported`
+OPTIONAL. Boolean value specifying whether the authorization server supports Grant Management as defined in this specification, with true indicating support. If omitted, the default value is false.
+
 ## API authorization
 
 Using the grant management API requires the client to obtain an access token authorized for this API. The grant type the client uses to obtain this access token is out of scope of this specification. 
@@ -290,7 +301,9 @@ grant_id
 
 grant_id_mode
 
-metadata - grant management supported, endpoint location
+grant_management_endpoint
+
+grant_management_supported
 
 # Acknowledgements {#Acknowledgements}
 
