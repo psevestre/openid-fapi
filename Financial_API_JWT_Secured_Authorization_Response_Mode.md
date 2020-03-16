@@ -72,19 +72,19 @@ The following referenced documents are indispensable for the application of this
 [RFC6819]: https://tools.ietf.org/html/rfc6819
 
 [RFC7515] - JSON Web Signature (JWS)
-[RFC7515]:https://tools.ietf.org/html/rfc7515
+[RFC7515]: https://tools.ietf.org/html/rfc7515
 
 [RFC7516] - JSON Web Encryption (JWE)
-[RFC7516]:https://tools.ietf.org/html/rfc7516
+[RFC7516]: https://tools.ietf.org/html/rfc7516
 
 [RFC7517] - JSON Web Key (JWK)
-[RFC7517]:https://tools.ietf.org/html/rfc7517
+[RFC7517]: https://tools.ietf.org/html/rfc7517
 
 [RFC7518] - JSON Web Algorithms (JWA)
-[RFC7518]:https://tools.ietf.org/html/rfc7518
+[RFC7518]: https://tools.ietf.org/html/rfc7518
 
 [RFC7519] - JSON Web Token (JWT)
-[RFC7519]:https://tools.ietf.org/html/rfc7519
+[RFC7519]: https://tools.ietf.org/html/rfc7519
 
 [BCP195] - Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 [BCP195]: https://tools.ietf.org/html/bcp195
@@ -96,22 +96,28 @@ The following referenced documents are indispensable for the application of this
 [RFC8414]: https://tools.ietf.org/html/rfc8414
 
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
-[OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
+[OIDC]: https://openid.net/specs/openid-connect-core-1_0.html
 
-[OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
-[OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
+[OIDD] - OpenID Connect Discovery 1.0 incorporating errata set 1
+[OIDD]: https://openid.net/specs/openid-connect-discovery-1_0.html
+
+[OIDR] - OpenID Connect Dynamic Client Registration 1.0 incorporating errata set 1
+[OIDR]: https://openid.net/specs/openid-connect-registration-1_0.html 
 
 [OIDM] -  OAuth 2.0 Multiple Response Type Encoding Practices
-[OIDM]: http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+[OIDM]: https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
 
 [OIFP] - OAuth 2.0 Form Post Response Mode
-[OIFP]: http://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html
+[OIFP]: https://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html
 
 [draft-ietf-oauth-security-topics] - OAuth 2.0 Security Best Current Practice
 [draft-ietf-oauth-security-topics]: https://tools.ietf.org/html/draft-ietf-oauth-security-topics
 
 [OISM] - OpenID Connect Session Management 1.0
-[OISM]: http://openid.net/specs/openid-connect-session-1_0.html
+[OISM]: https://openid.net/specs/openid-connect-session-1_0.html
+
+[ISODIR2] - ISO/IEC Directives Part 2
+[ISODIR2]: https://www.iso.org/sites/directives/current/part2/index.xhtml
 
 ## 2. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
@@ -335,7 +341,7 @@ The client MUST NOT process the grant type specific authorization response param
 
 ## 5. Client Metadata
 
-The parameter names follow the pattern established by OpenID Connect Dynamic Client Registration [OpenID.Registration] for configuring signing and encryption algorithms for JWT responses at the UserInfo endpoint.
+The parameter names follow the pattern established by OpenID Connect Dynamic Client Registration [OIDR] for configuring signing and encryption algorithms for JWT responses at the UserInfo endpoint.
 
 The following client metadata parameters are introduced by this specification:
 

@@ -56,6 +56,9 @@ and are not to be interpreted with their natural language meanings.
 ## 1. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
+[ISODIR2] - ISO/IEC Directives Part 2
+[ISODIR2]: https://www.iso.org/sites/directives/current/part2/index.xhtml
+
 [RFC7230] - Hypertext Transfer Protocol -- HTTP/1.1
 [RFC7230]: https://tools.ietf.org/html/rfc7230
 
