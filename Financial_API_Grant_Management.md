@@ -22,7 +22,7 @@ organization="yes.com"
 initials="S."
 surname="Low"
 fullname="Stuart Low"
-organization="biza.io"
+organization="Biza.io"
     [author.address]
     email = "stuart@biza.io"
 
@@ -294,11 +294,13 @@ no credentials
 
 grant_id
 
-grant_id_mode
+grant_id_mode (??)
+
+grant_management_actions_supported
 
 grant_management_endpoint
 
-grant_management_supported
+
 
 # Acknowledgements {#Acknowledgements}
 
