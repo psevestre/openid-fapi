@@ -21,7 +21,44 @@ This is the official repository for OpenID Foundation Financial-grade API (FAPI)
 
 OpenID Foundation FAPI Working Group is creating a Financial API standard that is applicable internationally. It is taking requirements from Open Banking Standard document, and has started working on based on the [contributed FS-ISAC Durable Data API](http://lists.openid.net/pipermail/openid-specs-fapi/attachments/20160609/df29d295/attachment-0001.pdf). 
 
-You can find the overview and rationale of the working group at [the WG page](http://openid.net/wg/fapi/). 
+You can find the overview and rationale of the working group at [the WG page](http://openid.net/wg/fapi/).
+
+### Working on Specifications ###
+
+There is a Dockerfile which contains either an "on demand" compilation for markdown to xml2rfc compatible formats as well as a "web server" version which auto recompiles specifications on modification.
+
+#### Building Container
+
+To build the docker container for this run the following:
+
+```docker build -t fapi .```
+
+You can optionally avoid caching but this should be unnecessary for general use:
+
+```docker build -t fapi --no-cache .```
+
+#### Building a single spec
+
+Once you have the fapi image compiled you can generate a single output by running:
+
+```docker run -v `pwd`:/data fapi /usr/local/bin/make-rfc-from-xml.sh Financial_API_Grant_Management.md```
+
+#### Running the hosted version
+
+Alternatively you can run the auto converter by running:
+
+```docker run -v `pwd`:/data:ro -p 8080:80 fapi```
+
+This will setup a browseable directory of compiled assets here at [http://localhost:8080](http://localhost:8080).
+
+#### Compiling without Docker
+
+If you have the dependencies of `mmark` and `xml2rfc` you can run the generate command without Docker:
+
+```support/make-rfc-from-xml.sh Financial_API_Grant_Management.md```
+
+**NB:** Distribution versions of xml2rfc and mmark are *VERY* out of date, be sure to use recent versions.
+
 
 ### Contribution guidelines ###
 

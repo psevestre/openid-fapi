@@ -1,15 +1,25 @@
-FROM python:2-slim-buster
+FROM alpine:edge
 
-RUN apt update && apt install -y wget
+VOLUME /data
+EXPOSE 80
+
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+
+RUN wget https://github.com/mmarkdown/mmark/releases/download/v2.2.4/mmark_2.2.4_linux_amd64.tgz -O/tmp/mmark.tgz \
+   && tar xzf /tmp/mmark.tgz && mv mmark /usr/local/bin/mmark
+
+RUN apk update && apk add supervisor nginx bash inotify-tools python3 py3-pip libxml2-dev libxml2 gcc python3-dev build-base py3-lxml
 RUN pip install xml2rfc
+RUN mkdir /run/nginx
+RUN mkdir /var/www/html
 
-WORKDIR /usr/local/bin
+COPY support/nginx-default.conf /etc/nginx/conf.d/default.conf
 
-RUN wget https://github.com/mmarkdown/mmark/releases/download/v2.1.1/mmark_2.1.1_linux_amd64.tgz -O/tmp/mmark.tgz \
-   && tar xzf /tmp/mmark.tgz
-
-COPY make.sh /usr/local/bin/make.sh
-
+COPY support/supervisord.conf /etc/supervisord.conf
+COPY support/make-rfc-from-xml.sh /usr/local/bin/make-rfc-from-xml.sh
+COPY support/watchandrebuild.sh /usr/local/bin/watchandrebuild.sh
 WORKDIR /data
 
-ENTRYPOINT [ "/bin/bash", "/usr/local/bin/make.sh" ]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+
+

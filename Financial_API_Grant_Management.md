@@ -1,5 +1,5 @@
 %%%
-title = "Grant Management for OAuth 2.0"
+title = "Grant Management for OAuth 2.0 "
 abbrev = "fapi-grant-management"
 ipr = "none"
 workgroup = "fapi"
@@ -22,7 +22,7 @@ organization="yes.com"
 initials="S."
 surname="Low"
 fullname="Stuart Low"
-organization="biza.io"
+organization="Biza.io"
     [author.address]
     email = "stuart@biza.io"
 
