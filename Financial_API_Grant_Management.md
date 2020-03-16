@@ -1,5 +1,5 @@
 %%%
-title = "Grant Management for OAuth 2.0 "
+title = "Grant Management for OAuth 2.0"
 abbrev = "fapi-grant-management"
 ipr = "none"
 workgroup = "fapi"
@@ -22,7 +22,7 @@ organization="yes.com"
 initials="S."
 surname="Low"
 fullname="Stuart Low"
-organization="Biza.io"
+organization="biza.io"
     [author.address]
     email = "stuart@biza.io"
 
@@ -37,7 +37,7 @@ fullname="Dima Postnikov"
 
 .# Abstract
 
-This specification defines an extension of OAuth 2.0 to allow clients to explicitly manage their grants with the authorization server.
+This specification defines an extension of OAuth 2.0 to allow clients to explicitely manage their grants with the authorization server.
 
 {mainmatter}
 
@@ -45,7 +45,7 @@ This specification defines an extension of OAuth 2.0 to allow clients to explici
 
 OAuth authorization servers issue access and refresh tokens based on privileges granted by a resource owner to a particular client in the course of an authorization process or based on pre-configured policies. The concept representing these privileges and their assignment to a particular client is sometimes referred to a the "underlying grant". 
 
-Although this concept is fundamental to OAuth, there is no explicit representation of the grant in the OAuth protocol. This leads to the situation that clients cannot explicitly manage grants, e.g. query the status or revoke a grant that is no longer needed. The status is implicitly communicated if an access token refresh succeeds or fails or if an API call using an access token fails with HTTP status codes 401 (token is invalid) or 403 (token lacks privileges). 
+Although this concept is fundamental to OAuth, there is no explicit representation of the grant in the OAuth protocol. This leads to the situation that clients cannot explicitely manage grants, e.g. query the status or revoke a grant that is no longer needed. The status is implicitly communicated if an access token refresh succeeds or fails or if an API call using an access token fails with HTTP status codes 401 (token is invalid) or 403 (token lacks privileges). 
 
 It also means the client cannot explictely ask the authorization server to update a certain grant that is bound to a certain user. Instead the authorization server, typically, will determine a pre-existing grant using the client id from the authorization request and the user id of the authenticated resource owner. 
 
@@ -86,7 +86,7 @@ This specification introduces the following new authorization request parameters
 The following example 
 
 ```http
-GET /authorize?response_type=code&
+GET /authorize?rresponse_type=code&
      client_id=s6BhdRkqt3
      &grant_mode=get
      &scope=read
