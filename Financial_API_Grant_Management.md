@@ -180,9 +180,9 @@ Using the grant management API requires the client to obtain an access token aut
 
 The token is required to be associated with the following scope value:
 
-`grant:query`: scope value the client uses to request an access token to query the status of its grants. 
+`grant_management_query`: scope value the client uses to request an access token to query the status of its grants. 
 
-`grant:revoke`: scope value the client uses to request an access token to revoke its grants. 
+`grant_management_revoke`: scope value the client uses to request an access token to revoke its grants. 
 
 ## Endpoint
 
