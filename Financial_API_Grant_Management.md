@@ -165,6 +165,9 @@ The client is supposed to manage its grants along with the respective tokens and
 
 ## Authorization server's metadata
 
+`grant_management_mode_supported`
+OPTIONAL. JSON array containing a list of Grant Modes which are supported. If omitted, the default value is no supported modes.
+
 `grant_management_actions_supported`
 OPTIONAL. JSON array containing a list of Grant Management actions which are supported. If omitted, the default value is no supported actions.
 
