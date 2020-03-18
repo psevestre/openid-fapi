@@ -41,7 +41,7 @@ You can optionally avoid caching but this should be unnecessary for general use:
 
 Once you have the fapi image compiled you can generate a single output by running:
 
-```docker run -v `pwd`:/data fapi /usr/local/bin/make-rfc-from-xml.sh Financial_API_Grant_Management.md```
+```docker run -v `pwd`:/data fapi /usr/local/bin/make-rfc-from-md.sh Financial_API_Grant_Management.md```
 
 #### Running the hosted version
 
@@ -55,7 +55,7 @@ This will setup a browseable directory of compiled assets here at [http://localh
 
 If you have the dependencies of `mmark` and `xml2rfc` you can run the generate command without Docker:
 
-```support/make-rfc-from-xml.sh Financial_API_Grant_Management.md```
+```support/make-rfc-from-md.sh Financial_API_Grant_Management.md```
 
 **NB:** Distribution versions of xml2rfc and mmark are *VERY* out of date, be sure to use recent versions.
 
