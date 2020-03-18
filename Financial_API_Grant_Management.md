@@ -22,7 +22,7 @@ organization="yes.com"
 initials="S."
 surname="Low"
 fullname="Stuart Low"
-organization="biza.io"
+organization="Biza.io"
     [author.address]
     email = "stuart@biza.io"
 
@@ -151,7 +151,11 @@ OPEN:
 
 # Grant Management API
 
-The Grant Management API allows clients to query the status of a grant whose `grant_id` the client previously obtained from the authorization server in a token response. The API also allows the client to revoke such a grant. 
+The Grant Management API allows clients to perform various actions on a grant whose `grant_id` the client previously obtained from the authorization server in a token response.
+
+Currently supported actions are:
+  - Query: Retrieve the current status of a specific grant
+  - Revoke: Request the revocation of a grant 
 
 The Grant Management API does not provide bulk access to all grants of a certain client for functional and privacy reasons. Every grant is associated with a certain resource owner, so just getting the status is useless for the client as long as there is not indication of the user the client can use this grant for. Adding user identity data to the status data would weaken the privacy protection OAuth offers for users towards a client. 
 
@@ -159,15 +163,23 @@ The Grant Management API will not expose any tokens associated with a certain gr
 
 The client is supposed to manage its grants along with the respective tokens and ensure its usage in the correct user context. 
 
+## Authorization server's metadata
+
+`grant_management_actions_supported`
+OPTIONAL. JSON array containing a list of Grant Management actions which are supported. If omitted, the default value is no supported actions.
+
+`grant_management_endpoint`
+OPTIONAL. URL of the authorization server's Grant Management Administration Endpoint.
+
 ## API authorization
 
 Using the grant management API requires the client to obtain an access token authorized for this API. The grant type the client uses to obtain this access token is out of scope of this specification. 
 
 The token is required to be associated with the following scope value:
 
-`grant_management_query`: scope value the client uses to request an access token to query the status of its grants. 
+`grant:query`: scope value the client uses to request an access token to query the status of its grants. 
 
-`grant_management_revoke`: scope value the client uses to request an access token to revoke its grants. 
+`grant:revoke`: scope value the client uses to request an access token to revoke its grants. 
 
 ## Endpoint
 
@@ -175,7 +187,7 @@ The grant management API is provided by a new endpoint provided by the authoriza
 
 ## Grant Resource URL
 
-The resource URL for a certain grant is built by concatinating the grant management endpoint URL, a shlash, and the the `grant_id`. For example, if the grant management endpoint is defined as 
+The resource URL for a certain grant is built by concatenating the grant management endpoint URL, a slash, and the the `grant_id`. For example, if the grant management endpoint is defined as 
 
 ```
 https://as.example.com/grants
@@ -282,9 +294,11 @@ no credentials
 
 grant_id
 
-grant_id_mode
+grant_id_mode (??)
 
-metadata - grant management supported, endpoint location
+grant_management_actions_supported
+
+grant_management_endpoint
 
 # Acknowledgements {#Acknowledgements}
 
