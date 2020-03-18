@@ -76,7 +76,7 @@ This specification introduces the following new authorization request parameters
 
 `grant_id`: string value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it. 
 
-`grant_mode`: string value controlling the way the authorization shall handle the grant when processing an authorization request. The defined values of `grant_mode` are:
+`grant_management_mode`: string value controlling the way the authorization shall handle the grant when processing an authorization request. The defined values of `grant_mode` are:
 
 * `get`: the authorization server determines the grant based on the `client_id` of the authorization request and the user id of the resource owner determined via user authentication and provides the grant id in the corresponding token response. 
 * `new`: the authorization server will create a fresh grant irrespective of any pre-existing grant for the client identified by the `client_id` in the autorization request and the resource owner identified by the user authentication (including Single SignOn). The authorization server will provide the client with the `grant_id` of the new grant in the corresponding token response. 
@@ -88,7 +88,7 @@ The following example
 ```http
 GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
-     &grant_mode=get
+     &grant_management_mode=get
      &scope=read
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
      &code_challenge_method=S256
@@ -101,7 +101,7 @@ shows an authorization request asking the authorization server to provide the cl
 ```http
 GET /authorize?rresponse_type=code&
      client_id=s6BhdRkqt3
-     &grant_mode=set
+     &grant_management_mode=set
      &grant_id=4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25
      &scope=read
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
@@ -297,12 +297,13 @@ no credentials
 
 grant_id
 
-grant_id_mode (??)
+grant_management_mode
+
+grant_management_modes_supported
 
 grant_management_actions_supported
 
 grant_management_endpoint
-
 
 
 # Acknowledgements {#Acknowledgements}
