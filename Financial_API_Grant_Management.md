@@ -76,7 +76,7 @@ This specification introduces the following new authorization request parameters
 
 `grant_id`: string value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it. 
 
-`grant_mode`: string value controlling the way the authorization shall handle the grant when processing an authorization request. The defined values of `grant_mode` are:
+`grant_management_mode`: string value controlling the way the authorization shall handle the grant when processing an authorization request. The defined values of `grant_mode` are:
 
 * `create`: the authorization server will create a fresh grant irrespective of any pre-existing grant for the client identified by the `client_id` in the autorization request and the resource owner identified by the user authentication (including Single SignOn). The authorization server will provide the client with the `grant_id` of the new grant in the corresponding token response. 
 * `update`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request. The authorization server SHOULD attempt to update the privileges associated with this grant as result of the authorization process. This mode can be used to ensure the authorization process is performed by the same user that originally approved a certain grant and results in updated privileges for this grant. 
@@ -87,7 +87,7 @@ The following example
 ```http
 GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
-     &grant_mode=get
+     &grant_management_mode=create
      &scope=read
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
      &code_challenge_method=S256
@@ -95,12 +95,12 @@ GET /authorize?response_type=code&
 Host: as.example.com 
 ```
     
-shows an authorization request asking the authorization server to provide the client with a grant id whereas this example
+shows an authorization request asking the authorization server to create a new grant id whereas this example
 
 ```http
 GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
-     &grant_mode=set
+     &grant_management_mode=update
      &grant_id=4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25
      &scope=read
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
@@ -164,6 +164,9 @@ The client is supposed to manage its grants along with the respective tokens and
 
 ## Authorization server's metadata
 
+`grant_management_modes_supported`
+OPTIONAL. JSON array containing a list of Grant Modes which are supported. If omitted, the default value is no supported modes.
+
 `grant_management_actions_supported`
 OPTIONAL. JSON array containing a list of Grant Management actions which are supported. If omitted, the default value is no supported actions.
 
@@ -176,9 +179,9 @@ Using the grant management API requires the client to obtain an access token aut
 
 The token is required to be associated with the following scope value:
 
-`grant:query`: scope value the client uses to request an access token to query the status of its grants. 
+`grant_management_query`: scope value the client uses to request an access token to query the status of its grants. 
 
-`grant:revoke`: scope value the client uses to request an access token to revoke its grants. 
+`grant_management_revoke`: scope value the client uses to request an access token to revoke its grants. 
 
 ## Endpoint
 
@@ -295,13 +298,15 @@ no credentials
 
 # IANA Considerations
 
-grant_id
+`grant_id`
 
-grant_id_mode (??)
+`grant_management_mode`
 
-grant_management_actions_supported
+`grant_management_modes_supported`
 
-grant_management_endpoint
+`grant_management_actions_supported`
+
+`grant_management_endpoint`
 
 # Acknowledgements {#Acknowledgements}
 
