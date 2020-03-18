@@ -88,7 +88,7 @@ The following example
 ```http
 GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
-     &grant_management_mode=get
+     &grant_management_mode=create
      &scope=read
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
      &code_challenge_method=S256
@@ -96,12 +96,12 @@ GET /authorize?response_type=code&
 Host: as.example.com 
 ```
     
-shows an authorization request asking the authorization server to provide the client with a grant id whereas this example
+shows an authorization request asking the authorization server to create a new grant id whereas this example
 
 ```http
 GET /authorize?rresponse_type=code&
      client_id=s6BhdRkqt3
-     &grant_management_mode=set
+     &grant_management_mode=update
      &grant_id=4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25
      &scope=read
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
