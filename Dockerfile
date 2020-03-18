@@ -16,7 +16,7 @@ RUN mkdir /var/www/html
 COPY support/nginx-default.conf /etc/nginx/conf.d/default.conf
 
 COPY support/supervisord.conf /etc/supervisord.conf
-COPY support/make-rfc-from-xml.sh /usr/local/bin/make-rfc-from-xml.sh
+COPY support/make-rfc-from-md.sh /usr/local/bin/make-rfc-from-md.sh
 COPY support/watchandrebuild.sh /usr/local/bin/watchandrebuild.sh
 WORKDIR /data
 
