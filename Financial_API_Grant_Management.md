@@ -100,7 +100,7 @@ shows an authorization request asking the authorization server to create a new g
 GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
      &grant_management_mode=use
-     &grant_id=4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25
+     &grant_id=TSdqirmAxDa0_-DB_1bASQ
      &include_granted_scopes=true
      &scope=read
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
@@ -139,7 +139,7 @@ Cache-Control: no-cache, no-store
    "token_type": "example",
    "expires_in": 3600,
    "refresh_token": "tGzv3JOkF0XG5Qx2TlKWIA",
-   “grant_id”:”4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25”
+   “grant_id”:”TSdqirmAxDa0_-DB_1bASQ”
 }
 ```
 
@@ -192,13 +192,13 @@ https://as.example.com/grants
 and the `grant_id` is 
 
 ```
-4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25
+TSdqirmAxDa0_-DB_1bASQ
 ```
 
 the resulting resource URL would be
 
 ```
-https://as.example.com/grants/4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25 
+https://as.example.com/grants/TSdqirmAxDa0_-DB_1bASQ 
 ```
 
 ## Query Status of a Grant
@@ -206,7 +206,7 @@ https://as.example.com/grants/4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734
 The status of a grant is queried by sending a HTTP GET request to the grant's resource URL as shown by the following example. 
 
 ```http
-GET /grants/4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25 
+GET /grants/TSdqirmAxDa0_-DB_1bASQ 
 Host: as.example.com
 Authorization: Bearer 2YotnFZFEjr1zCsicMWpAA
 ```
@@ -239,7 +239,7 @@ To revoke a grant, the client sends a HTTP DELETE request to the grant's resourc
 This is illustrated by the following example.
 
 ```http
-DELETE /grants/4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25 
+DELETE /grants/TSdqirmAxDa0_-DB_1bASQ 
 Host: as.example.com
 Authorization: Bearer 2YotnFZFEjr1zCsicMWpAA
 
@@ -257,11 +257,11 @@ If the request lacks a valid access token, the authorization server responds wit
 
 # Privacy Consideration {#Privacy}
 
-grant_id is issued by the authorization server for each established grant between a client and a user. This should prevent correlation between different clients.
+`grant_id` is issued by the authorization server for each established grant between a client and a user. This should prevent correlation between different clients.
 
-grant_id MUST NOT derived from PII that can make possible to identify the user.
+`grant_id` MUST NOT derived from PII that can make possible to identify the user.
 
-grant_id potentially could be shared by different client_id belonging to the same entity. 
+`grant_id` potentially could be shared by different client_id belonging to the same entity. 
 
 # Security Considerations {#Security}
 
@@ -293,15 +293,15 @@ no credentials
 
 # IANA Considerations
 
-grant_id
+`grant_id`
 
-grant_management_mode
+`grant_management_mode`
 
-grant_management_modes_supported
+`grant_management_modes_supported`
 
-grant_management_actions_supported
+`grant_management_actions_supported`
 
-grant_management_endpoint
+`grant_management_endpoint`
 
 
 # Acknowledgements {#Acknowledgements}
