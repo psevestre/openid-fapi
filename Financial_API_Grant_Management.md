@@ -234,7 +234,9 @@ The response structure MAY also include further elements defined by other extens
 
 ## Revoke Grant 
 
-To revoke a grant, the client sends a HTTP DELETE request to the grant's resource URL. The authorization server responds with a HTTP status code 204 and an empty response body.
+To revoke a grant, the client sends a HTTP DELETE request to the grant's resource URL. The authorization server invalidates the grant and all access and refresh tokens associated with this grant.
+
+The authorization server responds with a HTTP status code 204 and an empty response body.
 
 This is illustrated by the following example.
 
