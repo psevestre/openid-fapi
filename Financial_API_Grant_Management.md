@@ -37,7 +37,7 @@ fullname="Dima Postnikov"
 
 .# Abstract
 
-This specification defines an extension of OAuth 2.0 [@RFC6749] to allow clients to explicitly manage their grants with the authorization server.
+This specification defines an extension of OAuth 2.0 [@RFC6749] to allow clients to explicitly manage their grants with the authorization server. 
 
 {mainmatter}
 
@@ -79,8 +79,7 @@ This specification introduces the following new authorization request parameters
 `grant_management_mode`: string value controlling the way the authorization server shall handle the grant when processing an authorization request. This specification defines the following `grant_management_mode` values:
 
 * `create`: the authorization server will create a fresh grant irrespective of any pre-existing grant for the client identified by the `client_id` in the autorization request and the resource owner identified by the user authentication (including Single SignOn). The authorization server will provide the client with the `grant_id` of the new grant in the corresponding token response. 
-* `update`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request. The authorization server SHOULD attempt to update the privileges associated with this grant as result of the authorization process. This mode can be used to ensure the authorization process is performed by the same user that originally approved a certain grant and results in updated privileges for this grant. 
-* `replace`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request, to revoke all privileges associated with this grant but keep the grant itself and add any privileges as requested by the client and approved by the resource owner in the course of the processing of this authorization request. This mode can be used to ensure the authorization process is performed by the same user that originally approved a certain grant while removing all previously assigned privileges. 
+* `use`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request. The client is RECOMMENDED to control the behavior of the AS with regards to handling of privileges already contained in this grant using the request parameter `include_granted_scopes` as defined in [@I-D.ietf-oauth-incremental-authz]. 
 
 The following example 
 
@@ -100,8 +99,9 @@ shows an authorization request asking the authorization server to create a new g
 ```http
 GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
-     &grant_management_mode=update
+     &grant_management_mode=use
      &grant_id=4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25
+     &include_granted_scopes=true
      &scope=read
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
      &code_challenge_method=S256
@@ -109,7 +109,7 @@ GET /authorize?response_type=code&
 Host: as.example.com 
 ```
 
-shows how a client can force the authorization server to use a certain grant id (previously obtained using `get`). 
+shows how a client can force the authorization server to use a certain grant id (previously obtained using `create`) and request the authorization server to retain pre-existing privileges. 
 
 ## Authorization Response
 
@@ -306,7 +306,7 @@ grant_management_endpoint
 
 # Acknowledgements {#Acknowledgements}
 
-We would like to thank Filip Skokan for his valuable feedback and contributions that helped to evolve this specification.
+We would like to thank Filip Skokan and Brian Campbell for their valuable feedback and contributions that helped to evolve this specification.
 
 # Notices
 
