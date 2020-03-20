@@ -100,10 +100,9 @@ shows an authorization request asking the authorization server to create a new g
 ```http
 GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
-     &grant_management_mode=use
+     &grant_management_mode=update
      &grant_id=TSdqirmAxDa0_-DB_1bASQ
-     &include_granted_scopes=true
-     &scope=read
+     &scope=write
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
      &code_challenge_method=S256
      &code_challenge=K2-ltc83acc4h... HTTP/1.1
