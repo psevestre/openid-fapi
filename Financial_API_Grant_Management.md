@@ -76,6 +76,8 @@ This specification introduces the following new authorization request parameters
 
 `grant_id`: string value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it. 
 
+Note: a client (as logical entity) MAY use multiple client ids to deliver its service across different platforms, e.g. apps for iOS and Android and a Web App. It is RECOMMENDED that the AS supports sharing of grants among client ids belonging to the same client. Sector identifier URIs as defined in [@!OpenID.Registration] is one option to group client ids under single administrative control.
+
 `grant_management_mode`: string value controlling the way the authorization server shall handle the grant when processing an authorization request. This specification defines the following `grant_management_mode` values:
 
 * `create`: the authorization server will create a fresh grant irrespective of any pre-existing grant for the client identified by the `client_id` in the autorization request and the resource owner identified by the user authentication (including Single SignOn). The authorization server will provide the client with the `grant_id` of the new grant in the corresponding token response. 
@@ -294,6 +296,22 @@ no credentials
    <date day="8" month="Nov" year="2014"/>
   </front>
 </reference>
+
+<reference anchor="OpenID.Registration" target="https://openid.net/specs/openid-connect-registration-1_0.html">
+        <front>
+          <title>OpenID Connect Dynamic Client Registration 1.0 incorporating errata set 1</title>
+		  <author fullname="Nat Sakimura">
+            <organization>NRI</organization>
+          </author>
+          <author fullname="John Bradley">
+            <organization>Ping Identity</organization>
+          </author>
+          <author fullname="Mike Jones">
+            <organization>Microsoft</organization>
+          </author>
+          <date day="8" month="Nov" year="2014"/>
+        </front>
+ </reference>
 
 # IANA Considerations
 
