@@ -109,7 +109,7 @@ GET /authorize?response_type=code&
 Host: as.example.com 
 ```
 
-shows how a client can force the authorization server to use a certain grant id (previously obtained using `create`) and request the authorization server to retain pre-existing privileges. 
+shows how a client can force the authorization server to use a certain grant id (previously obtained using `create`) and request the authorization server to retain pre-existing privileges. In this particular example, the grant `TSdqirmAxDa0_-DB_1bASQ` would contain the accumulated scope `read write`. 
 
 ## Authorization Response
 
