@@ -246,6 +246,10 @@ Authorization: Bearer 2YotnFZFEjr1zCsicMWpAA
 HTTP/1.1 204 No Content
 ```
 
+The AS MUST revoke the grant and all refresh tokens issued based on that particular grant, it SHOULD revoke all access tokens issued based on that particular grant. 
+
+Note: Token revocation as defined in [@RFC7009] differentiates from grant revocation as defined in this specification in that token revocation is not required to cause the revocation of the underlying grant. It is at the discretion of the AS to retain a grant in case of token revocation and allow the client to re-connect to this grant through a subsequent authorization request. This decoupling may improve user experience in case the client just wanted to discard the token as a credential.
+
 ## Error Responses
 
 If the resource URL is unknown, the authorization server responds with HTTP status code 400.
