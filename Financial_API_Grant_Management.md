@@ -259,7 +259,7 @@ If the request lacks a valid access token, the authorization server responds wit
 
 `grant_id` is issued by the authorization server for each established grant between a client and a user. This should prevent correlation between different clients.
 
-`grant_id` MUST NOT derived from PII that can make possible to identify the user.
+`grant_id` MUST NOT be derived from PII that can make possible to identify the user.
 
 `grant_id` potentially could be shared by different client_id belonging to the same entity. 
 
