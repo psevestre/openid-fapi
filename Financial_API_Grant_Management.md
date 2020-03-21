@@ -310,7 +310,7 @@ no credentials
 
 # Acknowledgements {#Acknowledgements}
 
-We would like to thank Filip Skokan and Brian Campbell for their valuable feedback and contributions that helped to evolve this specification.
+We would like to thank Filip Skokan, Dave Tonge, and Brian Campbell for their valuable feedback and contributions that helped to evolve this specification.
 
 # Notices
 
