@@ -37,7 +37,7 @@ fullname="Dima Postnikov"
 
 .# Abstract
 
-This specification defines an extension of OAuth 2.0 [@RFC6749] to allow clients to explicitly manage their grants with the authorization server. 
+This specification defines an extension of OAuth 2.0 [@!RFC6749] to allow clients to explicitly manage their grants with the authorization server. 
 
 {mainmatter}
 
@@ -76,7 +76,7 @@ This specification introduces the following new authorization request parameters
 
 `grant_id`: string value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it. 
 
-Note: a client (as logical entity) MAY use multiple client ids to deliver its service across different platforms, e.g. apps for iOS and Android and a Web App. It is RECOMMENDED that the AS supports sharing of grants among client ids belonging to the same client. Sector identifier URIs as defined in [@!OpenID.Registration] is one option to group client ids under single administrative control.
+Note: a client (as logical entity) MAY use multiple client ids to deliver its service across different platforms, e.g. apps for iOS and Android and a Web App. It is RECOMMENDED that the AS supports sharing of grants among client ids belonging to the same client. Sector identifier URIs as defined in [@OpenID.Registration] is one option to group client ids under single administrative control.
 
 `grant_management_mode`: string value controlling the way the authorization server shall handle the grant when processing an authorization request. This specification defines the following `grant_management_mode` values:
 
@@ -227,10 +227,10 @@ Content-Type: application/json
 
 The privileges associated with the grant will be provided in a JSON object with the following fields:
 
-* `scope`: String value as defined in [@RFC6749] representing the scope associated with the grant.
-* `authorization_details`: JSON Object as defined in [@I-D.ietf-oauth-rar].
-* `claims`: JSON object as defined in [@OpenID].
-* `resources`: List of `resource` values as defined in [@RFC8707]
+* `scope`: String value as defined in [@!RFC6749] representing the scope associated with the grant.
+* `authorization_details`: JSON Object as defined in [@!I-D.ietf-oauth-rar].
+* `claims`: JSON object as defined in [@!OpenID].
+* `resources`: List of `resource` values as defined in [@!RFC8707]
 
 The response structure MAY also include further elements defined by other extensions. 
 
