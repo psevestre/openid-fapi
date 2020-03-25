@@ -67,7 +67,7 @@ The following referenced documents are indispensable for the application of this
 [FAPI1-PART1]: https://openid.net/specs/openid-financial-api-part-1.html
 
 [FAPI1-PART2] - FAPI Read Write API Security Profile
-[FAPI1-PART2]:  https://openid.net/specs/openid-financial-api-part-2.html
+[FAPI1-PART2]: https://openid.net/specs/openid-financial-api-part-2.html
 
 [FAPILI] - FAPI Lodging Intent
 [FAPILI]: https://bitbucket.org/openid/fapi/src/master/Financial_API_Pushed_Request_Object.md
