@@ -156,17 +156,7 @@ Authorization servers
 
 #### Returning Authenticated User's Identifier
 
-If it is desired to provide the authenticated user's identifier to the client in the token response, the authorization server:
-
-1. MUST support the authentication request as in Section 3.1.2.1 of [@!OpenID]
-1. MUST perform the authentication request verification as in Section 3.1.2.2 of [@!OpenID]
-1. MUST authenticate the user as in Section 3.1.2.2 and 3.1.2.3 of [@!OpenID]
-1. MUST provide the authentication response as in Section 3.1.2.4 and 3.1.2.5 of [@!OpenID] depending on the outcome of the authentication
-1. MUST perform the token request verification as in Section 3.1.3.2 of [@!OpenID]
-1. MUST issue an ID Token in the token response when `openid` was included in the requested `scope`
-   as in Section 3.1.3.3 of [@!OpenID] with its `sub` value corresponding to the authenticated user
-   and optional `acr` value in ID Token.
-
+If it is desired to provide the authenticated user's identifier to the client in the token response, the authorization server MUST support OpenID Connect [@!OpenID].
 
 ### Requirements for Clients
 
@@ -239,12 +229,7 @@ Resource servers with the FAPI endpoints
 ## Open questions:
  * disallow scopes? if yes, use RAR transport for openid claim
  * Response types? ID Token in front channel?
- * 
  * lifetime for request objects?
- * (to be moved to grant management):
-     * shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
-     * should clearly identify long-term grants to the user during authorization as in 16.18 of [@!OpenID]; and 
-     * should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [@!OpenID].
  * (relevance/meaning unclear):
      * shall return token responses that conform to section 4.1.4 of [RFC6749]; 
      * shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
