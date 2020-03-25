@@ -22,7 +22,7 @@ organization="yes.com"
 initials="S."
 surname="Low"
 fullname="Stuart Low"
-organization="biza.io"
+organization="Biza.io"
     [author.address]
     email = "stuart@biza.io"
 
@@ -37,7 +37,7 @@ fullname="Dima Postnikov"
 
 .# Abstract
 
-This specification defines an extension of OAuth 2.0 to allow clients to explicitely manage their grants with the authorization server.
+This specification defines an extension of OAuth 2.0 to allow clients to explicitly manage their grants with the authorization server.
 
 {mainmatter}
 
@@ -45,7 +45,7 @@ This specification defines an extension of OAuth 2.0 to allow clients to explici
 
 OAuth authorization servers issue access and refresh tokens based on privileges granted by a resource owner to a particular client in the course of an authorization process or based on pre-configured policies. The concept representing these privileges and their assignment to a particular client is sometimes referred to a the "underlying grant". 
 
-Although this concept is fundamental to OAuth, there is no explicit representation of the grant in the OAuth protocol. This leads to the situation that clients cannot explicitely manage grants, e.g. query the status or revoke a grant that is no longer needed. The status is implicitely communicated if an access token refresh succeeds or fails or if an API call using an access token fails with HTTP status codes 401 (token is invalid) or 403 (token lacks privileges). 
+Although this concept is fundamental to OAuth, there is no explicit representation of the grant in the OAuth protocol. This leads to the situation that clients cannot explicitly manage grants, e.g. query the status or revoke a grant that is no longer needed. The status is implicitly communicated if an access token refresh succeeds or fails or if an API call using an access token fails with HTTP status codes 401 (token is invalid) or 403 (token lacks privileges). 
 
 It also means the client cannot explictely ask the authorization server to update a certain grant that is bound to a certain user. Instead the authorization server, typically, will determine a pre-existing grant using the client id from the authorization request and the user id of the authenticated resource owner. 
 
@@ -76,19 +76,18 @@ This specification introduces the following new authorization request parameters
 
 `grant_id`: string value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it. 
 
-`grant_mode`: string value controlling the way the authorization shall handle the grant when processing an authorization request. The defined values of `grant_mode` are:
+`grant_management_mode`: string value controlling the way the authorization shall handle the grant when processing an authorization request. The defined values of `grant_mode` are:
 
-* `get`: the authorization server determines the grant based on the `client_id` of the authorization request and the user id of the resource owner determined via user authentication and provides the grant id in the corresponding token response. 
-* `new`: the authorization server will create a fresh grant irrespective of any pre-existing grant for the client identified by the `client_id` in the autorization request and the resource owner identified by the user authentication (including Single SignOn). The authorization server will provide the client with the `grant_id` of the new grant in the corresponding token response. 
-* `set`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request. The authorization server SHOULD attempt to update the privileges associated with this grant as result of the authorization process. This mode can be used to ensure the authorization process is performed by the same user that originally approved a certain grant and results in updated privileges for this grant. 
-* `reset`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request, to revoke all privileges associated with this grant but keep the grant itself and add any privileges as requested by the client and approved by the resource owner in the course of the processing of this authorization request. This mode can be used to ensure the authorization process is performed by the same user that originally approved a certain grant while removing all previously assigned privileges. 
+* `create`: the authorization server will create a fresh grant irrespective of any pre-existing grant for the client identified by the `client_id` in the autorization request and the resource owner identified by the user authentication (including Single SignOn). The authorization server will provide the client with the `grant_id` of the new grant in the corresponding token response. 
+* `update`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request. The authorization server SHOULD attempt to update the privileges associated with this grant as result of the authorization process. This mode can be used to ensure the authorization process is performed by the same user that originally approved a certain grant and results in updated privileges for this grant. 
+* `replace`: this mode requires the client to specify a grant id using the `grant_id` parameter. It requests the authorization server to use a certain grant when processing the authorization request, to revoke all privileges associated with this grant but keep the grant itself and add any privileges as requested by the client and approved by the resource owner in the course of the processing of this authorization request. This mode can be used to ensure the authorization process is performed by the same user that originally approved a certain grant while removing all previously assigned privileges. 
 
 The following example 
 
 ```http
 GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
-     &grant_mode=get
+     &grant_management_mode=create
      &scope=read
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
      &code_challenge_method=S256
@@ -96,12 +95,12 @@ GET /authorize?response_type=code&
 Host: as.example.com 
 ```
     
-shows an authorization request asking the authorization server to provide the client with a grant id whereas this example
+shows an authorization request asking the authorization server to create a new grant id whereas this example
 
 ```http
-GET /authorize?rresponse_type=code&
+GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
-     &grant_mode=set
+     &grant_management_mode=update
      &grant_id=4d276a8ab980c436b4ffe0c1ff56c049b27e535b6f1266e734d9bca992509c25
      &scope=read
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
@@ -151,13 +150,28 @@ OPEN:
 
 # Grant Management API
 
-The Grant Management API allows clients to query the status of a grant whose `grant_id` the client previously obtained from the authorization server in a token response. The API also allows the client to revoke such a grant. 
+The Grant Management API allows clients to perform various actions on a grant whose `grant_id` the client previously obtained from the authorization server in a token response.
+
+Currently supported actions are:
+  - Query: Retrieve the current status of a specific grant
+  - Revoke: Request the revocation of a grant 
 
 The Grant Management API does not provide bulk access to all grants of a certain client for functional and privacy reasons. Every grant is associated with a certain resource owner, so just getting the status is useless for the client as long as there is not indication of the user the client can use this grant for. Adding user identity data to the status data would weaken the privacy protection OAuth offers for users towards a client. 
 
 The Grant Management API will not expose any tokens associated with a certain grant in order to prevent token leakage.   
 
 The client is supposed to manage its grants along with the respective tokens and ensure its usage in the correct user context. 
+
+## Authorization server's metadata
+
+`grant_management_modes_supported`
+OPTIONAL. JSON array containing a list of Grant Modes which are supported. If omitted, the default value is no supported modes.
+
+`grant_management_actions_supported`
+OPTIONAL. JSON array containing a list of Grant Management actions which are supported. If omitted, the default value is no supported actions.
+
+`grant_management_endpoint`
+OPTIONAL. URL of the authorization server's Grant Management Administration Endpoint.
 
 ## API authorization
 
@@ -175,7 +189,7 @@ The grant management API is provided by a new endpoint provided by the authoriza
 
 ## Grant Resource URL
 
-The resource URL for a certain grant is built by concatinating the grant management endpoint URL, a shlash, and the the `grant_id`. For example, if the grant management endpoint is defined as 
+The resource URL for a certain grant is built by concatenating the grant management endpoint URL, a slash, and the the `grant_id`. For example, if the grant management endpoint is defined as 
 
 ```
 https://as.example.com/grants
@@ -220,6 +234,7 @@ The privileges associated with the grant will be provided in a JSON object with 
 * `scope`: String value as defined in [@RFC6749] representing the scope associated with the grant.
 * `authorization_details`: JSON Object as defined in [@I-D.ietf-oauth-rar].
 * `claims`: JSON object as defined in [@OpenID].
+* `resources`: List of `resource` values as defined in [@RFC8707]
 
 The response structure MAY also include further elements defined by other extensions. 
 
@@ -248,7 +263,11 @@ If the request lacks a valid access token, the authorization server responds wit
 
 # Privacy Consideration {#Privacy}
 
-tracking via grant_id(?)
+grant_id is issued by the authorization server for each established grant between a client and a user. This should prevent correlation between different clients.
+
+grant_id MUST NOT derived from PII that can make possible to identify the user.
+
+grant_id potentially could be shared by different client_id belonging to the same entity. 
 
 # Security Considerations {#Security}
 
@@ -282,9 +301,14 @@ no credentials
 
 grant_id
 
-grant_id_mode
+grant_management_mode
 
-metadata - grant management supported, endpoint location
+grant_management_modes_supported
+
+grant_management_actions_supported
+
+grant_management_endpoint
+
 
 # Acknowledgements {#Acknowledgements}
 
