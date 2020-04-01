@@ -97,7 +97,7 @@ The following referenced documents are indispensable for the application of this
 [X.1254]: https://www.itu.int/rec/T-REC-X.1254
 
 [MTLS] - OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
-[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
+[MTLS]: https://tools.ietf.org/html/rfc8705
 
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.

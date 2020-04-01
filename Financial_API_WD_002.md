@@ -91,7 +91,7 @@ The following referenced documents are indispensable for the application of this
 [OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
 
 [MTLS] - OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
-[MTLS]: https://tools.ietf.org/html/draft-ietf-oauth-mtls
+[MTLS]: https://tools.ietf.org/html/rfc8705
 
 [JARM] - Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 [JARM]: https://bitbucket.org/openid/fapi/src/master/Financial_API_JWT_Secured_Authorization_Response_Mode.md
