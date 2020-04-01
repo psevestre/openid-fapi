@@ -37,7 +37,7 @@ fullname="Dima Postnikov"
 
 .# Abstract
 
-This specification defines an extension of OAuth 2.0 [@RFC6749] to allow clients to explicitly manage their grants with the authorization server. 
+This specification defines an extension of OAuth 2.0 [@!RFC6749] to allow clients to explicitly manage their grants with the authorization server. 
 
 {mainmatter}
 
@@ -75,6 +75,8 @@ The underlying assumption is that creation and updates of grants almost always r
 This specification introduces the following new authorization request parameters:
 
 `grant_id`: string value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it. 
+
+Note: a client (as logical entity) MAY use multiple client ids to deliver its service across different platforms, e.g. apps for iOS and Android and a Web App. It is RECOMMENDED that the AS supports sharing of grants among client ids belonging to the same client. Sector identifier URIs as defined in [@OpenID.Registration] is one option to group client ids under single administrative control.
 
 `grant_management_mode`: string value controlling the way the authorization server shall handle the grant when processing an authorization request. This specification defines the following `grant_management_mode` values:
 
@@ -225,10 +227,10 @@ Content-Type: application/json
 
 The privileges associated with the grant will be provided in a JSON object with the following fields:
 
-* `scope`: String value as defined in [@RFC6749] representing the scope associated with the grant.
-* `authorization_details`: JSON Object as defined in [@I-D.ietf-oauth-rar].
-* `claims`: JSON object as defined in [@OpenID].
-* `resources`: List of `resource` values as defined in [@RFC8707]
+* `scope`: String value as defined in [@!RFC6749] representing the scope associated with the grant.
+* `authorization_details`: JSON Object as defined in [@!I-D.ietf-oauth-rar].
+* `claims`: JSON object as defined in [@!OpenID].
+* `resources`: List of `resource` values as defined in [@!RFC8707]
 
 The response structure MAY also include further elements defined by other extensions. 
 
@@ -245,6 +247,10 @@ Authorization: Bearer 2YotnFZFEjr1zCsicMWpAA
 
 HTTP/1.1 204 No Content
 ```
+
+The AS MUST revoke the grant and all refresh tokens issued based on that particular grant, it SHOULD revoke all access tokens issued based on that particular grant. 
+
+Note: Token revocation as defined in [@RFC7009] differentiates from grant revocation as defined in this specification in that token revocation is not required to cause the revocation of the underlying grant. It is at the discretion of the AS to retain a grant in case of token revocation and allow the client to re-connect to this grant through a subsequent authorization request. This decoupling may improve user experience in case the client just wanted to discard the token as a credential.
 
 ## Error Responses
 
@@ -291,6 +297,22 @@ no credentials
   </front>
 </reference>
 
+<reference anchor="OpenID.Registration" target="https://openid.net/specs/openid-connect-registration-1_0.html">
+        <front>
+          <title>OpenID Connect Dynamic Client Registration 1.0 incorporating errata set 1</title>
+		  <author fullname="Nat Sakimura">
+            <organization>NRI</organization>
+          </author>
+          <author fullname="John Bradley">
+            <organization>Ping Identity</organization>
+          </author>
+          <author fullname="Mike Jones">
+            <organization>Microsoft</organization>
+          </author>
+          <date day="8" month="Nov" year="2014"/>
+        </front>
+ </reference>
+
 # IANA Considerations
 
 `grant_id`
@@ -306,7 +328,7 @@ no credentials
 
 # Acknowledgements {#Acknowledgements}
 
-We would like to thank Filip Skokan and Brian Campbell for their valuable feedback and contributions that helped to evolve this specification.
+We would like to thank Filip Skokan, Dave Tonge, and Brian Campbell for their valuable feedback and contributions that helped to evolve this specification.
 
 # Notices
 
