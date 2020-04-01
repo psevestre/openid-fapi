@@ -54,6 +54,9 @@ and are not to be interpreted with their natural language meanings.
 ## 1. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
+[ISODIR2] - ISO/IEC Directives Part 2
+[ISODIR2]: https://www.iso.org/sites/directives/current/part2/index.xhtml
+
 [RFC7230] - Hypertext Transfer Protocol -- HTTP/1.1
 [RFC7230]: https://tools.ietf.org/html/rfc7230
 
@@ -68,6 +71,9 @@ The following referenced documents are indispensable for the application of this
 
 [RFC7662] - OAuth 2.0 Token Introspection
 [RFC7662]: https://tools.ietf.org/html/rfc7662
+
+[OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
+[OIDC]: https://openid.net/specs/openid-connect-core-1_0.html
 
 ## 2. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
@@ -126,7 +132,7 @@ grant_type=client_credentials&
 scope=payments_create
 ```
 
-Please note the example does not show a particular client authentication method. Any method defined at [token endpoint authentication method iana registry] should be applicable.
+Please note the example does not show a particular client authentication method. Any method defined at [Token Endpoint Authentication Method IANA Registry](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#token-endpoint-auth-method) should be applicable.
 
 ### 6.2. Create Lodging Intent
 In the next step, the client uses the access token to create a new lodging intent.

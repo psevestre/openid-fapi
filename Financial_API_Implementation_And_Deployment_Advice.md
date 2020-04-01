@@ -58,16 +58,16 @@ This document gives general guidance on the implementation and successful deploy
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 [ISODIR2] - ISO/IEC Directives Part 2
-[ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
+[ISODIR2]: https://www.iso.org/sites/directives/current/part2/index.xhtml
 
 [FAPICIBA] - FAPI: Client Initiated Backchannel Authentication Profile
-[FAPICIBA]: https://openid.net/specs/openid-financial-api-ciba.html
+[FAPICIBA]: https://openid.net/specs/openid-financial-api-ciba-ID1.html
 
-[FAPI1] - FAPI Read Only API Security Profile
-[FAPI1]: https://openid.net/specs/openid-financial-api-part-1.html
+[FAPI1-PART1] - FAPI Read Only API Security Profile
+[FAPI1-PART1]: https://openid.net/specs/openid-financial-api-part-1.html
 
-[FAPI2] - FAPI Read Write API Security Profile
-[FAPI2]: https://openid.net/specs/openid-financial-api-part-2.html
+[FAPI1-PART2] - FAPI Read Write API Security Profile
+[FAPI1-PART2]: https://openid.net/specs/openid-financial-api-part-2.html
 
 [FAPILI] - FAPI Lodging Intent
 [FAPILI]: https://bitbucket.org/openid/fapi/src/master/Financial_API_Pushed_Request_Object.md
@@ -96,7 +96,7 @@ For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636
 
 #### 5.1.1 Introduction 
 
-[FAPI2] and [FAPICIBA] do not permit public clients. This is because there are no widely adopted standards that would allow a sufficiently secure public client. In cases where a public client was desired, we recommend the use of one of the below alternatives.
+[FAPI1-PART2] and [FAPICIBA] do not permit public clients. This is because there are no widely adopted standards that would allow a sufficiently secure public client. In cases where a public client was desired, we recommend the use of one of the below alternatives.
 
 #### 5.1.2 Confidential client in the backend
 
@@ -164,11 +164,11 @@ In many cases, it is possible to ensure APIs are complete by having first-party 
 
 ## 6. Security Considerations
 
-There are no additional security considerations beyond those in [FAPI1], [FAPI2], [FAPILI], [FAPICIBA].
+There are no additional security considerations beyond those in [FAPI1-PART1], [FAPI1-PART2], [FAPILI], [FAPICIBA].
 
 ## 7. Privacy Considerations
 
-There are no additional privacy considerations beyond those in [FAPI1], [FAPI2], [FAPILI], [FAPICIBA].
+There are no additional privacy considerations beyond those in [FAPI1-PART1], [FAPI1-PART2], [FAPILI], [FAPICIBA].
 
 ## 8. Acknowledgement
 

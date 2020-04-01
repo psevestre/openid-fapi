@@ -196,7 +196,7 @@ If the client does not requests the openid scope, the authorization server
 
 A public client
 
-1. shall support [RFC7636] or the mechanisms defined in [Financial-grade API - Part 2](Financial_API_WD_002.md);
+1. shall support [RFC7636] or the mechanisms defined in [Financial-grade API - Part 2](https://openid.net/specs/openid-financial-api-part-2.html);
 1. shall use `S256` as the code challenge method for the [RFC7636];
 1. shall use separate and distinct redirect URI for each authorization server that it talks to;
 1. shall store the redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the redirect URI that the authorization response was received at, where, if the URIs do not match, the client shall terminate the process with error;
