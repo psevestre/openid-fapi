@@ -64,7 +64,7 @@ This document specifies the method for an application to:
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 [ISODIR2] - ISO/IEC Directives Part 2
-[ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
+[ISODIR2]: https://www.iso.org/sites/directives/current/part2/index.xhtml
 
 [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 [RFC4122]: https://tools.ietf.org/html/rfc4122
