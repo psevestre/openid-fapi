@@ -187,7 +187,7 @@ Clients
     `x-fapi-auth-date` header where the value is supplied as a
     HTTP-date as in section 7.1.1.1 of [RFC7231], e.g.,
     `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`
- 1. MAY send the customer’s IP address if this data is available in
+ 1. MAY send the customer's IP address if this data is available in
     the `x-fapi-customer-ip-address` header, e.g.,
     `x-fapi-customer-ip-address: 198.51.100.119`
  1. MAY send the `x-fapi-interaction-id` request header whose value is
