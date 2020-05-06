@@ -96,8 +96,8 @@ The following referenced documents are indispensable for the application of this
 [JARM] - Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 [JARM]: https://bitbucket.org/openid/fapi/src/master/Financial_API_JWT_Secured_Authorization_Response_Mode.md
 
-[PRO] - Financial Services – Financial-grade API: Pushed Request Object
-[PRO]:https://bitbucket.org/openid/fapi/src/master/Financial_API_Pushed_Request_Object.md
+[PAR] - OAuth 2.0 Pushed Authorization Requests
+[PAR]: https://tools.ietf.org/html/draft-ietf-oauth-par-01
 
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
@@ -194,7 +194,7 @@ In addition, the authorization server, for the write operation,
 1. (moved to 5.2.2.1);
 1. (moved to 5.2.2.1);
 1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
-1. may support the request object endpoint as described in [PRO];
+1. may support the pushed authorization request endpoint as described in [PAR];
 1. (withdrawn);
 1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; and
 1. shall authenticate the confidential client using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
