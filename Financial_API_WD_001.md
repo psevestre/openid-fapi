@@ -200,7 +200,7 @@ A public client
 1. shall use `S256` as the code challenge method for the [RFC7636];
 1. shall use separate and distinct redirect URI for each authorization server that it talks to;
 1. shall store the redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the redirect URI that the authorization response was received at, where, if the URIs do not match, the client shall terminate the process with error;
-1. shall adhere to the best practice stated by [BCP212]; and
+1. (withdrawn);
 1. shall implement an effective CSRF protection.
 
     Further, if it is desired to obtain a persistent identifier of the authenticated user, then it
