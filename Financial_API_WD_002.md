@@ -97,7 +97,7 @@ The following referenced documents are indispensable for the application of this
 [JARM]: https://bitbucket.org/openid/fapi/src/master/Financial_API_JWT_Secured_Authorization_Response_Mode.md
 
 [PAR] - OAuth 2.0 Pushed Authorization Requests
-[PAR]: https://tools.ietf.org/html/draft-ietf-oauth-par-01
+[PAR]: https://tools.ietf.org/html/draft-ietf-oauth-par
 
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
