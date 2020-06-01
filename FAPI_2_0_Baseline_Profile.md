@@ -135,14 +135,14 @@ Authorization servers
  2. shall support the authorization code grant described in [@!RFC6749]
  3. shall support client-authenticated pushed authorization requests
     according to [@I-D.ietf-oauth-par]
- 4. shall NOT support authorization requests sent without
+ 4. shall reject authorization requests sent without
     [@I-D.lodderstedt-oauth-par] or authorization request parameters
     sent outside of the PAR request, except for
-    `request_uri`
- 5. shall NOT support pushed authorization requests without client authentication
+    `request_uri` and `client_id`
+ 5. shall reject pushed authorization requests without client authentication
  6. shall support rich authorization requests according to [@I-D.ietf-oauth-rar]
  7. shall support confidential clients as defined in [@!RFC6749]
- 8. shall support and sender-constraining of access tokens using Mutual TLS as described in [@!RFC8705]
+ 8. shall support sender-constraining of access tokens using Mutual TLS as described in [@!RFC8705]
  9.  shall authenticate clients using one of the following methods:
      1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [@!RFC8705]
      2. `private_key_jwt` as specified in section 9 of [@!OpenID]
