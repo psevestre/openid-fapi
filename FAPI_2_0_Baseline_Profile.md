@@ -132,26 +132,27 @@ In the following, a profile of the following technologies is defined:
 Authorization servers
 
  1. shall adhere to [@I-D.ietf-oauth-security-topics]
- 1. shall support the authorization code grant described in [@!RFC6749]
- 1. shall support client-authenticated pushed authorization requests
+ 2. shall support the authorization code grant described in [@!RFC6749]
+ 3. shall support client-authenticated pushed authorization requests
     according to [@I-D.ietf-oauth-par]
- 1. shall NOT support authorization requests sent without
+ 4. shall NOT support authorization requests sent without
     [@I-D.lodderstedt-oauth-par] or authorization request parameters
     sent outside of the PAR request, except for
     `request_uri`
- 1. shall NOT support pushed authorization requests without client authentication
- 1. shall support rich authorization requests according to [@I-D.ietf-oauth-rar]
- 1. shall support confidential clients as defined in [@!RFC6749]
- 1. shall support and sender-constraining of access tokens using Mutual TLS as described in [@!RFC8705]
- 1. shall authenticate clients using one of the following methods:
+ 5. shall NOT support pushed authorization requests without client authentication
+ 6. shall support rich authorization requests according to [@I-D.ietf-oauth-rar]
+ 7. shall support confidential clients as defined in [@!RFC6749]
+ 8. shall support and sender-constraining of access tokens using Mutual TLS as described in [@!RFC8705]
+ 9.  shall authenticate clients using one of the following methods:
      1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [@!RFC8705]
      2. `private_key_jwt` as specified in section 9 of [@!OpenID]
- 1. shall require PKCE [@!RFC7636] with `S256` as the code challenge method
- 1. shall only issue authorization codes, access tokens, and refresh tokens that are sender-constrained 
- 1. shall require the `redirect_uri` parameter in authorization requests and evaluate only this parameter to ensure authenticity and integrity of the redirect URI
- 1. shall require that redirect URIs use the `https` scheme
- 1. shall verify, if possible, that the authorization code (section 1.3.1 of [@!RFC6749]) has not been previously used
- 1. shall provide a means for resource servers to verify the validity, integrity, sender-constraining, scope (incl. `authorization_details`), expiration and revocation status of an access token, either by providing an introspection endpoint [@!RFC7662], by exposing signature verification keys, or by deployment-specific means.
+ 10. shall require PKCE [@!RFC7636] with `S256` as the code challenge method
+ 11. shall only issue authorization codes, access tokens, and refresh tokens that are sender-constrained 
+ 12. shall require the `redirect_uri` parameter in authorization requests and evaluate only this parameter to ensure authenticity and integrity of the redirect URI
+ 13. shall return an `iss` parameter in the authorization response containing the issuer URI as published in the respective OAuth metadata [@!RFC8414]
+ 14. shall require that redirect URIs use the `https` scheme
+ 15. shall verify, if possible, that the authorization code (section 1.3.1 of [@!RFC6749]) has not been previously used
+ 16. shall provide a means for resource servers to verify the validity, integrity, sender-constraining, scope (incl. `authorization_details`), expiration and revocation status of an access token, either by providing an introspection endpoint [@!RFC7662], by exposing signature verification keys, or by deployment-specific means.
 
 **NOTE**: If replay identification of the authorization code is not possible, it is desirable to set the validity period of the authorization code to one minute or a suitable short period of time. The validity period may act as a cache control indicator of when to clear the authorization code cache if one is used.
 
@@ -165,28 +166,31 @@ If it is desired to provide the authenticated user's identifier to the client in
 Clients
 
  1. shall use the authorization code grant described in [@!RFC6749]
- 1. shall use pushed authorization requests according to
-    [@I-D.ietf-oauth-par]
- 1. shall use sender-constrained access
-    tokens using Mutual TLS as described in [@!RFC8705]
- 1. shall support client authentication using one of the following methods:
-     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [@!RFC8705]
-     2. `private_key_jwt` as specified in section 9 of [@!OpenID]
- 1. shall use PKCE [@!RFC7636] with `S256` as the code challenge method
- 1. shall send access tokens in the HTTP header as in Section 2.1 of
-    OAuth 2.0 Bearer Token Usage [@!RFC6750]
- 1. MAY send the last time the customer logged into the client in the
-    `x-fapi-auth-date` header where the value is supplied as a
-    HTTP-date as in section 7.1.1.1 of [@!RFC7231], e.g.,
-    `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`
- 1. MAY send the customer's IP address if this data is available in
-    the `x-fapi-customer-ip-address` header, e.g.,
-    `x-fapi-customer-ip-address: 198.51.100.119`
- 1. MAY send the `x-fapi-interaction-id` request header whose value is
-    a [@!RFC4122] UUID to the server to help correlate log entries
-    between client and server, e.g., `x-fapi-interaction-id:
-    c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
+ 2. shall use pushed authorization requests according to
+ [@I-D.ietf-oauth-par]
+ 3. shall use sender-constrained access
+ tokens using Mutual TLS as described in [@!RFC8705]
+ 4. shall support client authentication using one of the following methods:
+  1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [@!RFC8705]
+  2. `private_key_jwt` as specified in section 9 of [@!OpenID]
+ 5. shall use PKCE [@!RFC7636] with `S256` as the code challenge method
+ 6. shall send access tokens in the HTTP header as in Section 2.1 of
+ OAuth 2.0 Bearer Token Usage [@!RFC6750]
+ 7. shall either use a distinct redirect URI per issuer or check the `iss` parameter in the authorization response to match the expected issuer to prevent Mix-Up attacks as described in [@I-D.ietf-oauth-security-topics]
+ 7. may send the last time the customer logged into the client in the
+ `x-fapi-auth-date` header where the value is supplied as an
+ HTTP-date as in section 7.1.1.1 of [@!RFC7231], e.g.,
+ `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`
+ 8. may send the customer's IP address if this data is available in
+ the `x-fapi-customer-ip-address` header, e.g.,
+ `x-fapi-customer-ip-address: 198.51.100.119`
+ 9.  may send the `x-fapi-interaction-id` request header whose value is
+  a [@!RFC4122] UUID to the server to help correlate log entries
+  between client and server, e.g., `x-fapi-interaction-id:
+  c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
  
+**NOTE**: When a distinct redirect URI is used to prevent Mix-Up attacks, the redirect URI shall be distinct for each issuer as published in the metadata document. A redirect URI that depends on solely on the authorization server URI is not sufficient to prevent Mix-Up attacks.
+
 ### Requirements for Resource Servers
 
 The FAPI 2.0 endpoints are OAuth 2.0 protected resource endpoints that return protected information for the resource owner associated with the submitted access token.
@@ -216,15 +220,15 @@ Resource servers with the FAPI endpoints
 ## Differences to FAPI 1.0
 
 | FAPI 1.0 Read/Write                      | FAPI 2.0                            | Reasons                                                                                               |
-|:-----------------------------------------|:------------------------------------|:------------------------------------------------------------------------------------------------------|
+| :--------------------------------------- | :---------------------------------- | :---------------------------------------------------------------------------------------------------- |
 | JAR, JARM                                | PAR                                 | integrity protection and compatibility improvements for authorization requests; only code in response |
 | -                                        | RAR                                 | support complex and structured information about authorizations                                       |
-| -                                        | shall adhere to Security BCP         |                                                                                                       |
+| -                                        | shall adhere to Security BCP        |                                                                                                       |
 | `s_hash`                                 | -                                   | state integrity is protected by PAR; protection provided by state is now provided by PKCE             |
 | pre-registered redirect URIs             | redirect URIs in PAR                | pre-registration is not required with client authentication and PAR                                   |
 | response types `code id_token` or `code` | response type `code`                | improve security: no ID token in front-channel; not needed                                            |
 | ID Token as detached signature           | -                                   | ID token does not need to serve as a detached signature                                               |
-| signed and encrypted ID Tokens            | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
+| signed and encrypted ID Tokens           | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
 | `exp` claim in request object            | -                                   | ?                                                                                                     |
 
 
