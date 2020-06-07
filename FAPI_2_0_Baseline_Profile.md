@@ -183,7 +183,7 @@ Clients
  `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`
  8. may send the customer's IP address if this data is available in
  the `x-fapi-customer-ip-address` header, e.g.,
- `x-fapi-customer-ip-address: 198.51.100.119`
+ `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 93.184.216.34`
  9.  may send the `x-fapi-interaction-id` request header whose value is
   a [@!RFC4122] UUID to the server to help correlate log entries
   between client and server, e.g., `x-fapi-interaction-id:
@@ -212,7 +212,6 @@ Resource servers with the FAPI endpoints
 
  1. RSA keys shall have a minimum length of 2048 bits.
  1. Elliptic curve keys shall have a minimum length of 160 bits.
- 1. authorization servers shall provide a client secret that adheres to the requirements in section 16.19 of [@!OpenID] if a symmetric key is used
  1. Access tokens shall be non-guessable with a minimum of 128 bits of entropy where the probability of an attacker guessing the generated token is less than or equal to 2^(-160) as per [@!RFC6749] section 10.10.
     
 

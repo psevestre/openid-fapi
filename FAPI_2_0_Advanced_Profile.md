@@ -113,26 +113,24 @@ Authorization servers
 
  1. shall support signed request objects according to JAR
     [@I-D.ietf-oauth-jwsreq] at the PAR endpoint
-    [@I-D.lodderstedt-oauth-par]
- 2. shall support at least one of the following methods to sign the authorization response:
-    1. JWT Secured Authorization Response Mode for OAuth 2.0 [JARM]
-    2. OpenID Connect [@!OpenID] ID Tokens as detached signatures (for backward compatibility with existing implementations)
- 3. when offering token introspection [@!RFC7662], shall sign introspection responses that are issued in JWT format according to [@I-D.draft-ietf-oauth-jwt-introspection-response]
- 4. OPEN QUESTION: how to sign resource requests and responses?
- 5. OPEN QUESTION: how to handle userinfo response type selection? OIDC core says: depends on client registration
+    [@I-D.ietf-oauth-par]
+ 2. shall support signed authorization responses via JWT Secured Authorization Response Mode for OAuth 2.0 [JARM]
+ 3. may support OpenID Connect [@!OpenID] ID Tokens as detached signatures for backward compatibility with existing implementations
+ 4. when offering token introspection [@!RFC7662], shall sign introspection responses that are issued in JWT format according to [@I-D.draft-ietf-oauth-jwt-introspection-response]
+ 5. OPEN QUESTION: how to sign resource requests and responses?
 
 ### Requirements for Clients
 
 Clients
 
- 1. shall sign request objects according to JAR [@I-D.ietf-oauth-jwsreq] at the PAR endpoint [@I-D.lodderstedt-oauth-par]
+ 1. shall sign request objects according to JAR [@I-D.ietf-oauth-jwsreq] at the PAR endpoint [@I-D.ietf-oauth-par]
  1. shall ensure that authorization responses are signed using either [JARM] or via an ID Token as a detached signature [@!OpenID]
  2. shall verify the respective signatures
  3. when using token introspection [@!RFC7662], shall request signed token introspection responses according to [@I-D.draft-ietf-oauth-jwt-introspection-response]
  
 ### Requirements for Resource Servers
 
-The FAPI 2.0 endpoints are OAuth 2.0 protected resource endpoints that return protected information for the resource owner associated with the submitted access token.
+The FAPI 2.0 endpoints are OAuth 2.0 protected resource endpoints that perform sensitive actions and return protected information for the resource owner associated with the submitted access token.
 
 Resource servers with the FAPI endpoints
 
