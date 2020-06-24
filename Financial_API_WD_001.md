@@ -210,6 +210,13 @@ A public client
 
     If `openid` is not in the `scope` value, then it
 1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749].
+1. shall verify that the `scope` received in the token response is aligned to 
+the `scope` sent in the authorization request.
+
+    **NOTE**: The `scope` received in the token response may not be identical to the 
+    `scope` sent in the authorization request as the AS may expand the scope. For 
+    this reason an exact match comparison is not possible, but the client must still 
+    ensure that it verifies the `scope` received is what it expects. 
 
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
