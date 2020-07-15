@@ -249,7 +249,9 @@ The resource server with the FAPI endpoints
 1. shall send the `Content-type` HTTP header `Content-Type: application/json` if applicable;
 1. shall send the server date in HTTP Date header as in section 7.1.1.2 of [RFC7231];
 1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
-1. shall log the value of `x-fapi-interaction-id` in the log entry.
+1. shall log the value of `x-fapi-interaction-id` in the log entry;
+1. shall not reject requests with a `x-fapi-customer-ip-address` header containing a
+valid IPv4 or IPv6 address.
 
 
     **NOTE**: While this document does not specify the exact method to obtain the entity associated with the
@@ -271,7 +273,7 @@ The client supporting this document
     Further, the client
 
 1. may send the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
-1. may send the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 198.51.100.119`; and
+1. may send the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 198.51.100.119`; and
 1. may send the `x-fapi-interaction-id` request header whose value is a [RFC4122] UUID to the server to help correlate log entries 
    between client and server, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 
