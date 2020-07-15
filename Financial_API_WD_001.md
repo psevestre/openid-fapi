@@ -285,7 +285,7 @@ e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 
 ## 7. Security considerations
 
-### 7.1 TLS considerations
+### 7.1 TLS and DNSSEC considerations
 
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
@@ -293,6 +293,16 @@ The recommendations for Secure Use of Transport Layer Security in [BCP195] shall
 
 1. TLS version 1.2 or later shall be used for all communications.
 1. A TLS server certificate check shall be performed, as per [RFC6125].
+
+Endpoints for the use by web browsers should use mechanisms to ensure that connections cannot be downgraded using TLS Stripping attacks. A preloaded [preload] HTTP Strict Transport Security policy [RFC6797] can be used for this purpose. Some top-level domains, like `.bank` and `.insurance`, have set such a policy and therefore protect all second-level domains below them.
+
+For a comprehensive protection against network attackers, all
+endpoints should additionally use DNSSEC to protect against DNS
+spoofing attacks that can lead to the issuance of rogue
+domain-validated TLS certificates. Note: Even if an endpoint uses only
+organization validated (OV) or extended validation (EV) TLS
+certificates, rogue domain-validated certificates can be used to
+impersonate the endpoints and conduct man-in-the-middle attacks.
 
 ### 7.2 Message source authentication failure
 
@@ -423,10 +433,11 @@ The following people contributed to this document:
 * Dave Tonge (Moneyhub) -- Co-chair, UK Implementation Entity Liaison
 * Sascha H. Preibisch (CA) 
 * Henrik Biering (Peercraft)
-* Anton Taborszky (Deutche Telecom) 
+* Anton Taborszky (Deutsche Telecom) 
 * John Bradley (Yubico) 
 * Axel Nennker (Deutsche Telekom)
 * Joseph Heenan (Authlete)
+* Daniel Fett (yes.com)
 
 
 ## 10. Bibliography
@@ -435,6 +446,7 @@ The following people contributed to this document:
 * [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 * [RFC6749] The OAuth 2.0 Authorization Framework
 * [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
+* [RFC6797] HTTP Strict Transport Security (HSTS)
 * [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
 * [RFC7662] OAuth 2.0 Token Introspection
 * [RFC6125] Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
@@ -446,3 +458,4 @@ The following people contributed to this document:
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [ISO29100] ISO/IEC 29100 Information technology -- Security techniques -- Privacy framework <http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip>
 * [ISO29134] ISO/IEC 29134 Information technology -- Security techniques -- Privacy impact assessment -- Guidelines
+* [preload] HSTS Preload List Submission <https://hstspreload.org/>
