@@ -461,3 +461,15 @@ The following people contributed to this document:
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [JARM] Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
+
+## 12. IANA Considerations
+### 12.1 Additions to JWT Claims Registry
+This specification adds the following values to the "JSON Web Token Claims" registry 
+established by [RFC7519].
+
+#### 12.1.1. Registry Contents
+
+* Claim name: s_hash
+* Claim Description: State hash value
+* Change Controller: OpenID Foundation Financial-Grade API Working Group - openid-specs-fapi@lists.openid.net
+* Reference: Section 5 of [[ this specification ]]
