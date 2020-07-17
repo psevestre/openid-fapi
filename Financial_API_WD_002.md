@@ -183,7 +183,7 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 
 The authorization server shall support the provisions specified in clause 5.2.2 of Financial-grade API - Part 1: Read-Only API Security Profile.
 
-In addition, the authorization server, for the write operation,
+In addition, the authorization server
 
 1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
 1. shall require 
@@ -228,7 +228,7 @@ In addition, if the `response_type` value `code` is used in conjunction with the
 
 A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of Financial-grade API - Part 1: Read-Only API Security Profile, except for [RFC7636] support.
 
-In addition, the confidential client for write operations
+In addition, the confidential client
 
 1. shall support [MTLS] as a holder of key mechanism;
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
