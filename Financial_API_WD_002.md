@@ -84,6 +84,12 @@ The following referenced documents are indispensable for the application of this
 [RFC7519] - JSON Web Token (JWT)
 [RFC7519]:https://tools.ietf.org/html/rfc7519
 
+[RFC7591] - OAuth 2.0 Dynamic Client Registration Protocol
+[RFC7591]:https://tools.ietf.org/html/rfc7591
+
+[RFC7592] - OAuth 2.0 Dynamic Client Registration Management Protocol
+[RFC7592]:https://tools.ietf.org/html/rfc7592
+
 [OIDC] - OpenID Connect Core 1.0 incorporating errata set 1
 [OIDC]: http://openid.net/specs/openid-connect-core-1_0.html
 
@@ -424,6 +430,24 @@ For example, payments MUST NOT be executed in the authorization process but
 after the Client has exchanged the authorization code for a token and sent an 
 "execute payment" request with the access token to a protected endpoint. 
 
+### 8.9 JWKS URIs
+This profile requires both Clients and Authorization Servers to verify payloads 
+with keys from the other party. The AS verifies request objects and `private_key_jwt` 
+assertions. The Client verifies ID Tokens and authorization response JWTs. For AS's
+this profile strongly recommends the use of JWKS URI endpoints to distribute 
+public keys. For Clients this profile recommends either the use of JWKS URI endpoints
+or the use of the `jwks` parameter in combination with [RFC7591] 
+and [RFC7592].
+
+The definition of the AS jwks_uri can be found in [RFC8414], while the definition 
+of the Client jwks_uri can be found in [RFC7591]. 
+
+In addition, this profile
+
+1. requires that jwks_uri endpoints shall be served over TLS;
+1. recommends that JOSE headers for x5u and jku should not be used;
+1. recommends that the JWK set does not contain multiple keys with the same `kid`.
+
 ## 9. Privacy considerations
 
 * When claims related to the subject are returned in the ID Token in the front channel, 
@@ -458,6 +482,8 @@ The following people contributed to this document:
 * [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
 * [RFC6819] OAuth 2.0 Threat Model and Security Considerations
 * [RFC7519] JSON Web Token (JWT)
+* [RFC7591] OAuth 2.0 Dynamic Client Registration Protocol
+* [RFC7592] OAuth 2.0 Dynamic Client Registration Management Protocol
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
