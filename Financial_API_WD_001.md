@@ -162,6 +162,10 @@ the generated token is computationally infeasible as per [RFC6749] section 10.10
 1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
 1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 1. shall require redirect URIs to use the https scheme;
+1. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained.
+
+    **NOTE**: The use of refresh tokens instead of long-lived access tokens for both 
+    public and confidential clients is recommended.
 
     **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
 
