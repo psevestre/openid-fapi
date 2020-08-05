@@ -23,7 +23,7 @@ Financial-grade API consists of the following parts:
 * Part 2: Read and Write API Security Profile
 * Financial-grade API: Client Initiated Backchannel Authentication Profile
 * Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
-* Financial-grade API: Pushed Request Object
+* Financial-grade API: Implementation and Deployment Advice
 
 Future parts may follow.
 
