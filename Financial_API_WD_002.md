@@ -187,7 +187,9 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 
 #### 5.2.2 Authorization server
 
-The authorization server shall support the provisions specified in clause 5.2.2 of Financial-grade API - Part 1: Read-Only API Security Profile.
+The authorization server shall support the provisions specified in clause 5.2.2 of 
+Financial-grade API - Part 1: Read-Only API Security Profile, with the exception 
+that section 5.2.2.7 (enforcement of [RFC7636]) is not required.
 
 In addition, the authorization server
 
