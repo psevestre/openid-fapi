@@ -146,7 +146,7 @@ This profile describes security provisions for the server and client that are ap
 
 This profile does not support public clients.
 
-The following ways are specified to cope with modifications of authorization responses. Implementations can leverage OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response or they can utilize the JWT Secured Authorization Response Mode for OAuth 2.0 (JARM) that returns and protects all authorization response parameters in a JWT.
+The following ways are specified to cope with modifications of authorization responses: Implementations can leverage OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response or they can utilize the JWT Secured Authorization Response Mode for OAuth 2.0 (JARM) that returns and protects all authorization response parameters in a JWT.
 
 #### 5.1.1 ID Token as Detached Signature
 While the name ID Token (as used in the OpenID Connect Hybrid Flow) suggests that it is something that provides the identity of the resource owner (subject), it is not necessarily so. While it does identify the authorization server by including the issuer identifier, 
@@ -196,8 +196,8 @@ In addition, the authorization server
 	1. the `response_type` value `code id_token` or 
 	2. the `response_type` value `code` in conjunction with the `response_mode` value `jwt`;
 1. (moved to 5.2.2.1)
-1. shall only issue authorization code, access token, and refresh token that are holder of key bound;
-1. shall support [MTLS] as a holder of key mechanism;
+1. shall only issue sender-constrained access tokens;
+1. shall support [MTLS] as mechanism for constraining the legitimate senders of access tokens;
 1. (withdrawn);
 1. (moved to 5.2.2.1);
 1. (moved to 5.2.2.1);
@@ -212,7 +212,7 @@ In addition, the authorization server
 1. shall not support public clients; and
 1. shall require the request object to contain an `nbf` claim that is no longer than 60 minutes in the past.
 
-**NOTE:** MTLS is currently the only holder of key mechanism that has been widely deployed. Future versions of this specification are likely to allow other holder of key mechanisms.
+**NOTE:** MTLS is currently the only mechanism for sender-constrained access tokens that has been widely deployed. Future versions of this specification are likely to allow other mechanisms for sender-constrained access tokens.
 
 #### 5.2.2.1 ID Token as detached signature
 
@@ -240,7 +240,7 @@ A confidential client shall support the provisions specified in clause 5.2.3 and
 
 In addition, the confidential client
 
-1. shall support [MTLS] as a holder of key mechanism;
+1. shall support [MTLS] as mechanism for sender-constrained access tokens;
 1. shall include the `request` or `request_uri` parameter as defined in Section 6 of [OIDC] in the authentication request;
 1. shall ensure the Authorization Server has authenticated the user to an appropriate Level of Assurance for the client's intended purpose;
 1. (moved to 5.2.3.1);
@@ -300,11 +300,11 @@ The client supporting this document shall support the provisions specified in cl
 As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations.
 
 ### 8.2 Uncertainty of resource server handling of access tokens
-There is no way that the client can find out whether the resource access was granted for the bearer token or holder of key token.
+There is no way that the client can find out whether the resource access was granted for a bearer or sender-constrained access token.
 The two differ in the risk profile and the client may want to differentiate them.
 The protected resources that conform to this doc differentiate them.
-The protected resources that conform to this docuument shall not accept a plain bearer token.
-They shall only support bound access tokens via [MTLS].
+The protected resources that conform to this docuument shall not accept a bearer access token.
+They shall only support sender-constrained access tokens via [MTLS].
 
 ### 8.3 Attacks using weak binding of authorization server endpoints
 
@@ -322,7 +322,7 @@ Several attacks have been identified and the threats are explained in detail in 
 In this attack, the client developer is social engineered into believing that the token endpoint has changed to the URL that is controlled by the attacker. 
 As the result, the client sends the `code` and the client secret to the attacker, which will be replayed subsequently. 
 
-When the FAPI client uses [MTLS], the authorization code is bound to the TLS channel, any phished client credentials and authorization codes submitted to the token endpoint cannot be used since the authorization code is bound to a particular TLS channel.
+When the FAPI client uses [MTLS], the client's secret (the private key corresponding to its TLS certificate) is not exposed to the attacker, which therefore cannot authenticate towards the token endpoint of the authorization server.
 
 #### 8.3.3 Identity provider (IdP) mix-up attack
 In this attack, the client has registered multiple IdPs and one of them is a rogue IdP that returns the same `client_id` 
@@ -334,18 +334,14 @@ then the authentication may be skipped and a code is generated and returned to t
 Since the client was interacting with the rogue IdP, the code is sent to the rogue IdP's token endpoint. 
 At the point, the attacker has a valid code that can be exchanged for an access token at the honest IdP.
 
-This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss` or [JARM] where the `iss` included in the response JWT. 
-The client then sends the `code` to the token endpoint that is associated with the issuer identifier thus it will not get to the attacker. 
+This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss` or [JARM] 
+where the `iss` included in the response JWT. On receiving the authorization response, the client compares the `iss` value from the response with the 
+issuer URL of the IdP it sent the authorization request to (the rogue IdP). The client detects the conflicting issuer values and aborts the transaction. 
 
-#### 8.3.4 Request object endpoint phishing resistance
-An attacker can use social engineering to have the administrator of the client set 
-the request object endpoint to a URL under the attacker's control. In this case, 
-sensitive information included in the request object will be revealed to the attacker. 
-To prevent this, the authorization server should communicate to the client developer 
-the proper change process repeatedly to help client developers to be less susceptible to such social engineering.
+#### 8.3.4 (removed)
 
 #### 8.3.5 Access token phishing
-When the FAPI client uses [MTLS], the access token is bound to the TLS channel, it is access token phishing resistant as the phished access tokens cannot be used.
+When the FAPI client uses [MTLS], the access token is bound to the client's TLS certificate, it is access token phishing resistant as the phished access tokens cannot be used.
 
 ### 8.4 Attacks that modify authorization requests and responses
 
