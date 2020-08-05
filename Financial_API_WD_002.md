@@ -452,6 +452,17 @@ In addition, this profile
 1. recommends that JOSE headers for x5u and jku should not be used;
 1. recommends that the JWK set does not contain multiple keys with the same `kid`.
 
+### 8.11 Duplicate Key Identifiers
+JWK sets should not contain multiple keys with the same `kid`. However, to increase 
+interoperability when there are multiple keys with the same `kid`,  the verifier shall 
+consider other JWK attributes, such as kty, use, alg, etc., when selecting the 
+verification key for the particular JWS message. For example, the following algorithm 
+could be used in selecting which key to use to verify a message signature:
+
+1. Find keys with a `kid` that matches the `kid` in the JOSE header;
+2. If a single key is found, use that key;
+3. If multiple keys are found, then the verifier should iterate through the keys until a key is found that has a matching `alg`, `use`, `kty`, or `crv` that corresponds to the message being verified.
+
 ## 9. Privacy considerations
 
 * When claims related to the subject are returned in the ID Token in the front channel, 
