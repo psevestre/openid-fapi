@@ -101,6 +101,12 @@ The following referenced documents are indispensable for the application of this
 [MTLS] - OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 [MTLS]: https://tools.ietf.org/html/rfc8705
 
+[RFC8414] - OAuth 2.0 Authorization Server Metadata
+[RFC8414]: https://tools.ietf.org/html/rfc8414
+
+[OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
+[OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
+
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
@@ -164,7 +170,9 @@ the generated token is computationally infeasible as per [RFC6749] section 10.10
 1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
 1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 1. shall require redirect URIs to use the https scheme;
-1. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained.
+1. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained;
+1. shall support [OIDD] and may support [RFC8414];
+1. shall only distribute discovery metadata (such as the authorization endpoint) via the metadata document as specified in [OIDD] and [RFC8414].
 
     **NOTE**: The use of refresh tokens instead of long-lived access tokens for both 
     public and confidential clients is recommended.
@@ -219,7 +227,8 @@ A public client
     If `openid` is not in the `scope` value, then it
 1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749];
 1. shall verify that the `scope` received in the token response is either an exact match,
-or contains a subset of the `scope` sent in the authorization request.
+or contains a subset of the `scope` sent in the authorization request;
+1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].  
 
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
@@ -396,6 +405,20 @@ https://openid.net/developers/certified/
 
 Deployments that use this specification should use a certified implementation.
 
+### 7.7 Discovery & Multiple Brands
+
+Organisations who need to support multiple "brands" with individual authorization endpoints 
+from a single Authorization Server deployment shall use a separate `issuer` per brand.
+This can be achieved either at the domain level (e.g. `https://brand-a.auth.example.com` 
+and  `https://brand-b.auth.example.com`) or with different paths (e.g. `https://auth.example.com/brand-a` and `https://auth.example.com/brand-b`)
+
+As stated in 5.2.10 Clients shall only use metadata values obtained via metadata documents
+as defined in [OIDD]. Communicating metadata through other means (e.g. via email), opens 
+up a social engineering attack vector.
+
+Note that the requirement to use [OIDD] is not a requirement to support Dynamic Client 
+Registration. 
+
 ## 8. Privacy considerations
 
     ** NOTE ** The following only has a boiler plate text 
@@ -458,6 +481,8 @@ The following people contributed to this document:
 * [RFC6125] Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 * [BCP212] OAuth 2.0 for Native Apps
 * [RFC6819] OAuth 2.0 Threat Model and Security Considerations
+* [RFC8414] OAuth 2.0 Authorization Server Metadata
+* [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [X.1254] Entity authentication assurance framework
