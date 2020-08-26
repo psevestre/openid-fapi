@@ -21,7 +21,9 @@ Financial-grade API consists of the following parts:
 
 * Part 1: Read-Only API Security Profile
 * Part 2: Read and Write API Security Profile
-* Part 3: Client Initiated Backchannel Authentication Profile
+* Financial-grade API: Client Initiated Backchannel Authentication Profile
+* Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+* Financial-grade API: Implementation and Deployment Advice
 
 Future parts may follow.
 
@@ -99,6 +101,12 @@ The following referenced documents are indispensable for the application of this
 [MTLS] - OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 [MTLS]: https://tools.ietf.org/html/rfc8705
 
+[RFC8414] - OAuth 2.0 Authorization Server Metadata
+[RFC8414]: https://tools.ietf.org/html/rfc8414
+
+[OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
+[OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
+
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
@@ -155,11 +163,19 @@ The authorization server
 1. shall reject an authorization code (section 1.3.1 of [RFC6749]) if it has been previously used;
 1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
 1. shall return the list of granted scopes with the issued access token if the request was passed in the front channel and was not integrity protected;
-1. shall provide opaque non-guessable access tokens with a minimum of 128 bits of entropy where the probability of an attacker guessing the generated token is less than or equal to 2^(-160) as per [RFC6749] section 10.10;
+1. shall provide opaque non-guessable access tokens, authorization codes, and refresh token 
+(where applicable), with sufficient entropy such that the probability of an attacker guessing 
+the generated token is computationally infeasible as per [RFC6749] section 10.10;
 1. should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
 1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
 1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 1. shall require redirect URIs to use the https scheme;
+1. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained;
+1. shall support [OIDD] and may support [RFC8414];
+1. shall only distribute discovery metadata (such as the authorization endpoint) via the metadata document as specified in [OIDD] and [RFC8414].
+
+    **NOTE**: The use of refresh tokens instead of long-lived access tokens for both 
+    public and confidential clients is recommended.
 
     **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
 
@@ -196,7 +212,7 @@ If the client does not requests the openid scope, the authorization server
 
 A public client
 
-1. shall support [RFC7636] or the mechanisms defined in [Financial-grade API - Part 2](https://openid.net/specs/openid-financial-api-part-2.html);
+1. shall support [RFC7636];
 1. shall use `S256` as the code challenge method for the [RFC7636];
 1. shall use separate and distinct redirect URI for each authorization server that it talks to;
 1. shall store the redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the redirect URI that the authorization response was received at, where, if the URIs do not match, the client shall terminate the process with error;
@@ -209,7 +225,10 @@ A public client
 1. shall include `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
 
     If `openid` is not in the `scope` value, then it
-1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749].
+1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749];
+1. shall verify that the `scope` received in the token response is either an exact match,
+or contains a subset of the `scope` sent in the authorization request;
+1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].  
 
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
@@ -249,7 +268,9 @@ The resource server with the FAPI endpoints
 1. shall send the `Content-type` HTTP header `Content-Type: application/json` if applicable;
 1. shall send the server date in HTTP Date header as in section 7.1.1.2 of [RFC7231];
 1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
-1. shall log the value of `x-fapi-interaction-id` in the log entry.
+1. shall log the value of `x-fapi-interaction-id` in the log entry;
+1. shall not reject requests with a `x-fapi-customer-ip-address` header containing a
+valid IPv4 or IPv6 address.
 
 
     **NOTE**: While this document does not specify the exact method to obtain the entity associated with the
@@ -271,17 +292,15 @@ The client supporting this document
     Further, the client
 
 1. may send the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
-1. may send the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 198.51.100.119`; and
-1. may send the `x-fapi-interaction-id` request header whose value is a [RFC4122] UUID to the server to help correlate log entries 
-   between client and server, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
-
-
-
+1. may send the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 198.51.100.119`; and
+1. may send the `x-fapi-interaction-id` request header, in which case the value shall be a 
+RFC4122 UUID to the server to help correlate log entries between client and server, 
+e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 
 
 ## 7. Security considerations
 
-### 7.1 TLS considerations
+### 7.1 TLS and DNSSEC considerations
 
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
@@ -289,6 +308,16 @@ The recommendations for Secure Use of Transport Layer Security in [BCP195] shall
 
 1. TLS version 1.2 or later shall be used for all communications.
 1. A TLS server certificate check shall be performed, as per [RFC6125].
+
+Endpoints for the use by web browsers should use mechanisms to ensure that connections cannot be downgraded using TLS Stripping attacks. A preloaded [preload] HTTP Strict Transport Security policy [RFC6797] can be used for this purpose. Some top-level domains, like `.bank` and `.insurance`, have set such a policy and therefore protect all second-level domains below them.
+
+For a comprehensive protection against network attackers, all
+endpoints should additionally use DNSSEC to protect against DNS
+spoofing attacks that can lead to the issuance of rogue
+domain-validated TLS certificates. Note: Even if an endpoint uses only
+organization validated (OV) or extended validation (EV) TLS
+certificates, rogue domain-validated certificates can be used to
+impersonate the endpoints and conduct man-in-the-middle attacks.
 
 ### 7.2 Message source authentication failure
 
@@ -376,6 +405,20 @@ https://openid.net/developers/certified/
 
 Deployments that use this specification should use a certified implementation.
 
+### 7.7 Discovery & Multiple Brands
+
+Organisations who need to support multiple "brands" with individual authorization endpoints 
+from a single Authorization Server deployment shall use a separate `issuer` per brand.
+This can be achieved either at the domain level (e.g. `https://brand-a.auth.example.com` 
+and  `https://brand-b.auth.example.com`) or with different paths (e.g. `https://auth.example.com/brand-a` and `https://auth.example.com/brand-b`)
+
+As stated in 5.2.10 Clients shall only use metadata values obtained via metadata documents
+as defined in [OIDD]. Communicating metadata through other means (e.g. via email), opens 
+up a social engineering attack vector.
+
+Note that the requirement to use [OIDD] is not a requirement to support Dynamic Client 
+Registration. 
+
 ## 8. Privacy considerations
 
     ** NOTE ** The following only has a boiler plate text 
@@ -419,10 +462,11 @@ The following people contributed to this document:
 * Dave Tonge (Moneyhub) -- Co-chair, UK Implementation Entity Liaison
 * Sascha H. Preibisch (CA) 
 * Henrik Biering (Peercraft)
-* Anton Taborszky (Deutche Telecom) 
+* Anton Taborszky (Deutsche Telecom) 
 * John Bradley (Yubico) 
 * Axel Nennker (Deutsche Telekom)
 * Joseph Heenan (Authlete)
+* Daniel Fett (yes.com)
 
 
 ## 10. Bibliography
@@ -431,14 +475,18 @@ The following people contributed to this document:
 * [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 * [RFC6749] The OAuth 2.0 Authorization Framework
 * [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
+* [RFC6797] HTTP Strict Transport Security (HSTS)
 * [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
 * [RFC7662] OAuth 2.0 Token Introspection
 * [RFC6125] Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 * [BCP212] OAuth 2.0 for Native Apps
 * [RFC6819] OAuth 2.0 Threat Model and Security Considerations
+* [RFC8414] OAuth 2.0 Authorization Server Metadata
+* [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [X.1254] Entity authentication assurance framework
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [ISO29100] ISO/IEC 29100 Information technology -- Security techniques -- Privacy framework <http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip>
 * [ISO29134] ISO/IEC 29134 Information technology -- Security techniques -- Privacy impact assessment -- Guidelines
+* [preload] HSTS Preload List Submission <https://hstspreload.org/>
