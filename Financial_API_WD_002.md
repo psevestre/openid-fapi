@@ -450,6 +450,16 @@ In addition, this profile
 1. recommends that JOSE headers for x5u and jku should not be used;
 1. recommends that the JWK set does not contain multiple keys with the same `kid`.
 
+### 8.10 Multiple clients sharing the same key
+
+The use of [MTLS] for client authentication and sender constraining access tokens brings
+significant security benefits over the use of shared secrets. However in some deployments
+the certificates used for [MTLS] are issued by a Certificate Authoritiy at an organisation
+level rather than a client level. In such situations it may be common for an organisation 
+with multiple clients to use the same certificates (or certificates with the same DN) 
+accross clients. Implementers should be aware that such sharing means that a compromise 
+of any one client, would result in a compromise of all clients sharing the same key.
+
 ### 8.11 Duplicate Key Identifiers
 JWK sets should not contain multiple keys with the same `kid`. However, to increase 
 interoperability when there are multiple keys with the same `kid`,  the verifier shall 
