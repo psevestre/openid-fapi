@@ -113,6 +113,15 @@ Host: as.example.com
 
 shows how a client can force the authorization server to use a certain grant id (previously obtained using `create`) and request the authorization server to retain pre-existing privileges. In this particular example, the grant `TSdqirmAxDa0_-DB_1bASQ` would contain the accumulated scope `read write`. 
 
+The use case specific details of the authorisation request MAY be requested using the following authorization request parameters:
+
+* `scope`: String value as defined in [@!RFC6749] representing the scope associated with the grant.
+* `authorization_details`: JSON Object as defined in [@!I-D.ietf-oauth-rar].
+* `claims`: JSON object as defined in [@!OpenID].
+* `resources`: List of `resource` values as defined in [@!RFC8707]
+
+The request structure MAY also include further elements defined by other extensions. 
+
 ## Authorization Response
 
 ### Error Response
