@@ -211,10 +211,13 @@ In addition, the authorization server
     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
-1. shall not support public clients; and
-1. shall require the request object to contain an `nbf` claim that is no longer than 60 minutes in the past.
+1. shall not support public clients;
+1. shall require the request object to contain an `nbf` claim that is no longer than 60 minutes in the past; and
+1. shall require [PAR] requests, if supported, to use PKCE ([RFC7636]) with `S256` as the code challenge method.
 
 **NOTE:** MTLS is currently the only mechanism for sender-constrained access tokens that has been widely deployed. Future versions of this specification are likely to allow other mechanisms for sender-constrained access tokens.
+
+**NOTE:** [PAR] does not present any additional security concerns that necessitated the requirement to use PKCE - the reason PKCE is not required in other cases is merely to be backwards compatible with earlier drafts of this standard.
 
 #### 5.2.2.1 ID Token as detached signature
 
@@ -256,6 +259,7 @@ In addition, the confidential client
 1. (moved to 5.2.3.1);
 1. (moved to 5.2.3.1);
 1. shall send a `nbf' claim in the request object;
+1. shall use [RFC7636] with `S256` as the code challenge method if using [PAR];
 
 #### 5.2.3.1 ID Token as detached signature
 
