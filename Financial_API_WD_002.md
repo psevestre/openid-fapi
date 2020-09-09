@@ -105,6 +105,9 @@ The following referenced documents are indispensable for the application of this
 [PAR] - OAuth 2.0 Pushed Authorization Requests
 [PAR]: https://tools.ietf.org/html/draft-ietf-oauth-par
 
+[JAR] - OAuth 2.0 JWT Secured Authorization Request
+[JAR]: https://tools.ietf.org/html/draft-ietf-oauth-jwsreq
+
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
@@ -253,13 +256,14 @@ In addition, the confidential client
 1. (withdrawn);
 1. (moved 5.2.3.1);
 1. shall send all parameters inside the authorization request's signed request object;
-1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by the OAuth and OpenID Connect specifications;
+1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by section 6.1 of the OpenID Connect specification if not using [PAR];
 1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL;
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes;
 1. (moved to 5.2.3.1);
 1. (moved to 5.2.3.1);
 1. shall send a `nbf' claim in the request object;
 1. shall use [RFC7636] with `S256` as the code challenge method if using [PAR];
+1. shall additionally send a duplicate of the `client_id` parameter/value using the OAuth 2.0 request syntax to the authorization endpoint, as required by section 5 of [JAR], if using [PAR];
 
 #### 5.2.3.1 ID Token as detached signature
 
