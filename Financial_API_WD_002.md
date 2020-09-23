@@ -432,11 +432,11 @@ control the victim's browser.
 
 However, if the API allows execution of any privileged action in the course of 
 the authorization process before the access token is issued, these controls are 
-rendered ineffective. Implementors of this specification therefore MUST ensure 
+rendered ineffective. Implementors of this specification therefore shall ensure 
 any action is executed using the access token issued by the authorization 
 process. 
 
-For example, payments MUST NOT be executed in the authorization process but 
+For example, payments shall not be executed in the authorization process but 
 after the Client has exchanged the authorization code for a token and sent an 
 "execute payment" request with the access token to a protected endpoint. 
 
