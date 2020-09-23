@@ -37,7 +37,7 @@ The Financial-grade API aims to provide specific implementation guidelines for o
  
 This document is Part 2 of FAPI that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in write access to financial data (also known as transaction access) and other similar higher risk access. This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
 
-Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementors are encouraged to understand the security considerations contained in section 8.7 before embarking on a 'from scratch' implementation.
+Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in section 8.7 before embarking on a 'from scratch' implementation.
 
 ### Notational Conventions
 
@@ -272,7 +272,7 @@ In addition, if the `response_type` value `code id_token` is used, the client
 1. shall include the value `openid` into the `scope` parameter in order to activate [OIDC] support
 1. shall require JWS signed ID Token be returned from endpoints;
 1. shall verify that the authorization response was not tampered using ID Token as the detached signature
-1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
+1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 1. shall support both signed and signed & encrypted ID Tokens
 
 #### 5.2.3.2 JARM
@@ -329,10 +329,12 @@ Several attacks have been identified and the threats are explained in detail in 
 
 #### 8.3.2 Client credential and authorization code phishing at token endpoint
 
-In this attack, the client developer is social engineered into believing that the token endpoint has changed to the URL that is controlled by the attacker. 
-As the result, the client sends the `code` and the client secret to the attacker, which will be replayed subsequently. 
+In this attack, the client developer is socially engineered into believing that the token endpoint has changed 
+to the URL that is controlled by the attacker. As a result, the client sends the `code` and the client secret to 
+the attacker, which will be replayed subsequently. 
 
-When the FAPI client uses [MTLS], the client's secret (the private key corresponding to its TLS certificate) is not exposed to the attacker, which therefore cannot authenticate towards the token endpoint of the authorization server.
+When the FAPI client uses [MTLS], the client's secret (the private key corresponding to its TLS certificate) is 
+not exposed to the attacker, which therefore cannot authenticate towards the token endpoint of the authorization server.
 
 #### 8.3.3 Identity provider (IdP) mix-up attack
 In this attack, the client has registered multiple IdPs and one of them is a rogue IdP that returns the same `client_id` 
@@ -361,7 +363,7 @@ Thus, an attacker can modify them.
 
 #### 8.4.2 Authorization request parameter injection attack
 
-In [RFC6749], the authorization request is sent as query parameter. 
+In [RFC6749], the authorization request is sent as a query parameter. 
 Although [RFC6749] mandates the use of TLS, the TLS is terminated in the browser and thus not protected within the browser; as a result an attacker can tamper the authorization request and insert any parameter values.
 
 The use of a `request` object or `request_uri` in the authorization request will prevent tampering with the request parameters. 
@@ -375,7 +377,7 @@ authorization response.
 
 This can be mitigated by using OpenID Connect Hybrid Flow where the `c_hash`, `at_hash`,
 and `s_hash` can be used to verify the validity of the authorization code, access token,
-and state parameters. It can also be mitgated using [JARM] by verifying the integrity of the authorization response JWT.
+and state parameters. It can also be mitigated using [JARM] by verifying the integrity of the authorization response JWT.
 
 The server can verify that the state is the same as what was stored in the browser session at the time of the authorization request.
 
@@ -432,7 +434,7 @@ control the victim's browser.
 
 However, if the API allows execution of any privileged action in the course of 
 the authorization process before the access token is issued, these controls are 
-rendered ineffective. Implementors of this specification therefore shall ensure 
+rendered ineffective. Implementers of this specification therefore shall ensure 
 any action is executed using the access token issued by the authorization 
 process. 
 
@@ -462,10 +464,10 @@ In addition, this profile
 
 The use of [MTLS] for client authentication and sender constraining access tokens brings
 significant security benefits over the use of shared secrets. However in some deployments
-the certificates used for [MTLS] are issued by a Certificate Authoritiy at an organisation
+the certificates used for [MTLS] are issued by a Certificate Authority at an organisation
 level rather than a client level. In such situations it may be common for an organisation 
 with multiple clients to use the same certificates (or certificates with the same DN) 
-accross clients. Implementers should be aware that such sharing means that a compromise 
+across clients. Implementers should be aware that such sharing means that a compromise 
 of any one client, would result in a compromise of all clients sharing the same key.
 
 ### 8.11 Duplicate Key Identifiers
@@ -488,28 +490,28 @@ when implementing this document. However, since this document
 is a profile of OAuth and OpenID Connect, all of them 
 are generic and applies to OAuth or OpenID Connect and 
 not specific to this document. Implementers are advised to 
-perform a thorugh privacy impact assessment and and manage identified risks appropriately. 
+perform a thorough privacy impact assessment and and manage identified risks appropriately. 
 
 NOTE: Implementers can consult documents like 
 [ISO29100] and [ISO29134] for this purpose. 
 
 Privacy threats to OAuth and OpenID Connect implementations include the following: 
 
-* (Inappropriate privacy notice) Privacy notice provided as `policy_url` or other means can be inappropriate. 
-* (Inadequate choice) Providing consent screen without adequate choices do not form consent. 
-* (Misuse of data) Any of AS, RS, Client can potentially use the data not according to the purpose that was agreed. 
-* (Collection minimization violation) Clients asking for more data than it absolutely needs to fulfil the purpose is violating collection minimization principle. 
-* (Unsolicited personal data from the Resource) Some bad resource server implementation may return more data than it was requested. If the data is personal data, then it would form violations of privacy principles. 
-* (Data minimization violation) Any process that is processing more data than it needs is violating data minimization principle. 
+* (Inappropriate privacy notice) A privacy notice provided at a `policy_url` or by other means can be inappropriate. 
+* (Inadequate choice) Providing a consent screen without adequate choices does not form consent. 
+* (Misuse of data) An AS, RS or Client can potentially use the data not according to the purpose that was agreed. 
+* (Collection minimization violation) Clients asking for more data than it absolutely needs to fulfil the purpose is violating the collection minimization principle. 
+* (Unsolicited personal data from the Resource) Some bad resource server implementations may return more data than was requested. If the data is personal data, then this would be a  violation of privacy principles. 
+* (Data minimization violation) Any process that is processing more data than it needs is violating the data minimization principle. 
 * (RP tracking by AS/OP) AS/OP identifying what data is being provided to which Client/RP. 
 * (User tracking by RPs) Two or more RPs correlating access tokens or ID Tokens to track users. 
-* (RP misidentification by User at AS) User misunderstands who the RP is due to a confusing representation of RP at the AS's authorization page. 
+* (RP misidentification by User at AS) User misunderstands who the RP is due to a confusing representation of the RP at the AS's authorization page. 
 * (Attacker observing personal data in authorization request) Authorization request might contain personal data. This can be observed by an attacker. 
-* (Attacker observing personal data in authorization endpoint response) In some framework, even state is deemed personal data. 
+* (Attacker observing personal data in authorization endpoint response) In some frameworks, even state is deemed personal data. 
   This can be observed by an attacker through various means. 
 * (Data leak from AS) AS stores personal data. If AS is compromised, these data can leak or be modified. 
-* (Data leak from Resource) Some resource server (RS) stores personal data. If RS is compromised, these data can leak or be modified. 
-* (Data leak from Clients) Some clients stores personal data. If the client is compromised, these data can leak or be modified. 
+* (Data leak from Resource) Some resource servers (RS) store personal data. If a RS is compromised, these data can leak or be modified. 
+* (Data leak from Clients) Some clients store personal data. If the client is compromised, these data can leak or be modified. 
 
 These can be mitigated by choosing appropriate options in OAuth or OpenID, or by introducing some operational rules. 
 For example, "Attacker observing personal data in authorization request" can be mitigated by either using authorization request by reference 
