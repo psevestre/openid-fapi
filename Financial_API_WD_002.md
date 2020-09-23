@@ -532,3 +532,196 @@ established by [RFC7519].
 * Claim Description: State hash value
 * Change Controller: OpenID Foundation Financial-Grade API Working Group - openid-specs-fapi@lists.openid.net
 * Reference: Section 5 of [[ this specification ]]
+
+
+## Appendix A. Examples
+
+The following are non-normative examples of various objects compliant with this specification, with line wraps within values for display purposes only.
+
+The examples signed by the client may be verified with the following JWK:
+
+    {
+      "kty": "RSA",
+      "e": "AQAB",
+      "use": "sig",
+      "kid": "client-2020-08-28",
+      "alg": "PS256",
+      "n": "i0Ybm4TJyErnD5FIs-6sgAdtP6fG631FXbe5gcOGYgn9aC2BS2h9Ah5cRGQpr3aLLVKCRWU6
+    HRfnGseUBOejo57vI-kgab2YsQJSwedAxvtKrIrJlgKn1gTXMNsz-NQd1LyLSV50qJVEy5l9RtsdDzOV
+    8_kLCbzroEL3rc00iqVZBcQiYm8Bx4z0G8LYZ4oMJAG462Mf_znJkKXsuSIH735xnSmx74CC8TOe6G-V
+    0Wi_wVSJ9bHPphSki_kWUtjVGcnyjYuQVE0LRj3qrGPAX9bsVKSqs8T9AM41TB9oV5Sjz5YhggwICvvC
+    CGwil9qhUoQRkeXtWuGCfvCSeTdawQ"
+    }
+
+The examples signed by the server may be verified with the following JWK:
+
+    {
+      "kty": "RSA",
+      "e": "AQAB",
+      "use": "sig",
+      "kid": "server-2020-08-28",
+      "alg": "PS256",
+      "n": "pz6g0h7Cu63SHE8_Ib4l3hft8XuptZ-Or7v_j1EkCboyAEn_ZCuBrQOmpUIoPKrA0JNWK_fF
+    eZ2q1_26Gvn3E4dQlcOWpiWkKmxAhYCWnNDv3urVgldDp_kw0Dx2H8yn9tmFW28E_WvrZRwHEF5Czigb
+    xlmFIrkniMHRzjyYQTHRU0gW3DRV9MrQQrmP71McvfLPeMBPPgsHgLo7KmUBDoUjsgnwgycEOWPm8MWJ
+    13dpTsVnoWNIFQqVNz1L5pRU3Uoknl0MGoE6v0M9lfgQgzxIX9gSB1VGp5zZRcsnZGU3MFpwBhOWwiCU
+    wqztoX0H5P0g7OWocspHrDn6YOgxHw"
+    }
+
+The code that generated these examples can be found here:
+
+https://gitlab.com/emobix/fapi-examples
+
+### A.1 Example request object
+
+    eyJraWQiOiJjbGllbnQtMjAyMC0wOC0yOCIsImFsZyI6IlBTMjU2In0.eyJhdWQiOiJodHRwczpcL1wv
+    ZmFwaS1hcy5leGFtcGxlLmNvbVwvIiwic2NvcGUiOiJvcGVuaWQgcGF5bWVudHMiLCJpc3MiOiI1MjQ4
+    MDc1NDA1MyIsInJlc3BvbnNlX3R5cGUiOiJjb2RlIGlkX3Rva2VuIiwicmVkaXJlY3RfdXJpIjoiaHR0
+    cHM6XC9cL2ZhcGktY2xpZW50LmV4YW1wbGUub3JnXC9mYXBpLWFzLWNhbGxiYWNrIiwic3RhdGUiOiJW
+    Z1NVSUVuZmxuRHhUZTF2QXRyNTRvIiwiZXhwIjoxNTk0MTQwMzkwLCJub25jZSI6Ijd4RENIdml1UE1T
+    WEpJaWdrSE9jRGkiLCJjbGllbnRfaWQiOiI1MjQ4MDc1NDA1MyJ9.aGqQcWpsvGpzNi8H1CMcV3uC3Ng
+    gAGvMTkwV9Ttci5Pci-dIU2E9FvumcNXO6T4ScEdv1WeY_qC-B8ULgd7ui53t-Yhe_3rUuv4pIso5iql
+    NlufQlaLvaJ7WPmz3DEqkjJwEAK1fi-PTFFjp-DF3cbbbAFptcchVcXkKM0VoUueTHiq8BAysLJ3WEev
+    pn9GVq9W3TAjL1nB3rPv-hKfJhUNCpbTT7eIzHpznRu_JBzCvcvC_q1oD1hUlPLV-Isy20lROSB7VS-e
+    Cap-pgoyjDIkYW0U3BxapM13vqZ29HRWui8NdNvbAqBglrQ_g97DMFuZmnyaOYaUyk_8J5JLwZw
+
+which when decoded has the following body:
+
+    {
+      "aud": "https://fapi-as.example.com/",
+      "scope": "openid payments",
+      "iss": "52480754053",
+      "response_type": "code id_token",
+      "redirect_uri": "https://fapi-client.example.org/fapi-as-callback",
+      "state": "VgSUIEnflnDxTe1vAtr54o",
+      "exp": 1594140390,
+      "nonce": "7xDCHviuPMSXJIigkHOcDi",
+      "client_id": "52480754053"
+    }
+
+### A.2 Example signed id_token for authorization endpoint response
+
+    eyJraWQiOiJzZXJ2ZXItMjAyMC0wOC0yOCIsImFsZyI6IlBTMjU2In0.eyJzdWIiOiIxMDAxIiwiYXVk
+    IjoiNTI0ODA3NTQwNTMiLCJjX2hhc2giOiJRUjJ6dWNmWVpraUxyYktCS0RWcGdRIiwic19oYXNoIjoi
+    OXM2Q0JiT3hpS0U2NWQ5LVFyMFFJUSIsImF1dGhfdGltZSI6MTU5NDE0MDA5MCwiaXNzIjoiaHR0cHM6
+    XC9cL2ZhcGktYXMuZXhhbXBsZS5jb21cLyIsImV4cCI6MTU5NDE0MDM5MCwiaWF0IjoxNTk0MTQwMDkw
+    LCJub25jZSI6Ijd4RENIdml1UE1TWEpJaWdrSE9jRGkifQ.Z-LpQRuYoiTqEBfVfctn-e6bLwSMqi8wA
+    3TuARGW6GyD05gPF6TVlUwHgJnSUlhETrzhEUAKKiyGDxGspuBU0OAnB4qepgrEBizk980NjCEVXNkog
+    v0ANv9VX_01Lcl0d_6_c-AUjwDSuKY8rDfvggKSJFzRilbQuB8b1drAIAZpc6kMObY3PcQZ_vKTMsQ8l
+    HCuXXRuAo__0xRE6l_iiRCos_940GrJr0Sih9uTQpnCWBoEab1dC0l-vUp4lP0TQRKNpDoPoMOj10KJA
+    8T8pKhjZ8TKM-wo9A4qH2LBgUIYJyjd8bWfKTZxCNmLRzRr-_JBG7fF_fpOUhGT_DhzMw
+
+which when decoded has the following body:
+
+    {
+      "sub": "1001",
+      "aud": [
+        "52480754053"
+      ],
+      "c_hash": "QR2zucfYZkiLrbKBKDVpgQ",
+      "s_hash": "9s6CBbOxiKE65d9-Qr0QIQ",
+      "auth_time": 1594140090,
+      "iss": "https://fapi-as.example.com/",
+      "exp": 1594140390,
+      "iat": 1594140090,
+      "nonce": "7xDCHviuPMSXJIigkHOcDi"
+    }
+
+### A.3 Example signed and encrypted id_token for authorization endpoint response
+
+    eyJraWQiOiJjbGllbnQtZW5jLTIwMjAtMDgtMjgiLCJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwi
+    YWxnIjoiUlNBLU9BRVAtMjU2In0.LFvxFCzJ-1NRl48pXTUs8f2axm5MRe9Cv0dgV6sXTRKwkT3nC2SJ
+    QlutOol36VARLd3uaIoj4Z7LVV_MrdIYYvDci2WLlKSlI_NRgR3qJ25N3S6fCqNEYRgDDbNzSr15MDRc
+    WQR5Jdl3VP8g748cowD_2gaopaCzZWTa3r_J2VOEETfcBAIMX0NbtVA3hHW-rQ0aCC7UIbP0_oEB2YF0
+    u6qAXCXuC02nO6coMSpSHTDZwkqkmFiFEKERM_Gayz3lVddlgfcPR2k76bCUjWy934-rOrOBGcLyS1Ww
+    aTIqMUS3WEIsAwCDr1Jt4pAioryRLZfLmWNff4QZSBxWejRqpw.uRANzseIWYB9YeAW.sJGqF2ERkMEE
+    jm8h62tUA4UeZIBqvVRpkQqjTuae7-4ac-4sSth0A3zeERvlyC5GcP0W2tj7uxMi0I4gpN33OfAOR-tA
+    9E_47oCHXrOH-7cpLgVIxxWZFx43dhxUh5QHuBfli4nHErMVUsFq6CzQj8Z5SHvBD2Qx3suPEeCNo_M2
+    woohCprwjOKhE-Q_VkWUJb-Elrq9HxJcBtadw0spolqgYYTIWvV4fcKmbtGANYLac29oKWd5-jyDAsSF
+    FZrSCNxv-BtJUiUVWUn5eVufjJYCx62Ju-MZ8vsPNTE-_I5em9RTBja6ylcivjzhW9Ncl6yKVfnB0XJN
+    cSSHQSFhc6Gvy7oYMBXx1C5G31OsiklkKQX2gsAZlxFQ_X25AXpMoV8-5xsUwdMdTaPxIIsccbrK2dfA
+    aP0rUruSV8zrlrbsN3ftjTJSka2XGG3kra76EPAlzSwxy6XdFVtEV31hirV3f9g04Gj_e-Q7J7HR62eY
+    3_09WyARShQL3DVXWOcK_8YrLr58JjNAbm0s5dAUq-zt9cMv8rl05t_dE59Gi6Hnl2YAiRdYG6B71FxJ
+    CE2Uqciy2jLe6mCDFDfqkog4G5R9FzNz5VzhVpmZVm3OJkug-UzayN7nwZ7jsmxQ2ucCM03xq-0MLdsk
+    H-cleahkFw5S-W40cn5hLrRXSqUoYfKmVSd9RltOZ6T0VrYpw2LaF2uUYEO9w9bMmg2zzfxft4WHsEbD
+    OlJVb5SE8mUjzBBZAcgaHYSv0Wii70lEJvLSdnVI1r9kuu9ae_j1Tu08RVyFGfgixYjI9z2L_sc8uOoO
+    HJ-Tq1iuncL3lCQJBuwBFoxyINlFgz4YV2AgreNsX8bDfE9XbRB9TnfvSd6rmes9lO0-3VQFlsC0C5dx
+    VXgp5o05E8nisPwuLmlGO5BTtBzCQ3tIH2SuTLTG-gohTEUVn4fACwIiyuXdPXcF4GxJNRNgNOH7xwxx
+    55qEM0xl2GuSseV59FiZR-WKMMs.kScy0JLB4XECklDAwTIVNA
+
+which when decrypted using the following key:
+
+    {
+        "kty": "RSA",
+        "d": "OjDe8EkZXgvB-Gy5A4EdU8fBuAjdHLMyHKAtMaS_W_joEJHDvZRhIYbh1jAyHYoR3kFMXu
+    tCIYpRjDrsUEhjYuVKLm90CVtysoRjjkiXyupcEW3o--X_HBJhKm1Y-0I7LQ-cA7CotJpTVMR2fRTqP1
+    T4FsORAjg9l-fbdpVmeDiZBRbL2zCWmKWhtDpHyy7vbSCRghntihz_M5Hrchk7r8ito_K3dFrV9IZSF9
+    RoEY7kyK5bL36Kpgai44PYCzqOzqP2fteO_rZ9fn-uK59pI3ySo_PgSbJ55n14Nd9Z8m70zE9Z4aIeND
+    EFspZUhavngRwc7MuJ7f_hVGQ9RFbbkQ",
+        "e": "AQAB",
+        "use": "enc",
+        "kid": "client-enc-2020-08-28",
+        "n": "jVc92j0ntTV0V1nwZ3mpGaV2bME4d6AMS2SRrJBM0fLehaTEqDNzGu0warz2SC9bhcBOB5
+    _q3mYBFjmTwWzSbsk6RYETnAgViXg67PgH7Vkx2NCtwgQW3cNdnUZWRNYHsoevkx_Ta1X6Vi9ulebU_B
+    CKjrF-6CjVcGgEsO_S5DKcukGHdf81WlQOq3zGQg4h7MLArrbPSTHHORDsu_87qY9m2EhiYSOBSF5rHs
+    fDo7zWI5FWNG-_HO-CBM005bykIIS1aXCXx1jOW1OrKcp5xv3e-BR6MJTxncZJ4o1GtynJI8kLXRgltL
+    ArSOkbzNEr9GjU9lnSSxKLMtRLKkG2Ow"
+    }
+
+has the following body:
+
+    {
+      "sub": "1001",
+      "aud": "2334382354153498",
+      "acr": "urn:cds.au:cdr:2",
+      "c_hash": "BLfy9hvQUZTDq6_KmF4kDQ",
+      "s_hash": "9s6CBbOxiKE65d9-Qr0QIQ",
+      "auth_time": 1595827190,
+      "iss": "https://fapi-as.example.com/",
+      "exp": 1595827490,
+      "iat": 1595827190,
+      "nonce": "7xDCHviuPMSXJIigkHOcDi"
+    }
+
+### A.4 Example JARM response
+
+    eyJraWQiOiJzZXJ2ZXItMjAyMC0wOC0yOCIsImFsZyI6IlBTMjU2In0.eyJhdWQiOiI0NjkxODA2NDgw
+    MzkwNTEiLCJjb2RlIjoiendrR2FjOWp1TFg4RjhmcmFwRElTaTNLMkZ3bG40cXh3eWZOSUkzQ2p6MCIs
+    ImlzcyI6Imh0dHBzOlwvXC9mYXBpLWFzLmV4YW1wbGUuY29tXC8iLCJzdGF0ZSI6IlZnU1VJRW5mbG5E
+    eFRlMXZBdHI1NG8iLCJleHAiOjE1OTQxNDEwOTB9.k_3df0dIDX6watKxQkzAHOLgf4FBi_xIPN-n8aT
+    5hMX3gaBbeDqdUA5NR764L4ugdDgXyQm8dNcZrZldKIPfSfRcjBTtSx9PEdiffn_xUkwnS18YNAfEoq0
+    HjvkOQ59F21ImKn113kon00uC2dqBGByRrZcaUYOnvW2DdHCVA0VTW2je5nzbI02z9csLa8uGGGwjWRP
+    Ec9j9bvR1Adc2m2Z-o0QCRIBl81sZz6_AnE-wPTw-KZFQBs3FgS-r0FDYOzE7FHIMgDBSKAg1J5tWY3J
+    wRuIv_oAbYdSlxdYzrbFQ9grX4MA0p7pk5lS-kwnN845GZ2k1_yaOLtYYyvRFrw
+
+which when decoded has the following body:
+
+    {
+      "aud": "469180648039051",
+      "code": "zwkGac9juLX8F8frapDISi3K2Fwln4qxwyfNII3Cjz0",
+      "iss": "https://fapi-as.example.com/",
+      "state": "VgSUIEnflnDxTe1vAtr54o",
+      "exp": 1594141090
+    }
+
+### A.5 Example private_key_jwt client assertion
+
+    eyJraWQiOiJjbGllbnQtMjAyMC0wOC0yOCIsImFsZyI6IlBTMjU2In0.eyJzdWIiOiI1MjQ4MDc1NDA1
+    MyIsImF1ZCI6Imh0dHBzOlwvXC9mYXBpLWFzLmV4YW1wbGUuY29tXC9hcGlcL3Rva2VuIiwiaXNzIjoi
+    NTI0ODA3NTQwNTMiLCJleHAiOjE1OTQxNDAxNTEsImlhdCI6MTU5NDE0MDA5MSwianRpIjoiNHZCY3RN
+    U2tLNHdmdU91aTlDeWMifQ.h3i0k2DWc7V6WEiinHAsse-pOFiWxe5kD4KetdGX65Q03orj0Fh6EWfdE
+    AntCrOodUsypKjM1ia3evbQmsSkhIb4YK5s53hYYtEbJC_eG9jFnVc4ki7Qc5O-1K-D80w7WT1UI--Ih
+    Ku-i22Ai_nMed-71UWLHcPi7W20SCroPHXfaLiFj_TOsr7I8h7VNsoa7P3-coHlXT5q4cMjIA7t8cRag
+    sGtKlIgwdFYySlimtSESDM0U-_NUPperTgnF8FVn7SqtizBJneZNAWwSLJD9AVsnMOH6kOeNLtpopsru
+    Dcs54S_aIlroP-BdiHw9R1qRTIVSoX3k_EStvoWSf8NcQ
+
+which when decoded has the following body:
+
+    {
+      "sub": "52480754053",
+      "aud": "https://fapi-as.example.com/api/token",
+      "iss": "52480754053",
+      "exp": 1594140151,
+      "iat": 1594140091,
+      "jti": "4vBctMSkK4wfuOui9Cyc"
+    }
