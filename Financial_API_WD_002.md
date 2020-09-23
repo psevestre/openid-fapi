@@ -109,7 +109,7 @@ The following referenced documents are indispensable for the application of this
 [JAR]: https://tools.ietf.org/html/draft-ietf-oauth-jwsreq
 
 ## 3. Terms and definitions
-For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
+For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] and [ISO29100] apply.
 
 
 ## 4. Symbols and Abbreviated terms
@@ -481,15 +481,46 @@ could be used in selecting which key to use to verify a message signature:
 
 ## 9. Privacy considerations
 
-* When claims related to the subject are returned in the ID Token in the front channel, 
-  implementations should consider encrypting the ID Token to lower the risk of personal information disclosure. 
+### 9.1 Introduction
 
+There are many factors to be considered in terms of privacy 
+when implementing this document. However, since this document 
+is a profile of OAuth and OpenID Connect, all of them 
+are generic and applies to OAuth or OpenID Connect and 
+not specific to this document. Implementers are advised to 
+perform a thorugh privacy impact assessment and and manage identified risks appropriately. 
+
+NOTE: Implementers can consult documents like 
+[ISO29100] and [ISO29134] for this purpose. 
+
+Privacy threats to OAuth and OpenID Connect implementations include the following: 
+
+* (Inappropriate privacy notice) Privacy notice provided as `policy_url` or other means can be inappropriate. 
+* (Inadequate choice) Providing consent screen without adequate choices do not form consent. 
+* (Misuse of data) Any of AS, RS, Client can potentially use the data not according to the purpose that was agreed. 
+* (Collection minimization violation) Clients asking for more data than it absolutely needs to fulfil the purpose is violating collection minimization principle. 
+* (Unsolicited personal data from the Resource) Some bad resource server implementation may return more data than it was requested. If the data is personal data, then it would form violations of privacy principles. 
+* (Data minimization violation) Any process that is processing more data than it needs is violating data minimization principle. 
+* (RP tracking by AS/OP) AS/OP identifying what data is being provided to which Client/RP. 
+* (User tracking by RPs) Two or more RPs correlating access tokens or ID Tokens to track users. 
+* (RP misidentification by User at AS) User misunderstands who the RP is due to a confusing representation of RP at the AS's authorization page. 
+* (Attacker observing personal data in authorization request) Authorization request might contain personal data. This can be observed by an attacker. 
+* (Attacker observing personal data in authorization endpoint response) In some framework, even state is deemed personal data. 
+  This can be observed by an attacker through various means. 
+* (Data leak from AS) AS stores personal data. If AS is compromised, these data can leak or be modified. 
+* (Data leak from Resource) Some resource server (RS) stores personal data. If RS is compromised, these data can leak or be modified. 
+* (Data leak from Clients) Some clients stores personal data. If the client is compromised, these data can leak or be modified. 
+
+These can be mitigated by choosing appropriate options in OAuth or OpenID, or by introducing some operational rules. 
+For example, "Attacker observing personal data in authorization request" can be mitigated by either using authorization request by reference 
+using `request_uri` or by encrypting the request object. 
+Similarly, "Attacker observing personal data in authorization endpoint response" can be mitigated by encrypting the ID Token or JARM response. 
 
 ## 10. Acknowledgement
 
 The following people contributed to this document:
 
-* Nat Sakimura (Nomura Research Institute) -- Chair, Editor
+* Nat Sakimura (NAT Consulting) -- Chair, Editor
 * Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
 * Anthony Nadalin (Microsoft) -- Co-chair, SC 27 Liaison
 * Edmund Jay (Illumila) -- Co-editor
@@ -508,6 +539,9 @@ The following people contributed to this document:
 ## 11. Bibliography
 
 * [ISODIR2] ISO/IEC Directives Part 2
+* [ISO29100] ISO/IEC 29100 Information technology — Security techniques — Privacy framework
+* [ISO29134] ISO/IEC 29134 Information technology — Security techniques — Guidelines for privacy impact assessment 
+* [ISO29184] ISO/IEC 29184 Information technology — Online privacy notices and consent
 * [RFC6749] The OAuth 2.0 Authorization Framework
 * [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
 * [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
