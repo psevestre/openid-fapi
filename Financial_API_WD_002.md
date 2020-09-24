@@ -537,6 +537,8 @@ The following people contributed to this document:
 * Torsten Lodderstedt (yes.com)
 * Ralph Bragg (Raidiam)
 * Brian Campbell (Ping Identity) 
+* Dima Postnikov (Independent)
+* Stuart Low (Biza.io)
 
 ## 11. Bibliography
 
