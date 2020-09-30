@@ -505,7 +505,11 @@ Privacy threats to OAuth and OpenID Connect implementations include the followin
 * (Data minimization violation) Any process that is processing more data than it needs is violating the data minimization principle. 
 * (RP tracking by AS/OP) AS/OP identifying what data is being provided to which Client/RP. 
 * (User tracking by RPs) Two or more RPs correlating access tokens or ID Tokens to track users. 
-* (RP misidentification by User at AS) User misunderstands who the RP is due to a confusing representation of the RP at the AS's authorization page. 
+* (RP misidentification by User at AS) User misunderstands who the RP is due to a confusing representation of the RP at 
+the AS's authorization page. 
+* (Mismatch between User’s understanding or what RP is displaying to a user and the actual authorization request). To enhance 
+the trust of the ecosystem, best practice is for the AS to make clear what is included in the authorisation request (for example, 
+what data will be released to the RP).
 * (Attacker observing personal data in authorization request) Authorization request might contain personal data. This can be observed by an attacker. 
 * (Attacker observing personal data in authorization endpoint response) In some frameworks, even state is deemed personal data. 
   This can be observed by an attacker through various means. 
