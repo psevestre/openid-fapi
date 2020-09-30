@@ -159,14 +159,14 @@ The authorization server
 1. shall require the `redirect_uri` parameter in the authorization request;
 1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
 1. shall require user authentication to an appropriate Level of Assurance for the operations the client will be authorized to perform on behalf of the user;
-1. shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
+1. shall require explicit approval by the user to authorize the requested scope if it has not been previously authorized;
 1. shall reject an authorization code (section 1.3.1 of [RFC6749]) if it has been previously used;
 1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
 1. shall return the list of granted scopes with the issued access token if the request was passed in the front channel and was not integrity protected;
 1. shall provide opaque non-guessable access tokens, authorization codes, and refresh token 
 (where applicable), with sufficient entropy such that the probability of an attacker guessing 
 the generated token is computationally infeasible as per [RFC6749] section 10.10;
-1. should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
+1. should clearly identify the details of the grant to the user during authorization as in 16.18 of [OIDC]; and 
 1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
 1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 1. shall require redirect URIs to use the https scheme;
