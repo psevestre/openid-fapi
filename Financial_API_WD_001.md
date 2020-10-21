@@ -29,7 +29,7 @@ Future parts may follow.
 
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
-##Introduction
+## Introduction
 
 Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
 
@@ -38,7 +38,7 @@ The Financial-grade API aims to provide specific implementation guidelines for o
 This document is Part 1 of FAPI that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
 A higher level of security profile is provided in Part 2, suitable for read and write financial access APIs and other similar situations where the risk is higher.
 
-Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementors are encouraged to understand the security considerations contained in section 7.6 before embarking on a 'from scratch' implementation.
+Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in section 7.6 before embarking on a 'from scratch' implementation.
 
 ### Notational Conventions
 
@@ -158,15 +158,15 @@ The authorization server
 1. shall require redirect URIs to be pre-registered;
 1. shall require the `redirect_uri` parameter in the authorization request;
 1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
-1. shall require user authentication to an appropriate Level of Assurance for the operations the client will be authorised to perform on behalf of the user;
-1. shall require explicit consent by the user to authorize the requested scope if it has not been previously authorized;
+1. shall require user authentication to an appropriate Level of Assurance for the operations the client will be authorized to perform on behalf of the user;
+1. shall require explicit approval by the user to authorize the requested scope if it has not been previously authorized;
 1. shall reject an authorization code (section 1.3.1 of [RFC6749]) if it has been previously used;
 1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
 1. shall return the list of granted scopes with the issued access token if the request was passed in the front channel and was not integrity protected;
 1. shall provide opaque non-guessable access tokens, authorization codes, and refresh token 
 (where applicable), with sufficient entropy such that the probability of an attacker guessing 
 the generated token is computationally infeasible as per [RFC6749] section 10.10;
-1. should clearly identify long-term grants to the user during authorization as in 16.18 of [OIDC]; and 
+1. should clearly identify the details of the grant to the user during authorization as in 16.18 of [OIDC]; and 
 1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
 1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 1. shall require redirect URIs to use the https scheme;
@@ -222,7 +222,7 @@ A public client
     Further, if it is desired to obtain a persistent identifier of the authenticated user, then it
 
 1. shall include `openid` in the `scope` value; and
-1. shall include `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
+1. shall include the `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
 
     If `openid` is not in the `scope` value, then it
 1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749];
@@ -323,7 +323,7 @@ impersonate the endpoints and conduct man-in-the-middle attacks.
 
 Authorization request and response are not authenticated. 
 For higher risk scenarios, they should be authenticated.
-See Part 2, which uses request object to achieve the message source authentication. 
+See Part 2, which uses request objects to achieve the message source authentication. 
 
 ### 7.3 Message integrity protection failure
 
@@ -421,7 +421,7 @@ Registration.
 
 ## 8. Privacy considerations
 
-    ** NOTE ** The following only has a boiler plate text 
+    ** NOTE ** The following only has a boilerplate text 
     specifying the general principles. More specific text 
     will be added towards the Final specification. 
 
