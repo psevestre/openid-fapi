@@ -20,8 +20,8 @@ Final drafts adopted by the Workgroup through consensus are circulated publicly 
 
 Financial-grade API consists of the following parts:
 
-* Part 1: Read-Only API Security Profile
-* Part 2: Read and Write API Security Profile
+* Part 1: Baseline API Security Profile
+* Part 2: Advanced API Security Profile
 * Financial-grade API: Client Initiated Backchannel Authentication Profile
 * Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 * Financial-grade API: Implementation and Deployment Advice
@@ -69,10 +69,10 @@ The following referenced documents are indispensable for the application of this
 [CIBA] - OpenID Connect Client Initiated Backchannel Authentication Core
 [CIBA]: http://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html
 
-[FAPI1] - FAPI Read Only API Security Profile
+[FAPI1] - FAPI Part 1: Baseline API Security Profile
 [FAPI1]: https://openid.net/specs/openid-financial-api-part-1.html
 
-[FAPI2] - FAPI Read Write API Security Profile
+[FAPI2] - FAPI Part 2: Advanced API Security Profile
 [FAPI2]: https://openid.net/specs/openid-financial-api-part-2.html
 
 [FAPILI] - FAPI Lodging Intent
@@ -96,7 +96,7 @@ For the purpose of this standard, the terms defined in RFC6749, RFC6750, RFC7636
 
 **TLS** – Transport Layer Security
 
-## 5. Read and Write API Security Profile
+## 5. Client Initiated Backchannel Authentication Security Profile
 
 ### 5.1 Introduction
 
@@ -109,11 +109,11 @@ The Client Initiated Backchannel Authentication Flow [CIBA] specifies an alterna
 
 The following sections specify a profile of CIBA that is suited for financial-grade APIs.
 
-### 5.2 Read and Write API Security Provisions
+### 5.2 Client Initiated Backchannel Authentication Security Provisions
 
 #### 5.2.1 Introduction
 
-This profile applies to both Read-Only APIs and Read-and-Write APIs.
+This profile applies to both Baseline APIs and Advanced APIs.
 
 This spec should be read in conjunction with OpenID Connect Client Initiated Backchannel Authentication Core [CIBA] and with parts 1 [FAPI1] and 2 [FAPI2] of the Financial-grade API specification.
 
