@@ -9,7 +9,7 @@ This is the official repository for OpenID Foundation Financial-grade API (FAPI)
     * [Part 2: Read & Write API Security Profile](Financial_API_WD_002.md)
     * [Client Initiated Backchannel Authentication Profile](Financial_API_WD_CIBA.md)
     * [JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)](Financial_API_JWT_Secured_Authorization_Response_Mode.md)
-    * [Pushed Request Object](Financial_API_Pushed_Request_Object.md)
+    * [Implementation and Deployment Advice](Financial_API_Implementation_And_Deployment_Advice.md)
 * Financial-grade API Version 2.0
     * [Baseline Profile](FAPI_2_0_Baseline_Profile.md)
     * [Advanced Profile](FAPI_2_0_Advanced_Profile.md)
