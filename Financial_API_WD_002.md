@@ -214,7 +214,7 @@ In addition, the authorization server
 1. (withdrawn);
 1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; and
 1. shall authenticate the confidential client using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
-    1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
+    1. `tls_client_auth` or `self_signed_tls_client_auth` as specified in section 2 of [MTLS];
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
 1. shall not support public clients;
