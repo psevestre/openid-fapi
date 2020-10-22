@@ -1,4 +1,4 @@
-# Financial-grade API - Part 2: Read and Write API Security Profile
+# Financial-grade API - Part 2: Advanced Security Profile
 
 ## Warning
 
@@ -19,8 +19,8 @@ Final drafts adopted by the Workgroup through consensus are circulated publicly 
 
 Financial-grade API consists of the following parts:
 
-* Part 1: Read-Only API Security Profile
-* Part 2: Read and Write API Security Profile
+* Part 1: Baseline Security Profile
+* Part 2: Advanced Security Profile
 * Financial-grade API: Client Initiated Backchannel Authentication Profile
 * Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 * Financial-grade API: Implementation and Deployment Advice
@@ -49,7 +49,7 @@ These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-#**Financial-grade API - Part 2: Read and Write API Security Profile **
+#**Financial-grade API - Part 2: Advanced Security Profile **
 
 [TOC]
 
@@ -131,7 +131,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **TLS** – Transport Layer Security
 
-## 5. Read and write API security profile
+## 5. Advanced security profile
 
 ### 5.1 Introduction
 
@@ -183,18 +183,18 @@ Note: [JARM] can be used to protect OpenID Connect authentication responses. In 
 message protection and identity providing since a client (or RP) can basically use [JARM] to protect all 
 authorization responses and turn on OpenID if needed (e.g. to log the user in).
 
-### 5.2 Read and write API security provisions
+### 5.2 Advanced security provisions
 
 #### 5.2.1 Introduction
 
 Read and write access carries higher risk; therefore the protection level required is higher than read-only access.
 
-As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following for the read and write API of the FAPI.
+As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following for the advanced profile of the FAPI.
 
 #### 5.2.2 Authorization server
 
 The authorization server shall support the provisions specified in clause 5.2.2 of 
-Financial-grade API - Part 1: Read-Only API Security Profile, with the exception 
+Financial-grade API - Part 1: Baseline Security Profile, with the exception
 that section 5.2.2.7 (enforcement of [RFC7636]) is not required.
 
 In addition, the authorization server
@@ -213,7 +213,7 @@ In addition, the authorization server
 1. may support the pushed authorization request endpoint as described in [PAR];
 1. (withdrawn);
 1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; and
-1. shall authenticate the confidential client using one of the following methods (this overrides FAPI part 1 clause 5.2.2.4):
+1. shall authenticate the confidential client using one of the following methods (this overrides FAPI Part 1 clause 5.2.2.4):
     1. `tls_client_auth` or `self_signed_tls_client_auth` as specified in section 2 of [MTLS];
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
@@ -246,7 +246,7 @@ In addition, if the `response_type` value `code` is used in conjunction with the
 
 #### 5.2.3 Confidential client
 
-A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of Financial-grade API - Part 1: Read-Only API Security Profile, except for [RFC7636] support.
+A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of Financial-grade API - Part 1: Baseline Security Profile, except for [RFC7636] support.
 
 In addition, the confidential client
 
@@ -293,18 +293,18 @@ In addition, if the `response_type` value `code` is used in conjunction with the
 
 The FAPI endpoints are OAuth 2.0 protected resource endpoints that return protected information for the resource owner associated with the submitted access token.
 
-### 6.2 Read and write access provisions
+### 6.2 Advanced access provisions
 
 #### 6.2.1 Protected resources provisions
 
 The protected resources supporting this document
 
-1. shall support the provisions specified in clause 6.2.1 Financial-grade API - Part 1: Read Only API Security Profile;
+1. shall support the provisions specified in clause 6.2.1 Financial-grade API - Part 1: Baseline Security Profile;
 1. shall adhere to the requirements in [MTLS].
 
 #### 6.2.2 Client provisions
 
-The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial-grade API - Part 1: Read-Only API Security Profile.
+The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial-grade API - Part 1: Baseline Security Profile.
 
 ## 7. (Withdrawn)
 
@@ -388,7 +388,7 @@ The server can verify that the state is the same as what was stored in the brows
 ### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
-Section 7.1 of Financial-grade API - Part 1: Read Only API Security Profile shall apply, with the following additional requirements:
+Section 7.1 of Financial-grade API - Part 1: Baseline Security Profile shall apply, with the following additional requirements:
 
 1. For TLS versions below 1.3, only the following 4 cipher suites shall be permitted:
     * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
