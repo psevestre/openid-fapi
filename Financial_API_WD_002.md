@@ -231,7 +231,7 @@ In addition, if the `response_type` value `code id_token` is used, the authoriza
 1. should support signed and encrypted ID Tokens;
 1. shall return ID Token as a detached signature to the authorization response;
 1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
-1. if returning any sensitive personally identifiable information (PII) in the ID Token in the authorization response, should either encrypt the signed ID Token or return only essential requested ID Token claims in the signed ID Token;
+1. should not return sensitive PII in the ID Token in the authorization response, but if it needs to, then it should encrypt the ID Token.
 
 **NOTE:** The authorization server may return more claims in the ID Token from the token endpoint than in the one from the authorization response
 
