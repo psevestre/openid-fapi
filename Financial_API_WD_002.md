@@ -307,6 +307,8 @@ The protected resources supporting this document
 
 The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial-grade API - Part 1: Read-Only API Security Profile.
 
+## 7. (Withdrawn)
+
 ## 8. Security considerations
 
 ### 8.1 Introduction
