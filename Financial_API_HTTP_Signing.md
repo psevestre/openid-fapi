@@ -20,8 +20,8 @@ Final drafts adopted by the Workgroup through consensus are circulated publicly 
 
 Financial-grade API consists of the following parts:
 
-* Part 1: Baseline API Security Profile
-* Part 2: Advanced API Security Profile
+* Part 1: Baseline Security Profile
+* Part 2: Advanced Security Profile
 * Financial-grade API: Client Initiated Backchannel Authentication Profile
 * Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 * Financial-grade API: Implementation and Deployment Advice
@@ -66,10 +66,10 @@ The following referenced documents are indispensable for the application of this
 [FAPICIBA] - FAPI: Client Initiated Backchannel Authentication Profile
 [FAPICIBA]: https://openid.net/specs/openid-financial-api-ciba-ID1.html
 
-[FAPI1-PART1] - FAPI Part 1: Baseline API Security Profile
+[FAPI1-PART1] - FAPI Part 1: Baseline Security Profile
 [FAPI1-PART1]: https://openid.net/specs/openid-financial-api-part-1.html
 
-[FAPI1-PART2] - FAPI Part 2: Advanced API Security Profile
+[FAPI1-PART2] - FAPI Part 2: Advanced Security Profile
 [FAPI1-PART2]: https://openid.net/specs/openid-financial-api-part-2.html
 
 [FAPILI] - FAPI Lodging Intent

@@ -1,4 +1,4 @@
-# Financial-grade API - Part 1: Baseline API Security Profile
+# Financial-grade API - Part 1: Baseline Security Profile
 
 ## Warning
 
@@ -19,7 +19,7 @@ The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID communit
 
 Financial-grade API consists of the following parts:
 
-* Part 1: Baseline API Security Profile
+* Part 1: Baseline Security Profile
 * Part 2: Advanced Security Profile
 * Financial-grade API: Client Initiated Backchannel Authentication Profile
 * Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
@@ -50,7 +50,7 @@ These key words are not used as dictionary terms such that
 any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
 
-#**Financial-grade API - Part 1: Baseline API Security Profile **
+#**Financial-grade API - Part 1: Baseline Security Profile **
 
 [TOC]
 
@@ -125,7 +125,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **TLS** – Transport Layer Security
 
-## 5. Baseline API security profile
+## 5. Baseline security profile
 
 ### 5.1 Introduction
 
@@ -133,14 +133,14 @@ The OIDF Financial-grade API (FAPI) is a REST API that provides JSON data. These
 
 Read-only access is generally viewed to pose a lower risk than the write access and as such, the characteristics required of the tokens are different and the methods to obtain tokens are explained separately.
 
-### 5.2 Baseline API security provisions
+### 5.2 Baseline security provisions
 
 #### 5.2.1 Introduction
 
 Read-only access is a lower risk scenario compared to the write access; therefore the protection level can also be lower.
 However, since the FAPI can provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires.
 
-As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the baseline API of the FAPI.
+As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the baseline profile of the FAPI.
 
 #### 5.2.2 Authorization server
 

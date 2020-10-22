@@ -19,8 +19,8 @@ Final drafts adopted by the Workgroup through consensus are circulated publicly 
 
 Financial-grade API consists of the following parts:
 
-* Part 1: Baseline API Security Profile
-* Part 2: Advanced API Security Profile
+* Part 1: Baseline Security Profile
+* Part 2: Advanced Security Profile
 * Financial-grade API: Client Initiated Backchannel Authentication Profile
 * Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 * Financial-grade API: Implementation and Deployment Advice
