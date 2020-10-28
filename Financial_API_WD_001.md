@@ -163,7 +163,7 @@ The authorization server
 1. shall reject an authorization code (section 1.3.1 of [RFC6749]) if it has been previously used;
 1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
 1. shall return the list of granted scopes with the issued access token if the request was passed in the front channel and was not integrity protected;
-1. shall provide opaque non-guessable access tokens, authorization codes, and refresh token 
+1. shall provide non-guessable access tokens, authorization codes, and refresh token 
 (where applicable), with sufficient entropy such that the probability of an attacker guessing 
 the generated token is computationally infeasible as per [RFC6749] section 10.10;
 1. should clearly identify the details of the grant to the user during authorization as in 16.18 of [OIDC]; and 
@@ -179,7 +179,7 @@ the generated token is computationally infeasible as per [RFC6749] section 10.10
 
     **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
 
-    **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
+    **NOTE**: Access tokens are opaque to clients, but they can be structured tokens that can be parsed by the resource server. 
 
     **NOTE**: The requirement to return the list of granted scopes allows clients to detect when the authorization request was modified to include different scopes. Servers must still return the granted scopes if they are different from those requested.
 
