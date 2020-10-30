@@ -311,7 +311,7 @@ The client supporting this document shall support the provisions specified in cl
 ## 8. Security considerations
 
 ### 8.1 Introduction
-As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations.
+As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations. The security of OAuth 2.0 has been proven formally - under certain assumptions - in [OAUTHSEC]. A detailed security analysis of FAPI can be found in [FAPISEC].
 
 ### 8.2 Uncertainty of resource server handling of access tokens
 There is no way that the client can find out whether the resource access was granted for a bearer or sender-constrained access token.
@@ -348,9 +348,9 @@ The rogue IdP then redirects the client to the honest IdP that has the same `cli
 If the user is already logged on at the honest IdP, 
 then the authentication may be skipped and a code is generated and returned to the client. 
 Since the client was interacting with the rogue IdP, the code is sent to the rogue IdP's token endpoint. 
-At the point, the attacker has a valid code that can be exchanged for an access token at the honest IdP.
+At the point, the attacker has a valid code that can be exchanged for an access token at the honest IdP. See [OAUTHSEC] for a detailed description of the attack.
 
-This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss` or [JARM] 
+This attack is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss` or [JARM] 
 where the `iss` included in the response JWT. On receiving the authorization response, the client compares the `iss` value from the response with the 
 issuer URL of the IdP it sent the authorization request to (the rogue IdP). The client detects the conflicting issuer values and aborts the transaction. 
 
@@ -568,6 +568,8 @@ The following people contributed to this document:
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [JARM] Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
+* [FAPISEC] Fett, D., Hosseyni, P., Kuesters, R.: An Extensive Formal Security Analysis of the OpenID Financial-grade API
+* [OAUTHSEC] Fett, D., Kuesters, R., Schmitz, G.: A Comprehensive Formal Security Analysis of OAuth 2.0
 
 ## 12. IANA Considerations
 ### 12.1 Additions to JWT Claims Registry
