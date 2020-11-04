@@ -179,7 +179,7 @@ the generated token is computationally infeasible as per [RFC6749] section 10.10
 
     **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
 
-    **NOTE**: Access tokens are opaque to clients, but they can be structured tokens that can be parsed by the resource server. 
+    **NOTE**: Clients must be able to treat access tokens as opaque strings that are replayed as is. Authorization servers can issue structured access tokens (for example, a signed JWT).
 
     **NOTE**: The requirement to return the list of granted scopes allows clients to detect when the authorization request was modified to include different scopes. Servers must still return the granted scopes if they are different from those requested.
 
