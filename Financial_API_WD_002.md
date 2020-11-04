@@ -67,7 +67,7 @@ This document is applicable to higher risk use cases which includes commercial a
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 [ISODIR2] - ISO/IEC Directives Part 2
-[ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
+[ISODIR2]: https://www.iso.org/sites/directives/current/part2/index.xhtml
 
 [RFC6749] - The OAuth 2.0 Authorization Framework
 [RFC6749]: https://tools.ietf.org/html/rfc6749
