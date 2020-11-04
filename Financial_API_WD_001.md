@@ -156,14 +156,14 @@ The authorization server
 1. shall require and use a key of size 160 bits or larger for elliptic curve algorithms;
 1. shall require [RFC7636] with `S256` as the code challenge method;
 1. shall require redirect URIs to be pre-registered;
-1. shall require the `redirect_uri` parameter in the authorization request;
+1. shall require the `redirect_uri` in the authorization request;
 1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
 1. shall require user authentication to an appropriate Level of Assurance for the operations the client will be authorized to perform on behalf of the user;
 1. shall require explicit approval by the user to authorize the requested scope if it has not been previously authorized;
 1. shall reject an authorization code (section 1.3.1 of [RFC6749]) if it has been previously used;
 1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
 1. shall return the list of granted scopes with the issued access token if the request was passed in the front channel and was not integrity protected;
-1. shall provide opaque non-guessable access tokens, authorization codes, and refresh token 
+1. shall provide non-guessable access tokens, authorization codes, and refresh token 
 (where applicable), with sufficient entropy such that the probability of an attacker guessing 
 the generated token is computationally infeasible as per [RFC6749] section 10.10;
 1. should clearly identify the details of the grant to the user during authorization as in 16.18 of [OIDC]; and 
@@ -179,7 +179,7 @@ the generated token is computationally infeasible as per [RFC6749] section 10.10
 
     **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
 
-    **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
+    **NOTE**: Clients are expected to treat access tokens as opaque strings and replay them as is. Authorization servers can issue structured access tokens (for example, a signed JWT).
 
     **NOTE**: The requirement to return the list of granted scopes allows clients to detect when the authorization request was modified to include different scopes. Servers must still return the granted scopes if they are different from those requested.
 
