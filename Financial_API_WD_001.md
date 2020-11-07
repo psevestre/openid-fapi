@@ -1,4 +1,4 @@
-# Financial-grade API - Part 1: Read-Only API Security Profile
+# Financial-grade API - Part 1: Baseline Security Profile
 
 ## Warning
 
@@ -19,8 +19,8 @@ The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID communit
 
 Financial-grade API consists of the following parts:
 
-* Part 1: Read-Only API Security Profile
-* Part 2: Read and Write API Security Profile
+* Part 1: Baseline Security Profile
+* Part 2: Advanced Security Profile
 * Financial-grade API: Client Initiated Backchannel Authentication Profile
 * Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 * Financial-grade API: Implementation and Deployment Advice
@@ -50,7 +50,7 @@ These key words are not used as dictionary terms such that
 any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
 
-#**Financial-grade API - Part 1: Read-Only API Security Profile **
+#**Financial-grade API - Part 1: Baseline Security Profile **
 
 [TOC]
 
@@ -125,7 +125,7 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 **TLS** – Transport Layer Security
 
-## 5. Read-only API security profile
+## 5. Baseline security profile
 
 ### 5.1 Introduction
 
@@ -133,14 +133,14 @@ The OIDF Financial-grade API (FAPI) is a REST API that provides JSON data. These
 
 Read-only access is generally viewed to pose a lower risk than the write access and as such, the characteristics required of the tokens are different and the methods to obtain tokens are explained separately.
 
-### 5.2 Read-only API security provisions
+### 5.2 Baseline security provisions
 
 #### 5.2.1 Introduction
 
 Read-only access is a lower risk scenario compared to the write access; therefore the protection level can also be lower.
 However, since the FAPI can provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires.
 
-As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the read-only API of the FAPI.
+As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the baseline profile of the FAPI.
 
 #### 5.2.2 Authorization server
 
@@ -156,14 +156,14 @@ The authorization server
 1. shall require and use a key of size 160 bits or larger for elliptic curve algorithms;
 1. shall require [RFC7636] with `S256` as the code challenge method;
 1. shall require redirect URIs to be pre-registered;
-1. shall require the `redirect_uri` parameter in the authorization request;
+1. shall require the `redirect_uri` in the authorization request;
 1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
 1. shall require user authentication to an appropriate Level of Assurance for the operations the client will be authorized to perform on behalf of the user;
 1. shall require explicit approval by the user to authorize the requested scope if it has not been previously authorized;
 1. shall reject an authorization code (section 1.3.1 of [RFC6749]) if it has been previously used;
 1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
 1. shall return the list of granted scopes with the issued access token if the request was passed in the front channel and was not integrity protected;
-1. shall provide opaque non-guessable access tokens, authorization codes, and refresh token 
+1. shall provide non-guessable access tokens, authorization codes, and refresh token 
 (where applicable), with sufficient entropy such that the probability of an attacker guessing 
 the generated token is computationally infeasible as per [RFC6749] section 10.10;
 1. should clearly identify the details of the grant to the user during authorization as in 16.18 of [OIDC]; and 
@@ -179,7 +179,7 @@ the generated token is computationally infeasible as per [RFC6749] section 10.10
 
     **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
 
-    **NOTE**: The opaqueness requirement for the access token does not preclude the server to create a structured access token. 
+    **NOTE**: Clients are expected to treat access tokens as opaque strings and replay them as is. Authorization servers can issue structured access tokens (for example, a signed JWT).
 
     **NOTE**: The requirement to return the list of granted scopes allows clients to detect when the authorization request was modified to include different scopes. Servers must still return the granted scopes if they are different from those requested.
 
@@ -251,7 +251,7 @@ In addition to the provisions for a public client, a confidential client
 
 The FAPI endpoints are OAuth 2.0 protected resource endpoints that return protected information for the resource owner associated with the submitted access token.
 
-### 6.2 Read-only access provisions
+### 6.2 Baseline access provisions
 
 #### 6.2.1 Protected resources provisions
 
