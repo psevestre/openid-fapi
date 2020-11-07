@@ -318,6 +318,7 @@ domain-validated TLS certificates. Note: Even if an endpoint uses only
 organization validated (OV) or extended validation (EV) TLS
 certificates, rogue domain-validated certificates can be used to
 impersonate the endpoints and conduct man-in-the-middle attacks.
+CAA records [RFC8659] can help to mitigate this risk.
 
 ### 7.2 Message source authentication failure
 
@@ -482,6 +483,7 @@ The following people contributed to this document:
 * [BCP212] OAuth 2.0 for Native Apps
 * [RFC6819] OAuth 2.0 Threat Model and Security Considerations
 * [RFC8414] OAuth 2.0 Authorization Server Metadata
+* [RFC8659] DNS Certification Authority Authorization (CAA) Resource Record
 * [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
