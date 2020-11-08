@@ -124,43 +124,46 @@ In the following, a profile of the following technologies is defined:
 
 Authorization servers
 
- 1. shall support the authorization code grant described in [@!RFC6749]
- 2. shall reject requests using the resource owner password credentials grant or
+ 1. shall distribute discovery metadata (such as the authorization endpoint) via
+    the metadata document as specified in [OIDD] and [RFC8414]
+ 2. shall support the authorization code grant described in [@!RFC6749]
+ 3. shall reject requests using the resource owner password credentials grant or
     the implicit grant described in [@!RFC6749]
- 3. shall support client-authenticated pushed authorization requests
+ 4. shall support client-authenticated pushed authorization requests
     according to [@I-D.ietf-oauth-par]
- 4. shall reject authorization requests sent without
+ 5. shall reject authorization requests sent without
     [@I-D.lodderstedt-oauth-par] or authorization request parameters
     sent outside of the PAR request, except for
     `request_uri` and `client_id`
- 5. shall reject pushed authorization requests without client authentication
- 6. shall support rich authorization requests according to [@I-D.ietf-oauth-rar]
- 7. shall support confidential clients as defined in [@!RFC6749]
- 8. shall only issue sender-constrained access tokens using Mutual TLS as
+ 6. shall reject pushed authorization requests without client authentication
+ 7. shall support rich authorization requests according to [@I-D.ietf-oauth-rar]
+ 8. shall support confidential clients as defined in [@!RFC6749]
+ 9. shall only issue sender-constrained access tokens using Mutual TLS as
     described in [@!RFC8705]
- 9.  shall authenticate clients using one of the following methods:
+ 10. shall authenticate clients using one of the following methods:
      1. Mutual TLS for OAuth Client Authentication as specified in section 2 of
         [@!RFC8705]
      2. `private_key_jwt` as specified in section 9 of [@!OpenID]
- 10. shall require PKCE [@!RFC7636] with `S256` as the code challenge method
- 11. shall only issue authorization codes and refresh tokens that are
+ 11. shall require PKCE [@!RFC7636] with `S256` as the code challenge method
+ 12. shall only issue authorization codes and refresh tokens that are
      sender-constrained 
- 12. shall require the `redirect_uri` parameter in authorization requests and
+ 13. shall require the `redirect_uri` parameter in authorization requests and
      evaluate only this parameter to ensure authenticity and integrity of the
      redirect URI
- 13. shall return an `iss` parameter in the authorization response containing
+ 14. shall return an `iss` parameter in the authorization response containing
      the issuer URI as published in the respective OAuth metadata [@!RFC8414]
- 14. shall require that redirect URIs use the `https` scheme
- 15. shall verify, if possible, that the authorization code (section 1.3.1 of
+ 15. shall require that redirect URIs use the `https` scheme
+ 16. shall verify, if possible, that the authorization code (section 1.3.1 of
      [@!RFC6749]) has not been previously used
- 16. shall provide a means for resource servers to verify the validity,
+ 17. shall provide a means for resource servers to verify the validity,
      integrity, sender-constraining, scope (incl. `authorization_details`),
      expiration and revocation status of an access token, either by providing an
      introspection endpoint [@!RFC7662], by exposing signature verification
      keys, or by deployment-specific means.
- 17. shall avoid forwarding user credentials accidentally when redirecting user
-     agents (see section 4.11 of [@I-D.ietf-oauth-security-topics])
- 18. shall not expose open redirectors (see section 4.10 of
+ 18. shall not use the HTTP 307 status code when redirecting a request that
+     contains user credentials to avoid forwarding the credentials to a third
+     party accidentally (see section 4.11 of [@I-D.ietf-oauth-security-topics])
+ 19. shall not expose open redirectors (see section 4.10 of
      [@I-D.ietf-oauth-security-topics])
 
 **NOTE**: If replay identification of the authorization code is not possible, it
