@@ -187,9 +187,9 @@ Clients
  3. shall support sender-constrained access tokens using Mutual TLS as described
     in [@!RFC8705]
  4. shall support client authentication using one of the following methods:
-  1. Mutual TLS for OAuth Client Authentication as specified in section 2 of
-     [@!RFC8705]
-  2. `private_key_jwt` as specified in section 9 of [@!OpenID]
+    1. Mutual TLS for OAuth Client Authentication as specified in section 2 of
+       [@!RFC8705]
+    2. `private_key_jwt` as specified in section 9 of [@!OpenID]
  5. shall use PKCE [@!RFC7636] with `S256` as the code challenge method
  6. shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0
     Bearer Token Usage [@!RFC6750]
