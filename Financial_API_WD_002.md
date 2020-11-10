@@ -357,7 +357,7 @@ issuer URL of the IdP it sent the authorization request to (the rogue IdP). The 
 #### 8.3.4 (removed)
 
 #### 8.3.5 Access token phishing
-When the FAPI client uses [MTLS], the access token is bound to the client's TLS certificate, it is access token phishing resistant as the phished access tokens cannot be used.
+Various mechanisms in this specification aim at preventing access token phishing, e.g., the requirement of exactly matching redirect URIs and the restriction on response types that do not return access tokens in the front channel. As a second layer of defense, when the FAPI client uses [MTLS], the access token is bound to the client's TLS certificate. Even if an access token is phished, it cannot be used by the attacker. An attacker could try to trick a client under his control to make use of the access token as described in [FAPISEC] ("Cuckoo's Token Attack" and "Access Token Injection with ID Token Replay"), but these attacks additionally require a rogue AS or misconfigured token endpoint.
 
 ### 8.4 Attacks that modify authorization requests and responses
 
