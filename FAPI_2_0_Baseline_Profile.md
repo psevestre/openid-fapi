@@ -132,9 +132,7 @@ Authorization servers
  4. shall support client-authenticated pushed authorization requests
     according to [@I-D.ietf-oauth-par]
  5. shall reject authorization requests sent without
-    [@I-D.lodderstedt-oauth-par] or authorization request parameters
-    sent outside of the PAR request, except for
-    `request_uri` and `client_id`
+    [@I-D.lodderstedt-oauth-par]
  6. shall reject pushed authorization requests without client authentication
  7. shall support rich authorization requests according to [@I-D.ietf-oauth-rar]
  8. shall support confidential clients as defined in [@!RFC6749]
