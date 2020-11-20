@@ -143,25 +143,23 @@ Authorization servers
         [@!RFC8705]
      2. `private_key_jwt` as specified in section 9 of [@!OpenID]
  11. shall require PKCE [@!RFC7636] with `S256` as the code challenge method
- 12. shall only issue authorization codes and refresh tokens that are
-     sender-constrained 
- 13. shall require the `redirect_uri` parameter in authorization requests and
+ 12. shall require the `redirect_uri` parameter in authorization requests and
      evaluate only this parameter to ensure authenticity and integrity of the
      redirect URI
- 14. shall return an `iss` parameter in the authorization response containing
+ 13. shall return an `iss` parameter in the authorization response containing
      the issuer URI as published in the respective OAuth metadata [@!RFC8414]
- 15. shall require that redirect URIs use the `https` scheme
- 16. shall verify, if possible, that the authorization code (section 1.3.1 of
+ 14. shall require that redirect URIs use the `https` scheme
+ 15. shall verify, if possible, that the authorization code (section 1.3.1 of
      [@!RFC6749]) has not been previously used
- 17. shall provide a means for resource servers to verify the validity,
+ 16. shall provide a means for resource servers to verify the validity,
      integrity, sender-constraining, scope (incl. `authorization_details`),
      expiration and revocation status of an access token, either by providing an
      introspection endpoint [@!RFC7662], by exposing signature verification
      keys, or by deployment-specific means.
- 18. shall not use the HTTP 307 status code when redirecting a request that
+ 17. shall not use the HTTP 307 status code when redirecting a request that
      contains user credentials to avoid forwarding the credentials to a third
      party accidentally (see section 4.11 of [@I-D.ietf-oauth-security-topics])
- 19. shall not expose open redirectors (see section 4.10 of
+ 18. shall not expose open redirectors (see section 4.10 of
      [@I-D.ietf-oauth-security-topics])
 
 **NOTE**: If replay identification of the authorization code is not possible, it
