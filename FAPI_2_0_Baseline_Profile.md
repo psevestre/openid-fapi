@@ -195,14 +195,14 @@ Clients
     issuer with which the authorization flow was started to prevent Mix-Up
     attacks as described in [@I-D.ietf-oauth-security-topics]
  8.  may send the last time the customer logged into the client in the
-    `x-fapi-auth-date` header where the value is supplied as an HTTP-date as in
-    section 7.1.1.1 of [@!RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012
+    `fapi-auth-date` header where the value is supplied as an HTTP-date as in
+    section 7.1.1.1 of [@!RFC7231], e.g., `fapi-auth-date: Tue, 11 Sep 2012
     19:43:31 GMT`
  9.  may send the customer's IP address if this data is available in the
-    `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 93.184.216.34`
- 10. may send the `x-fapi-interaction-id` request header whose value is a
+    `fapi-customer-ip-address` header, e.g., `fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `fapi-customer-ip-address: 93.184.216.34`
+ 10. may send the `fapi-interaction-id` request header whose value is a
      [@!RFC4122] UUID to the server to help correlate log entries between client
-     and server, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
+     and server, e.g., `fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
  11. shall not expose open redirectors (see section 4.10 of
      [@I-D.ietf-oauth-security-topics])
 
@@ -227,11 +227,11 @@ Resource servers with the FAPI endpoints
 1. shall only return the resource identified by the combination of the entity
    implicit in the access and the granted scope and otherwise return errors as
    in section 3.1 of [@!RFC6750]
-1. shall set the response header `x-fapi-interaction-id` to the value received
+1. shall set the response header `fapi-interaction-id` to the value received
    from the corresponding fapi client request header or to a [@!RFC4122] UUID
    value if the request header was not provided to track the interaction, e.g.,
-   `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
-1. shall log the value of `x-fapi-interaction-id` in the log entry
+   `fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
+1. shall log the value of `fapi-interaction-id` in the log entry
 
 
 ## Cryptography and Secrets
@@ -256,6 +256,7 @@ Resource servers with the FAPI endpoints
 | ID Token as detached signature           | -                                   | ID token does not need to serve as a detached signature                                               |
 | signed and encrypted ID Tokens           | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
 | `exp` claim in request object            | -                                   | ?                                                                                                     |
+| `x-fapi-*` headers | Renamed to `fapi-*` headers | See https://tools.ietf.org/html/rfc6648 |
 
 
 
