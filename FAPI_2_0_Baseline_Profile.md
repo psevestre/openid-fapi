@@ -113,8 +113,11 @@ In the following, a profile of the following technologies is defined:
 
   * OAuth 2.0 Authorization Framework [@!RFC6749]
   * OAuth 2.0 Bearer Tokens [@!RFC6750]
-  * OAuth 2.0 PKCE [@!RFC7636]
-  * OAuth 2.0 Mutual-TLS Client Authentication [@!RFC8705]
+  * Proof Key for Code Exchange by OAuth Public Clients (PKCE) [@!RFC7636]
+  * OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access
+    Tokens (MTLS) [@!RFC8705]
+  * OAuth 2.0 Demonstrating Proof-of-Possession at the Application Layer (DPoP)
+    [@I-D.draft-ietf-oauth-dpop]
   * OAuth 2.0 Pushed Authorization Requests (PAR) [@!I-D.ietf-oauth-par]
   * OAuth 2.0 Rich Authorization Requests (RAR) [@!I-D.ietf-oauth-rar]
   * OAuth 2.0 Authorization Server Metadata [@!RFC8414]
@@ -136,12 +139,13 @@ Authorization servers
  6. shall reject pushed authorization requests without client authentication
  7. shall support rich authorization requests according to [@I-D.ietf-oauth-rar]
  8. shall support confidential clients as defined in [@!RFC6749]
- 9. shall only issue sender-constrained access tokens using Mutual TLS as
-    described in [@!RFC8705]
+ 9. shall only issue sender-constrained access tokens using one of the following
+    methods:
+    -  MTLS as described in [@!RFC8705]
+    -  DPoP as described in [@I-D.draft-ietf-oauth-dpop]
  10. shall authenticate clients using one of the following methods:
-     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of
-        [@!RFC8705]
-     2. `private_key_jwt` as specified in section 9 of [@!OpenID]
+     - MTLS as specified in section 2 of [@!RFC8705]
+     - `private_key_jwt` as specified in section 9 of [@!OpenID]
  11. shall require PKCE [@!RFC7636] with `S256` as the code challenge method
  12. shall require the `redirect_uri` parameter in authorization requests and
      evaluate only this parameter to ensure authenticity and integrity of the
@@ -180,12 +184,12 @@ Clients
 
  1. shall use the authorization code grant described in [@!RFC6749]
  2. shall use pushed authorization requests according to [@I-D.ietf-oauth-par]
- 3. shall support sender-constrained access tokens using Mutual TLS as described
-    in [@!RFC8705]
+ 3. shall support sender-constrained access tokens using one of the following methods:
+    -  MTLS as described in [@!RFC8705]
+    -  DPoP as described in [@I-D.draft-ietf-oauth-dpop]
  4. shall support client authentication using one of the following methods:
-    1. Mutual TLS for OAuth Client Authentication as specified in section 2 of
-       [@!RFC8705]
-    2. `private_key_jwt` as specified in section 9 of [@!OpenID]
+    - MTLS as specified in section 2 of [@!RFC8705]
+    - `private_key_jwt` as specified in section 9 of [@!OpenID]
  5. shall use PKCE [@!RFC7636] with `S256` as the code challenge method
  6. shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0
     Bearer Token Usage [@!RFC6750]
@@ -220,16 +224,18 @@ Resource servers with the FAPI endpoints
    access tokens
 1. shall verify that the scope (incl. `authorization_details`) of the access
    token authorizes the access to the resource it is representing
-1. shall verify sender-constraining for access tokens
-1. shall identify the associated entity to the access token
-1. shall only return the resource identified by the combination of the entity
+1. shall support and verify sender-constrained access tokens using one of the following methods:
+    -  MTLS as described in [@!RFC8705]
+    -  DPoP as described in [@I-D.draft-ietf-oauth-dpop]
+2. shall identify the associated entity to the access token
+3. shall only return the resource identified by the combination of the entity
    implicit in the access and the granted scope and otherwise return errors as
    in section 3.1 of [@!RFC6750]
-1. shall set the response header `fapi-interaction-id` to the value received
+4. shall set the response header `fapi-interaction-id` to the value received
    from the corresponding fapi client request header or to a [@!RFC4122] UUID
    value if the request header was not provided to track the interaction, e.g.,
    `fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
-1. shall log the value of `fapi-interaction-id` in the log entry
+5. shall log the value of `fapi-interaction-id` in the log entry
 
 
 ## Cryptography and Secrets
@@ -247,7 +253,7 @@ Resource servers with the FAPI endpoints
 | :--------------------------------------- | :---------------------------------- | :---------------------------------------------------------------------------------------------------- |
 | JAR, JARM                                | PAR                                 | integrity protection and compatibility improvements for authorization requests; only code in response |
 | -                                        | RAR                                 | support complex and structured information about authorizations                                       |
-| -                                        | shall adhere to Security BCP        |                                                                                                       |
+| individual security recommendations                                        | security recommendations aligned with OAuth Security BCP        |                                                                                                       |
 | `s_hash`                                 | -                                   | state integrity is protected by PAR; protection provided by state is now provided by PKCE             |
 | pre-registered redirect URIs             | redirect URIs in PAR                | pre-registration is not required with client authentication and PAR                                   |
 | response types `code id_token` or `code` | response type `code`                | improve security: no ID token in front-channel; not needed                                            |
@@ -255,6 +261,7 @@ Resource servers with the FAPI endpoints
 | signed and encrypted ID Tokens           | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
 | `exp` claim in request object            | -                                   | ?                                                                                                     |
 | `x-fapi-*` headers | Renamed to `fapi-*` headers | See https://tools.ietf.org/html/rfc6648 |
+| MTLS for sender-constrained access tokens | MTLS or DPoP | |
 
 
 
