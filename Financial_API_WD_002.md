@@ -199,7 +199,7 @@ that section 5.2.2.7 (enforcement of [RFC7636]) is not required.
 
 In addition, the authorization server
 
-1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
+1. shall require a JWS signed JWT request object passed by value with the `request` parameter or by reference with the `request_uri` parameter;
 1. shall require 
 	1. the `response_type` value `code id_token` or 
 	2. the `response_type` value `code` in conjunction with the `response_mode` value `jwt`;
@@ -209,7 +209,7 @@ In addition, the authorization server
 1. (withdrawn);
 1. (moved to 5.2.2.1);
 1. (moved to 5.2.2.1);
-1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
+1. shall only use the parameters included in the signed request object passed via the `request` or `request_uri` parameter;
 1. may support the pushed authorization request endpoint as described in [PAR];
 1. (withdrawn);
 1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; and
