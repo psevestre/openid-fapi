@@ -481,6 +481,8 @@ The following people contributed to this document:
 ## 10. Bibliography
 
 * [ISODIR2] ISO/IEC Directives Part 2
+* [ISO29100] ISO/IEC 29100 Information technology — Security techniques — Privacy framework
+* [ISO29134] ISO/IEC 29134 Information technology — Security techniques — Guidelines for privacy impact assessment 
 * [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 * [RFC6749] The OAuth 2.0 Authorization Framework
 * [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
