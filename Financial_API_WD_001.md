@@ -421,35 +421,44 @@ Registration.
 
 ## 8. Privacy considerations
 
-    ** NOTE ** The following only has a boilerplate text 
-    specifying the general principles. More specific text 
-    will be added towards the Final specification. 
+### 8.1 Introduction
 
-### 8.1 Privacy by design
+There are many factors to be considered in terms of privacy 
+when implementing this document. However, since this document 
+is a profile of OAuth and OpenID Connect, all of them 
+are generic and applies to OAuth or OpenID Connect and 
+not specific to this document. Implementers are advised to 
+perform a thorough privacy impact assessment and and manage identified risks appropriately. 
 
-1. Privacy impact analysis (PIA) should be performed in the initial phase of the system planning.
-1. Use of ISO/IEC 29134:2017 Guidelines for privacy impact analysis is recommended.
-1. The provider should establish a management system to help respect privacy of customers.
+NOTE: Implementers can consult documents like 
+[ISO29100] and [ISO29134] for this purpose. 
 
-### 8.2 Adhering to privacy principles
+Privacy threats to OAuth and OpenID Connect implementations include the following: 
 
-Stakeholders should follow the privacy principles of ISO/IEC 29100. In particular:
+* (Inappropriate privacy notice) A privacy notice provided at a `policy_url` or by other means can be inappropriate. 
+* (Inadequate choice) Providing a consent screen without adequate choices does not form consent. 
+* (Misuse of data) An AS, RS or Client can potentially use the data not according to the purpose that was agreed. 
+* (Collection minimization violation) Clients asking for more data than it absolutely needs to fulfil the purpose is violating the collection minimization principle. 
+* (Unsolicited personal data from the Resource) Some bad resource server implementations may return more data than was requested. If the data is personal data, then this would be a  violation of privacy principles. 
+* (Data minimization violation) Any process that is processing more data than it needs is violating the data minimization principle. 
+* (RP tracking by AS/OP) AS/OP identifying what data is being provided to which Client/RP. 
+* (User tracking by RPs) Two or more RPs correlating access tokens or ID Tokens to track users. 
+* (RP misidentification by User at AS) User misunderstands who the RP is due to a confusing representation of the RP at 
+the AS's authorization page. 
+* (Mismatch between User’s understanding or what RP is displaying to a user and the actual authorization request). To enhance 
+the trust of the ecosystem, best practice is for the AS to make clear what is included in the authorisation request (for example, 
+what data will be released to the RP).
+* (Attacker observing personal data in authorization request) Authorization request might contain personal data. This can be observed by an attacker. 
+* (Attacker observing personal data in authorization endpoint response) In some frameworks, even state is deemed personal data. 
+  This can be observed by an attacker through various means. 
+* (Data leak from AS) AS stores personal data. If AS is compromised, these data can leak or be modified. 
+* (Data leak from Resource) Some resource servers (RS) store personal data. If a RS is compromised, these data can leak or be modified. 
+* (Data leak from Clients) Some clients store personal data. If the client is compromised, these data can leak or be modified. 
 
-1. Consent and choice
-2. Purpose legitimacy and specification
-3. Collection limitation
-4. Data (access) limitation
-5. Use, retention, and data disclosure limitation:
-    1. Use limitation:
-    1. Retention limitation: Where the data is no longer being used, clients should delete such data from their system within 180 days except for the cases where it needs to be retained due to legal restrictions;
-    1. Data disclosure limitation:
-6. Accuracy and quality
-7. Openness, transparency and notice
-8. Individual participation and access
-9. Accountability
-10. Information security
-11. Privacy compliance
-
+These can be mitigated by choosing appropriate options in OAuth or OpenID, or by introducing some operational rules. 
+For example, "Attacker observing personal data in authorization request" can be mitigated by either using authorization request by reference 
+using `request_uri` or by encrypting the request object. 
+Similarly, "Attacker observing personal data in authorization endpoint response" can be mitigated by encrypting the ID Token or JARM response. 
 
 ## 9. Acknowledgement
 
