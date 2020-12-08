@@ -171,8 +171,7 @@ the generated token is computationally infeasible as per [RFC6749] section 10.10
 1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 1. shall require redirect URIs to use the https scheme;
 1. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained;
-1. shall support [OIDD] and may support [RFC8414];
-1. shall only distribute discovery metadata (such as the authorization endpoint) via the metadata document as specified in [OIDD] and [RFC8414].
+1. shall support [OIDD], may support [RFC8414] and shall not distribute discovery metadata (such as the authorization endpoint) by any other means.
 
     **NOTE**: The use of refresh tokens instead of long-lived access tokens for both 
     public and confidential clients is recommended.
