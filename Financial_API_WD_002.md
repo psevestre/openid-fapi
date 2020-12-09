@@ -311,7 +311,7 @@ The client supporting this document shall support the provisions specified in cl
 ## 8. Security considerations
 
 ### 8.1 Introduction
-As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations.
+As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations. The security of OAuth 2.0 has been proven formally - under certain assumptions - in [OAUTHSEC]. A detailed security analysis of FAPI can be found in [FAPISEC].
 
 ### 8.2 Uncertainty of resource server handling of access tokens
 There is no way that the client can find out whether the resource access was granted for a bearer or sender-constrained access token.
@@ -348,16 +348,16 @@ The rogue IdP then redirects the client to the honest IdP that has the same `cli
 If the user is already logged on at the honest IdP, 
 then the authentication may be skipped and a code is generated and returned to the client. 
 Since the client was interacting with the rogue IdP, the code is sent to the rogue IdP's token endpoint. 
-At the point, the attacker has a valid code that can be exchanged for an access token at the honest IdP.
+At the point, the attacker has a valid code that can be exchanged for an access token at the honest IdP. See [OAUTHSEC] for a detailed description of the attack.
 
-This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss` or [JARM] 
+This attack is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss` or [JARM] 
 where the `iss` included in the response JWT. On receiving the authorization response, the client compares the `iss` value from the response with the 
 issuer URL of the IdP it sent the authorization request to (the rogue IdP). The client detects the conflicting issuer values and aborts the transaction. 
 
 #### 8.3.4 (removed)
 
 #### 8.3.5 Access token phishing
-When the FAPI client uses [MTLS], the access token is bound to the client's TLS certificate, it is access token phishing resistant as the phished access tokens cannot be used.
+Various mechanisms in this specification aim at preventing access token phishing, e.g., the requirement of exactly matching redirect URIs and the restriction on response types that do not return access tokens in the front channel. As a second layer of defense, FAPI Advanced clients use [MTLS] meaning the access token is bound to the client's TLS certificate. Even if an access token is phished, it cannot be used by the attacker. An attacker could try to trick a client under his control to make use of the access token as described in [FAPISEC] ("Cuckoo's Token Attack" and "Access Token Injection with ID Token Replay"), but these attacks additionally require a rogue AS or misconfigured token endpoint.
 
 ### 8.4 Attacks that modify authorization requests and responses
 
@@ -568,6 +568,8 @@ The following people contributed to this document:
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [JARM] Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
+* [FAPISEC] Fett, D., Hosseyni, P., Kuesters, R.: An Extensive Formal Security Analysis of the OpenID Financial-grade API
+* [OAUTHSEC] Fett, D., Kuesters, R., Schmitz, G.: A Comprehensive Formal Security Analysis of OAuth 2.0
 
 ## 12. IANA Considerations
 ### 12.1 Additions to JWT Claims Registry
