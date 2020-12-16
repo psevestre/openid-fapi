@@ -148,9 +148,7 @@ Authorization servers
      - `private_key_jwt` as specified in section 9 of [@!OpenID]
  11. shall require PKCE [@!RFC7636] with `S256` as the code challenge method
  14. shall require that redirect URIs use the `https` scheme
- 12. shall require the `redirect_uri` parameter in authorization requests and
-     evaluate only this parameter to ensure authenticity and integrity of the
-     redirect URI
+ 12. shall require the `redirect_uri` parameter in pushed authorization requests
  13. shall return an `iss` parameter in the authorization response containing
      the issuer URI as published in the respective OAuth metadata [@!RFC8414]
  15. shall verify, if possible, that the authorization code (section 1.3.1 of
