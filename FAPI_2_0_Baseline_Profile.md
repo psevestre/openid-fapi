@@ -147,12 +147,12 @@ Authorization servers
      - MTLS as specified in section 2 of [@!RFC8705]
      - `private_key_jwt` as specified in section 9 of [@!OpenID]
  11. shall require PKCE [@!RFC7636] with `S256` as the code challenge method
+ 14. shall require that redirect URIs use the `https` scheme
  12. shall require the `redirect_uri` parameter in authorization requests and
      evaluate only this parameter to ensure authenticity and integrity of the
      redirect URI
  13. shall return an `iss` parameter in the authorization response containing
      the issuer URI as published in the respective OAuth metadata [@!RFC8414]
- 14. shall require that redirect URIs use the `https` scheme
  15. shall verify, if possible, that the authorization code (section 1.3.1 of
      [@!RFC6749]) has not been previously used
  16. shall provide a means for resource servers to verify the validity,
@@ -242,9 +242,10 @@ Resource servers with the FAPI endpoints
 
  1. RSA keys shall have a minimum length of 2048 bits.
  1. Elliptic curve keys shall have a minimum length of 160 bits.
- 1. Access tokens shall be non-guessable with a minimum of 128 bits of entropy
-    where the probability of an attacker guessing the generated token is less
-    than or equal to 2^(-160) as per [@!RFC6749] section 10.10.
+ 1. Credentials not intended for handling by end-users (e.g., access tokens,
+    refresh tokens, authorization codes, etc.) shall be created with at least
+    128 bits of entropy such that an attacker correctly guessing the value is
+    computationally infeasible. Cf. Section 10.10 of  [@!RFC6749].
 
 
 ## Differences to FAPI 1.0
