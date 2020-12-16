@@ -238,9 +238,13 @@ Resource servers with the FAPI endpoints
 
 ## Cryptography and Secrets
 
- 1. RSA keys shall have a minimum length of 2048 bits.
- 1. Elliptic curve keys shall have a minimum length of 160 bits.
- 1. Credentials not intended for handling by end-users (e.g., access tokens,
+ 
+ 1. Authorization Servers, Clients, and Resource Servers shall adhere to
+    [@!RFC8725] when creating or processing JWTs, in particular the
+    algorithm-specific recommendations in Section 3.2.
+ 2. RSA keys shall have a minimum length of 2048 bits.
+ 3. Elliptic curve keys shall have a minimum length of 160 bits.
+ 4. Credentials not intended for handling by end-users (e.g., access tokens,
     refresh tokens, authorization codes, etc.) shall be created with at least
     128 bits of entropy such that an attacker correctly guessing the value is
     computationally infeasible. Cf. Section 10.10 of  [@!RFC6749].
@@ -248,19 +252,19 @@ Resource servers with the FAPI endpoints
 
 ## Differences to FAPI 1.0
 
-| FAPI 1.0 Read/Write                      | FAPI 2.0                            | Reasons                                                                                               |
-| :--------------------------------------- | :---------------------------------- | :---------------------------------------------------------------------------------------------------- |
-| JAR, JARM                                | PAR                                 | integrity protection and compatibility improvements for authorization requests; only code in response |
-| -                                        | RAR                                 | support complex and structured information about authorizations                                       |
-| individual security recommendations                                        | security recommendations aligned with OAuth Security BCP        |                                                                                                       |
-| `s_hash`                                 | -                                   | state integrity is protected by PAR; protection provided by state is now provided by PKCE             |
-| pre-registered redirect URIs             | redirect URIs in PAR                | pre-registration is not required with client authentication and PAR                                   |
-| response types `code id_token` or `code` | response type `code`                | improve security: no ID token in front-channel; not needed                                            |
-| ID Token as detached signature           | -                                   | ID token does not need to serve as a detached signature                                               |
-| signed and encrypted ID Tokens           | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
-| `exp` claim in request object            | -                                   | ?                                                                                                     |
-| `x-fapi-*` headers | Renamed to `fapi-*` headers | See https://tools.ietf.org/html/rfc6648 |
-| MTLS for sender-constrained access tokens | MTLS or DPoP | |
+| FAPI 1.0 Read/Write                       | FAPI 2.0                                                 | Reasons                                                                                               |
+| :---------------------------------------- | :------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- |
+| JAR, JARM                                 | PAR                                                      | integrity protection and compatibility improvements for authorization requests; only code in response |
+| -                                         | RAR                                                      | support complex and structured information about authorizations                                       |
+| individual security recommendations       | security recommendations aligned with OAuth Security BCP |                                                                                                       |
+| `s_hash`                                  | -                                                        | state integrity is protected by PAR; protection provided by state is now provided by PKCE             |
+| pre-registered redirect URIs              | redirect URIs in PAR                                     | pre-registration is not required with client authentication and PAR                                   |
+| response types `code id_token` or `code`  | response type `code`                                     | improve security: no ID token in front-channel; not needed                                            |
+| ID Token as detached signature            | -                                                        | ID token does not need to serve as a detached signature                                               |
+| signed and encrypted ID Tokens            | signing and encryption not required                      | ID Tokens only exchanged in back channel                                                              |
+| `exp` claim in request object             | -                                                        | ?                                                                                                     |
+| `x-fapi-*` headers                        | Renamed to `fapi-*` headers                              | See https://tools.ietf.org/html/rfc6648                                                               |
+| MTLS for sender-constrained access tokens | MTLS or DPoP                                             |                                                                                                       |
 
 
 
