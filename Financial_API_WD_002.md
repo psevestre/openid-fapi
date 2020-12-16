@@ -399,19 +399,10 @@ Section 7.1 of Financial-grade API - Part 1: Baseline Security Profile shall app
    NOTE: Permitted cipher suites are those that [BCP195] does not explicity say MUST NOT use.
 1. When using the `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256` or `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384` cipher suites, key lengths of at least 2048 bits are required.
 
-### 8.6 Algorithm considerations
-
-For JWS, both clients and authorization servers:
-
-1. shall use `PS256` or `ES256` algorithms;
-1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
-1. shall not use `none`;
-
-### 8.6.1 Encryption algorithm considerations
-
-For JWE, both clients and authorization servers
-
-1. shall not use the `RSA1_5` algorithm.
+### 8.6 Algorithm/JWS considerations
+Authorization Servers, Clients, and Resource Servers shall adhere to [RFC8725] when creating or processing JWTs. In particular,
+ * the algorithm-specific recommendations in Section 3.2 shall be followed,
+ * and the `none` algorithm shall not be used or accepted.
 
 ### 8.7 Incomplete or incorrect implementations of the specifications
 
@@ -562,6 +553,7 @@ The following people contributed to this document:
 * [RFC7519] JSON Web Token (JWT)
 * [RFC7591] OAuth 2.0 Dynamic Client Registration Protocol
 * [RFC7592] OAuth 2.0 Dynamic Client Registration Management Protocol
+* [RFC8725] JSON Web Token Best Current Practices
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
