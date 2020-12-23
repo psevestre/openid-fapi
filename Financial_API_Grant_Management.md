@@ -220,17 +220,51 @@ HTTP/1.1 200 OK
 Cache-Control: no-cache, no-store
 Content-Type: application/json
 
-{ 
-  "scope": "read"
-}
+[
+    {
+        "scopes": {
+            "scope": "contacts read write",
+            "resources": [
+                "https://rs.example.com/api"
+            ]
+        }
+    },
+    {
+        "scopes": {
+            "scope":"openid"
+        },
+        "claims": [
+            "given_name",
+            "nickname",
+            "email",
+            "email_verified"
+        ]
+    },
+    {
+        "authorization_details": [
+            {
+                "type": "account_information",
+                "actions": [
+                    "list_accounts",
+                    "read_balances",
+                    "read_transactions"
+                ],
+                "locations": [
+                    "https://example.com/accounts"
+                ]
+            }
+        ]
+    }
+]
 ```
 
-The privileges associated with the grant will be provided in a JSON object with the following fields:
+The privileges associated with the grant will be provided as a JSON array containing objects with the following structure:
 
-* `scope`: String value as defined in [@!RFC6749] representing the scope associated with the grant.
+* `scopes`: JSON object containing the `scope` parameter value and (optionally) any `resource` parameter value as defined in [@!RFC8707] passed in the same authorization request. 
+* `claims`: JSON array containing the names of the consented claims as defined in [@!OpenID].
 * `authorization_details`: JSON Object as defined in [@!I-D.ietf-oauth-rar].
-* `claims`: JSON object as defined in [@!OpenID].
-* `resources`: List of `resource` values as defined in [@!RFC8707]
+
+The AS MUST maintain the scope and resource values passed in different authorization requests in seperate objects of the JSON structure in order to presever their relationship. The AS MAY merge claims and authorization details passed in different authorization requests.
 
 The response structure MAY also include further elements defined by other extensions. 
 

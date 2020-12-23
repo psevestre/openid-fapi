@@ -1,0 +1,36 @@
+[
+    {
+        "scopes": {
+            "scope": "contacts read write",
+            "resources": [
+                "https://rs.example.com/api"
+            ]
+        }
+    },
+    {
+        "scopes": {
+            "scope":"openid"
+        },
+        "claims": [
+            "given_name",
+            "nickname",
+            "email",
+            "email_verified"
+        ]
+    },
+    {
+        "authorization_details": [
+            {
+                "type": "account_information",
+                "actions": [
+                    "list_accounts",
+                    "read_balances",
+                    "read_transactions"
+                ],
+                "locations": [
+                    "https://example.com/accounts"
+                ]
+            }
+        ]
+    }
+]
