@@ -7,7 +7,7 @@ keyword = ["security", "oauth", "grant management", "consent management"]
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "fapi-grant-management-00"
+value = "fapi-grant-management-01"
 status = "standard"
 
 [[author]]
