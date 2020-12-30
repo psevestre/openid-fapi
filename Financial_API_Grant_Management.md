@@ -260,11 +260,12 @@ Content-Type: application/json
 
 The privileges associated with the grant will be provided as a JSON array containing objects with the following structure:
 
+* `privilege_id`: OPTIONAL Unique identifier of the specific privilege
 * `scopes`: JSON object containing the `scope` parameter value and (optionally) any `resource` parameter value as defined in [@!RFC8707] passed in the same authorization request. 
 * `claims`: JSON array containing the names of the consented claims as defined in [@!OpenID].
 * `authorization_details`: JSON Object as defined in [@!I-D.ietf-oauth-rar].
 
-The AS MUST maintain the scope and resource values passed in different authorization requests in seperate objects of the JSON structure in order to presever their relationship. The AS MAY merge claims and authorization details passed in different authorization requests.
+The AS MUST maintain the scope and resource values passed in different authorization requests in separate objects of the JSON structure in order to preserve their relationship. The AS MAY merge claims and authorization details passed in different authorization requests.
 
 The response structure MAY also include further elements defined by other extensions. 
 
