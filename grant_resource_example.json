@@ -1,5 +1,6 @@
 [
     {
+        "privilege_id": "wTCgprXONdKI",
         "scopes": {
             "scope": "contacts read write",
             "resources": [
@@ -8,6 +9,7 @@
         }
     },
     {
+        "privilege_id": "FoSfuf1BPomD",
         "scopes": {
             "scope":"openid"
         },
@@ -19,6 +21,7 @@
         ]
     },
     {
+        "privilege_id": "gv98Wna4fCFz",
         "authorization_details": [
             {
                 "type": "account_information",
