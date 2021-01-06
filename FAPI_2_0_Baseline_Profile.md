@@ -153,8 +153,8 @@ Authorization servers
  14. shall return an `iss` parameter in the authorization response containing
      the issuer URI as published in the respective OAuth metadata [@!RFC8414]
  15. shall require that redirect URIs use the `https` scheme
- 16. shall verify, if possible, that the authorization code (section 1.3.1 of
-     [@!RFC6749]) has not been previously used
+ 16. shall reject an authorization code (section 1.3.1 of [@!RFC6749]) if it has
+     been previously used
  17. shall provide a means for resource servers to verify the validity,
      integrity, sender-constraining, scope (incl. `authorization_details`),
      expiration and revocation status of an access token, either by providing an
@@ -259,7 +259,8 @@ Resource servers with the FAPI endpoints
 | signed and encrypted ID Tokens           | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
 | `exp` claim in request object            | -                                   | ?                                                                                                     |
 
-
+## Acknowledgements
+(todo)
 
 {backmatter}
 
