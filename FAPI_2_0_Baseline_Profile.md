@@ -23,13 +23,27 @@ organization="yes.com"
 
 .# Abstract 
 
-OIDF FAPI 2.0 is an API security profile based on the OAuth 2.0 Authorization
-Framework [@!RFC6749]. 
+The Financial-grade API (FAPI) 2.0 Baseline profile is an API security profile
+based on the OAuth 2.0 Authorization Framework [@!RFC6749]. 
 
 {mainmatter}
 
 # Introduction
+Financial-grade API (FAPI) 2.0 is an API security profile based on the OAuth 2.0
+Authorization Framework [@!RFC6749] and related specifications suitable for
+protecting APIs in high-value scenarios. While the security profile was
+initially developed with a focus on financial applications, it is designed to be
+universally applicable for protecting APIs exposing high-value and sensitive
+(personal and other) data, for example, in e-health and e-government
+applications.  FAPI 2.0 consists of the following parts:
 
+ * Baseline Profile (this document)
+ * Advanced Profile
+ * Attacker Model
+ * CIBA
+ * Grant Management
+
+Future parts may follow.
 ## Warning
 
 This document is not an OIDF International Standard. It is distributed for
