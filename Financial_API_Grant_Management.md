@@ -74,7 +74,7 @@ The underlying assumption is that creation and updates of grants almost always r
 
 This specification introduces a new authorization request parameter:
 
-`grant_id`: OPTIONAL. String value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it. If the parameter is present, the AS will assign all permissions as consented by the user in the actual request to the respective grant. If the parameter is not present the behavior is at the discretion of the AS. It MAY, for example, identify the grant to be updated using the pair of user id and client id or it MAY create a new grant.   
+`grant_id`: OPTIONAL. String value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it. If the parameter is present, the AS will assign all permissions as consented by the user in the actual request to the respective grant. If the parameter is not present, the behavior depends on the client policy. If the client requires a `grant_id` in the token response (see (#client_metadata)), the AS MUST create a new grant and return the respective grant id in the token response. If the client does not require `grant_id` in the token response, the AS MUST NOT return a grant id in the token response. The internal grant management behavior is at the discretion of the AS in this case.   
 
 The following example shows how a client may ask the authorization request to use a certain grant id:
 
@@ -119,7 +119,7 @@ Cache-Control: no-cache, no-store
 }
 ```
 
-A client MAY request issuance of grant id in the token response by including the `grant_id_required` client registration parameter (). 
+A client MAY request issuance of a grant id in the token response by including the `grant_id_required` client registration parameter (see (#client_metadata)). 
 
 # Grant Management API
 
@@ -145,7 +145,7 @@ OPTIONAL. JSON array containing a list of Grant Management actions which are sup
 `grant_management_endpoint`
 OPTIONAL. URL of the authorization server's Grant Management Administration Endpoint.
 
-## Client metadata
+## Client metadata {#client_metadata}
 
 `grant_id_required`
 OPTIONAL. JSON boolean requesting the AS to provide grant ids in the token response. If omitted, the default value is no grant ids required.
