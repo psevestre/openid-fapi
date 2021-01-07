@@ -227,6 +227,9 @@ Content-Type: application/json
          "resources":[
             "https://rs.example.com/api"
          ]
+      },
+      {
+         "scope":"openid"
       }
    ],
    "claims":[
