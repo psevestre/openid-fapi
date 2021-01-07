@@ -220,42 +220,35 @@ HTTP/1.1 200 OK
 Cache-Control: no-cache, no-store
 Content-Type: application/json
 
-[
-    {
-        "scopes": {
-            "scope": "contacts read write",
-            "resources": [
-                "https://rs.example.com/api"
-            ]
-        }
-    },
-    {
-        "scopes": {
-            "scope":"openid"
-        },
-        "claims": [
-            "given_name",
-            "nickname",
-            "email",
-            "email_verified"
-        ]
-    },
-    {
-        "authorization_details": [
-            {
-                "type": "account_information",
-                "actions": [
-                    "list_accounts",
-                    "read_balances",
-                    "read_transactions"
-                ],
-                "locations": [
-                    "https://example.com/accounts"
-                ]
-            }
-        ]
-    }
-]
+{
+   "scopes":[
+      {
+         "scope":"contacts read write",
+         "resources":[
+            "https://rs.example.com/api"
+         ]
+      }
+   ],
+   "claims":[
+      "given_name",
+      "nickname",
+      "email",
+      "email_verified"
+   ],
+   "authorization_details":[
+      {
+         "type":"account_information",
+         "actions":[
+            "list_accounts",
+            "read_balances",
+            "read_transactions"
+         ],
+         "locations":[
+            "https://example.com/accounts"
+         ]
+      }
+   ]
+}
 ```
 
 The privileges associated with the grant will be provided as a JSON array containing objects with the following structure:
