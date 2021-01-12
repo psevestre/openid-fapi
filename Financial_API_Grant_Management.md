@@ -137,7 +137,7 @@ The Grant Management API will not expose any tokens associated with a certain gr
 ## Authorization server's metadata
 
 `grant_id_supported`
-OPTIONAL. JSON string indicating support for grant id. Allowed values are `None`, `Optional`, `Always`. If omitted, the default value is no support (`None`). 
+OPTIONAL. JSON string indicating support for grant id. Allowed values are `none`, `optional`, `always`. If omitted, the default value is no support (`none`). 
 
 `grant_management_actions_supported`
 OPTIONAL. JSON array containing a list of Grant Management actions which are supported. If omitted, the default value is no supported actions.
