@@ -72,9 +72,9 @@ The underlying assumption is that creation and updates of grants almost always r
 
 ## Authorization Request
 
-This specification introduces a new authorization request parameter:
+This specification introduces the  authorization request parameter `grant_id`:
 
-`grant_id`: OPTIONAL. String value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it. If the parameter is present, the AS will assign all permissions as consented by the user in the actual request to the respective grant. If the parameter is not present, the behavior depends on the client policy. If the client requires a `grant_id` in the token response (see (#client_metadata)), the AS MUST create a new grant and return the respective grant id in the token response. If the client does not require `grant_id` in the token response, the AS MUST NOT return a grant id in the token response. The internal grant management behavior is at the discretion of the AS in this case.   
+`grant_id`: OPTIONAL. String value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it and the respective client MUST be authorized to use the particular grant id. If the parameter is present, the AS will assign all permissions as consented by the user in the actual request to the respective grant. If the parameter is not present and the AS always issues grant ids or the AS optionally issues grant ids (see (#server_metadata)) and the client requires grant ids (see (#client_metadata)), the AS MUST create a new grant and return the respective grant id in the token response. Otherwise, the AS MUST NOT return a grant id in the token response. The internal grant management behavior is at the discretion of the AS in this case.   
 
 The following example shows how a client may ask the authorization request to use a certain grant id:
 
@@ -97,11 +97,11 @@ Note: a client (as logical entity) MAY use multiple client ids to deliver its se
 
 ### Error Response
 
-In case the `grant_id` is unknown or invalid, the authorization server will respond with an error code `invalid_grant_id`.
+In case the `grant_id` is unknown or invalid, the authorization server will respond with an error code `invalid_grant` (as defined in [@!RFC6749]).
 
 ## Token Response
 
-This specification introduces the following new token response parameter:
+This specification introduces the token response parameter `grant_id`:
 
 `grant_id`: URL safe string value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of a certain authorization server and SHOULD have enough entropy to make it impractical to guess it.  
 
@@ -119,8 +119,6 @@ Cache-Control: no-cache, no-store
 }
 ```
 
-A client MAY request issuance of a grant id in the token response by including the `grant_id_required` client registration parameter (see (#client_metadata)). 
-
 # Grant Management API
 
 The Grant Management API allows clients to perform various actions on a grant whose `grant_id` the client previously obtained from the authorization server.
@@ -134,10 +132,16 @@ The Grant Management API does not provide bulk access to all grants of a certain
 
 The Grant Management API will not expose any tokens associated with a certain grant in order to prevent token leakage. The client is supposed to manage its grants along with the respective tokens and ensure its usage in the correct user context. 
 
-## Authorization server's metadata
+## Authorization server's metadata {#server_metadata}
 
 `grant_id_supported`
-OPTIONAL. JSON string indicating support for grant id. Allowed values are `none`, `optional`, `always`. If omitted, the default value is no support (`none`). 
+OPTIONAL. JSON string indicating support for provision of grant ids in token responses and use of such grant ids in authorization requests. Allowed values are `none`, `optional`, `always`. 
+
+* `none`: the AS does not support grant ids.
+* `optional`: the AS supports grant ids, the client determines whether grant ids are issued.
+* `always`: the AS will provide grant ids in every token response. 
+
+If omitted, the default value is `none`. 
 
 `grant_management_actions_supported`
 OPTIONAL. JSON array containing a list of Grant Management actions which are supported. If omitted, the default value is no supported actions.
@@ -252,7 +256,7 @@ If the request lacks a valid access token, the authorization server responds wit
 
 # Security Considerations {#Security}
 
-no credentials
+A grant id is considered a public identifier, it is not a secret. Implementations MUST assume grant ids leak to attackers, e.g. through authorization requests. For example, access to the sensitive data associated with a certain grant MUST NOT be made accessible without suitable security measures, e.g. an authentication and authorization of the respective client. 
 
 {backmatter}
 
