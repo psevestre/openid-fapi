@@ -137,6 +137,8 @@ Resource servers with the FAPI endpoints
 1. OPEN QUESTION: shall support which signing mechanisms?
 
 
+## Acknowledgements
+(todo)
      
 
 {backmatter}
