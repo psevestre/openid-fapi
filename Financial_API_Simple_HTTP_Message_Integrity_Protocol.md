@@ -125,6 +125,10 @@ The `htm` and `htu` claims are defined in [DPOP] in the context of an HTTP reque
  - `htm` - the HTTP method of the HTTP request that caused the HTTP response
  - `htu` - the HTTP URI of the HTTP request, without query and fragment parts, that caused the HTTP response
 
+#### 5.2.4 `htsc` - HTTP Response Status Code
+
+The value of the `htsc` claim is a JSON numeric value with the status code of the HTTP response 
+that carries the `DPoP` header. 
 
 ### 5.3 Signing HTTP Requests
 
@@ -140,7 +144,6 @@ POST /books HTTP/1.1
 Host: example.com
 Content-Type: application/json
 Accept: application/json
-Accept-Encoding: identity
 DPoP: eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6Ik
  VDIiwieCI6IlRBSW5NNmZnemp1aGphSXlva3g5dXAyYlFRYW1TVGlaZ2RNYVhqNWtMW
  DQiLCJ5IjoiVGR4d29WU05pYnkwR3pscWx0QjdfTE56R2lFOEFXcGw4TlRPQW5nSFV6
@@ -189,6 +192,7 @@ To sign an HTTP response a DPoP proof shall be created according to [DPOP] but w
 
  - `htu` - the HTTP URI of the received HTTP request (REQUIRED)
  - `htm` - the HTTP method of the received HTTP request (REQUIRED)
+ - `htsc` - the HTTP response status code (REQUIRED)
  - `htd` - the digest of the HTTP representation-data (the response body) (REQUIRED)
  - `dpr` - the hash of the DPoP proof of the received HTTP request (OPTIONAL)
 
@@ -203,11 +207,11 @@ DPoP: eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6Ik
  VDIiwieCI6InpGbG9RMDJRdFZDVTRzVUpsTXhXd1g2NjE1Y3ZNNURNUUZZQllPUmlrW
  WMiLCJ5IjoiV2RRT1lzT0Z4RFh5RldpQ2xoM19qQWQ4UWUydHpOZnlGZ2UyNkpCXzZY
  dyIsImNydiI6IlAtMjU2In19.eyJqdGkiOiJiV0NfN2VTQzhhY0M5TFRDIiwiaHRtIj
- oiUE9TVCIsImh0dSI6Imh0dHBzOi8vZXhhbXBsZS5jb20vYm9va3MiLCJpYXQiOjE2M
- DYzNDM5MDQsImh0ZCI6InNoYS0yNTY9L09RZW9KOXQ5c0VzTlBJYjhsSDJpbTNnMWRV
- ZWNKNEZ3TEVLTmlSNFowWT0iLCJkcHIiOiJmM1JLcURiRVVpSmhZT2w4blBWZG1jRzZ
- FcTQ0M1BnZ1NwWERzb2l1WWZBIn0.umgiQnQTVg0XvlPbDnZL9sHlT_qzaPzrCUmo5w
- nz0t5YWT3Lvldi8F-rwf_Gl5jxe4Ahgh9C4GObDAX3DTO09A
+ oiUE9TVCIsImh0dSI6Imh0dHBzOi8vZXhhbXBsZS5jb20vYm9va3MiLCJodHNjIjoyM
+ DEsImlhdCI6MTYwNjM0MzkwNCwiaHRkIjoic2hhLTI1Nj0vT1Flb0o5dDlzRXNOUEli
+ OGxIMmltM2cxZFVlY0o0RndMRUtOaVI0WjBZPSIsImRwciI6ImYzUktxRGJFVWlKaFl
+ PbDhuUFZkbWNHNkVxNDQzUGdnU3BYRHNvaXVZZkEifQ.2Aj-SPsfiVH0J-EOPQNo0Mq
+ X6vRm7O7aaiqicVufmxSyj2yP-2cb9CON5RBjGIPVmJ-yd4kkJR2REpGoaMdTdg
 
 {"status": "created", "id": "123", "instance": "/books/123"}
 ```
@@ -230,6 +234,7 @@ Decoded Content of the DPoP Proof from the Response Example Above:
   "jti":"bWC_7eSC8acC9LTC",
   "htm":"POST",
   "htu":"https://example.com/books",
+  "htsc":201,
   "iat":1606343904,
   "htd":"sha-256=/OQeoJ9t9sEsNPIb8lH2im3g1dUecJ4FwLEKNiR4Z0Y=",
   "dpr":"f3RKqDbEUiJhYOl8nPVdmcG6Eq443PggSpXDsoiuYfA"
@@ -244,6 +249,8 @@ To verify a signed HTTP response, all the steps listed in "Checking DPoP Proofs"
 
 1. the `htm` claim matches the HTTP method value of the HTTP request that caused the HTTP response that contained the JWT,
 2. the `htu` claim matches the HTTPS URI value of the HTTP request that caused the HTTP response that contained the JWT, ignoring any query and fragment parts,
+2. the `htsc` claim matches the status code of the HTTP response that contained the JWT,
+
 
 In addition the verifier shall calculate the digest of the HTTP HTTP representation-data using the algorithm specified in the `htd` claim. The calculated digest shall be compared to ensure that it matches the digest in the `htd` claim. 
 
@@ -302,15 +309,22 @@ HTTP digest:
 
  *  Claim Name: `htd`
  *  Claim Description: The digest of the HTTP representation-data 
- *  Change Controller: IESG
+ *  Change Controller: OpenID Foundation FAPI Working Group - openid-specs-fapi@lists.openid.net
  *  Specification Document(s):  [[ 5.2 of this specification ]]
  
 DPoP request signature hash:
  
  *  Claim Name: `dpr`
  *  Claim Description: The hash value of a DPoP proof
- *  Change Controller: IESG
+ *  Change Controller: OpenID Foundation FAPI Working Group - openid-specs-fapi@lists.openid.net
  *  Specification Document(s):  [[ 5.2 of this specification ]]
+ 
+ HTTP Response Status Code:
+
+  *  Claim Name: `htsc`
+  *  Claim Description: The status code of the HTTP response
+  *  Change Controller: OpenID Foundation FAPI Working Group - openid-specs-fapi@lists.openid.net
+  *  Specification Document(s):  [[ 5.2 of this specification ]]
 
 
 ## 9. Acknowledgement
