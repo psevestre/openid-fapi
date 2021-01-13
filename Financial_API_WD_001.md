@@ -13,7 +13,7 @@ The technology described in this specification was made available from contribut
 
 
 
-##Foreword
+## Foreword
 
 The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established has the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
@@ -50,7 +50,7 @@ These key words are not used as dictionary terms such that
 any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
 
-#**Financial-grade API - Part 1: Baseline Security Profile **
+# **Financial-grade API - Part 1: Baseline Security Profile **
 
 [TOC]
 

@@ -11,7 +11,7 @@ The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, 
 
 The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.
 
-##Foreword
+## Foreword
 
 The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established has the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
@@ -29,7 +29,7 @@ Future parts may follow.
 
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
-##Introduction
+## Introduction
 
 Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
 
@@ -49,7 +49,7 @@ These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-#**Financial-grade API - Part 2: Advanced Security Profile **
+# **Financial-grade API - Part 2: Advanced Security Profile **
 
 [TOC]
 
@@ -226,7 +226,7 @@ In addition, the authorization server
 
 **NOTE:** [PAR] does not present any additional security concerns that necessitated the requirement to use PKCE - the reason PKCE is not required in other cases is merely to be backwards compatible with earlier drafts of this standard.
 
-#### 5.2.2.1 ID Token as detached signature
+##### 5.2.2.1 ID Token as detached signature
 
 In addition, if the `response_type` value `code id_token` is used, the authorization server
 
@@ -239,7 +239,7 @@ In addition, if the `response_type` value `code id_token` is used, the authoriza
 
 **NOTE:** The authorization server may return more claims in the ID Token from the token endpoint than in the one from the authorization response
 
-#### 5.2.2.2 JARM
+##### 5.2.2.2 JARM
 
 In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the authorization server
 
@@ -268,7 +268,7 @@ In addition, the confidential client
 1. shall use [RFC7636] with `S256` as the code challenge method if using [PAR];
 1. shall additionally send a duplicate of the `client_id` parameter/value using the OAuth 2.0 request syntax to the authorization endpoint, as required by section 5 of [JAR], if using [PAR];
 
-#### 5.2.3.1 ID Token as detached signature
+##### 5.2.3.1 ID Token as detached signature
 
 In addition, if the `response_type` value `code id_token` is used, the client
 
@@ -278,7 +278,7 @@ In addition, if the `response_type` value `code id_token` is used, the client
 1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 1. shall support both signed and signed & encrypted ID Tokens
 
-#### 5.2.3.2 JARM
+##### 5.2.3.2 JARM
 
 In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the client
 
@@ -408,7 +408,7 @@ For JWS, both clients and authorization servers:
 1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
 1. shall not use `none`;
 
-### 8.6.1 Encryption algorithm considerations
+#### 8.6.1 Encryption algorithm considerations
 
 For JWE, both clients and authorization servers
 
