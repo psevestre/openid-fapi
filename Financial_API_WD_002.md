@@ -204,6 +204,7 @@ In addition, the authorization server
 	1. the `response_type` value `code id_token` or 
 	2. the `response_type` value `code` in conjunction with the `response_mode` value `jwt`;
 1. (moved to 5.2.2.1)
+1. (moved to 5.2.2.1)
 1. shall only issue sender-constrained access tokens;
 1. shall support [MTLS] as mechanism for constraining the legitimate senders of access tokens;
 1. (withdrawn);
