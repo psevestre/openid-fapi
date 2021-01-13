@@ -482,23 +482,31 @@ The following people contributed to this document:
 
 * [ISODIR2] ISO/IEC Directives Part 2
 * [ISO29100] ISO/IEC 29100 Information technology — Security techniques — Privacy framework
-* [ISO29134] ISO/IEC 29134 Information technology — Security techniques — Guidelines for privacy impact assessment 
+[ISO29100]: http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip
+
+* [ISO29134] ISO/IEC 29134 Information technology — Security techniques — Guidelines for privacy impact assessment
 * [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 * [RFC6749] The OAuth 2.0 Authorization Framework
 * [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
 * [RFC6797] HTTP Strict Transport Security (HSTS)
+[RFC6797]: https://tools.ietf.org/html/rfc6797
+
 * [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
 * [RFC7662] OAuth 2.0 Token Introspection
+[RFC7662]: https://tools.ietf.org/html/rfc7662
+
 * [RFC6125] Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 * [BCP212] OAuth 2.0 for Native Apps
 * [RFC6819] OAuth 2.0 Threat Model and Security Considerations
 * [RFC8414] OAuth 2.0 Authorization Server Metadata
 * [RFC8659] DNS Certification Authority Authorization (CAA) Resource Record
+[RFC8659]: https://tools.ietf.org/html/rfc8659
+
 * [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [X.1254] Entity authentication assurance framework
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
-* [ISO29100] ISO/IEC 29100 Information technology -- Security techniques -- Privacy framework <http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip>
-* [ISO29134] ISO/IEC 29134 Information technology -- Security techniques -- Privacy impact assessment -- Guidelines
-* [preload] HSTS Preload List Submission <https://hstspreload.org/>
+* [preload] HSTS Preload List Submission
+[preload]: https://hstspreload.org/
+
