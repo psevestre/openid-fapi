@@ -132,6 +132,7 @@ In the following, a profile of the following technologies is defined:
   * OAuth 2.0 Pushed Authorization Requests (PAR) [@!I-D.ietf-oauth-par]
   * OAuth 2.0 Rich Authorization Requests (RAR) [@!I-D.ietf-oauth-rar]
   * OAuth 2.0 Authorization Server Metadata [@!RFC8414]
+  * OAuth 2.0 Authorization Server Issuer Identifier in Authorization Response [@!I-D.ietf-oauth-iss-auth-res]
   * OpenID Connect Core 1.0 incorporating errata set 1 [@!OpenID]
   
 ### Requirements for Authorization Servers
@@ -164,8 +165,8 @@ Authorization servers
  13. shall require the `redirect_uri` parameter in authorization requests and
      evaluate only this parameter to ensure authenticity and integrity of the
      redirect URI
- 14. shall return an `iss` parameter in the authorization response containing
-     the issuer URI as published in the respective OAuth metadata [@!RFC8414]
+ 14. shall return an `iss` parameter in the authorization response according to
+     [@!I-D.ietf-oauth-iss-auth-res]
  15. shall require that redirect URIs use the `https` scheme
  16. shall reject an authorization code (section 1.3.1 of [@!RFC6749]) if it has
      been previously used
@@ -207,9 +208,8 @@ Clients
  5. shall use PKCE [@!RFC7636] with `S256` as the code challenge method
  6. shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0
     Bearer Token Usage [@!RFC6750]
- 7. shall check the `iss` parameter in the authorization response to match the
-    issuer with which the authorization flow was started to prevent Mix-Up
-    attacks as described in [@I-D.ietf-oauth-security-topics]
+ 7. shall check the `iss` parameter in the authorization response according to
+    [@!I-D.ietf-oauth-iss-auth-res] to prevent Mix-Up attacks
  8.  may send the last time the customer logged into the client in the
     `x-fapi-auth-date` header where the value is supplied as an HTTP-date as in
     section 7.1.1.1 of [@!RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012
