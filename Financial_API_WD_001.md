@@ -428,7 +428,7 @@ when implementing this document. However, since this document
 is a profile of OAuth and OpenID Connect, all of them 
 are generic and applies to OAuth or OpenID Connect and 
 not specific to this document. Implementers are advised to 
-perform a thorough privacy impact assessment and and manage identified risks appropriately. 
+perform a thorough privacy impact assessment and manage identified risks appropriately.
 
 NOTE: Implementers can consult documents like 
 [ISO29100] and [ISO29134] for this purpose. 
