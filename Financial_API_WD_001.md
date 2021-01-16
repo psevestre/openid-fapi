@@ -1,4 +1,4 @@
-# Financial-grade API - Part 1: Baseline Security Profile
+# Financial-grade API Security Profile 1.0 - Part 1: Baseline
 
 ## Warning
 
@@ -17,13 +17,10 @@ The technology described in this specification was made available from contribut
 
 The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established has the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
-Financial-grade API consists of the following parts:
+Financial-grade API Security Profile 1.0 consists of the following parts:
 
-* Part 1: Baseline Security Profile
-* Part 2: Advanced Security Profile
-* Financial-grade API: Client Initiated Backchannel Authentication Profile
-* Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
-* Financial-grade API: Implementation and Deployment Advice
+* Financial-grade API Security Profile 1.0 - Part 1: Baseline
+* Financial-grade API Security Profile 1.0 - Part 2: Advanced
 
 Future parts may follow.
 
@@ -35,7 +32,7 @@ Fintech is an area of future economic growth around the world and Fintech organi
 
 The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile. The Financial-grade API security profile can be applied to online services in any market area that requires a higher level of security than provided by standard OAuth or OpenID Connect.
 
-This document is Part 1 of FAPI that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
+This document is Part 1 of FAPI Security Profile 1.0 that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
 A higher level of security profile is provided in Part 2, suitable for read and write financial access APIs and other similar situations where the risk is higher.
 
 Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in section 7.6 before embarking on a 'from scratch' implementation.
@@ -50,7 +47,7 @@ These key words are not used as dictionary terms such that
 any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
 
-# **Financial-grade API - Part 1: Baseline Security Profile **
+# **Financial-grade API Security Profile 1.0 - Part 1: Baseline**
 
 [TOC]
 
