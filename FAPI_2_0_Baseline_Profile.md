@@ -147,11 +147,15 @@ Authorization servers
  4. shall support client-authenticated pushed authorization requests
     according to [@I-D.ietf-oauth-par]
  5. shall reject authorization requests sent without
-    [@I-D.lodderstedt-oauth-par] or authorization request parameters
+    [@I-D.ietf-oauth-par] or authorization request parameters
     sent outside of the PAR request, except for
     `request_uri` and `client_id`
  6. shall reject pushed authorization requests without client authentication
- 7. shall support rich authorization requests according to [@I-D.ietf-oauth-rar]
+ 7. shall support the `scope` parameter to convey the authorizations clients
+    want to obtain; if the `scope` parameter is not expressive enough to
+    represent those authorizations appropriately, the authorization server shall
+    support the `authorization_details` parameter according to
+    [@I-D.ietf-oauth-rar] for this purpose.
  8. shall support confidential clients as defined in [@!RFC6749]
  9. shall only issue sender-constrained access tokens using Mutual TLS as
     described in [@!RFC8705]
@@ -185,7 +189,6 @@ Authorization servers
 is desirable to set the validity period of the authorization code to one minute
 or a suitable short period of time. The validity period may act as a cache
 control indicator of when to clear the authorization code cache if one is used.
-
 
 #### Returning Authenticated User's Identifier
 
