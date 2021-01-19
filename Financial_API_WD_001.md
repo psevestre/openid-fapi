@@ -137,7 +137,7 @@ Read-only access is generally viewed to pose a lower risk than the write access 
 Read-only access is a lower risk scenario compared to the write access; therefore the protection level can also be lower.
 However, since the FAPI can provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires.
 
-As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the baseline profile of the FAPI.
+As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the baseline profile of the FAPI Security Profile 1.0.
 
 #### 5.2.2 Authorization server
 
@@ -173,7 +173,7 @@ the generated token is computationally infeasible as per [RFC6749] section 10.10
     **NOTE**: The use of refresh tokens instead of long-lived access tokens for both 
     public and confidential clients is recommended.
 
-    **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
+    **NOTE**: The Financial-grade API Security Profile 1.0 server may limit the scopes for the purpose of not implementing certain APIs.
 
     **NOTE**: Clients are expected to treat access tokens as opaque strings and replay them as is. Authorization servers can issue unstructured or structured access tokens (for example, a signed JWT).
 
@@ -263,7 +263,7 @@ The resource server with the FAPI endpoints
 1. shall encode the response in UTF-8 if applicable; 
 1. shall send the `Content-type` HTTP header `Content-Type: application/json` if applicable;
 1. shall send the server date in HTTP Date header as in section 7.1.1.2 of [RFC7231];
-1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
+1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding FAPI client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
 1. shall log the value of `x-fapi-interaction-id` in the log entry;
 1. shall not reject requests with a `x-fapi-customer-ip-address` header containing a
 valid IPv4 or IPv6 address.
@@ -380,7 +380,7 @@ When registering redirect URIs, authorization servers
 1. shall not support "Private-Use URI Scheme Redirection";
 1. shall not support "Loopback Interface Redirection";
 
-These requirements mean that FAPI compliant implementations can only
+These requirements mean that FAPI Security Profile 1.0 compliant implementations can only
 support native apps through the use of "Claimed https Scheme URI Redirection".
 
 Note: nothing in this document seeks to disallow fixed urls in the

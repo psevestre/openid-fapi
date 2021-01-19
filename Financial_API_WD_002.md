@@ -186,7 +186,7 @@ authorization responses and turn on OpenID if needed (e.g. to log the user in).
 
 Read and write access carries higher risk; therefore the protection level required is higher than read-only access.
 
-As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following for the advanced profile of the FAPI.
+As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following for the advanced profile of the FAPI Security Profile 1.0.
 
 #### 5.2.2 Authorization server
 
@@ -309,7 +309,7 @@ The client supporting this document shall support the provisions specified in cl
 ## 8. Security considerations
 
 ### 8.1 Introduction
-As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations. The security of OAuth 2.0 has been proven formally - under certain assumptions - in [OAUTHSEC]. A detailed security analysis of FAPI can be found in [FAPISEC].
+As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations. The security of OAuth 2.0 has been proven formally - under certain assumptions - in [OAUTHSEC]. A detailed security analysis of FAPI Security Profile 1.0 can be found in [FAPISEC].
 
 ### 8.2 Uncertainty of resource server handling of access tokens
 There is no way that the client can find out whether the resource access was granted for a bearer or sender-constrained access token.
@@ -335,7 +335,7 @@ In this attack, the client developer is socially engineered into believing that 
 to the URL that is controlled by the attacker. As a result, the client sends the `code` and the client secret to 
 the attacker, which will be replayed subsequently. 
 
-When the FAPI client uses [MTLS], the client's secret (the private key corresponding to its TLS certificate) is 
+When the FAPI Security Profile 1.0 client uses [MTLS], the client's secret (the private key corresponding to its TLS certificate) is
 not exposed to the attacker, which therefore cannot authenticate towards the token endpoint of the authorization server.
 
 #### 8.3.3 Identity provider (IdP) mix-up attack
@@ -355,7 +355,7 @@ issuer URL of the IdP it sent the authorization request to (the rogue IdP). The 
 #### 8.3.4 (removed)
 
 #### 8.3.5 Access token phishing
-Various mechanisms in this specification aim at preventing access token phishing, e.g., the requirement of exactly matching redirect URIs and the restriction on response types that do not return access tokens in the front channel. As a second layer of defense, FAPI Advanced clients use [MTLS] meaning the access token is bound to the client's TLS certificate. Even if an access token is phished, it cannot be used by the attacker. An attacker could try to trick a client under his control to make use of the access token as described in [FAPISEC] ("Cuckoo's Token Attack" and "Access Token Injection with ID Token Replay"), but these attacks additionally require a rogue AS or misconfigured token endpoint.
+Various mechanisms in this specification aim at preventing access token phishing, e.g., the requirement of exactly matching redirect URIs and the restriction on response types that do not return access tokens in the front channel. As a second layer of defense, FAPI Security Profile 1.0 Advanced clients use [MTLS] meaning the access token is bound to the client's TLS certificate. Even if an access token is phished, it cannot be used by the attacker. An attacker could try to trick a client under his control to make use of the access token as described in [FAPISEC] ("Cuckoo's Token Attack" and "Access Token Injection with ID Token Replay"), but these attacks additionally require a rogue AS or misconfigured token endpoint.
 
 ### 8.4 Attacks that modify authorization requests and responses
 
