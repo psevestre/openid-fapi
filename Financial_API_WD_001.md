@@ -104,6 +104,9 @@ The following referenced documents are indispensable for the application of this
 [OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
 [OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
 
+[RFC7231] - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content
+[RFC7231]: https://tools.ietf.org/html/rfc7231
+
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
@@ -221,10 +224,10 @@ A public client
 1. shall include the `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
 
     If `openid` is not in the `scope` value, then it
-1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749];
-1. shall verify that the `scope` received in the token response is either an exact match,
-or contains a subset of the `scope` sent in the authorization request;
-1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].  
+
+     1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749];
+     1. shall verify that the `scope` received in the token response is either an exact match or contains a subset of the `scope` sent in the authorization request;
+     1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].
 
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
@@ -268,7 +271,6 @@ The resource server with the FAPI endpoints
 1. shall not reject requests with a `x-fapi-customer-ip-address` header containing a
 valid IPv4 or IPv6 address.
 
-
     **NOTE**: While this document does not specify the exact method to obtain the entity associated with the
     access token and the granted scope, the protected resource can use OAuth Token Introspection [RFC7662].
 
@@ -310,7 +312,9 @@ Endpoints for the use by web browsers should use mechanisms to ensure that conne
 For a comprehensive protection against network attackers, all
 endpoints should additionally use DNSSEC to protect against DNS
 spoofing attacks that can lead to the issuance of rogue
-domain-validated TLS certificates. Note: Even if an endpoint uses only
+domain-validated TLS certificates.
+
+**NOTE**: Even if an endpoint uses only
 organization validated (OV) or extended validation (EV) TLS
 certificates, rogue domain-validated certificates can be used to
 impersonate the endpoints and conduct man-in-the-middle attacks.
@@ -383,7 +387,7 @@ When registering redirect URIs, authorization servers
 These requirements mean that FAPI Security Profile 1.0 compliant implementations can only
 support native apps through the use of "Claimed https Scheme URI Redirection".
 
-Note: nothing in this document seeks to disallow fixed urls in the
+**NOTE**: Nothing in this document seeks to disallow fixed urls in the
 form https://localhost:port-number/callback, as these are particularly
 useful in non-production systems or in clients used in development, to
 facilitate faster and easier development.
@@ -404,7 +408,7 @@ Deployments that use this specification should use a certified implementation.
 
 ### 7.7 Discovery & Multiple Brands
 
-Organisations who need to support multiple "brands" with individual authorization endpoints 
+Organizations who need to support multiple "brands" with individual authorization endpoints 
 from a single Authorization Server deployment shall use a separate `issuer` per brand.
 This can be achieved either at the domain level (e.g. `https://brand-a.auth.example.com` 
 and  `https://brand-b.auth.example.com`) or with different paths (e.g. `https://auth.example.com/brand-a` and `https://auth.example.com/brand-b`)
@@ -427,7 +431,7 @@ are generic and applies to OAuth or OpenID Connect and
 not specific to this document. Implementers are advised to 
 perform a thorough privacy impact assessment and manage identified risks appropriately.
 
-NOTE: Implementers can consult documents like 
+**NOTE**: Implementers can consult documents like
 [ISO29100] and [ISO29134] for this purpose. 
 
 Privacy threats to OAuth and OpenID Connect implementations include the following: 

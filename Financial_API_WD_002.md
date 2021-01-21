@@ -28,7 +28,7 @@ These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [O
 
 ## Introduction
 
-Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
+Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749] and [RFC6750].
 
 The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile. The Financial-grade API security profile can be applied to online services in any market area that requires a higher level of security than provided by standard OAuth or OpenID Connect.
  
@@ -149,7 +149,7 @@ This profile describes security provisions for the server and client that are ap
 
 This profile does not support public clients.
 
-The following ways are specified to cope with modifications of authorization responses: Implementations can leverage OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response or they can utilize the JWT Secured Authorization Response Mode for OAuth 2.0 (JARM) that returns and protects all authorization response parameters in a JWT.
+The following ways are specified to cope with modifications of authorization responses: Implementations can leverage OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response or they can utilize the JWT Secured Authorization Response Mode for OAuth 2.0 ([JARM]) that returns and protects all authorization response parameters in a JWT.
 
 #### 5.1.1 ID Token as Detached Signature
 While the name ID Token (as used in the OpenID Connect Hybrid Flow) suggests that it is something that provides the identity of the resource owner (subject), it is not necessarily so. While it does identify the authorization server by including the issuer identifier, 
@@ -176,7 +176,7 @@ The [JARM] allows a client to request that an authorization server encodes the a
 
 This specification facilitates use of [JARM] in conjunction with the response type `code`.
 
-Note: [JARM] can be used to protect OpenID Connect authentication responses. In this case, the OpenID RP would use response type `code`, response mode `jwt` and scope `openid`. This means [JARM] protects the authentication response (instead of the ID Token) and the ID Token containing End-User Claims is obtained from the token endpoint. This facilitates privacy since no End-User Claims are sent through the front channel. It also provides decoupling of 
+**NOTE:** [JARM] can be used to protect OpenID Connect authentication responses. In this case, the OpenID RP would use response type `code`, response mode `jwt` and scope `openid`. This means [JARM] protects the authentication response (instead of the ID Token) and the ID Token containing End-User Claims is obtained from the token endpoint. This facilitates privacy since no End-User Claims are sent through the front channel. It also provides decoupling of
 message protection and identity providing since a client (or RP) can basically use [JARM] to protect all 
 authorization responses and turn on OpenID if needed (e.g. to log the user in).
 
@@ -272,7 +272,8 @@ In addition, if the `response_type` value `code id_token` is used, the client
 1. shall include the value `openid` into the `scope` parameter in order to activate [OIDC] support
 1. shall require JWS signed ID Token be returned from endpoints;
 1. shall verify that the authorization response was not tampered using ID Token as the detached signature
-1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
+1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC].
+   **NOTE:**: this enables the client to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 1. shall support both signed and signed & encrypted ID Tokens
 
 ##### 5.2.3.2 JARM
@@ -394,7 +395,7 @@ Section 7.1 of Financial-grade API Security Profile 1.0 - Part 1: Baseline shall
     * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
     * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
 1. For the `authorization_endpoint`, the authorization server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers or are required by local regulations.
-   NOTE: Permitted cipher suites are those that [BCP195] does not explicity say MUST NOT use.
+   **NOTE:** Permitted cipher suites are those that [BCP195] does not explicity say MUST NOT use.
 1. When using the `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256` or `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384` cipher suites, key lengths of at least 2048 bits are required.
 
 ### 8.6 Algorithm considerations
@@ -454,21 +455,21 @@ public keys. For Clients this profile recommends either the use of JWKS URI endp
 or the use of the `jwks` parameter in combination with [RFC7591] 
 and [RFC7592].
 
-The definition of the AS jwks_uri can be found in [RFC8414], while the definition 
-of the Client jwks_uri can be found in [RFC7591]. 
+The definition of the AS `jwks_uri` can be found in [RFC8414], while the definition
+of the Client `jwks_uri` can be found in [RFC7591].
 
 In addition, this profile
 
-1. requires that jwks_uri endpoints shall be served over TLS;
-1. recommends that JOSE headers for x5u and jku should not be used;
+1. requires that `jwks_uri` endpoints shall be served over TLS;
+1. recommends that JOSE headers for `x5u` and `jku` should not be used;
 1. recommends that the JWK set does not contain multiple keys with the same `kid`.
 
 ### 8.10 Multiple clients sharing the same key
 
 The use of [MTLS] for client authentication and sender constraining access tokens brings
 significant security benefits over the use of shared secrets. However in some deployments
-the certificates used for [MTLS] are issued by a Certificate Authority at an organisation
-level rather than a client level. In such situations it may be common for an organisation 
+the certificates used for [MTLS] are issued by a Certificate Authority at an organization
+level rather than a client level. In such situations it may be common for an organization 
 with multiple clients to use the same certificates (or certificates with the same DN) 
 across clients. Implementers should be aware that such sharing means that a compromise 
 of any one client, would result in a compromise of all clients sharing the same key.
@@ -476,7 +477,7 @@ of any one client, would result in a compromise of all clients sharing the same 
 ### 8.11 Duplicate Key Identifiers
 JWK sets should not contain multiple keys with the same `kid`. However, to increase 
 interoperability when there are multiple keys with the same `kid`,  the verifier shall 
-consider other JWK attributes, such as kty, use, alg, etc., when selecting the 
+consider other JWK attributes, such as `kty`, `use`, `alg`, etc., when selecting the
 verification key for the particular JWS message. For example, the following algorithm 
 could be used in selecting which key to use to verify a message signature:
 
@@ -495,7 +496,7 @@ are generic and applies to OAuth or OpenID Connect and
 not specific to this document. Implementers are advised to 
 perform a thorough privacy impact assessment and manage identified risks appropriately. 
 
-NOTE: Implementers can consult documents like 
+**NOTE:** Implementers can consult documents like
 [ISO29100] and [ISO29134] for this purpose. 
 
 Privacy threats to OAuth and OpenID Connect implementations include the following: 
@@ -562,6 +563,9 @@ The following people contributed to this document:
 * [RFC7519] JSON Web Token (JWT)
 * [RFC7591] OAuth 2.0 Dynamic Client Registration Protocol
 * [RFC7592] OAuth 2.0 Dynamic Client Registration Management Protocol
+* [RFC8414] OAuth 2.0 Authorization Server Metadata
+[RFC8414]: https://tools.ietf.org/html/rfc8414
+
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
@@ -759,7 +763,7 @@ which when decoded has the following body:
       "exp": 1594141090
     }
 
-### A.5 Example private_key_jwt client assertion
+### A.5 Example private\_key\_jwt client assertion
 
     eyJraWQiOiJjbGllbnQtMjAyMC0wOC0yOCIsImFsZyI6IlBTMjU2In0.eyJzdWIiOiI1MjQ4MDc1NDA1
     MyIsImF1ZCI6Imh0dHBzOlwvXC9mYXBpLWFzLmV4YW1wbGUuY29tXC9hcGlcL3Rva2VuIiwiaXNzIjoi
