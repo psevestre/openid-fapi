@@ -225,9 +225,10 @@ A public client
 
     If `openid` is not in the `scope` value, then it
 
-     1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749];
-     1. shall verify that the `scope` received in the token response is either an exact match or contains a subset of the `scope` sent in the authorization request;
-     1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].
+1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749];
+1. shall verify that the `scope` received in the token response is either an exact match,
+or contains a subset of the `scope` sent in the authorization request;
+1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].
 
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
