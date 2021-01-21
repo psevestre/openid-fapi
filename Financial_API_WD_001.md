@@ -1,4 +1,4 @@
-# Financial-grade API - Part 1: Baseline Security Profile
+# Financial-grade API Security Profile 1.0 - Part 1: Baseline
 
 ## Warning
 
@@ -17,13 +17,10 @@ The technology described in this specification was made available from contribut
 
 The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established has the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
-Financial-grade API consists of the following parts:
+Financial-grade API Security Profile 1.0 consists of the following parts:
 
-* Part 1: Baseline Security Profile
-* Part 2: Advanced Security Profile
-* Financial-grade API: Client Initiated Backchannel Authentication Profile
-* Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
-* Financial-grade API: Implementation and Deployment Advice
+* Financial-grade API Security Profile 1.0 - Part 1: Baseline
+* Financial-grade API Security Profile 1.0 - Part 2: Advanced
 
 Future parts may follow.
 
@@ -35,7 +32,7 @@ Fintech is an area of future economic growth around the world and Fintech organi
 
 The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile. The Financial-grade API security profile can be applied to online services in any market area that requires a higher level of security than provided by standard OAuth or OpenID Connect.
 
-This document is Part 1 of FAPI that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
+This document is Part 1 of FAPI Security Profile 1.0 that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
 A higher level of security profile is provided in Part 2, suitable for read and write financial access APIs and other similar situations where the risk is higher.
 
 Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in section 7.6 before embarking on a 'from scratch' implementation.
@@ -50,7 +47,7 @@ These key words are not used as dictionary terms such that
 any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
 
-# **Financial-grade API - Part 1: Baseline Security Profile **
+# **Financial-grade API Security Profile 1.0 - Part 1: Baseline**
 
 [TOC]
 
@@ -140,7 +137,7 @@ Read-only access is generally viewed to pose a lower risk than the write access 
 Read-only access is a lower risk scenario compared to the write access; therefore the protection level can also be lower.
 However, since the FAPI can provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires.
 
-As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the baseline profile of the FAPI.
+As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the baseline profile of the FAPI Security Profile 1.0.
 
 #### 5.2.2 Authorization server
 
@@ -176,7 +173,7 @@ the generated token is computationally infeasible as per [RFC6749] section 10.10
     **NOTE**: The use of refresh tokens instead of long-lived access tokens for both 
     public and confidential clients is recommended.
 
-    **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
+    **NOTE**: The Financial-grade API Security Profile 1.0 server may limit the scopes for the purpose of not implementing certain APIs.
 
     **NOTE**: Clients are expected to treat access tokens as opaque strings and replay them as is. Authorization servers can issue unstructured or structured access tokens (for example, a signed JWT).
 
@@ -266,7 +263,7 @@ The resource server with the FAPI endpoints
 1. shall encode the response in UTF-8 if applicable; 
 1. shall send the `Content-type` HTTP header `Content-Type: application/json` if applicable;
 1. shall send the server date in HTTP Date header as in section 7.1.1.2 of [RFC7231];
-1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
+1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding FAPI client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
 1. shall log the value of `x-fapi-interaction-id` in the log entry;
 1. shall not reject requests with a `x-fapi-customer-ip-address` header containing a
 valid IPv4 or IPv6 address.
@@ -383,7 +380,7 @@ When registering redirect URIs, authorization servers
 1. shall not support "Private-Use URI Scheme Redirection";
 1. shall not support "Loopback Interface Redirection";
 
-These requirements mean that FAPI compliant implementations can only
+These requirements mean that FAPI Security Profile 1.0 compliant implementations can only
 support native apps through the use of "Claimed https Scheme URI Redirection".
 
 Note: nothing in this document seeks to disallow fixed urls in the
