@@ -414,7 +414,7 @@ from a single Authorization Server deployment shall use a separate `issuer` per 
 This can be achieved either at the domain level (e.g. `https://brand-a.auth.example.com` 
 and  `https://brand-b.auth.example.com`) or with different paths (e.g. `https://auth.example.com/brand-a` and `https://auth.example.com/brand-b`)
 
-As stated in 5.2.10 Clients shall only use metadata values obtained via metadata documents
+As stated in 5.2.2-22 Clients shall only use metadata values obtained via metadata documents
 as defined in [OIDD]. Communicating metadata through other means (e.g. via email), opens 
 up a social engineering attack vector.
 
