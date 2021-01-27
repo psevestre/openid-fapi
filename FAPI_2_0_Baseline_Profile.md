@@ -151,11 +151,9 @@ Authorization servers
     sent outside of the PAR request, except for
     `request_uri` and `client_id`
  6. shall reject pushed authorization requests without client authentication
- 7. shall support the `scope` parameter to convey the authorizations clients
-    want to obtain; if the `scope` parameter is not expressive enough to
-    represent those authorizations appropriately, the authorization server shall
-    support the `authorization_details` parameter according to
-    [@I-D.ietf-oauth-rar] for this purpose.
+ 7. shall support the `authorization_details` parameter according to
+    [@I-D.ietf-oauth-rar] to convey the authorization clients want to obtain if
+    the `scope` parameter is not expressive enough for that purpose
  8. shall support confidential clients as defined in [@!RFC6749]
  9. shall only issue sender-constrained access tokens using Mutual TLS as
     described in [@!RFC8705]
