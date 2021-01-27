@@ -35,15 +35,7 @@ protecting APIs in high-value scenarios. While the security profile was
 initially developed with a focus on financial applications, it is designed to be
 universally applicable for protecting APIs exposing high-value and sensitive
 (personal and other) data, for example, in e-health and e-government
-applications.  FAPI 2.0 consists of the following parts:
-
- * Baseline Profile (this document)
- * Advanced Profile
- * Attacker Model
- * CIBA
- * Grant Management
-
-Future parts may follow.
+applications. 
 ## Warning
 
 This document is not an OIDF International Standard. It is distributed for
