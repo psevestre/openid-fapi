@@ -192,7 +192,7 @@ As a profile of The OAuth 2.0 Authorization Framework, this document mandates th
 
 The authorization server shall support the provisions specified in clause 5.2.2 of 
 Financial-grade API Security Profile 1.0 - Part 1: Baseline, with the exception
-that section 5.2.2.7 (enforcement of [RFC7636]) is not required.
+that section 5.2.2-7 (enforcement of [RFC7636]) is not required.
 
 In addition, the authorization server
 
@@ -211,7 +211,7 @@ In addition, the authorization server
 1. may support the pushed authorization request endpoint as described in [PAR];
 1. (withdrawn);
 1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; and
-1. shall authenticate the confidential client using one of the following methods (this overrides FAPI Security Profile 1.0 - Part 1: Baseline clause 5.2.2.4):
+1. shall authenticate the confidential client using one of the following methods (this overrides FAPI Security Profile 1.0 - Part 1: Baseline clause 5.2.2-4):
     1. `tls_client_auth` or `self_signed_tls_client_auth` as specified in section 2 of [MTLS];
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
