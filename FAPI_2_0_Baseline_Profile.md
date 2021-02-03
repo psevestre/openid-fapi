@@ -35,15 +35,7 @@ protecting APIs in high-value scenarios. While the security profile was
 initially developed with a focus on financial applications, it is designed to be
 universally applicable for protecting APIs exposing high-value and sensitive
 (personal and other) data, for example, in e-health and e-government
-applications.  FAPI 2.0 consists of the following parts:
-
- * Baseline Profile (this document)
- * Advanced Profile
- * Attacker Model
- * CIBA
- * Grant Management
-
-Future parts may follow.
+applications. 
 ## Warning
 
 This document is not an OIDF International Standard. It is distributed for
@@ -132,6 +124,7 @@ In the following, a profile of the following technologies is defined:
   * OAuth 2.0 Pushed Authorization Requests (PAR) [@!I-D.ietf-oauth-par]
   * OAuth 2.0 Rich Authorization Requests (RAR) [@!I-D.ietf-oauth-rar]
   * OAuth 2.0 Authorization Server Metadata [@!RFC8414]
+  * OAuth 2.0 Authorization Server Issuer Identifier in Authorization Response [@!I-D.ietf-oauth-iss-auth-res]
   * OpenID Connect Core 1.0 incorporating errata set 1 [@!OpenID]
   
 ### Requirements for Authorization Servers
@@ -146,11 +139,13 @@ Authorization servers
  4. shall support client-authenticated pushed authorization requests
     according to [@I-D.ietf-oauth-par]
  5. shall reject authorization requests sent without
-    [@I-D.lodderstedt-oauth-par] or authorization request parameters
+    [@I-D.ietf-oauth-par] or authorization request parameters
     sent outside of the PAR request, except for
     `request_uri` and `client_id`
  6. shall reject pushed authorization requests without client authentication
- 7. shall support rich authorization requests according to [@I-D.ietf-oauth-rar]
+ 7. shall support the `authorization_details` parameter according to
+    [@I-D.ietf-oauth-rar] to convey the authorization clients want to obtain if
+    the `scope` parameter is not expressive enough for that purpose
  8. shall support confidential clients as defined in [@!RFC6749]
  9. shall only issue sender-constrained access tokens using Mutual TLS as
     described in [@!RFC8705]
@@ -164,8 +159,8 @@ Authorization servers
  13. shall require the `redirect_uri` parameter in authorization requests and
      evaluate only this parameter to ensure authenticity and integrity of the
      redirect URI
- 14. shall return an `iss` parameter in the authorization response containing
-     the issuer URI as published in the respective OAuth metadata [@!RFC8414]
+ 14. shall return an `iss` parameter in the authorization response according to
+     [@!I-D.ietf-oauth-iss-auth-res]
  15. shall require that redirect URIs use the `https` scheme
  16. shall reject an authorization code (section 1.3.1 of [@!RFC6749]) if it has
      been previously used
@@ -184,7 +179,6 @@ Authorization servers
 is desirable to set the validity period of the authorization code to one minute
 or a suitable short period of time. The validity period may act as a cache
 control indicator of when to clear the authorization code cache if one is used.
-
 
 #### Returning Authenticated User's Identifier
 
@@ -207,19 +201,9 @@ Clients
  5. shall use PKCE [@!RFC7636] with `S256` as the code challenge method
  6. shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0
     Bearer Token Usage [@!RFC6750]
- 7. shall check the `iss` parameter in the authorization response to match the
-    issuer with which the authorization flow was started to prevent Mix-Up
-    attacks as described in [@I-D.ietf-oauth-security-topics]
- 8.  may send the last time the customer logged into the client in the
-    `x-fapi-auth-date` header where the value is supplied as an HTTP-date as in
-    section 7.1.1.1 of [@!RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012
-    19:43:31 GMT`
- 9.  may send the customer's IP address if this data is available in the
-    `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 93.184.216.34`
- 10. may send the `x-fapi-interaction-id` request header whose value is a
-     [@!RFC4122] UUID to the server to help correlate log entries between client
-     and server, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
- 11. shall not expose open redirectors (see section 4.10 of
+ 7. shall check the `iss` parameter in the authorization response according to
+    [@!I-D.ietf-oauth-iss-auth-res] to prevent Mix-Up attacks
+ 8. shall not expose open redirectors (see section 4.10 of
      [@I-D.ietf-oauth-security-topics])
 
 ### Requirements for Resource Servers
@@ -243,12 +227,6 @@ Resource servers with the FAPI endpoints
 1. shall only return the resource identified by the combination of the entity
    implicit in the access and the granted scope and otherwise return errors as
    in section 3.1 of [@!RFC6750]
-1. shall set the response header `x-fapi-interaction-id` to the value received
-   from the corresponding fapi client request header or to a [@!RFC4122] UUID
-   value if the request header was not provided to track the interaction, e.g.,
-   `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
-1. shall log the value of `x-fapi-interaction-id` in the log entry
-
 
 ## Cryptography and Secrets
 
@@ -272,6 +250,7 @@ Resource servers with the FAPI endpoints
 | ID Token as detached signature           | -                                   | ID token does not need to serve as a detached signature                                               |
 | signed and encrypted ID Tokens           | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
 | `exp` claim in request object            | -                                   | ?                                                                                                     |
+| `x-fapi-*` headers                       | -                                   | Removed pending further discussion                                                                    |
 
 ## Acknowledgements
 (todo)

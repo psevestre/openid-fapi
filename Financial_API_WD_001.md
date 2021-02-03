@@ -1,4 +1,4 @@
-# Financial-grade API - Part 1: Baseline Security Profile
+# Financial-grade API Security Profile 1.0 - Part 1: Baseline
 
 ## Warning
 
@@ -13,17 +13,14 @@ The technology described in this specification was made available from contribut
 
 
 
-##Foreword
+## Foreword
 
 The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established has the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
-Financial-grade API consists of the following parts:
+Financial-grade API Security Profile 1.0 consists of the following parts:
 
-* Part 1: Baseline Security Profile
-* Part 2: Advanced Security Profile
-* Financial-grade API: Client Initiated Backchannel Authentication Profile
-* Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
-* Financial-grade API: Implementation and Deployment Advice
+* Financial-grade API Security Profile 1.0 - Part 1: Baseline
+* Financial-grade API Security Profile 1.0 - Part 2: Advanced
 
 Future parts may follow.
 
@@ -31,11 +28,11 @@ These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [O
 
 ## Introduction
 
-Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
+Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749] and [RFC6750].
 
 The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile. The Financial-grade API security profile can be applied to online services in any market area that requires a higher level of security than provided by standard OAuth or OpenID Connect.
 
-This document is Part 1 of FAPI that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
+This document is Part 1 of FAPI Security Profile 1.0 that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
 A higher level of security profile is provided in Part 2, suitable for read and write financial access APIs and other similar situations where the risk is higher.
 
 Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in section 7.6 before embarking on a 'from scratch' implementation.
@@ -50,7 +47,7 @@ These key words are not used as dictionary terms such that
 any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
 
-#**Financial-grade API - Part 1: Baseline Security Profile **
+# **Financial-grade API Security Profile 1.0 - Part 1: Baseline**
 
 [TOC]
 
@@ -107,6 +104,9 @@ The following referenced documents are indispensable for the application of this
 [OIDD] -  OpenID Connect Discovery 1.0 incorporating errata set 1
 [OIDD]: http://openid.net/specs/openid-connect-discovery-1_0.html
 
+[RFC7231] - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content
+[RFC7231]: https://tools.ietf.org/html/rfc7231
+
 ## 3. Terms and definitions
 For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RFC7636], [OpenID Connect Core][OIDC] apply.
 
@@ -140,7 +140,7 @@ Read-only access is generally viewed to pose a lower risk than the write access 
 Read-only access is a lower risk scenario compared to the write access; therefore the protection level can also be lower.
 However, since the FAPI can provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires.
 
-As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the baseline profile of the FAPI.
+As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the baseline profile of the FAPI Security Profile 1.0.
 
 #### 5.2.2 Authorization server
 
@@ -176,7 +176,7 @@ the generated token is computationally infeasible as per [RFC6749] section 10.10
     **NOTE**: The use of refresh tokens instead of long-lived access tokens for both 
     public and confidential clients is recommended.
 
-    **NOTE**: The Financial-grade API server may limit the scopes for the purpose of not implementing certain APIs.
+    **NOTE**: The Financial-grade API Security Profile 1.0 server may limit the scopes for the purpose of not implementing certain APIs.
 
     **NOTE**: Clients are expected to treat access tokens as opaque strings and replay them as is. Authorization servers can issue unstructured or structured access tokens (for example, a signed JWT).
 
@@ -224,10 +224,11 @@ A public client
 1. shall include the `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
 
     If `openid` is not in the `scope` value, then it
+
 1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749];
 1. shall verify that the `scope` received in the token response is either an exact match,
 or contains a subset of the `scope` sent in the authorization request;
-1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].  
+1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].
 
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
 
@@ -266,11 +267,10 @@ The resource server with the FAPI endpoints
 1. shall encode the response in UTF-8 if applicable; 
 1. shall send the `Content-type` HTTP header `Content-Type: application/json` if applicable;
 1. shall send the server date in HTTP Date header as in section 7.1.1.2 of [RFC7231];
-1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding fapi client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
+1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding FAPI client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
 1. shall log the value of `x-fapi-interaction-id` in the log entry;
 1. shall not reject requests with a `x-fapi-customer-ip-address` header containing a
 valid IPv4 or IPv6 address.
-
 
     **NOTE**: While this document does not specify the exact method to obtain the entity associated with the
     access token and the granted scope, the protected resource can use OAuth Token Introspection [RFC7662].
@@ -313,7 +313,9 @@ Endpoints for the use by web browsers should use mechanisms to ensure that conne
 For a comprehensive protection against network attackers, all
 endpoints should additionally use DNSSEC to protect against DNS
 spoofing attacks that can lead to the issuance of rogue
-domain-validated TLS certificates. Note: Even if an endpoint uses only
+domain-validated TLS certificates.
+
+**NOTE**: Even if an endpoint uses only
 organization validated (OV) or extended validation (EV) TLS
 certificates, rogue domain-validated certificates can be used to
 impersonate the endpoints and conduct man-in-the-middle attacks.
@@ -383,10 +385,10 @@ When registering redirect URIs, authorization servers
 1. shall not support "Private-Use URI Scheme Redirection";
 1. shall not support "Loopback Interface Redirection";
 
-These requirements mean that FAPI compliant implementations can only
+These requirements mean that FAPI Security Profile 1.0 compliant implementations can only
 support native apps through the use of "Claimed https Scheme URI Redirection".
 
-Note: nothing in this document seeks to disallow fixed urls in the
+**NOTE**: Nothing in this document seeks to disallow fixed urls in the
 form https://localhost:port-number/callback, as these are particularly
 useful in non-production systems or in clients used in development, to
 facilitate faster and easier development.
@@ -407,12 +409,12 @@ Deployments that use this specification should use a certified implementation.
 
 ### 7.7 Discovery & Multiple Brands
 
-Organisations who need to support multiple "brands" with individual authorization endpoints 
+Organizations who need to support multiple "brands" with individual authorization endpoints 
 from a single Authorization Server deployment shall use a separate `issuer` per brand.
 This can be achieved either at the domain level (e.g. `https://brand-a.auth.example.com` 
 and  `https://brand-b.auth.example.com`) or with different paths (e.g. `https://auth.example.com/brand-a` and `https://auth.example.com/brand-b`)
 
-As stated in 5.2.10 Clients shall only use metadata values obtained via metadata documents
+As stated in 5.2.2-22 Clients shall only use metadata values obtained via metadata documents
 as defined in [OIDD]. Communicating metadata through other means (e.g. via email), opens 
 up a social engineering attack vector.
 
@@ -428,9 +430,9 @@ when implementing this document. However, since this document
 is a profile of OAuth and OpenID Connect, all of them 
 are generic and applies to OAuth or OpenID Connect and 
 not specific to this document. Implementers are advised to 
-perform a thorough privacy impact assessment and and manage identified risks appropriately. 
+perform a thorough privacy impact assessment and manage identified risks appropriately.
 
-NOTE: Implementers can consult documents like 
+**NOTE**: Implementers can consult documents like
 [ISO29100] and [ISO29134] for this purpose. 
 
 Privacy threats to OAuth and OpenID Connect implementations include the following: 
@@ -482,23 +484,31 @@ The following people contributed to this document:
 
 * [ISODIR2] ISO/IEC Directives Part 2
 * [ISO29100] ISO/IEC 29100 Information technology — Security techniques — Privacy framework
-* [ISO29134] ISO/IEC 29134 Information technology — Security techniques — Guidelines for privacy impact assessment 
+[ISO29100]: http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip
+
+* [ISO29134] ISO/IEC 29134 Information technology — Security techniques — Guidelines for privacy impact assessment
 * [RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
 * [RFC6749] The OAuth 2.0 Authorization Framework
 * [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
 * [RFC6797] HTTP Strict Transport Security (HSTS)
+[RFC6797]: https://tools.ietf.org/html/rfc6797
+
 * [RFC7636] Proof Key for Code Exchange by OAuth Public Clients
 * [RFC7662] OAuth 2.0 Token Introspection
+[RFC7662]: https://tools.ietf.org/html/rfc7662
+
 * [RFC6125] Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)
 * [BCP212] OAuth 2.0 for Native Apps
 * [RFC6819] OAuth 2.0 Threat Model and Security Considerations
 * [RFC8414] OAuth 2.0 Authorization Server Metadata
 * [RFC8659] DNS Certification Authority Authorization (CAA) Resource Record
+[RFC8659]: https://tools.ietf.org/html/rfc8659
+
 * [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [X.1254] Entity authentication assurance framework
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
-* [ISO29100] ISO/IEC 29100 Information technology -- Security techniques -- Privacy framework <http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip>
-* [ISO29134] ISO/IEC 29134 Information technology -- Security techniques -- Privacy impact assessment -- Guidelines
-* [preload] HSTS Preload List Submission <https://hstspreload.org/>
+* [preload] HSTS Preload List Submission
+[preload]: https://hstspreload.org/
+
