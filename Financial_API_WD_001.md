@@ -22,8 +22,6 @@ Financial-grade API Security Profile 1.0 consists of the following parts:
 * Financial-grade API Security Profile 1.0 - Part 1: Baseline
 * Financial-grade API Security Profile 1.0 - Part 2: Advanced
 
-Future parts may follow.
-
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
 ## Introduction
