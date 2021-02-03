@@ -291,6 +291,11 @@ If the client is not authorized to perform a call, the authorization server resp
 
 If the request lacks a valid access token, the authorization server responds with HTTP status code 401.
 
+# Implementation Considerations {#Implementation}
+
+Implementations may wish to consider solutions to allow for addressibility of individual components within a grant. Trust ecosystems should consider their requirements during implementation and consider either;
+- Including a unique identifier within the authorization object (ie. `id` within the RAR) or; 
+- Defining a comparison algorithm for the grant to allow for derivation of update and append actions
 
 # Privacy Consideration {#Privacy}
 
