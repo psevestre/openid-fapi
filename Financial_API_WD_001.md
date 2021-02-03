@@ -215,7 +215,7 @@ A public client
 1. shall use `S256` as the code challenge method for the [RFC7636];
 1. shall use separate and distinct redirect URI for each authorization server that it talks to;
 1. shall store the redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the redirect URI that the authorization response was received at, where, if the URIs do not match, the client shall terminate the process with error;
-1. (withdrawn);
+1. (withdrawn); and
 1. shall implement an effective CSRF protection.
 
     Further, if it is desired to obtain a persistent identifier of the authenticated user, then the public client
@@ -227,7 +227,7 @@ A public client
 
 1. shall include the `state` parameter defined in Section 4.1.1 of [RFC6749];
 1. shall verify that the `scope` received in the token response is either an exact match,
-or contains a subset of the `scope` sent in the authorization request;
+or contains a subset of the `scope` sent in the authorization request; and
 1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].
 
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
@@ -267,8 +267,8 @@ The resource server with the FAPI endpoints
 1. shall encode the response in UTF-8 if applicable; 
 1. shall send the `Content-type` HTTP header `Content-Type: application/json` if applicable;
 1. shall send the server date in HTTP Date header as in Section 7.1.1.2 of [RFC7231];
-1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding FAPI client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
-1. shall log the value of `x-fapi-interaction-id` in the log entry;
+1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding FAPI client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`;
+1. shall log the value of `x-fapi-interaction-id` in the log entry; and
 1. shall not reject requests with a `x-fapi-customer-ip-address` header containing a
 valid IPv4 or IPv6 address.
 
@@ -290,9 +290,9 @@ The client supporting this document
 
     Further, the client
 
-1. may send the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in Section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
-1. may send the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 198.51.100.119`; and
-1. may send the `x-fapi-interaction-id` request header, in which case the value shall be a 
+2. may send the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in Section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`;
+3. may send the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 198.51.100.119`; and
+4. may send the `x-fapi-interaction-id` request header, in which case the value shall be a 
 RFC4122 UUID to the server to help correlate log entries between client and server, 
 e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 

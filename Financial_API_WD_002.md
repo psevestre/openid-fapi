@@ -22,8 +22,6 @@ Financial-grade API Security Profile 1.0 consists of the following parts:
 * Financial-grade API Security Profile 1.0 - Part 1: Baseline
 * Financial-grade API Security Profile 1.0 - Part 2: Advanced
 
-Future parts may follow.
-
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
 ## Introduction
@@ -210,14 +208,14 @@ In addition, the authorization server
 1. shall only use the parameters included in the signed request object passed via the `request` or `request_uri` parameter;
 1. may support the pushed authorization request endpoint as described in [PAR];
 1. (withdrawn);
-2. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; 
-3. shall authenticate the confidential client using one of the following methods (this overrides FAPI Security Profile 1.0 - Part 1: Baseline clause 5.2.2-4):
-    1. `tls_client_auth` or `self_signed_tls_client_auth` as specified in Section 2 of [MTLS], or
-    2. `private_key_jwt` as specified in Section 9 of [OIDC];
-4. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
-5. shall not support public clients;
-6. shall require the request object to contain an `nbf` claim that is no longer than 60 minutes in the past; and
-7. shall require [PAR] requests, if supported, to use PKCE ([RFC7636]) with `S256` as the code challenge method.
+1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim;
+1. shall authenticate the confidential client using one of the following methods (this overrides FAPI Security Profile 1.0 - Part 1: Baseline clause 5.2.2-4):
+    1. `tls_client_auth` or `self_signed_tls_client_auth` as specified in section 2 of [MTLS], or
+    2. `private_key_jwt` as specified in section 9 of [OIDC];
+1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
+1. shall not support public clients;
+1. shall require the request object to contain an `nbf` claim that is no longer than 60 minutes in the past; and
+1. shall require [PAR] requests, if supported, to use PKCE ([RFC7636]) with `S256` as the code challenge method.
 
 **NOTE:** MTLS is currently the only mechanism for sender-constrained access tokens that has been widely deployed. Future versions of this specification are likely to allow other mechanisms for sender-constrained access tokens.
 
@@ -231,7 +229,7 @@ In addition, if the `response_type` value `code id_token` is used, the authoriza
 1. shall support signed ID Tokens;
 1. should support signed and encrypted ID Tokens;
 1. shall return ID Token as a detached signature to the authorization response;
-1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
+1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint; and
 1. should not return sensitive PII in the ID Token in the authorization response, but if it needs to, then it should encrypt the ID Token.
 
 **NOTE:** The authorization server may return more claims in the ID Token from the token endpoint than in the one from the authorization response
@@ -262,7 +260,7 @@ In addition, the confidential client
 1. (moved to 5.2.3.1);
 1. (moved to 5.2.3.1);
 1. shall send a `nbf` claim in the request object;
-1. shall use [RFC7636] with `S256` as the code challenge method if using [PAR];
+1. shall use [RFC7636] with `S256` as the code challenge method if using [PAR]; and
 1. shall additionally send a duplicate of the `client_id` parameter/value using the OAuth 2.0 request syntax to the authorization endpoint, as required by Section 5 of [JAR], if using [PAR];
 
 ##### 5.2.3.1 ID Token as detached signature
@@ -272,8 +270,8 @@ In addition, if the `response_type` value `code id_token` is used, the client
 1. shall include the value `openid` into the `scope` parameter in order to activate [OIDC] support;
 1. shall require JWS signed ID Token be returned from endpoints;
 1. shall verify that the authorization response was not tampered using ID Token as the detached signature;
-1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC];
-   **NOTE:** this enables the client to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
+1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]; and
+   **NOTE:** This enables the client to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
 1. shall support both signed and signed & encrypted ID Tokens.
 
 ##### 5.2.3.2 JARM
@@ -400,7 +398,7 @@ Section 7.1 of Financial-grade API Security Profile 1.0 - Part 1: Baseline shall
 
 ### 8.6 Algorithm considerations
 
-For JWS, both clients and authorization servers:
+For JWS, both clients and authorization servers
 
 1. shall use `PS256` or `ES256` algorithms;
 1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`); and
