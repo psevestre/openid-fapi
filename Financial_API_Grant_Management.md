@@ -366,6 +366,7 @@ The technology described in this specification was made available from contribut
    -01 
    * simplified authorization requests
    * added metadata control grant management behavior of AS and client
+   * extended grant resource data model
 
    -00 
 
