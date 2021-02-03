@@ -132,28 +132,6 @@ The Grant Management API does not provide bulk access to all grants of a certain
 
 The Grant Management API will not expose any tokens associated with a certain grant in order to prevent token leakage. The client is supposed to manage its grants along with the respective tokens and ensure its usage in the correct user context. 
 
-## Authorization server's metadata {#server_metadata}
-
-`grant_id_supported`
-OPTIONAL. JSON string indicating support for provision of grant ids in token responses and use of such grant ids in authorization requests. Allowed values are `none`, `optional`, `always`. 
-
-* `none`: the AS does not support grant ids.
-* `optional`: the AS supports grant ids, the client determines whether grant ids are issued.
-* `always`: the AS will provide grant ids in every token response. 
-
-If omitted, the default value is `none`. 
-
-`grant_management_actions_supported`
-OPTIONAL. JSON array containing a list of Grant Management actions which are supported. If omitted, the default value is no supported actions.
-
-`grant_management_endpoint`
-OPTIONAL. URL of the authorization server's Grant Management Administration Endpoint.
-
-## Client metadata {#client_metadata}
-
-`grant_id_required`
-OPTIONAL. JSON boolean requesting the AS to provide grant ids in the token response. If omitted, the default value is no grant ids required.
-
 ## API authorization
 
 Using the grant management API requires the client to obtain an access token authorized for this API. The grant type the client uses to obtain this access token is out of scope of this specification. 
@@ -166,7 +144,7 @@ The token is required to be associated with the following scope value:
 
 ## Endpoint
 
-The grant management API is provided by a new endpoint provided by the authorization server. The client MAY utilize the server metadata parameter `grant_management_endpoint` to obtain the endpoint URL. 
+The grant management API is provided by a new endpoint provided by the authorization server. The client MAY utilize the server metadata parameter `grant_management_endpoint` (see (#server_metadata)) to obtain the endpoint URL. 
 
 ## Grant Resource URL
 
@@ -241,14 +219,11 @@ Content-Type: application/json
 
 The privileges associated with the grant will be provided as a JSON array containing objects with the following structure:
 
-* `privilege_id`: OPTIONAL Unique identifier of the specific privilege
-* `scopes`: JSON object containing the `scope` parameter value and (optionally) any `resource` parameter value as defined in [@!RFC8707] passed in the same authorization request. 
-* `claims`: JSON array containing the names of the consented claims as defined in [@!OpenID].
-* `authorization_details`: JSON Object as defined in [@!I-D.ietf-oauth-rar].
+* `scopes`: JSON aray where every entry contains the `scope` parameter value and (optionally) any `resource` parameter value as defined in [@!RFC8707] passed in the same authorization request. The AS MUST maintain the scope and resource values passed in different authorization requests in separate objects of the JSON structure in order to preserve their relationship.
+* `claims`: JSON array containing the names of all OpenID Connect claims (see [@!OpenID]) as requested and consented in one or more authorization requests associated with the respective grant. 
+* `authorization_details`: JSON Object as defined in [@!I-D.ietf-oauth-rar] containing all authorization details as requested and consented in one or more authorization requests associated with the respective grant.
 
-The AS MUST maintain the scope and resource values passed in different authorization requests in separate objects of the JSON structure in order to preserve their relationship. The AS MAY merge claims and authorization details passed in different authorization requests.
-
-The response structure MAY also include further elements defined by other extensions. 
+The response structure MAY also include further elements defined by extensions. 
 
 ## Revoke Grant 
 
@@ -275,6 +250,30 @@ If the resource URL is unknown, the authorization server responds with HTTP stat
 If the client is not authorized to perform a call, the authorization server responds with HTTP status code 403.
 
 If the request lacks a valid access token, the authorization server responds with HTTP status code 401.
+
+# Metadata
+
+## Authorization server's metadata {#server_metadata}
+
+`grant_id_supported`
+OPTIONAL. JSON string indicating support for provision of grant ids in token responses and use of such grant ids in authorization requests. Allowed values are `none`, `optional`, `always`. 
+
+* `none`: the AS does not support grant ids.
+* `optional`: the AS supports grant ids, the client determines whether grant ids are issued.
+* `always`: the AS will provide grant ids in every token response. 
+
+If omitted, the default value is `none`. 
+
+`grant_management_actions_supported`
+OPTIONAL. JSON array containing a list of Grant Management actions which are supported. Allowed values are `query` and `revoke`. If omitted, the default value is no supported actions.
+
+`grant_management_endpoint`
+OPTIONAL. URL of the authorization server's Grant Management Administration Endpoint.
+
+## Client metadata {#client_metadata}
+
+`grant_id_required`
+OPTIONAL. JSON boolean requesting the AS to provide grant ids in the token response. If omitted, the default value is no grant ids required.
 
 # Implementation Considerations {#Implementation}
 
@@ -345,7 +344,6 @@ A grant id is considered a public identifier, it is not a secret. Implementation
 `grant_management_actions_supported`
 
 `grant_management_endpoint`
-
 
 # Acknowledgements {#Acknowledgements}
 
