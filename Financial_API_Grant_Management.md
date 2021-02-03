@@ -219,7 +219,7 @@ Content-Type: application/json
 
 The privileges associated with the grant will be provided as a JSON array containing objects with the following structure:
 
-* `scopes`: JSON aray where every entry contains the `scope` parameter value and (optionally) any `resource` parameter value as defined in [@!RFC8707] passed in the same authorization request. The AS MUST maintain the scope and resource values passed in different authorization requests in separate objects of the JSON structure in order to preserve their relationship.
+* `scopes`: JSON array where every entry contains the `scope` parameter value and (optionally) any `resource` parameter value as defined in [@!RFC8707] passed in the same authorization request. The AS MUST maintain the scope and resource values passed in different authorization requests in separate objects of the JSON structure in order to preserve their relationship.
 * `claims`: JSON array containing the names of all OpenID Connect claims (see [@!OpenID]) as requested and consented in one or more authorization requests associated with the respective grant. 
 * `authorization_details`: JSON Object as defined in [@!I-D.ietf-oauth-rar] containing all authorization details as requested and consented in one or more authorization requests associated with the respective grant.
 
@@ -362,6 +362,7 @@ The technology described in this specification was made available from contribut
    [[ To be removed from the final specification ]]
       
    -01 
+   
    * simplified authorization requests
    * added metadata control grant management behavior of AS and client
    * extended grant resource data model
