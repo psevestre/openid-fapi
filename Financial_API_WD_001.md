@@ -7,7 +7,7 @@ This document is not an OIDF International Standard. It is distributed for revie
 Recipients of this draft are invited to submit, with their comments, notification of any relevant patent rights of which they are aware and to provide supporting documentation.
 
 ## Copyright notice & license
-The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
+The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty-free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
 
 The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.
 
@@ -15,7 +15,7 @@ The technology described in this specification was made available from contribut
 
 ## Foreword
 
-The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established has the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
+The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established have the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
 Financial-grade API Security Profile 1.0 consists of the following parts:
 
@@ -35,7 +35,7 @@ The Financial-grade API aims to provide specific implementation guidelines for o
 This document is Part 1 of FAPI Security Profile 1.0 that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
 A higher level of security profile is provided in Part 2, suitable for read and write financial access APIs and other similar situations where the risk is higher.
 
-Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in section 7.6 before embarking on a 'from scratch' implementation.
+Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in Section 7.6 before embarking on a 'from scratch' implementation.
 
 ### Notational Conventions
 
@@ -65,7 +65,7 @@ The following referenced documents are indispensable for the application of this
 [ISODIR2] - ISO/IEC Directives Part 2
 [ISODIR2]: https://www.iso.org/sites/directives/current/part2/index.xhtml
 
-[RFC4122] A Universally Unique IDentifier (UUID) URN Namespace
+[RFC4122] - A Universally Unique IDentifier (UUID) URN Namespace
 [RFC4122]: https://tools.ietf.org/html/rfc4122
 
 [RFC6749] - The OAuth 2.0 Authorization Framework
@@ -148,10 +148,10 @@ The authorization server
 
 1. shall support confidential clients;
 1. should support public clients; 
-1. shall provide a client secret that adheres to the requirements in section 16.19 of [OIDC] if a symmetric key is used;
+1. shall provide a client secret that adheres to the requirements in Section 16.19 of [OIDC] if a symmetric key is used;
 1. shall authenticate the confidential client using one of the following methods:
-    1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
-    2. `client_secret_jwt` or `private_key_jwt` as specified in section 9 of [OIDC];
+    1. Mutual TLS for OAuth Client Authentication as specified in Section 2 of [MTLS], or
+    2. `client_secret_jwt` or `private_key_jwt` as specified in Section 9 of [OIDC];
 1. shall require and use a key of size 2048 bits or larger for RSA algorithms;
 1. shall require and use a key of size 160 bits or larger for elliptic curve algorithms;
 1. shall require [RFC7636] with `S256` as the code challenge method;
@@ -160,18 +160,18 @@ The authorization server
 1. shall require the value of `redirect_uri` to exactly match one of the pre-registered redirect URIs;
 1. shall require user authentication to an appropriate Level of Assurance for the operations the client will be authorized to perform on behalf of the user;
 1. shall require explicit approval by the user to authorize the requested scope if it has not been previously authorized;
-1. shall reject an authorization code (section 1.3.1 of [RFC6749]) if it has been previously used;
-1. shall return token responses that conform to section 4.1.4 of [RFC6749]; 
+1. shall reject an authorization code (Section 1.3.1 of [RFC6749]) if it has been previously used;
+1. shall return token responses that conform to Section 4.1.4 of [RFC6749]; 
 1. shall return the list of granted scopes with the issued access token if the request was passed in the front channel and was not integrity protected;
 1. shall provide non-guessable access tokens, authorization codes, and refresh token 
 (where applicable), with sufficient entropy such that the probability of an attacker guessing 
-the generated token is computationally infeasible as per [RFC6749] section 10.10;
-1. should clearly identify the details of the grant to the user during authorization as in 16.18 of [OIDC]; and 
-1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
-1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
-1. shall require redirect URIs to use the https scheme;
-1. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained;
-1. shall support [OIDD], may support [RFC8414] and shall not distribute discovery metadata (such as the authorization endpoint) by any other means.
+the generated token is computationally infeasible as per [RFC6749] Section 10.10;
+1. should clearly identify the details of the grant to the user during authorization as in 16.18 of [OIDC]; 
+2. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC];
+3. shall return an `invalid_client` error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
+4. shall require redirect URIs to use the https scheme;
+5. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained; and
+6. shall support [OIDD], may support [RFC8414] and shall not distribute discovery metadata (such as the authorization endpoint) by any other means.
 
     **NOTE**: The use of refresh tokens instead of long-lived access tokens for both 
     public and confidential clients is recommended.
@@ -205,7 +205,7 @@ If the client requests the openid scope, the authorization server
 
 If the client does not requests the openid scope, the authorization server
 
-1. shall require the `state` parameter defined in section 4.1.1 of [RFC6749].
+1. shall require the `state` parameter defined in Section 4.1.1 of [RFC6749].
 
 #### 5.2.3 Public client
 
@@ -218,14 +218,14 @@ A public client
 1. (withdrawn);
 1. shall implement an effective CSRF protection.
 
-    Further, if it is desired to obtain a persistent identifier of the authenticated user, then it
+    Further, if it is desired to obtain a persistent identifier of the authenticated user, then the public client
 
 1. shall include `openid` in the `scope` value; and
 1. shall include the `nonce` parameter defined in Section 3.1.2.1 of [OIDC] in the authentication request.
 
-    If `openid` is not in the `scope` value, then it
+    If `openid` is not in the `scope` value, then the public client
 
-1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749];
+1. shall include the `state` parameter defined in Section 4.1.1 of [RFC6749];
 1. shall verify that the `scope` received in the token response is either an exact match,
 or contains a subset of the `scope` sent in the authorization request;
 1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].
@@ -238,8 +238,8 @@ or contains a subset of the `scope` sent in the authorization request;
 In addition to the provisions for a public client, a confidential client
 
 1. shall support the following methods to authenticate against the token endpoint:
-    1. Mutual TLS for OAuth Client Authentication as specified in section 2 of [MTLS];
-    2. `client_secret_jwt` or `private_key_jwt` as specified in section 9 of [OIDC];
+    1. Mutual TLS for OAuth Client Authentication as specified in Section 2 of [MTLS], and
+    2. `client_secret_jwt` or `private_key_jwt` as specified in Section 9 of [OIDC];
 1. shall use RSA keys with a minimum 2048 bits if using RSA cryptography; 
 1. shall use elliptic curve keys with a minimum of 160 bits if using Elliptic Curve cryptography; and
 1. shall verify that its client secret has a minimum of 128 bits if using symmetric key cryptography.
@@ -263,10 +263,10 @@ The resource server with the FAPI endpoints
 1. shall verify that the access token is neither expired nor revoked;
 1. shall verify that the scope associated with the access token authorizes the reading of the resource it is representing;
 1. shall identify the associated entity to the access token;
-1. shall only return the resource identified by the combination of the entity implicit in the access and the granted scope and otherwise return errors as in section 3.1 of [RFC6750];
+1. shall only return the resource identified by the combination of the entity implicit in the access and the granted scope and otherwise return errors as in Section 3.1 of [RFC6750];
 1. shall encode the response in UTF-8 if applicable; 
 1. shall send the `Content-type` HTTP header `Content-Type: application/json` if applicable;
-1. shall send the server date in HTTP Date header as in section 7.1.1.2 of [RFC7231];
+1. shall send the server date in HTTP Date header as in Section 7.1.1.2 of [RFC7231];
 1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding FAPI client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
 1. shall log the value of `x-fapi-interaction-id` in the log entry;
 1. shall not reject requests with a `x-fapi-customer-ip-address` header containing a
@@ -275,7 +275,7 @@ valid IPv4 or IPv6 address.
     **NOTE**: While this document does not specify the exact method to obtain the entity associated with the
     access token and the granted scope, the protected resource can use OAuth Token Introspection [RFC7662].
 
-    Further, it
+    Further, the resource server
 
 1. should support the use of Cross Origin Resource Sharing (CORS) [CORS] and or other methods as appropriate to enable JavaScript clients to access the endpoint if it decides to provide access to JavaScript clients.
 
@@ -290,7 +290,7 @@ The client supporting this document
 
     Further, the client
 
-1. may send the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
+1. may send the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in Section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
 1. may send the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 198.51.100.119`; and
 1. may send the `x-fapi-interaction-id` request header, in which case the value shall be a 
 RFC4122 UUID to the server to help correlate log entries between client and server, 
@@ -372,7 +372,7 @@ used against multiple URIs, the risk of leaking is
 much larger than the refresh token, which is used only 
 against the token endpoint. Thus, the lifetime of 
 the access token should be much shorter than that of 
-the refresh token. Refer to section 16.18 of [OIDC] for 
+the refresh token. Refer to Section 16.18 of [OIDC] for 
 more discussion on the lifetimes of access tokens and 
 refresh tokens. 
 
@@ -382,8 +382,8 @@ When native apps are used as either public clients, dynamically registered confi
 
 When registering redirect URIs, authorization servers
 
-1. shall not support "Private-Use URI Scheme Redirection";
-1. shall not support "Loopback Interface Redirection";
+1. shall not support "Private-Use URI Scheme Redirection"; and
+1. shall not support "Loopback Interface Redirection".
 
 These requirements mean that FAPI Security Profile 1.0 compliant implementations can only
 support native apps through the use of "Claimed https Scheme URI Redirection".
@@ -415,7 +415,7 @@ This can be achieved either at the domain level (e.g. `https://brand-a.auth.exam
 and  `https://brand-b.auth.example.com`) or with different paths (e.g. `https://auth.example.com/brand-a` and `https://auth.example.com/brand-b`)
 
 As stated in 5.2.2-22 Clients shall only use metadata values obtained via metadata documents
-as defined in [OIDD]. Communicating metadata through other means (e.g. via email), opens 
+as defined in [OIDD]. Communicating metadata through other means (e.g. via email) opens 
 up a social engineering attack vector.
 
 Note that the requirement to use [OIDD] is not a requirement to support Dynamic Client 
@@ -428,8 +428,8 @@ Registration.
 There are many factors to be considered in terms of privacy 
 when implementing this document. However, since this document 
 is a profile of OAuth and OpenID Connect, all of them 
-are generic and applies to OAuth or OpenID Connect and 
-not specific to this document. Implementers are advised to 
+are generic and apply to OAuth or OpenID Connect and 
+are not specific to this document. Implementers are advised to 
 perform a thorough privacy impact assessment and manage identified risks appropriately.
 
 **NOTE**: Implementers can consult documents like
@@ -440,24 +440,24 @@ Privacy threats to OAuth and OpenID Connect implementations include the followin
 * (Inappropriate privacy notice) A privacy notice provided at a `policy_url` or by other means can be inappropriate. 
 * (Inadequate choice) Providing a consent screen without adequate choices does not form consent. 
 * (Misuse of data) An AS, RS or Client can potentially use the data not according to the purpose that was agreed. 
-* (Collection minimization violation) Clients asking for more data than it absolutely needs to fulfil the purpose is violating the collection minimization principle. 
+* (Collection minimization violation) A client asking for more data than it absolutely needs to fulfil the purpose is violating the collection minimization principle. 
 * (Unsolicited personal data from the Resource) Some bad resource server implementations may return more data than was requested. If the data is personal data, then this would be a  violation of privacy principles. 
 * (Data minimization violation) Any process that is processing more data than it needs is violating the data minimization principle. 
 * (RP tracking by AS/OP) AS/OP identifying what data is being provided to which Client/RP. 
 * (User tracking by RPs) Two or more RPs correlating access tokens or ID Tokens to track users. 
 * (RP misidentification by User at AS) User misunderstands who the RP is due to a confusing representation of the RP at 
 the AS's authorization page. 
-* (Mismatch between User’s understanding or what RP is displaying to a user and the actual authorization request). To enhance 
-the trust of the ecosystem, best practice is for the AS to make clear what is included in the authorisation request (for example, 
+* (Mismatch between User’s understanding or what RP is displaying to a user and the actual authorization request) To enhance 
+the trust of the ecosystem, best practice is for the AS to make clear what is included in the authorization request (for example, 
 what data will be released to the RP).
 * (Attacker observing personal data in authorization request) Authorization request might contain personal data. This can be observed by an attacker. 
 * (Attacker observing personal data in authorization endpoint response) In some frameworks, even state is deemed personal data. 
   This can be observed by an attacker through various means. 
 * (Data leak from AS) AS stores personal data. If AS is compromised, these data can leak or be modified. 
-* (Data leak from Resource) Some resource servers (RS) store personal data. If a RS is compromised, these data can leak or be modified. 
+* (Data leak from Resource) Some resource servers store personal data. If a resource server is compromised, these data can leak or be modified. 
 * (Data leak from Clients) Some clients store personal data. If the client is compromised, these data can leak or be modified. 
 
-These can be mitigated by choosing appropriate options in OAuth or OpenID, or by introducing some operational rules. 
+These threats can be mitigated by choosing appropriate options in OAuth or OpenID, or by introducing some operational rules. 
 For example, "Attacker observing personal data in authorization request" can be mitigated by either using authorization request by reference 
 using `request_uri` or by encrypting the request object. 
 Similarly, "Attacker observing personal data in authorization endpoint response" can be mitigated by encrypting the ID Token or JARM response. 
