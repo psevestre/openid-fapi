@@ -166,11 +166,11 @@ The authorization server
 1. shall provide non-guessable access tokens, authorization codes, and refresh token 
 (where applicable), with sufficient entropy such that the probability of an attacker guessing 
 the generated token is computationally infeasible as per [RFC6749] section 10.10;
-1. should clearly identify the details of the grant to the user during authorization as in 16.18 of [OIDC]; and 
+1. should clearly identify the details of the grant to the user during authorization as in 16.18 of [OIDC]; 
 1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC].
 1. shall return an invalid_client error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
 1. shall require redirect URIs to use the https scheme;
-1. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained;
+1. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained; and
 1. shall support [OIDD], may support [RFC8414] and shall not distribute discovery metadata (such as the authorization endpoint) by any other means.
 
     **NOTE**: The use of refresh tokens instead of long-lived access tokens for both 
@@ -215,7 +215,7 @@ A public client
 1. shall use `S256` as the code challenge method for the [RFC7636];
 1. shall use separate and distinct redirect URI for each authorization server that it talks to;
 1. shall store the redirect URI value in the resource owner's user-agents (such as browser) session and compare it with the redirect URI that the authorization response was received at, where, if the URIs do not match, the client shall terminate the process with error;
-1. (withdrawn);
+1. (withdrawn); and
 1. shall implement an effective CSRF protection.
 
     Further, if it is desired to obtain a persistent identifier of the authenticated user, then it
@@ -227,7 +227,7 @@ A public client
 
 1. shall include the `state` parameter defined in section 4.1.1 of [RFC6749];
 1. shall verify that the `scope` received in the token response is either an exact match,
-or contains a subset of the `scope` sent in the authorization request;
+or contains a subset of the `scope` sent in the authorization request; and
 1. shall only use Authorization Server metadata obtained from the metadata document published by the Authorization Server at its well known endpoint as defined in [OIDD] or [RFC8414].
 
     **NOTE**: Adherence to [RFC7636] means that the token request includes `code_verifier` parameter in the request.
@@ -267,8 +267,8 @@ The resource server with the FAPI endpoints
 1. shall encode the response in UTF-8 if applicable; 
 1. shall send the `Content-type` HTTP header `Content-Type: application/json` if applicable;
 1. shall send the server date in HTTP Date header as in section 7.1.1.2 of [RFC7231];
-1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding FAPI client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`; and
-1. shall log the value of `x-fapi-interaction-id` in the log entry;
+1. shall set the response header `x-fapi-interaction-id` to the value received from the corresponding FAPI client request header or to a [RFC4122] UUID value if the request header was not provided to track the interaction, e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`;
+1. shall log the value of `x-fapi-interaction-id` in the log entry; and
 1. shall not reject requests with a `x-fapi-customer-ip-address` header containing a
 valid IPv4 or IPv6 address.
 
@@ -290,7 +290,7 @@ The client supporting this document
 
     Further, the client
 
-1. may send the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`; and
+1. may send the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`;
 1. may send the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 198.51.100.119`; and
 1. may send the `x-fapi-interaction-id` request header, in which case the value shall be a 
 RFC4122 UUID to the server to help correlate log entries between client and server, 

@@ -200,8 +200,8 @@ In addition, the authorization server
 1. shall require 
 	1. the `response_type` value `code id_token` or 
 	2. the `response_type` value `code` in conjunction with the `response_mode` value `jwt`;
-1. (moved to 5.2.2.1)
-1. (moved to 5.2.2.1)
+1. (moved to 5.2.2.1);
+1. (moved to 5.2.2.1);
 1. shall only issue sender-constrained access tokens;
 1. shall support [MTLS] as mechanism for constraining the legitimate senders of access tokens;
 1. (withdrawn);
@@ -210,7 +210,7 @@ In addition, the authorization server
 1. shall only use the parameters included in the signed request object passed via the `request` or `request_uri` parameter;
 1. may support the pushed authorization request endpoint as described in [PAR];
 1. (withdrawn);
-1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; and
+1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim;
 1. shall authenticate the confidential client using one of the following methods (this overrides FAPI Security Profile 1.0 - Part 1: Baseline clause 5.2.2-4):
     1. `tls_client_auth` or `self_signed_tls_client_auth` as specified in section 2 of [MTLS];
     2. `private_key_jwt` as specified in section 9 of [OIDC];
@@ -227,11 +227,11 @@ In addition, the authorization server
 
 In addition, if the `response_type` value `code id_token` is used, the authorization server
 
-1. shall support [OIDC]
+1. shall support [OIDC];
 1. shall support signed ID Tokens;
 1. should support signed and encrypted ID Tokens;
 1. shall return ID Token as a detached signature to the authorization response;
-1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
+1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint; and
 1. should not return sensitive PII in the ID Token in the authorization response, but if it needs to, then it should encrypt the ID Token.
 
 **NOTE:** The authorization server may return more claims in the ID Token from the token endpoint than in the one from the authorization response
@@ -240,7 +240,7 @@ In addition, if the `response_type` value `code id_token` is used, the authoriza
 
 In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the authorization server
 
-1. shall create JWT-secured authorization responses as specified in [JARM], section 4.3;
+1. shall create JWT-secured authorization responses as specified in [JARM], section 4.3.
 
 #### 5.2.3 Confidential client
 
@@ -262,25 +262,25 @@ In addition, the confidential client
 1. (moved to 5.2.3.1);
 1. (moved to 5.2.3.1);
 1. shall send a `nbf` claim in the request object;
-1. shall use [RFC7636] with `S256` as the code challenge method if using [PAR];
-1. shall additionally send a duplicate of the `client_id` parameter/value using the OAuth 2.0 request syntax to the authorization endpoint, as required by section 5 of [JAR], if using [PAR];
+1. shall use [RFC7636] with `S256` as the code challenge method if using [PAR]; and
+1. shall additionally send a duplicate of the `client_id` parameter/value using the OAuth 2.0 request syntax to the authorization endpoint, as required by section 5 of [JAR], if using [PAR].
 
 ##### 5.2.3.1 ID Token as detached signature
 
 In addition, if the `response_type` value `code id_token` is used, the client
 
-1. shall include the value `openid` into the `scope` parameter in order to activate [OIDC] support
+1. shall include the value `openid` into the `scope` parameter in order to activate [OIDC] support;
 1. shall require JWS signed ID Token be returned from endpoints;
-1. shall verify that the authorization response was not tampered using ID Token as the detached signature
-1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC].
+1. shall verify that the authorization response was not tampered using ID Token as the detached signature;
+1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]; and
    **NOTE:**: this enables the client to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
-1. shall support both signed and signed & encrypted ID Tokens
+1. shall support both signed and signed & encrypted ID Tokens.
 
 ##### 5.2.3.2 JARM
 
 In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the client
 
-1. shall verify the authorization responses as specified in [JARM], section 4.4;
+1. shall verify the authorization responses as specified in [JARM], section 4.4.
 
 #### 5.2.4 (withdrawn)
 
@@ -298,7 +298,7 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return protec
 
 The protected resources supporting this document
 
-1. shall support the provisions specified in clause 6.2.1 Financial-grade API Security Profile 1.0 - Part 1: Baseline;
+1. shall support the provisions specified in clause 6.2.1 Financial-grade API Security Profile 1.0 - Part 1: Baseline; and
 1. shall adhere to the requirements in [MTLS].
 
 #### 6.2.2 Client provisions
@@ -400,11 +400,11 @@ Section 7.1 of Financial-grade API Security Profile 1.0 - Part 1: Baseline shall
 
 ### 8.6 Algorithm considerations
 
-For JWS, both clients and authorization servers:
+For JWS, both clients and authorization servers
 
 1. shall use `PS256` or `ES256` algorithms;
-1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
-1. shall not use `none`;
+1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`); and
+1. shall not use `none`.
 
 #### 8.6.1 Encryption algorithm considerations
 
@@ -461,7 +461,7 @@ of the Client `jwks_uri` can be found in [RFC7591].
 In addition, this profile
 
 1. requires that `jwks_uri` endpoints shall be served over TLS;
-1. recommends that JOSE headers for `x5u` and `jku` should not be used;
+1. recommends that JOSE headers for `x5u` and `jku` should not be used; and
 1. recommends that the JWK set does not contain multiple keys with the same `kid`.
 
 ### 8.10 Multiple clients sharing the same key
