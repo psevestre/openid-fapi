@@ -167,11 +167,11 @@ The authorization server
 (where applicable), with sufficient entropy such that the probability of an attacker guessing 
 the generated token is computationally infeasible as per [RFC6749] Section 10.10;
 1. should clearly identify the details of the grant to the user during authorization as in 16.18 of [OIDC]; 
-2. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC];
-3. shall return an `invalid_client` error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
-4. shall require redirect URIs to use the https scheme;
-5. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained; and
-6. shall support [OIDD], may support [RFC8414] and shall not distribute discovery metadata (such as the authorization endpoint) by any other means.
+1. should provide a mechanism for the end-user to revoke access tokens and refresh tokens granted to a client as in 16.18 of [OIDC];
+1. shall return an `invalid_client` error as defined in 5.2 of [RFC6749] when mis-matched client identifiers were provided through the client authentication methods that permits sending the client identifier in more than one way;
+1. shall require redirect URIs to use the https scheme;
+1. should issue access tokens with a lifetime of under 10 minutes unless the tokens are sender-constrained; and
+1. shall support [OIDD], may support [RFC8414] and shall not distribute discovery metadata (such as the authorization endpoint) by any other means.
 
     **NOTE**: The use of refresh tokens instead of long-lived access tokens for both 
     public and confidential clients is recommended.
@@ -290,9 +290,9 @@ The client supporting this document
 
     Further, the client
 
-2. may send the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in Section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`;
-3. may send the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 198.51.100.119`; and
-4. may send the `x-fapi-interaction-id` request header, in which case the value shall be a 
+1. may send the last time the customer logged into the client in the `x-fapi-auth-date` header where the value is supplied as a HTTP-date as in Section 7.1.1.1 of [RFC7231], e.g., `x-fapi-auth-date: Tue, 11 Sep 2012 19:43:31 GMT`;
+1. may send the customer’s IP address if this data is available in the `x-fapi-customer-ip-address` header, e.g., `x-fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `x-fapi-customer-ip-address: 198.51.100.119`; and
+1. may send the `x-fapi-interaction-id` request header, in which case the value shall be a 
 RFC4122 UUID to the server to help correlate log entries between client and server, 
 e.g., `x-fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`.
 
