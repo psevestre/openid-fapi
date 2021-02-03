@@ -245,7 +245,6 @@ If the client is not authorized to perform a call, the authorization server resp
 
 If the request lacks a valid access token, the authorization server responds with HTTP status code 401.
 
-
 # Privacy Consideration {#Privacy}
 
 `grant_id` is issued by the authorization server for each established grant between a client and a user. This should prevent correlation between different clients.
@@ -327,6 +326,10 @@ The technology described in this specification was made available from contribut
 
    [[ To be removed from the final specification ]]
       
+   -01 
+   * simplified authorization requests
+   * added metadata control grant management behavior of AS and client
+
    -00 
 
    *  initial revision
