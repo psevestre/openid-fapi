@@ -347,7 +347,7 @@ A grant id is considered a public identifier, it is not a secret. Implementation
 
 # Acknowledgements {#Acknowledgements}
 
-We would like to thank Filip Skokan, Dave Tonge, and Brian Campbell for their valuable feedback and contributions that helped to evolve this specification.
+We would like to thank Vladimir Dzhuvinov, Takahiko Kawasaki, Roland Hedberg, Filip Skokan, Dave Tonge, and Brian Campbell for their valuable feedback and contributions that helped to evolve this specification.
 
 # Notices
 
