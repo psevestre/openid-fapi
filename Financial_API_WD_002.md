@@ -529,23 +529,34 @@ Similarly, "Attacker observing personal data in authorization endpoint response"
 The following people contributed to this document:
 
 * Nat Sakimura (NAT Consulting) -- Chair, Editor
-* Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
+* Anoop Saxena (Intuit) -- Co-chair, FS-ISAC Liaison
 * Anthony Nadalin (Microsoft) -- Co-chair, SC 27 Liaison
 * Edmund Jay (Illumila) -- Co-editor
 * Dave Tonge (Moneyhub) -- Co-chair, UK Implementation Entity Liaison
 * Paul A. Grassi (NIST) -- X9 Liaison
 * Joseph Heenan (Authlete)
 * Sascha H. Preibisch (CA)
-* John Bradley (Yubico)
 * Henrik Biering (Peercraft)
+* Anton Taborszky (Deutsche Telecom)
+* John Bradley (Yubico)
 * Tom Jones (Independent) 
 * Axel Nennker (Deutsche Telekom)
+* Daniel Fett (yes.com)
 * Torsten Lodderstedt (yes.com)
-* Ralph Bragg (Raidiam)
+* Ralph Bragg (Raidiam) (http://www.raidiam.com)
 * Brian Campbell (Ping Identity) 
 * Dima Postnikov (Independent)
 * Stuart Low (Biza.io)
-* Daniel Fett (yes.com)
+* Takahiko Kawasaki (Authlete)
+* Vladimir Dzhuvinov (Connect2Id)
+* Chris Michael (Open Banking)
+* Freddi Gyara (Open Banking)
+* Rob Otto (Ping Identity)
+* Francis Pouatcha (adorsys)
+* Kosuke Koiwai (KDDI)
+* Bjorn Hjelm (Verizon)
+* James Manger
+* Lukasz Jaromin
 
 ## 11. Bibliography
 
