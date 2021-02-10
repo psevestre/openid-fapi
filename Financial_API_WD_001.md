@@ -20,7 +20,7 @@ The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID communit
 Financial-grade API Security Profile 1.0 consists of the following parts:
 
 * Financial-grade API Security Profile 1.0 - Part 1: Baseline
-* Financial-grade API Security Profile 1.0 - Part 2: Advanced
+* [Financial-grade API Security Profile 1.0 - Part 2: Advanced][Part2]
 
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
@@ -31,7 +31,7 @@ Fintech is an area of future economic growth around the world and Fintech organi
 The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile. The Financial-grade API security profile can be applied to online services in any market area that requires a higher level of security than provided by standard OAuth or OpenID Connect.
 
 This document is Part 1 of FAPI Security Profile 1.0 that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
-A higher level of security profile is provided in Part 2, suitable for read and write financial access APIs and other similar situations where the risk is higher.
+A higher level of security profile is provided in [Financial-grade API Security Profile 1.0 - Part 2: Advanced][Part2], suitable for read and write financial access APIs and other similar situations where the risk is higher.
 
 Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in Section 7.6 before embarking on a 'from scratch' implementation.
 
@@ -40,7 +40,7 @@ Although it is possible to code an OpenID Provider and Relying Party from first 
 The key words "shall", "shall not", 
 "should", "should not", "may", and
 "can" in this document are to be interpreted as described in 
-ISO Directive Part 2 [ISODIR2].
+[ISO Directive Part 2][ISODIR2].
 These key words are not used as dictionary terms such that 
 any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
@@ -323,13 +323,13 @@ CAA records [RFC8659] can help to mitigate this risk.
 
 Authorization request and response are not authenticated. 
 For higher risk scenarios, they should be authenticated.
-See Part 2, which uses request objects to achieve the message source authentication. 
+See [Financial-grade API Security Profile 1.0 - Part 2: Advanced][Part2], which uses request objects to achieve the message source authentication. 
 
 ### 7.3 Message integrity protection failure
 
 The authorization request does not have message integrity protection and hence
 request tampering and parameter injection are possible.
-Where such protection is desired, Part 2 should be used.
+Where such protection is desired, [Financial-grade API Security Profile 1.0 - Part 2: Advanced][Part2] should be used.
 
 The response is integrity protected when the ID Token is returned
 from the authorization endpoint. 
@@ -479,6 +479,9 @@ The following people contributed to this document:
 
 
 ## 10. Bibliography
+
+* [Part2] Financial-grade API Security Profile 1.0 - Part 2: Advanced
+[Part2]: https://openid.net/specs/openid-financial-api-part-2-1_0.html
 
 * [ISODIR2] ISO/IEC Directives Part 2
 * [ISO29100] ISO/IEC 29100 Information technology — Security techniques — Privacy framework
