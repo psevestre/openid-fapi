@@ -19,7 +19,7 @@ Final drafts adopted by the Workgroup through consensus are circulated publicly 
 
 Financial-grade API Security Profile 1.0 consists of the following parts:
 
-* Financial-grade API Security Profile 1.0 - Part 1: Baseline
+* [Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1]
 * Financial-grade API Security Profile 1.0 - Part 2: Advanced
 
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
@@ -39,7 +39,7 @@ Although it is possible to code an OpenID Provider and Relying Party from first 
 The keywords "shall", "shall not",
 "should", "should not", "may", and
 "can" in this document are to be interpreted as described in
-ISO Directive Part 2 [ISODIR2].
+[ISO Directive Part 2] [ISODIR2].
 These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
@@ -189,7 +189,7 @@ As a profile of the OAuth 2.0 Authorization Framework, this document mandates th
 #### 5.2.2 Authorization server
 
 The authorization server shall support the provisions specified in clause 5.2.2 of 
-Financial-grade API Security Profile 1.0 - Part 1: Baseline, with the exception
+[Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1], with the exception
 that Section 5.2.2-7 (enforcement of [RFC7636]) is not required.
 
 In addition, the authorization server
@@ -209,7 +209,7 @@ In addition, the authorization server
 1. may support the pushed authorization request endpoint as described in [PAR];
 1. (withdrawn);
 1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim;
-1. shall authenticate the confidential client using one of the following methods (this overrides FAPI Security Profile 1.0 - Part 1: Baseline clause 5.2.2-4):
+1. shall authenticate the confidential client using one of the following methods (this overrides [FAPI Security Profile 1.0 - Part 1: Baseline][Part1] clause 5.2.2-4):
     1. `tls_client_auth` or `self_signed_tls_client_auth` as specified in section 2 of [MTLS], or
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
@@ -242,7 +242,7 @@ In addition, if the `response_type` value `code` is used in conjunction with the
 
 #### 5.2.3 Confidential client
 
-A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of Financial-grade API Security Profile 1.0 - Part 1: Baseline, except for [RFC7636] support.
+A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of [Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1], except for [RFC7636] support.
 
 In addition, the confidential client
 
@@ -296,12 +296,12 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return protec
 
 The protected resources supporting this document
 
-1. shall support the provisions specified in clause 6.2.1 Financial-grade API Security Profile 1.0 - Part 1: Baseline; and
+1. shall support the provisions specified in clause 6.2.1 [Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1]; and
 1. shall adhere to the requirements in [MTLS].
 
 #### 6.2.2 Client provisions
 
-The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial-grade API Security Profile 1.0 - Part 1: Baseline.
+The client supporting this document shall support the provisions specified in clause 6.2.2 of [Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1].
 
 ## 7. (Withdrawn)
 
@@ -385,7 +385,7 @@ The server can verify that the state is the same as what was stored in the brows
 ### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
-Section 7.1 of Financial-grade API Security Profile 1.0 - Part 1: Baseline shall apply, with the following additional requirements:
+Section 7.1 of [Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1] shall apply, with the following additional requirements:
 
 1. For TLS versions below 1.3, only the following 4 cipher suites shall be permitted:
     * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
@@ -548,6 +548,9 @@ The following people contributed to this document:
 * Daniel Fett (yes.com)
 
 ## 11. Bibliography
+
+* [Part1] Financial-grade API Security Profile 1.0 - Part 1: Baseline
+[Part1]: https://openid.net/specs/openid-financial-api-part-1-1_0.html
 
 * [ISODIR2] ISO/IEC Directives Part 2
 * [ISO29100] ISO/IEC 29100 Information technology — Security techniques — Privacy framework
