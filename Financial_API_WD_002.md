@@ -544,7 +544,7 @@ The following people contributed to this document:
 * Axel Nennker (Deutsche Telekom)
 * Daniel Fett (yes.com)
 * Torsten Lodderstedt (yes.com)
-* Ralph Bragg (Raidiam) (http://www.raidiam.com)
+* Ralph Bragg (Raidiam)
 * Brian Campbell (Ping Identity) 
 * Dima Postnikov (Independent)
 * Stuart Low (Biza.io)
