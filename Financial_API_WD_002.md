@@ -28,9 +28,9 @@ These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [O
 
 Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749] and [RFC6750].
 
-The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile. The Financial-grade API security profile can be applied to online services in any market area that requires a higher level of security than provided by standard OAuth or OpenID Connect.
+The Financial-grade API is a highly secured OAuth profile that aims to provide specific implementation guidelines for security and interoperability. The Financial-grade API security profile can be applied to APIs in any market area that requires a higher level of security than provided by standard [OAuth][RFC6749] or [OpenID Connect][OIDC].
  
-This document is Part 2 of FAPI Security Profile 1.0 that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used for high risk access (read or write), for example, read access to highly sensitive data or write access to financial data (also known as payment initiation). This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
+This document is Part 2 of FAPI Security Profile 1.0 that specifies an advanced security profile of OAuth that is suitable to be used for protecting APIs with high inherent risk. Examples include APIs that give access to highly sensitive data or that can be used to trigger financial transactions (e.g., payment initiation). This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
 
 Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in Section 8.7 before embarking on a 'from scratch' implementation.
 
@@ -130,10 +130,9 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 ### 5.1 Introduction
 
-The OIDF Financial-grade API (FAPI) is a REST API that provides JSON data representing
-higher risk data. These APIs are protected by the
-OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750],
-[RFC7636], and other specifications.
+The OIDF Financial-grade API (FAPI) security profile specifies security requirements
+for high risk API resources protected by the OAuth 2.0 Authorization Framework that 
+consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
 There are different levels of risks associated with access to these APIs.
 For example, read and write access to a bank API has a higher financial risk than read-only access. As
@@ -182,7 +181,9 @@ authorization responses and turn on OpenID if needed (e.g. to log the user in).
 
 #### 5.2.1 Introduction
 
-Read and write access carries higher risk; therefore the protection level required is higher than read-only access.
+API resources may contain sensitive data and/or have increased security requirements.
+In order to fulfill different security needs, FAPI Security Profile 1.0 defines an advanced profile that
+is beyond the baseline security requirements defined in the [Part 1: Baseline][Part1] document.
 
 As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following for the advanced profile of the FAPI Security Profile 1.0.
 

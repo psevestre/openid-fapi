@@ -30,10 +30,9 @@ These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [O
 
 Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749] and [RFC6750].
 
-The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile. The Financial-grade API security profile can be applied to online services in any market area that requires a higher level of security than provided by standard OAuth or OpenID Connect.
+The Financial-grade API is a highly secured OAuth profile that aims to provide specific implementation guidelines for security and interoperability. The Financial-grade API security profile can be applied to APIs in any market area that requires a higher level of security than provided by standard [OAuth][RFC6749] or [OpenID Connect][OIDC].
 
-This document is Part 1 of FAPI Security Profile 1.0 that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used in the access of read-only financial data and similar use cases.
-A higher level of security profile is provided in [Financial-grade API Security Profile 1.0 - Part 2: Advanced][Part2], suitable for read and write financial access APIs and other similar situations where the risk is higher.
+This document is Part 1 of the FAPI Security Profile 1.0. It specifies a baseline security profile of OAuth that is suitable for protecting APIs with a moderate inherent risk. Importantly, this profile does not provide non-repudiation (signing of authorization requests and responses) and sender-constrained access tokens. If such features or a higher level of security is desired, the use of [Financial-grade API Security Profile 1.0 - Part 2: Advanced][Part2] is recommended.
 
 Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in Section 7.6 before embarking on a 'from scratch' implementation.
 
@@ -55,9 +54,9 @@ and are not to be interpreted with their natural language meanings.
 
 This document specifies the method for an application to:
 
-* obtain OAuth tokens in a secure manner for read-only access to protected data;
+* obtain OAuth tokens in a moderately secure manner for access to protected data;
 * use OpenID Connect (OIDC) to identify the customer (user); and 
-* use tokens to read protected data from REST endpoints.
+* use tokens to access REST APIs in a moderately secure manner.
 
 ## 2. Normative references
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
@@ -129,16 +128,15 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 ### 5.1 Introduction
 
-The OIDF Financial-grade API (FAPI) is a REST API that provides JSON data. These APIs are protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
+The OIDF Financial-grade API (FAPI) security profile specifies security requirements for API resources protected by the OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
-Read-only access is generally viewed to pose a lower risk than the write access and as such, the characteristics required of the tokens are different and the methods to obtain tokens are explained separately.
+FAPI Security Profile 1.0 - Part 1: Baseline and [Part 2: Advanced][Part2] specify different levels of security. The characteristics required of the tokens are different and the methods to obtain tokens are explained separately. This document specifies the baseline security provisions.
 
 ### 5.2 Baseline security provisions
 
 #### 5.2.1 Introduction
 
-Read-only access is a lower risk scenario compared to the write access; therefore the protection level can also be lower.
-However, since the FAPI can provide potentially sensitive information, it requires more protection level than a basic [RFC6749] requires.
+Some APIs, such as ones that provide potentially sensitive information, require a greater level of protection than basic [RFC6749] requires. FAPI provides such greater protection.
 
 As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following to the baseline profile of the FAPI Security Profile 1.0.
 
@@ -261,7 +259,7 @@ The resource server with the FAPI endpoints
 1. shall accept access tokens in the HTTP header as in Section 2.1 of OAuth 2.0 Bearer Token Usage [RFC6750];
 1. shall not accept access tokens in the query parameters stated in Section 2.3 of OAuth 2.0 Bearer Token Usage [RFC6750];
 1. shall verify that the access token is neither expired nor revoked;
-1. shall verify that the scope associated with the access token authorizes the reading of the resource it is representing;
+1. shall verify that the scope associated with the access token authorizes access to the resource it is representing;
 1. shall identify the associated entity to the access token;
 1. shall only return the resource identified by the combination of the entity implicit in the access and the granted scope and otherwise return errors as in Section 3.1 of [RFC6750];
 1. shall encode the response in UTF-8 if applicable; 
