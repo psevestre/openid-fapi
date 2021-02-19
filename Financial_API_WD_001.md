@@ -491,8 +491,8 @@ The following people contributed to this document:
 * Francis Pouatcha (adorsys)
 * Kosuke Koiwai (KDDI)
 * Bjorn Hjelm (Verizon)
+* Lukasz Jaromin (Cloudentity)
 * James Manger
-* Lukasz Jaromin
 
 ## 10. Bibliography
 
