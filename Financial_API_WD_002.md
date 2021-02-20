@@ -585,6 +585,8 @@ The following people contributed to this document:
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [JARM] Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
+* [PAR] OAuth 2.0 Pushed Authorization Requests
+* [JAR] OAuth 2.0 JWT Secured Authorization Request
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
 [SoK]: https://www.nds.ruhr-uni-bochum.de/media/ei/veroeffentlichungen/2017/01/30/oidc-security.pdf
 
