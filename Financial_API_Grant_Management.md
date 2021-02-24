@@ -97,7 +97,7 @@ Note: a client (as logical entity) MAY use multiple client ids to deliver its se
 
 ### Error Response
 
-In case the `grant_id` is unknown or invalid, the authorization server will respond with an error code `invalid_grant` (as defined in [@!RFC6749]).
+In case the `grant_id` is unknown or invalid, the authorization server will respond with an error code `invalid_grant_id`.
 
 ## Token Response
 
@@ -347,6 +347,8 @@ A grant id is considered a public identifier, it is not a secret. Implementation
 `grant_management_actions_supported`
 
 `grant_management_endpoint`
+
+`invalid_grany_id`
 
 # Acknowledgements {#Acknowledgements}
 
