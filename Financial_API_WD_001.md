@@ -300,7 +300,7 @@ The recommendations for Secure Use of Transport Layer Security in [BCP195] shall
 1. TLS version 1.2 or later shall be used for all communications.
 1. A TLS server certificate check shall be performed, as per [RFC6125].
 
-Endpoints for the use by web browsers should use mechanisms to ensure that connections cannot be downgraded using TLS Stripping attacks. A preloaded [preload] HTTP Strict Transport Security policy [RFC6797] can be used for this purpose. Some top-level domains, like `.bank` and `.insurance`, have set such a policy and therefore protect all second-level domains below them.
+Endpoints for the use by web browsers should use mechanisms to ensure that connections cannot be downgraded using TLS Stripping attacks. A preloaded HTTP Strict Transport Security policy (see [PRELOAD] and [RFC6797]) can be used for this purpose. Some top-level domains, like `.bank` and `.insurance`, have set such a policy and therefore protect all second-level domains below them.
 
 For a comprehensive protection against network attackers, all
 endpoints should additionally use DNSSEC to protect against DNS
@@ -520,6 +520,6 @@ The following people contributed to this document:
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [X.1254] Entity authentication assurance framework
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
-* [preload] HSTS Preload List Submission
-[preload]: https://hstspreload.org/
+* [PRELOAD] HSTS Preload List Submission
+[PRELOAD]: https://hstspreload.org/
 
