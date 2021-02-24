@@ -348,7 +348,7 @@ A grant id is considered a public identifier, it is not a secret. Implementation
 
 `grant_management_endpoint`
 
-`invalid_grany_id`
+`invalid_grant_id`
 
 # Acknowledgements {#Acknowledgements}
 
