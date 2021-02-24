@@ -288,7 +288,7 @@ Implementations may wish to consider solutions to allow for addressibility of in
 
 `grant_id` is issued by the authorization server for each established grant between a client and a user. This should prevent correlation between different clients.
 
-`grant_id` MUST NOT be derived from PII that can make possible to identify the user.
+It must not be possible to identify the user or derive any personally identifiable information (PII) based on `grant_id` alone. 
 
 `grant_id` potentially could be shared by different client_id belonging to the same entity. 
 
