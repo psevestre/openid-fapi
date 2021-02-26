@@ -74,7 +74,7 @@ The underlying assumption is that creation and updates of grants almost always r
 
 This specification introduces the  authorization request parameter `grant_id`:
 
-`grant_id`: OPTIONAL. String value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of the authorization server that issued it and the respective client MUST be authorized to use the particular grant id. If the parameter is present, the AS will assign all permissions as consented by the user in the actual request to the respective grant. If the parameter is not present and the AS always issues grant ids or the AS optionally issues grant ids (see (#server_metadata)) and the client requires grant ids (see (#client_metadata)), the AS MUST create a new grant and return the respective grant id in the token response. Otherwise, the AS MUST NOT return a grant id in the token response. The internal grant management behavior is at the discretion of the AS in this case.   
+`grant_id`: OPTIONAL. String value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST have been issued by the respective authorization server and the respective client MUST be authorized to use the particular grant id. If the parameter is present and the AS supports grant updates (see (#server_metadata)), the AS will assign all permissions as consented by the user in the actual request to the respective grant. If the parameter is not present and the AS always issues grant ids or the AS optionally issues grant ids (see (#server_metadata)) and the client requires grant ids (see (#client_metadata)), the AS MUST create a new grant and return the respective grant id in the token response. Otherwise, the AS MUST NOT return a grant id in the token response. The internal grant management behavior is at the discretion of the AS in this case.   
 
 The following example shows how a client may ask the authorization request to use a certain grant id:
 
@@ -97,7 +97,7 @@ Note: a client (as logical entity) MAY use multiple client ids to deliver its se
 
 ### Error Response
 
-In case the `grant_id` is unknown or invalid, the authorization server will respond with an error code `invalid_grant` (as defined in [@!RFC6749]).
+In case the `grant_id` is unknown or invalid, the authorization server will respond with an error code `invalid_grant_id`.
 
 ## Token Response
 
@@ -264,6 +264,9 @@ OPTIONAL. JSON string indicating support for provision of grant ids in token res
 
 If omitted, the default value is `none`. 
 
+`grant_update_supported`
+OPTIONAL. JSON boolean indicating whether the authorization server supports grant updates. If omitted, the default value is `false`. 
+
 `grant_management_actions_supported`
 OPTIONAL. JSON array containing a list of Grant Management actions which are supported. Allowed values are `query` and `revoke`. If omitted, the default value is no supported actions.
 
@@ -344,6 +347,8 @@ A grant id is considered a public identifier, it is not a secret. Implementation
 `grant_management_actions_supported`
 
 `grant_management_endpoint`
+
+`invalid_grant_id`
 
 # Acknowledgements {#Acknowledgements}
 
