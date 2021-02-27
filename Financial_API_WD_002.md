@@ -1,55 +1,42 @@
-# Financial-grade API - Part 2: Advanced Security Profile
-
-## Warning
-
-This document is not an OIDF International Standard. It is distributed for review and comment. It is subject to change without notice and may not be referred to as an International Standard.
-
-Recipients of this draft are invited to submit, with their comments, notification of any relevant patent rights of which they are aware and to provide supporting documentation.
+# Financial-grade API Security Profile 1.0 - Part 2: Advanced
 
 ## Copyright notice & license
-The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
+The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty-free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
 
 The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.
 
-##Foreword
+## Foreword
 
-The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established has the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
+The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established have the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
 Final drafts adopted by the Workgroup through consensus are circulated publicly for the public review for 60 days and for the OIDF members for voting. Publication as an OIDF Standard requires approval by at least 50 % of the members casting a vote. There is a possibility that some of the elements of this document may be the subject to patent rights. OIDF shall not be held responsible for identifying any or all such patent rights.
 
-Financial-grade API consists of the following parts:
+Financial-grade API Security Profile 1.0 consists of the following parts:
 
-* Part 1: Baseline Security Profile
-* Part 2: Advanced Security Profile
-* Financial-grade API: Client Initiated Backchannel Authentication Profile
-* Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
-* Financial-grade API: Implementation and Deployment Advice
-
-Future parts may follow.
+* [Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1]
+* Financial-grade API Security Profile 1.0 - Part 2: Advanced
 
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
-##Introduction
+## Introduction
 
-Fintech is an area of future economic growth around the world and Fintech organizations need to improve the security of their operations and protect customer data. It is common practice of aggregation services to use screen scraping as a method to capture data by storing users' passwords. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications and to maintain a whitelist of aggregators. A new draft standard, proposed by this workgroup would instead utilize an API model with structured data and a token model, such as OAuth [RFC6749, RFC6750].
+The Financial-grade API is a highly secured OAuth profile that aims to provide specific implementation guidelines for security and interoperability. The Financial-grade API security profile can be applied to APIs in any market area that requires a higher level of security than provided by standard [OAuth][RFC6749] or [OpenID Connect][OIDC]. Among other security enhancements, this specification provides a secure alternative to screen scraping. Screen scraping accesses user's data and functions by impresonating a user through password sharing. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications.
 
-The Financial-grade API aims to provide specific implementation guidelines for online financial services to adopt by developing a REST/JSON data model protected by a highly secured OAuth profile. The Financial-grade API security profile can be applied to online services in any market area that requires a higher level of security than provided by standard OAuth or OpenID Connect.
- 
-This document is Part 2 of FAPI that specifies the Financial-grade API and it provides a profile of OAuth that is suitable to be used for high risk access (read or write), for example, read access to highly sensitive data or write access to financial data (also known as payment initiation). This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
+This document is Part 2 of FAPI Security Profile 1.0 that specifies an advanced security profile of OAuth that is suitable to be used for protecting APIs with high inherent risk. Examples include APIs that give access to highly sensitive data or that can be used to trigger financial transactions (e.g., payment initiation). This document specifies the controls against attacks such as: authorization request tampering, authorization response tampering including code injection, state injection, and token request phishing. Additional details are available in the security considerations section.
 
-Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in section 8.7 before embarking on a 'from scratch' implementation.
+Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in Section 8.7 before embarking on a 'from scratch' implementation.
 
 ### Notational Conventions
 
 The keywords "shall", "shall not",
 "should", "should not", "may", and
 "can" in this document are to be interpreted as described in
-ISO Directive Part 2 [ISODIR2].
+[ISO Directive Part 2] [ISODIR2].
 These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-#**Financial-grade API - Part 2: Advanced Security Profile **
+# **Financial-grade API Security Profile 1.0 - Part 2: Advanced**
 
 [TOC]
 
@@ -67,7 +54,7 @@ This document is applicable to higher risk use cases which includes commercial a
 The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applied. For undated references, the latest edition of the referenced document (including any amendments) applies.
 
 [ISODIR2] - ISO/IEC Directives Part 2
-[ISODIR2]: http://www.iso.org/sites/directives/2016/part2/index.xhtml
+[ISODIR2]: https://www.iso.org/sites/directives/current/part2/index.xhtml
 
 [RFC6749] - The OAuth 2.0 Authorization Framework
 [RFC6749]: https://tools.ietf.org/html/rfc6749
@@ -102,7 +89,7 @@ The following referenced documents are indispensable for the application of this
 [MTLS] - OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 [MTLS]: https://tools.ietf.org/html/rfc8705
 
-[JARM] - Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
+[JARM] - Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0 (JARM)
 [JARM]: https://bitbucket.org/openid/fapi/src/master/Financial_API_JWT_Secured_Authorization_Response_Mode.md
 
 [PAR] - OAuth 2.0 Pushed Authorization Requests
@@ -135,10 +122,9 @@ For the purpose of this document, the terms defined in [RFC6749], [RFC6750], [RF
 
 ### 5.1 Introduction
 
-The OIDF Financial-grade API (FAPI) is a REST API that provides JSON data representing
-higher risk data. These APIs are protected by the
-OAuth 2.0 Authorization Framework that consists of [RFC6749], [RFC6750],
-[RFC7636], and other specifications.
+The OIDF Financial-grade API (FAPI) security profile specifies security requirements
+for high risk API resources protected by the OAuth 2.0 Authorization Framework that 
+consists of [RFC6749], [RFC6750], [RFC7636], and other specifications.
 
 There are different levels of risks associated with access to these APIs.
 For example, read and write access to a bank API has a higher financial risk than read-only access. As
@@ -147,12 +133,12 @@ APIs are also different.
 
 This profile describes security provisions for the server and client that are appropriate for Financial-grade APIs by defining the measures to mitigate:
 
-* attacks that leverage the weak binding of endpoints in [RFC6749] (e.g. malicious endpoint attacks, IdP mix-up attacks),
-* attacks that modify authorization requests and responses unprotected in [RFC6749] 
+* attacks that leverage the weak binding of endpoints in [RFC6749] (e.g. malicious endpoint attacks, IdP mix-up attacks), and
+* attacks that modify authorization requests and responses unprotected in [RFC6749].
 
 This profile does not support public clients.
 
-The following ways are specified to cope with modifications of authorization responses: Implementations can leverage OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response or they can utilize the JWT Secured Authorization Response Mode for OAuth 2.0 (JARM) that returns and protects all authorization response parameters in a JWT.
+The following ways are specified to protect against modifications of authorization responses: Implementations can leverage OpenID Connect's Hybrid Flow that returns an ID Token in the authorization response or they can utilize the JWT Secured Authorization Response Mode for OAuth 2.0 ([JARM]) that returns and protects all authorization response parameters in a JWT.
 
 #### 5.1.1 ID Token as Detached Signature
 While the name ID Token (as used in the OpenID Connect Hybrid Flow) suggests that it is something that provides the identity of the resource owner (subject), it is not necessarily so. While it does identify the authorization server by including the issuer identifier, 
@@ -175,11 +161,11 @@ The `s_hash` value is a case sensitive string.
 
 An authorization server may protect authorization responses to clients using the "JWT Secured Authorization Response Mode" [JARM].
 
-The [JARM] allows a client to request that an authorization server encodes the authorization response (of any response type) in a JWT. It is an alternative to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses and can be used with plain OAuth.
+[JARM] allows a client to request that an authorization server encodes the authorization response (of any response type) in a JWT. It is an alternative to utilizing ID Tokens as detached signatures for providing financial-grade security on authorization responses and can be used with plain OAuth.
 
 This specification facilitates use of [JARM] in conjunction with the response type `code`.
 
-Note: [JARM] can be used to protect OpenID Connect authentication responses. In this case, the OpenID RP would use response type `code`, response mode `jwt` and scope `openid`. This means [JARM] protects the authentication response (instead of the ID Token) and the ID Token containing End-User Claims is obtained from the token endpoint. This facilitates privacy since no End-User Claims are sent through the front channel. It also provides decoupling of 
+**NOTE:** [JARM] can be used to protect OpenID Connect authentication responses. In this case, the OpenID RP would use response type `code`, response mode `jwt` and scope `openid`. This means [JARM] protects the authentication response (instead of the ID Token) and the ID Token containing End-User Claims is obtained from the token endpoint. This facilitates privacy since no End-User Claims are sent through the front channel. It also provides decoupling of
 message protection and identity providing since a client (or RP) can basically use [JARM] to protect all 
 authorization responses and turn on OpenID if needed (e.g. to log the user in).
 
@@ -187,34 +173,37 @@ authorization responses and turn on OpenID if needed (e.g. to log the user in).
 
 #### 5.2.1 Introduction
 
-Read and write access carries higher risk; therefore the protection level required is higher than read-only access.
+API resources may contain sensitive data and/or have increased security requirements.
+In order to fulfill different security needs, FAPI Security Profile 1.0 defines an advanced profile that
+is beyond the baseline security requirements defined in the [Part 1: Baseline][Part1] document.
 
-As a profile of The OAuth 2.0 Authorization Framework, this document mandates the following for the advanced profile of the FAPI.
+As a profile of the OAuth 2.0 Authorization Framework, this document mandates the following for the advanced profile of the FAPI Security Profile 1.0.
 
 #### 5.2.2 Authorization server
 
 The authorization server shall support the provisions specified in clause 5.2.2 of 
-Financial-grade API - Part 1: Baseline Security Profile, with the exception
-that section 5.2.2.7 (enforcement of [RFC7636]) is not required.
+[Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1], with the exception
+that Section 5.2.2-7 (enforcement of [RFC7636]) is not required.
 
 In addition, the authorization server
 
-1. shall require the `request` or `request_uri` parameter to be passed as a JWS signed JWT as in clause 6 of [OIDC];
+1. shall require a JWS signed JWT request object passed by value with the `request` parameter or by reference with the `request_uri` parameter;
 1. shall require 
-	1. the `response_type` value `code id_token` or 
+	1. the `response_type` value `code id_token`, or 
 	2. the `response_type` value `code` in conjunction with the `response_mode` value `jwt`;
-1. (moved to 5.2.2.1)
+1. (moved to 5.2.2.1);
+1. (moved to 5.2.2.1);
 1. shall only issue sender-constrained access tokens;
 1. shall support [MTLS] as mechanism for constraining the legitimate senders of access tokens;
 1. (withdrawn);
 1. (moved to 5.2.2.1);
 1. (moved to 5.2.2.1);
-1. shall only use the parameters included in the signed request object passed in the `request` or `request_uri` parameter;
+1. shall only use the parameters included in the signed request object passed via the `request` or `request_uri` parameter;
 1. may support the pushed authorization request endpoint as described in [PAR];
 1. (withdrawn);
-1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim; and
-1. shall authenticate the confidential client using one of the following methods (this overrides FAPI Part 1 clause 5.2.2.4):
-    1. `tls_client_auth` or `self_signed_tls_client_auth` as specified in section 2 of [MTLS];
+1. shall require the request object to contain an `exp` claim that has a lifetime of no longer than 60 minutes after the `nbf` claim;
+1. shall authenticate the confidential client using one of the following methods (this overrides [FAPI Security Profile 1.0 - Part 1: Baseline][Part1] clause 5.2.2-4):
+    1. `tls_client_auth` or `self_signed_tls_client_auth` as specified in section 2 of [MTLS], or
     2. `private_key_jwt` as specified in section 9 of [OIDC];
 1. shall require the aud claim in the request object to be, or to be an array containing, the OP's Issuer Identifier URL;
 1. shall not support public clients;
@@ -225,28 +214,28 @@ In addition, the authorization server
 
 **NOTE:** [PAR] does not present any additional security concerns that necessitated the requirement to use PKCE - the reason PKCE is not required in other cases is merely to be backwards compatible with earlier drafts of this standard.
 
-#### 5.2.2.1 ID Token as detached signature
+##### 5.2.2.1 ID Token as detached signature
 
 In addition, if the `response_type` value `code id_token` is used, the authorization server
 
-1. shall support [OIDC]
+1. shall support [OIDC];
 1. shall support signed ID Tokens;
 1. should support signed and encrypted ID Tokens;
 1. shall return ID Token as a detached signature to the authorization response;
-1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint;
+1. shall include state hash, `s_hash`, in the ID Token to protect the `state` value if the client supplied a value for `state`. `s_hash` may be omitted from the ID Token returned from the Token Endpoint when `s_hash` is present in the ID Token returned from the Authorization Endpoint; and
 1. should not return sensitive PII in the ID Token in the authorization response, but if it needs to, then it should encrypt the ID Token.
 
 **NOTE:** The authorization server may return more claims in the ID Token from the token endpoint than in the one from the authorization response
 
-#### 5.2.2.2 JARM
+##### 5.2.2.2 JARM
 
 In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the authorization server
 
-1. shall create JWT-secured authorization responses as specified in [JARM], section 4.3;
+1. shall create JWT-secured authorization responses as specified in [JARM], Section 4.3.
 
 #### 5.2.3 Confidential client
 
-A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of Financial-grade API - Part 1: Baseline Security Profile, except for [RFC7636] support.
+A confidential client shall support the provisions specified in clause 5.2.3 and 5.2.4 of [Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1], except for [RFC7636] support.
 
 In addition, the confidential client
 
@@ -258,30 +247,31 @@ In addition, the confidential client
 1. (withdrawn);
 1. (moved 5.2.3.1);
 1. shall send all parameters inside the authorization request's signed request object;
-1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by section 6.1 of the OpenID Connect specification if not using [PAR];
+1. shall additionally send duplicates of the `response_type`, `client_id`, and `scope` parameters/values using the OAuth 2.0 request syntax as required by Section 6.1 of the OpenID Connect specification if not using [PAR];
 1. shall send the `aud` claim in the request object as the OP's Issuer Identifier URL;
 1. shall send an `exp` claim in the request object that has a lifetime of no longer than 60 minutes;
 1. (moved to 5.2.3.1);
 1. (moved to 5.2.3.1);
-1. shall send a `nbf' claim in the request object;
-1. shall use [RFC7636] with `S256` as the code challenge method if using [PAR];
-1. shall additionally send a duplicate of the `client_id` parameter/value using the OAuth 2.0 request syntax to the authorization endpoint, as required by section 5 of [JAR], if using [PAR];
+1. shall send a `nbf` claim in the request object;
+1. shall use [RFC7636] with `S256` as the code challenge method if using [PAR]; and
+1. shall additionally send a duplicate of the `client_id` parameter/value using the OAuth 2.0 request syntax to the authorization endpoint, as required by Section 5 of [JAR], if using [PAR].
 
-#### 5.2.3.1 ID Token as detached signature
+##### 5.2.3.1 ID Token as detached signature
 
 In addition, if the `response_type` value `code id_token` is used, the client
 
-1. shall include the value `openid` into the `scope` parameter in order to activate [OIDC] support
+1. shall include the value `openid` into the `scope` parameter in order to activate [OIDC] support;
 1. shall require JWS signed ID Token be returned from endpoints;
-1. shall verify that the authorization response was not tampered using ID Token as the detached signature
-1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]. Note: this enables the client to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
-1. shall support both signed and signed & encrypted ID Tokens
+1. shall verify that the authorization response was not tampered using ID Token as the detached signature;
+1. shall verify that `s_hash` value is equal to the value calculated from the `state` value in the authorization response in addition to all the requirements in 3.3.2.12 of [OIDC]; and
+   **NOTE:** This enables the client to verify that the authorization response was not tampered with, using the ID Token as a detached signature.
+1. shall support both signed and signed & encrypted ID Tokens.
 
-#### 5.2.3.2 JARM
+##### 5.2.3.2 JARM
 
 In addition, if the `response_type` value `code` is used in conjunction with the `response_mode` value `jwt`, the client
 
-1. shall verify the authorization responses as specified in [JARM], section 4.4;
+1. shall verify the authorization responses as specified in [JARM], Section 4.4.
 
 #### 5.2.4 (withdrawn)
 
@@ -299,19 +289,19 @@ The FAPI endpoints are OAuth 2.0 protected resource endpoints that return protec
 
 The protected resources supporting this document
 
-1. shall support the provisions specified in clause 6.2.1 Financial-grade API - Part 1: Baseline Security Profile;
+1. shall support the provisions specified in clause 6.2.1 [Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1]; and
 1. shall adhere to the requirements in [MTLS].
 
 #### 6.2.2 Client provisions
 
-The client supporting this document shall support the provisions specified in clause 6.2.2 of Financial-grade API - Part 1: Baseline Security Profile.
+The client supporting this document shall support the provisions specified in clause 6.2.2 of [Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1].
 
 ## 7. (Withdrawn)
 
 ## 8. Security considerations
 
 ### 8.1 Introduction
-As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations.
+As a profile of the OAuth 2.0 Authorization Framework, this specification references the security considerations defined in Section 10 of [RFC6749], as well as [RFC6819] - OAuth 2.0 Threat Model and Security Considerations, which details various threats and mitigations. The security of OAuth 2.0 has been proven formally - under certain assumptions - in [OAUTHSEC]. A detailed security analysis of FAPI Security Profile 1.0 can be found in [FAPISEC].
 
 ### 8.2 Uncertainty of resource server handling of access tokens
 There is no way that the client can find out whether the resource access was granted for a bearer or sender-constrained access token.
@@ -337,7 +327,7 @@ In this attack, the client developer is socially engineered into believing that 
 to the URL that is controlled by the attacker. As a result, the client sends the `code` and the client secret to 
 the attacker, which will be replayed subsequently. 
 
-When the FAPI client uses [MTLS], the client's secret (the private key corresponding to its TLS certificate) is 
+When the FAPI Security Profile 1.0 client uses [MTLS], the client's secret (the private key corresponding to its TLS certificate) is
 not exposed to the attacker, which therefore cannot authenticate towards the token endpoint of the authorization server.
 
 #### 8.3.3 Identity provider (IdP) mix-up attack
@@ -348,16 +338,16 @@ The rogue IdP then redirects the client to the honest IdP that has the same `cli
 If the user is already logged on at the honest IdP, 
 then the authentication may be skipped and a code is generated and returned to the client. 
 Since the client was interacting with the rogue IdP, the code is sent to the rogue IdP's token endpoint. 
-At the point, the attacker has a valid code that can be exchanged for an access token at the honest IdP.
+At the point, the attacker has a valid code that can be exchanged for an access token at the honest IdP. See [OAUTHSEC] for a detailed description of the attack.
 
-This is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss` or [JARM] 
+This attack is mitigated by the use of OpenID Connect Hybrid Flow in which the honest IdP's issuer identifier is included as the value of `iss` or [JARM] 
 where the `iss` included in the response JWT. On receiving the authorization response, the client compares the `iss` value from the response with the 
 issuer URL of the IdP it sent the authorization request to (the rogue IdP). The client detects the conflicting issuer values and aborts the transaction. 
 
 #### 8.3.4 (removed)
 
 #### 8.3.5 Access token phishing
-When the FAPI client uses [MTLS], the access token is bound to the client's TLS certificate, it is access token phishing resistant as the phished access tokens cannot be used.
+Various mechanisms in this specification aim at preventing access token phishing, e.g., the requirement of exactly matching redirect URIs and the restriction on response types that do not return access tokens in the front channel. As a second layer of defense, FAPI Security Profile 1.0 Advanced clients use [MTLS] meaning the access token is bound to the client's TLS certificate. Even if an access token is phished, it cannot be used by the attacker. An attacker could try to trick a client under his control to make use of the access token as described in [FAPISEC] ("Cuckoo's Token Attack" and "Access Token Injection with ID Token Replay"), but these attacks additionally require a rogue AS or misconfigured token endpoint.
 
 ### 8.4 Attacks that modify authorization requests and responses
 
@@ -388,7 +378,7 @@ The server can verify that the state is the same as what was stored in the brows
 ### 8.5 TLS considerations
 As confidential information is being exchanged, all interactions shall be encrypted with TLS (HTTPS).
 
-Section 7.1 of Financial-grade API - Part 1: Baseline Security Profile shall apply, with the following additional requirements:
+Section 7.1 of [Financial-grade API Security Profile 1.0 - Part 1: Baseline][Part1] shall apply, with the following additional requirements:
 
 1. For TLS versions below 1.3, only the following 4 cipher suites shall be permitted:
     * `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256`
@@ -396,18 +386,18 @@ Section 7.1 of Financial-grade API - Part 1: Baseline Security Profile shall app
     * `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384`
     * `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
 1. For the `authorization_endpoint`, the authorization server MAY allow additional cipher suites that are permitted by the latest version of [BCP195], if necessary to allow sufficient interoperability with users' web browsers or are required by local regulations.
-   NOTE: Permitted cipher suites are those that [BCP195] does not explicity say MUST NOT use.
+   **NOTE:** Permitted cipher suites are those that [BCP195] does not explicity say MUST NOT use.
 1. When using the `TLS_DHE_RSA_WITH_AES_128_GCM_SHA256` or `TLS_DHE_RSA_WITH_AES_256_GCM_SHA384` cipher suites, key lengths of at least 2048 bits are required.
 
 ### 8.6 Algorithm considerations
 
-For JWS, both clients and authorization servers:
+For JWS, both clients and authorization servers
 
 1. shall use `PS256` or `ES256` algorithms;
-1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`);
-1. shall not use `none`;
+1. should not use algorithms that use RSASSA-PKCS1-v1_5 (e.g. `RS256`); and
+1. shall not use `none`.
 
-### 8.6.1 Encryption algorithm considerations
+#### 8.6.1 Encryption algorithm considerations
 
 For JWE, both clients and authorization servers
 
@@ -456,21 +446,21 @@ public keys. For Clients this profile recommends either the use of JWKS URI endp
 or the use of the `jwks` parameter in combination with [RFC7591] 
 and [RFC7592].
 
-The definition of the AS jwks_uri can be found in [RFC8414], while the definition 
-of the Client jwks_uri can be found in [RFC7591]. 
+The definition of the AS `jwks_uri` can be found in [RFC8414], while the definition
+of the Client `jwks_uri` can be found in [RFC7591].
 
 In addition, this profile
 
-1. requires that jwks_uri endpoints shall be served over TLS;
-1. recommends that JOSE headers for x5u and jku should not be used;
+1. requires that `jwks_uri` endpoints shall be served over TLS;
+1. recommends that JOSE headers for `x5u` and `jku` should not be used; and
 1. recommends that the JWK set does not contain multiple keys with the same `kid`.
 
 ### 8.10 Multiple clients sharing the same key
 
 The use of [MTLS] for client authentication and sender constraining access tokens brings
 significant security benefits over the use of shared secrets. However in some deployments
-the certificates used for [MTLS] are issued by a Certificate Authority at an organisation
-level rather than a client level. In such situations it may be common for an organisation 
+the certificates used for [MTLS] are issued by a Certificate Authority at an organization
+level rather than a client level. In such situations it may be common for an organization 
 with multiple clients to use the same certificates (or certificates with the same DN) 
 across clients. Implementers should be aware that such sharing means that a compromise 
 of any one client, would result in a compromise of all clients sharing the same key.
@@ -478,13 +468,13 @@ of any one client, would result in a compromise of all clients sharing the same 
 ### 8.11 Duplicate Key Identifiers
 JWK sets should not contain multiple keys with the same `kid`. However, to increase 
 interoperability when there are multiple keys with the same `kid`,  the verifier shall 
-consider other JWK attributes, such as kty, use, alg, etc., when selecting the 
+consider other JWK attributes, such as `kty`, `use`, `alg`, etc., when selecting the
 verification key for the particular JWS message. For example, the following algorithm 
 could be used in selecting which key to use to verify a message signature:
 
-1. Find keys with a `kid` that matches the `kid` in the JOSE header;
-2. If a single key is found, use that key;
-3. If multiple keys are found, then the verifier should iterate through the keys until a key is found that has a matching `alg`, `use`, `kty`, or `crv` that corresponds to the message being verified.
+1. find keys with a `kid` that matches the `kid` in the JOSE header;
+2. if a single key is found, use that key;
+3. if multiple keys are found, then the verifier should iterate through the keys until a key is found that has a matching `alg`, `use`, `kty`, or `crv` that corresponds to the message being verified.
 
 ## 9. Privacy considerations
 
@@ -495,9 +485,9 @@ when implementing this document. However, since this document
 is a profile of OAuth and OpenID Connect, all of them 
 are generic and applies to OAuth or OpenID Connect and 
 not specific to this document. Implementers are advised to 
-perform a thorough privacy impact assessment and and manage identified risks appropriately. 
+perform a thorough privacy impact assessment and manage identified risks appropriately. 
 
-NOTE: Implementers can consult documents like 
+**NOTE:** Implementers can consult documents like
 [ISO29100] and [ISO29134] for this purpose. 
 
 Privacy threats to OAuth and OpenID Connect implementations include the following: 
@@ -532,28 +522,45 @@ Similarly, "Attacker observing personal data in authorization endpoint response"
 The following people contributed to this document:
 
 * Nat Sakimura (NAT Consulting) -- Chair, Editor
-* Anoop Saxana (Intuit) -- Co-chair, FS-ISAC Liaison
+* Anoop Saxena (Intuit) -- Co-chair, FS-ISAC Liaison
 * Anthony Nadalin (Microsoft) -- Co-chair, SC 27 Liaison
 * Edmund Jay (Illumila) -- Co-editor
 * Dave Tonge (Moneyhub) -- Co-chair, UK Implementation Entity Liaison
 * Paul A. Grassi (NIST) -- X9 Liaison
 * Joseph Heenan (Authlete)
 * Sascha H. Preibisch (CA)
-* John Bradley (Yubico)
 * Henrik Biering (Peercraft)
+* Anton Taborszky (Deutsche Telecom)
+* John Bradley (Yubico)
 * Tom Jones (Independent) 
 * Axel Nennker (Deutsche Telekom)
+* Daniel Fett (yes.com)
 * Torsten Lodderstedt (yes.com)
 * Ralph Bragg (Raidiam)
 * Brian Campbell (Ping Identity) 
 * Dima Postnikov (Independent)
 * Stuart Low (Biza.io)
+* Takahiko Kawasaki (Authlete)
+* Vladimir Dzhuvinov (Connect2Id)
+* Chris Michael (Open Banking)
+* Freddi Gyara (Open Banking)
+* Rob Otto (Ping Identity)
+* Francis Pouatcha (adorsys)
+* Kosuke Koiwai (KDDI)
+* Bjorn Hjelm (Verizon)
+* Lukasz Jaromin (Cloudentity)
+* James Manger
 
 ## 11. Bibliography
 
+* [Part1] Financial-grade API Security Profile 1.0 - Part 1: Baseline
+[Part1]: https://openid.net/specs/openid-financial-api-part-1-1_0.html
+
 * [ISODIR2] ISO/IEC Directives Part 2
 * [ISO29100] ISO/IEC 29100 Information technology — Security techniques — Privacy framework
-* [ISO29134] ISO/IEC 29134 Information technology — Security techniques — Guidelines for privacy impact assessment 
+[ISO29100]: http://standards.iso.org/ittf/PubliclyAvailableStandards/c045123_ISO_IEC_29100_2011.zip
+
+* [ISO29134] ISO/IEC 29134 Information technology — Security techniques — Guidelines for privacy impact assessment
 * [ISO29184] ISO/IEC 29184 Information technology — Online privacy notices and consent
 * [RFC6749] The OAuth 2.0 Authorization Framework
 * [RFC6750] The OAuth 2.0 Authorization Framework: Bearer Token Usage
@@ -562,12 +569,24 @@ The following people contributed to this document:
 * [RFC7519] JSON Web Token (JWT)
 * [RFC7591] OAuth 2.0 Dynamic Client Registration Protocol
 * [RFC7592] OAuth 2.0 Dynamic Client Registration Management Protocol
+* [RFC8414] OAuth 2.0 Authorization Server Metadata
+[RFC8414]: https://tools.ietf.org/html/rfc8414
+
 * [OIDC] OpenID Connect Core 1.0 incorporating errata set 1
 * [OIDD] OpenID Connect Discovery 1.0 incorporating errata set 1
 * [BCP195] Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
-* [JARM] Financial Services – Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
+* [JARM] Financial-grade API: JWT Secured Authorization Response Mode for OAuth 2.0
+* [PAR] OAuth 2.0 Pushed Authorization Requests
+* [JAR] OAuth 2.0 JWT Secured Authorization Request
 * [SoK] Mainka, C., Mladenov, V., Schwenk, J., and T. Wich: SoK: Single Sign-On Security – An Evaluation of OpenID Connect
+[SoK]: https://www.nds.ruhr-uni-bochum.de/media/ei/veroeffentlichungen/2017/01/30/oidc-security.pdf
+
+* [FAPISEC] Fett, D., Hosseyni, P., Kuesters, R.: An Extensive Formal Security Analysis of the OpenID Financial-grade API
+[FAPISEC]: https://arxiv.org/abs/1901.11520
+
+* [OAUTHSEC] Fett, D., Kuesters, R., Schmitz, G.: A Comprehensive Formal Security Analysis of OAuth 2.0
+[OAUTHSEC]: https://arxiv.org/abs/1601.01229
 
 ## 12. IANA Considerations
 ### 12.1 Additions to JWT Claims Registry
@@ -752,7 +771,7 @@ which when decoded has the following body:
       "exp": 1594141090
     }
 
-### A.5 Example private_key_jwt client assertion
+### A.5 Example private\_key\_jwt client assertion
 
     eyJraWQiOiJjbGllbnQtMjAyMC0wOC0yOCIsImFsZyI6IlBTMjU2In0.eyJzdWIiOiI1MjQ4MDc1NDA1
     MyIsImF1ZCI6Imh0dHBzOlwvXC9mYXBpLWFzLmV4YW1wbGUuY29tXC9hcGlcL3Rva2VuIiwiaXNzIjoi

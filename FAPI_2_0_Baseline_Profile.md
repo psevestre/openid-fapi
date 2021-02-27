@@ -23,13 +23,19 @@ organization="yes.com"
 
 .# Abstract 
 
-OIDF FAPI 2.0 is an API security profile based on the OAuth 2.0 Authorization
-Framework [@!RFC6749]. 
+The Financial-grade API (FAPI) 2.0 Baseline profile is an API security profile
+based on the OAuth 2.0 Authorization Framework [@!RFC6749]. 
 
 {mainmatter}
 
 # Introduction
-
+Financial-grade API (FAPI) 2.0 is an API security profile based on the OAuth 2.0
+Authorization Framework [@!RFC6749] and related specifications suitable for
+protecting APIs in high-value scenarios. While the security profile was
+initially developed with a focus on financial applications, it is designed to be
+universally applicable for protecting APIs exposing high-value and sensitive
+(personal and other) data, for example, in e-health and e-government
+applications. 
 ## Warning
 
 This document is not an OIDF International Standard. It is distributed for
@@ -121,6 +127,7 @@ In the following, a profile of the following technologies is defined:
   * OAuth 2.0 Pushed Authorization Requests (PAR) [@!I-D.ietf-oauth-par]
   * OAuth 2.0 Rich Authorization Requests (RAR) [@!I-D.ietf-oauth-rar]
   * OAuth 2.0 Authorization Server Metadata [@!RFC8414]
+  * OAuth 2.0 Authorization Server Issuer Identifier in Authorization Response [@!I-D.ietf-oauth-iss-auth-res]
   * OpenID Connect Core 1.0 incorporating errata set 1 [@!OpenID]
   
 ### Requirements for Authorization Servers
@@ -135,9 +142,13 @@ Authorization servers
  4. shall support client-authenticated pushed authorization requests
     according to [@I-D.ietf-oauth-par]
  5. shall reject authorization requests sent without
-    [@I-D.ietf-oauth-par]
+    [@I-D.ietf-oauth-par] or authorization request parameters
+    sent outside of the PAR request, except for
+    `request_uri` and `client_id`
  6. shall reject pushed authorization requests without client authentication
- 7. shall support rich authorization requests according to [@I-D.ietf-oauth-rar]
+ 7. shall support the `authorization_details` parameter according to
+    [@I-D.ietf-oauth-rar] to convey the authorization clients want to obtain if
+    the `scope` parameter is not expressive enough for that purpose
  8. shall support confidential clients as defined in [@!RFC6749]
  9. shall only issue sender-constrained access tokens using one of the following
     methods:
@@ -147,13 +158,15 @@ Authorization servers
      - MTLS as specified in section 2 of [@!RFC8705]
      - `private_key_jwt` as specified in section 9 of [@!OpenID]
  11. shall require PKCE [@!RFC7636] with `S256` as the code challenge method
- 14. shall require that redirect URIs use the `https` scheme
+ 12. shall only issue authorization codes and refresh tokens that are
+     sender-constrained 
  12. shall require the `redirect_uri` parameter in pushed authorization requests
- 13. shall return an `iss` parameter in the authorization response containing
-     the issuer URI as published in the respective OAuth metadata [@!RFC8414]
- 15. shall verify, if possible, that the authorization code (section 1.3.1 of
-     [@!RFC6749]) has not been previously used
- 16. shall provide a means for resource servers to verify the validity,
+ 14. shall return an `iss` parameter in the authorization response according to
+     [@!I-D.ietf-oauth-iss-auth-res]
+ 15. shall require that redirect URIs use the `https` scheme
+ 16. shall reject an authorization code (section 1.3.1 of [@!RFC6749]) if it has
+     been previously used
+ 17. shall provide a means for resource servers to verify the validity,
      integrity, sender-constraining, scope (incl. `authorization_details`),
      expiration and revocation status of an access token, either by providing an
      introspection endpoint [@!RFC7662], by exposing signature verification
@@ -168,7 +181,6 @@ Authorization servers
 is desirable to set the validity period of the authorization code to one minute
 or a suitable short period of time. The validity period may act as a cache
 control indicator of when to clear the authorization code cache if one is used.
-
 
 #### Returning Authenticated User's Identifier
 
@@ -191,19 +203,9 @@ Clients
  5. shall use PKCE [@!RFC7636] with `S256` as the code challenge method
  6. shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0
     Bearer Token Usage [@!RFC6750]
- 7. shall check the `iss` parameter in the authorization response to match the
-    issuer with which the authorization flow was started to prevent Mix-Up
-    attacks as described in [@I-D.ietf-oauth-security-topics]
- 8.  may send the last time the customer logged into the client in the
-    `fapi-auth-date` header where the value is supplied as an HTTP-date as in
-    section 7.1.1.1 of [@!RFC7231], e.g., `fapi-auth-date: Tue, 11 Sep 2012
-    19:43:31 GMT`
- 9.  may send the customer's IP address if this data is available in the
-    `fapi-customer-ip-address` header, e.g., `fapi-customer-ip-address: 2001:DB8::1893:25c8:1946` or  `fapi-customer-ip-address: 93.184.216.34`
- 10. may send the `fapi-interaction-id` request header whose value is a
-     [@!RFC4122] UUID to the server to help correlate log entries between client
-     and server, e.g., `fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
- 11. shall not expose open redirectors (see section 4.10 of
+ 7. shall check the `iss` parameter in the authorization response according to
+    [@!I-D.ietf-oauth-iss-auth-res] to prevent Mix-Up attacks
+ 8. shall not expose open redirectors (see section 4.10 of
      [@I-D.ietf-oauth-security-topics])
 
 ### Requirements for Resource Servers
@@ -229,11 +231,6 @@ Resource servers with the FAPI endpoints
 3. shall only return the resource identified by the combination of the entity
    implicit in the access and the granted scope and otherwise return errors as
    in section 3.1 of [@!RFC6750]
-4. shall set the response header `fapi-interaction-id` to the value received
-   from the corresponding fapi client request header or to a [@!RFC4122] UUID
-   value if the request header was not provided to track the interaction, e.g.,
-   `fapi-interaction-id: c770aef3-6784-41f7-8e0e-ff5f97bddb3a`
-5. shall log the value of `fapi-interaction-id` in the log entry
 
 
 ## Cryptography and Secrets
@@ -253,21 +250,21 @@ Resource servers with the FAPI endpoints
 
 ## Differences to FAPI 1.0
 
-| FAPI 1.0 Read/Write                       | FAPI 2.0                                                 | Reasons                                                                                               |
-| :---------------------------------------- | :------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- |
-| JAR, JARM                                 | PAR                                                      | integrity protection and compatibility improvements for authorization requests; only code in response |
-| -                                         | RAR                                                      | support complex and structured information about authorizations                                       |
-| individual security recommendations       | security recommendations aligned with OAuth Security BCP |                                                                                                       |
-| `s_hash`                                  | -                                                        | state integrity is protected by PAR; protection provided by state is now provided by PKCE             |
-| pre-registered redirect URIs              | redirect URIs in PAR                                     | pre-registration is not required with client authentication and PAR                                   |
-| response types `code id_token` or `code`  | response type `code`                                     | improve security: no ID token in front-channel; not needed                                            |
-| ID Token as detached signature            | -                                                        | ID token does not need to serve as a detached signature                                               |
-| signed and encrypted ID Tokens            | signing and encryption not required                      | ID Tokens only exchanged in back channel                                                              |
-| `exp` claim in request object             | -                                                        | ?                                                                                                     |
-| `x-fapi-*` headers                        | Renamed to `fapi-*` headers                              | See https://tools.ietf.org/html/rfc6648                                                               |
+| FAPI 1.0 Read/Write                      | FAPI 2.0                            | Reasons                                                                                               |
+| :--------------------------------------- | :---------------------------------- | :---------------------------------------------------------------------------------------------------- |
+| JAR, JARM                                | PAR                                 | integrity protection and compatibility improvements for authorization requests; only code in response |
+| -                                        | RAR                                 | support complex and structured information about authorizations                                       |
+| -                                        | shall adhere to Security BCP        |                                                                                                       |
+| `s_hash`                                 | -                                   | state integrity is protected by PAR; protection provided by state is now provided by PKCE             |
+| pre-registered redirect URIs             | redirect URIs in PAR                | pre-registration is not required with client authentication and PAR                                   |
+| response types `code id_token` or `code` | response type `code`                | improve security: no ID token in front-channel; not needed                                            |
+| ID Token as detached signature           | -                                   | ID token does not need to serve as a detached signature                                               |
+| signed and encrypted ID Tokens           | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
+| `exp` claim in request object            | -                                   | ?                                                                                                     |
+| `x-fapi-*` headers                       | -                                   | Removed pending further discussion                                                                    |
 | MTLS for sender-constrained access tokens | MTLS or DPoP                                             |                                                                                                       |
-
-
+## Acknowledgements
+(todo)
 
 {backmatter}
 
