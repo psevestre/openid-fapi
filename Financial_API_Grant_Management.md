@@ -72,17 +72,21 @@ The underlying assumption is that creation and updates of grants almost always r
 
 ## Authorization Request
 
-This specification introduces the  authorization request parameter `grant_id`:
+This specification introduces the authorization request parameters `grant_id` and `grant_management_action`. These parameters can be used with any request serving as authorization request, e.g. it may be used with CIBA requests. 
 
-`grant_id`: OPTIONAL. String value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST have been issued by the respective authorization server and the respective client MUST be authorized to use the particular grant id. If the parameter is present, the AS will assign all permissions as consented by the user in the actual request to the respective grant. 
+`grant_id`: OPTIONAL. String value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST have been issued by the respective authorization server and the respective client MUST be authorized to use the particular grant id.  
 
-Note: the parameter `grant_id` can be used with any request serving as authorization request, e.g. it may be used with CIBA requests. 
+`grant_management_action`: string value controlling the way the authorization server shall handle the grant when processing an authorization request. This specification defines the following values:
+
+* `create`: the AS will create a fresh grant if the AS supports the grant management action `create`.
+* `update`: this mode requires the client to specify a grant id using the `grant_id` parameter. If the parameter is present and the AS supports the grant management action `update`, the AS will assign all permissions as consented by the user in the actual request to the respective grant.
 
 The following example shows how a client may ask the authorization request to use a certain grant id:
 
 ```http
 GET /authorize?response_type=code&
      client_id=s6BhdRkqt3
+     &grant_management_action=update
      &grant_id=TSdqirmAxDa0_-DB_1bASQ
      &scope=write
      &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
@@ -91,19 +95,13 @@ GET /authorize?response_type=code&
 Host: as.example.com 
 ```
 
-If the parameter is not present the behavior is determined by the interplay of AS and client metadata (see (#server_metadata) and (#client_metadata):
-
-* AS parameter `grant_auto_create` is `always`: the AS will create a new grant
-* AS parameter `grant_auto_create` is `optional` and the client parameter `grant_auto_create` is `true`: the AS will create a new grant
-* AS parameter `grant_auto_create` is `optional` and client parameter `grant_auto_create` is `false`: the behavior is at the discretion of the AS
-
 ## Authorization Response
 
 ### Error Response
 
 In case the `grant_id` is unknown or invalid, the authorization server will respond with an error code `invalid_grant_id`.
 
-in case the server metadata parameter `grant_update_supported` is set to false, the AS will respond with the error code `invalid_request`.
+in case the AS does not support a grant management action requested by the client, it will respond with the error code `invalid_request`.
 
 ## Token Response
 
@@ -111,10 +109,7 @@ This specification introduces the token response parameter `grant_id`:
 
 `grant_id`: URL safe string value identifying an individual grant managed by a particular authorization server for a certain client and a certain resource owner. The `grant_id` value MUST be unique in the context of a certain authorization server and SHOULD have enough entropy to make it impractical to guess it. 
 
-The AS will return a `grant_id` 
-
-* if the server metadata parameter `provide_grant_id` is set to `always` or 
-* if the server metadata parameter `provide_grant_id` is set to `optional` and the client metadata parameter `provide_grant_id` is set to true.
+The AS will return a `grant_id` if it supports any of the grant management actions `query`, `revoke`, or `update`.
 
 Here is an example response:
 
@@ -268,32 +263,18 @@ If the request lacks a valid access token, the authorization server responds wit
 
 ## Authorization server's metadata {#server_metadata}
 
-`provide_grant_id`
-OPTIONAL. JSON string indicating support for provision of grant ids in token responses. Allowed values are `optional` and `always`. 
+`grant_management_actions_supported`
+OPTIONAL. JSON array containing the actions supported by the AS. Allowed values are `query`, `revoke`, `update`, `create`.
 
-* `optional`: the AS provides grant ids in the token response if required by the client's policy.
-* `always`: the AS will always provide grant ids in token responses. 
+* `query`: the AS allows clients to query the permissions associated with a certain grant.
+* `revoke`: the AS allows clients to revoke grants. 
+* `update`: the AS allows clients to update existing grants. 
+* `create`: the AS allows clients to request the creation of a new grant. 
 
-If omitted, the AS does not return grant ids in the token response. 
-
-`grant_update_supported`
-OPTIONAL. JSON boolean indicating whether the authorization server supports grant updates through authorization requests. If omitted, the default value is `false`.
-
-`grant_auto_create`
-OPTIONAL. JSON boolean determining the expected behavior of no grant id is present in the authorization request. If set to `true` the AS will create 
-a new grant. If set to `false` the behavior is left to the AS's discretion. If omitted, the default value is `false`.  
+If omitted, the AS does not support any grant managenent actions. 
 
 `grant_management_endpoint`
 OPTIONAL. URL of the authorization server's Grant Management Administration Endpoint.
-
-## Client metadata {#client_metadata}
-
-`provide_grant_id`
-OPTIONAL. JSON boolean requesting the AS to provide grant ids in the token response if set to `true`. If omitted, the default value is `false`.
-
-`grant_auto_create`
-OPTIONAL. JSON boolean determining the expected behavior of no grant id is present in the authorization request. If set to `true` the client
-wants the AS to create a new grant. If set to `false` the behavior is left to the AS's discretion. If omitted, the default value is `false`.  
 
 # Implementation Considerations {#Implementation}
 
