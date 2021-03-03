@@ -635,27 +635,31 @@ The examples signed by the server may be verified with the following JWK:
     wqztoX0H5P0g7OWocspHrDn6YOgxHw"
     }
 
+<!--
 The code that generated these examples can be found here:
 
-https://gitlab.com/emobix/fapi-examples
+https://gitlab.com/openid/fapi-examples
+-->
 
 ### A.1 Example request object
 
     eyJraWQiOiJjbGllbnQtMjAyMC0wOC0yOCIsImFsZyI6IlBTMjU2In0.eyJhdWQiOiJodHRwczpcL1wv
-    ZmFwaS1hcy5leGFtcGxlLmNvbVwvIiwic2NvcGUiOiJvcGVuaWQgcGF5bWVudHMiLCJpc3MiOiI1MjQ4
-    MDc1NDA1MyIsInJlc3BvbnNlX3R5cGUiOiJjb2RlIGlkX3Rva2VuIiwicmVkaXJlY3RfdXJpIjoiaHR0
-    cHM6XC9cL2ZhcGktY2xpZW50LmV4YW1wbGUub3JnXC9mYXBpLWFzLWNhbGxiYWNrIiwic3RhdGUiOiJW
-    Z1NVSUVuZmxuRHhUZTF2QXRyNTRvIiwiZXhwIjoxNTk0MTQwMzkwLCJub25jZSI6Ijd4RENIdml1UE1T
-    WEpJaWdrSE9jRGkiLCJjbGllbnRfaWQiOiI1MjQ4MDc1NDA1MyJ9.aGqQcWpsvGpzNi8H1CMcV3uC3Ng
-    gAGvMTkwV9Ttci5Pci-dIU2E9FvumcNXO6T4ScEdv1WeY_qC-B8ULgd7ui53t-Yhe_3rUuv4pIso5iql
-    NlufQlaLvaJ7WPmz3DEqkjJwEAK1fi-PTFFjp-DF3cbbbAFptcchVcXkKM0VoUueTHiq8BAysLJ3WEev
-    pn9GVq9W3TAjL1nB3rPv-hKfJhUNCpbTT7eIzHpznRu_JBzCvcvC_q1oD1hUlPLV-Isy20lROSB7VS-e
-    Cap-pgoyjDIkYW0U3BxapM13vqZ29HRWui8NdNvbAqBglrQ_g97DMFuZmnyaOYaUyk_8J5JLwZw
+    ZmFwaS1hcy5leGFtcGxlLmNvbVwvIiwibmJmIjoxNTk0MTQwMDMwLCJzY29wZSI6Im9wZW5pZCBwYXlt
+    ZW50cyIsImlzcyI6IjUyNDgwNzU0MDUzIiwicmVzcG9uc2VfdHlwZSI6ImNvZGUgaWRfdG9rZW4iLCJy
+    ZWRpcmVjdF91cmkiOiJodHRwczpcL1wvZmFwaS1jbGllbnQuZXhhbXBsZS5vcmdcL2ZhcGktYXMtY2Fs
+    bGJhY2siLCJzdGF0ZSI6IlZnU1VJRW5mbG5EeFRlMXZBdHI1NG8iLCJleHAiOjE1OTQxNDAzOTAsIm5v
+    bmNlIjoiN3hEQ0h2aXVQTVNYSklpZ2tIT2NEaSIsImNsaWVudF9pZCI6IjUyNDgwNzU0MDUzIn0.VSo5
+    VWN3lOiCry2KItU5RI62i9KG2KQlBdpsDT0DI0vSMK-q85aJZvsMiHBNBv1PQ9qAWmU3oJS-yi-Ks_lD
+    lP6lIMFrOL_Ym3VxJ_SM6lrc8JSZH_nNx6sqxPpeMQTF4SFPx30vHrlBVJaCGfnCMVC6Nbzwef0vOEpN
+    ixZT-9cwa3dZ-pddAyt58dKGxS76NR_wxdBaSKN0AfPoui0HSSaAkIdRds21NKIOf4r9BjV5lr1Oi-4I
+    JUQp-xdeLCPD3fD6Y-TJbHFToJ4FsQzglN83BfNYaeXV_yTtK7yeSw2R-ee0b3uMV0iD1ee77b7bbcjR
+    3msLISFjM40d9Pv8qQ
 
 which when decoded has the following body:
 
     {
       "aud": "https://fapi-as.example.com/",
+      "nbf": 1594140030,
       "scope": "openid payments",
       "iss": "52480754053",
       "response_type": "code id_token",
@@ -682,9 +686,7 @@ which when decoded has the following body:
 
     {
       "sub": "1001",
-      "aud": [
-        "52480754053"
-      ],
+      "aud": "52480754053",
       "c_hash": "QR2zucfYZkiLrbKBKDVpgQ",
       "s_hash": "9s6CBbOxiKE65d9-Qr0QIQ",
       "auth_time": 1594140090,
