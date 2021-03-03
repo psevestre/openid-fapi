@@ -68,6 +68,24 @@ An authorization server supporting this extension allows a client to explicitly 
 
 The underlying assumption is that creation and updates of grants almost always require interaction with the resource owner. Moreover, the client is supposed to manage the grant ids along with the respective tokens on its own without support from the authorization server. 
 
+# Use cases supported
+
+## Revoking a grant
+A client needs an ability to revoke a particular grant.
+
+## Querying the details of a grant
+There are a lot of business scenarios where some details of the grant could change post original authorisation. For example, another user's authorisation is required and this occurs after the original authorisation was granted by the user.
+
+## Replace the details of a grant
+A client wants to replace existing grant with the new one.
+
+## Update the details of a grant
+A client wants to update details of the existing grant.
+
+## Support for concurrent grants
+Some ecosystems allow multiple active authorisations between the same client, the same authorization server and the same user at the same time (concurrent grants).
+In order to support concurrent grants, at a minimum, a client needs an ability to reference and revoke a particular grant, as well as, ability to create a new grant where there is an existing grant between the same parties.
+
 # OAuth Protocol Extensions
 
 ## Authorization Request
