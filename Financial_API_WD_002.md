@@ -306,7 +306,7 @@ As a profile of the OAuth 2.0 Authorization Framework, this specification refere
 ### 8.2 Uncertainty of resource server handling of access tokens
 There is no way that the client can find out whether the resource access was granted for a bearer or sender-constrained access token.
 The two differ in the risk profile and the client may want to differentiate them.
-The protected resources that conform to this doc differentiate them.
+The protected resources that conform to this document differentiate them.
 The protected resources that conform to this document shall not accept a bearer access token.
 They shall only support sender-constrained access tokens via [MTLS].
 
