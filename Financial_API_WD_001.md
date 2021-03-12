@@ -1,6 +1,58 @@
-# Financial-grade API Security Profile 1.0 - Part 1: Baseline
+%%%
 
-## Foreword
+    #
+    # Financial-grade API Security Profile 1.0 - Part 1: Baseline
+    # (openid-financial-api-part-1-1_0)
+    #
+    #
+
+    Title = "Financial-grade API Security Profile 1.0 - Part 1: Baseline"
+    abbrev = "FAPI 1.0 Baseline"
+    workgroup = "OpenID FAPI"
+    keyword = ["FAPI", "Baseline Security"]
+
+    [seriesInfo]
+    status = "standard"
+    value = "openid-financial-api-part-1-1_0"
+
+    [pi]
+    subcompact = "yes"
+    private = "Final"
+    tocdepth = "5"
+    iprnotified = "no"
+
+    [[author]]
+    initials = "N."
+    surname = "Sakimura"
+    fullname = "Nat Sakimura"
+    organization = "Nat Consulting"
+    abbrev = "Nat Consulting"
+      [author.address]
+      email = "nat@nat.consulting"
+      uri = "http://nat.sakimura.org/"
+
+    [[author]]
+    initials = "J."
+    surname = "Bradley"
+    fullname = "John Bradley"
+    organization = "Yubico"
+    abbrev = "Yubico"
+      [author.address]
+      email = "ve7jtb@ve7jtb.com"
+      uri = "http://www.thread-safe.com/"
+
+    [[author]]
+    initials = "E."
+    surname = "Jay"
+    fullname = "Illumila"
+    organization = "Illumila"
+    abbrev = "Illumila"
+      [author.address]
+      email = "ejay@mgi1.com"
+      uri = "http://illumi.la/"
+%%%
+
+.# Foreword
 
 The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established have the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
@@ -13,15 +65,15 @@ Financial-grade API Security Profile 1.0 consists of the following parts:
 
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
-## Introduction
+.# Introduction
 
 The Financial-grade API is a highly secured OAuth profile that aims to provide specific implementation guidelines for security and interoperability. The Financial-grade API security profile can be applied to APIs in any market area that requires a higher level of security than provided by standard [OAuth][RFC6749] or [OpenID Connect][OIDC]. Among other security enhancements, this specification provides a secure alternative to screen scraping. Screen scraping accesses user's data and functions by impresonating a user through password sharing. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications.
 
-This document is Part 1 of the FAPI Security Profile 1.0. It specifies a baseline security profile of OAuth that is suitable for protecting APIs with a moderate inherent risk. Importantly, this profile does not provide non-repudiation (signing of authorization requests and responses) and sender-constrained access tokens. If such features or a higher level of security is desired, the use of [Financial-grade API Security Profile 1.0 - Part 2: Advanced][Part2] is recommended.
+This document is Part 1 of FAPI Security Profile 1.0. It specifies a baseline security profile of OAuth that is suitable for protecting APIs with a moderate inherent risk. Importantly, this profile does not provide non-repudiation (signing of authorization requests and responses) and sender-constrained access tokens. If such features or a higher level of security is desired, the use of [Financial-grade API Security Profile 1.0 - Part 2: Advanced][Part2] is recommended.
 
 Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in Section 7.6 before embarking on a 'from scratch' implementation.
 
-### Notational Conventions
+.# Notational Conventions
 
 The key words "shall", "shall not", 
 "should", "should not", "may", and
@@ -31,9 +83,8 @@ These key words are not used as dictionary terms such that
 any occurrence of them shall be interpreted as key words
 and are not to be interpreted with their natural language meanings. 
 
-# **Financial-grade API Security Profile 1.0 - Part 1: Baseline**
+{mainmatter}
 
-[TOC]
 
 ## 1. Scope
 
@@ -513,6 +564,8 @@ The following people contributed to this document:
 * [MTLS] OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens
 * [PRELOAD] HSTS Preload List Submission
 [PRELOAD]: https://hstspreload.org/
+
+{backmatter}
 
 ## Appendix A. Copyright notice & license
 
