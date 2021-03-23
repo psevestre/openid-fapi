@@ -70,6 +70,8 @@ The underlying assumption is that creation and updates of grants almost always r
 
 # Use cases supported
 
+Define grant and consent
+
 ## Revoking a grant
 A client needs an ability to revoke a particular grant.
 Examples: 
@@ -83,19 +85,20 @@ Both could use standardized grant_id and /grant endpoint's DELETE to acheive the
 There are a lot of business scenarios where some details of the grant could change post original authorisation. 
 
 Examples:
-- In banking, the client could query the details of a grant to determine what accounts have been added to the consent by a user or other fine grain details of the authorisation (when the user has a choice). 
-- When another user's authorisation is required and this occurs after the original authorisation was granted by the user. The client can query the status of consent at any point after the authorization to determine if full consent has been obtained.
-- Some juridictions require client's and authorisation server's applications to provide a dashboard to a user to view and revoke authorisations given to the authorisation server. Querying the details of the grant allows clients to have access to the up-to-date status and contents of the consent.
+1. In banking, the client could query the details of a grant to determine what accounts have been added to the consent by a user or other fine grain details of the authorisation (when the user has a choice). 
+2. When another user's authorisation is required and this occurs after the original authorisation was granted by the user. The client can query the status of consent at any point after the authorization to determine if full consent has been obtained.
+3. Some juridictions require client's and authorisation server's applications to provide a dashboard to a user to view and revoke authorisations given to the authorisation server. Querying the details of the grant allows clients to have access to the up-to-date status and contents of the consent.
 
 ## Replace the details of a grant
 A client wants to replace existing grant with the new one.
 
-In some scenarios, clients might choose to replace the consent with the new one. Old consent will be revoked and a new one will be created with the different grant_id.
+In some scenarios, clients might choose to replace the consent with the new one. Old consent will be revoked, with all content discareded and a new one will be created. The client has to specify full details of the new request. grant_id will be kept the same.
+
 
 ## Update the details of a grant
 A client wants to update details of the existing grant.
 
-In some scenarios, clients might choose to update the consent with the new details, for example, to extend the duration of consent. Updated consent will maintain the same grant_id.
+In some scenarios, clients might choose to update the consent with the new details, for example, to extend the duration of consent. Client only has to specify additional or amended authorisation details. grant_id will be kept the same.  
 
 ## Support for concurrent grants
 Some ecosystems allow multiple active authorisations between the same client, the same authorization server and the same user at the same time (concurrent grants).
