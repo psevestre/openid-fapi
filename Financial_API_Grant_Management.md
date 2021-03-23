@@ -80,17 +80,34 @@ In Australia, Data Recipients currently use cdr_arrangement_id and POST /arrange
 Both could use standardized grant_id and /grant endpoint's DELETE to acheive the same. 
 
 ## Querying the details of a grant
-There are a lot of business scenarios where some details of the grant could change post original authorisation. For example, another user's authorisation is required and this occurs after the original authorisation was granted by the user.
+There are a lot of business scenarios where some details of the grant could change post original authorisation. 
+
+Examples:
+- In banking, the client could query the details of a grant to determine what accounts have been added to the consent by a user or other fine grain details of the authorisation (when the user has a choice). 
+- When another user's authorisation is required and this occurs after the original authorisation was granted by the user. The client can query the status of consent at any point after the authorization to determine if full consent has been obtained.
+- Some juridictions require client's and authorisation server's applications to provide a dashboard to a user to view and revoke authorisations given to the authorisation server. Querying the details of the grant allows clients to have access to the up-to-date status and contents of the consent.
 
 ## Replace the details of a grant
 A client wants to replace existing grant with the new one.
 
+In some scenarios, clients might choose to replace the consent with the new one. Old consent will be revoked and a new one will be created with the different grant_id.
+
 ## Update the details of a grant
 A client wants to update details of the existing grant.
+
+In some scenarios, clients might choose to update the consent with the new details, for example, to extend the duration of consent. Updated consent will maintain the same grant_id.
 
 ## Support for concurrent grants
 Some ecosystems allow multiple active authorisations between the same client, the same authorization server and the same user at the same time (concurrent grants).
 In order to support concurrent grants, at a minimum, a client needs an ability to reference and revoke a particular grant, as well as, ability to create a new grant where there is an existing grant between the same parties.
+
+Examples: 
+In Australia, Data Recipients and Data Holders are mandated to support concurrent grants. It's Data Recipient's choice to decide if a new grant is the replacement of a previous grant or a new grant.
+
+# Use cases not supported
+
+## Historical grant or consent records 
+Grant Management specification allows a client to query the status and contents of a grant (user consent). This is designed for clients to understand what is included in current active grant. This is NOT designed to provide for legal, reporting or archiving purposes, for example, keeping 7 years of expired or revoked consents.
 
 # OAuth Protocol Extensions
 
