@@ -1,11 +1,58 @@
-# Financial-grade API Security Profile 1.0 - Part 2: Advanced
+%%%
 
-## Copyright notice & license
-The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty-free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
+    #
+    # Financial-grade API Security Profile 1.0 - Part 2: Advanced
+    # (openid-financial-api-part-2-1_0)
+    #
+    #
 
-The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.
+    Title = "Financial-grade API Security Profile 1.0 - Part 2: Advanced"
+    abbrev = "FAPI 1.0 Advanced"
+    workgroup = "OpenID FAPI"
+    keyword = ["FAPI", "Advanced  Security"]
 
-## Foreword
+    [seriesInfo]
+    status = "standard"
+    value = "openid-financial-api-part-2-1_0"
+
+    [pi]
+    subcompact = "yes"
+    private = "Final"
+    tocdepth = "5"
+    iprnotified = "no"
+
+    [[author]]
+    initials = "N."
+    surname = "Sakimura"
+    fullname = "Nat Sakimura"
+    organization = "Nat Consulting"
+    abbrev = "Nat Consulting"
+      [author.address]
+      email = "nat@nat.consulting"
+      uri = "http://nat.sakimura.org/"
+
+    [[author]]
+    initials = "J."
+    surname = "Bradley"
+    fullname = "John Bradley"
+    organization = "Yubico"
+    abbrev = "Yubico"
+      [author.address]
+      email = "ve7jtb@ve7jtb.com"
+      uri = "http://www.thread-safe.com/"
+
+    [[author]]
+    initials = "E."
+    surname = "Jay"
+    fullname = "Illumila"
+    organization = "Illumila"
+    abbrev = "Illumila"
+      [author.address]
+      email = "ejay@mgi1.com"
+      uri = "http://illumi.la/"
+%%%
+
+.# Foreword
 
 The OpenID Foundation (OIDF) promotes, protects and nurtures the OpenID community and technologies. As a non-profit international standardizing body, it is comprised by over 160 participating entities (workgroup participants). The work of preparing implementer drafts and final international standards is carried out through OIDF workgroups in accordance with the OpenID Process. Participants interested in a subject for which a workgroup has been established have the right to be represented in that workgroup. International organizations, governmental and non-governmental, in liaison with OIDF, also take part in the work. OIDF collaborates closely with other standardizing bodies in the related fields.
 
@@ -18,7 +65,7 @@ Financial-grade API Security Profile 1.0 consists of the following parts:
 
 These parts are intended to be used with [RFC6749], [RFC6750], [RFC7636], and [OIDC].
 
-## Introduction
+.# Introduction
 
 The Financial-grade API is a highly secured OAuth profile that aims to provide specific implementation guidelines for security and interoperability. The Financial-grade API security profile can be applied to APIs in any market area that requires a higher level of security than provided by standard [OAuth][RFC6749] or [OpenID Connect][OIDC]. Among other security enhancements, this specification provides a secure alternative to screen scraping. Screen scraping accesses user's data and functions by impresonating a user through password sharing. This brittle, inefficient, and insecure practice creates security vulnerabilities which require financial institutions to allow what appears to be an automated attack against their applications.
 
@@ -26,7 +73,7 @@ This document is Part 2 of FAPI Security Profile 1.0 that specifies an advanced 
 
 Although it is possible to code an OpenID Provider and Relying Party from first principles using this specification, the main audience for this specification is parties who already have a certified implementation of OpenID Connect and want to achieve a higher level of security. Implementers are encouraged to understand the security considerations contained in Section 8.7 before embarking on a 'from scratch' implementation.
 
-### Notational Conventions
+.# Notational Conventions
 
 The keywords "shall", "shall not",
 "should", "should not", "may", and
@@ -36,9 +83,8 @@ These keywords are not used as dictionary terms such that
 any occurrence of them shall be interpreted as keywords
 and are not to be interpreted with their natural language meanings.
 
-# **Financial-grade API Security Profile 1.0 - Part 2: Advanced**
+{mainmatter}
 
-[TOC]
 
 ## 1. Scope
 
@@ -306,7 +352,7 @@ As a profile of the OAuth 2.0 Authorization Framework, this specification refere
 ### 8.2 Uncertainty of resource server handling of access tokens
 There is no way that the client can find out whether the resource access was granted for a bearer or sender-constrained access token.
 The two differ in the risk profile and the client may want to differentiate them.
-The protected resources that conform to this doc differentiate them.
+The protected resources that conform to this document differentiate them.
 The protected resources that conform to this document shall not accept a bearer access token.
 They shall only support sender-constrained access tokens via [MTLS].
 
@@ -601,6 +647,8 @@ established by [RFC7519].
 * Reference: Section 5 of [[ this specification ]]
 
 
+{backmatter}
+
 ## Appendix A. Examples
 
 The following are non-normative examples of various objects compliant with this specification, with line wraps within values for display purposes only.
@@ -635,27 +683,31 @@ The examples signed by the server may be verified with the following JWK:
     wqztoX0H5P0g7OWocspHrDn6YOgxHw"
     }
 
+<!--
 The code that generated these examples can be found here:
 
-https://gitlab.com/emobix/fapi-examples
+https://gitlab.com/openid/fapi-examples
+-->
 
 ### A.1 Example request object
 
     eyJraWQiOiJjbGllbnQtMjAyMC0wOC0yOCIsImFsZyI6IlBTMjU2In0.eyJhdWQiOiJodHRwczpcL1wv
-    ZmFwaS1hcy5leGFtcGxlLmNvbVwvIiwic2NvcGUiOiJvcGVuaWQgcGF5bWVudHMiLCJpc3MiOiI1MjQ4
-    MDc1NDA1MyIsInJlc3BvbnNlX3R5cGUiOiJjb2RlIGlkX3Rva2VuIiwicmVkaXJlY3RfdXJpIjoiaHR0
-    cHM6XC9cL2ZhcGktY2xpZW50LmV4YW1wbGUub3JnXC9mYXBpLWFzLWNhbGxiYWNrIiwic3RhdGUiOiJW
-    Z1NVSUVuZmxuRHhUZTF2QXRyNTRvIiwiZXhwIjoxNTk0MTQwMzkwLCJub25jZSI6Ijd4RENIdml1UE1T
-    WEpJaWdrSE9jRGkiLCJjbGllbnRfaWQiOiI1MjQ4MDc1NDA1MyJ9.aGqQcWpsvGpzNi8H1CMcV3uC3Ng
-    gAGvMTkwV9Ttci5Pci-dIU2E9FvumcNXO6T4ScEdv1WeY_qC-B8ULgd7ui53t-Yhe_3rUuv4pIso5iql
-    NlufQlaLvaJ7WPmz3DEqkjJwEAK1fi-PTFFjp-DF3cbbbAFptcchVcXkKM0VoUueTHiq8BAysLJ3WEev
-    pn9GVq9W3TAjL1nB3rPv-hKfJhUNCpbTT7eIzHpznRu_JBzCvcvC_q1oD1hUlPLV-Isy20lROSB7VS-e
-    Cap-pgoyjDIkYW0U3BxapM13vqZ29HRWui8NdNvbAqBglrQ_g97DMFuZmnyaOYaUyk_8J5JLwZw
+    ZmFwaS1hcy5leGFtcGxlLmNvbVwvIiwibmJmIjoxNTk0MTQwMDMwLCJzY29wZSI6Im9wZW5pZCBwYXlt
+    ZW50cyIsImlzcyI6IjUyNDgwNzU0MDUzIiwicmVzcG9uc2VfdHlwZSI6ImNvZGUgaWRfdG9rZW4iLCJy
+    ZWRpcmVjdF91cmkiOiJodHRwczpcL1wvZmFwaS1jbGllbnQuZXhhbXBsZS5vcmdcL2ZhcGktYXMtY2Fs
+    bGJhY2siLCJzdGF0ZSI6IlZnU1VJRW5mbG5EeFRlMXZBdHI1NG8iLCJleHAiOjE1OTQxNDAzOTAsIm5v
+    bmNlIjoiN3hEQ0h2aXVQTVNYSklpZ2tIT2NEaSIsImNsaWVudF9pZCI6IjUyNDgwNzU0MDUzIn0.VSo5
+    VWN3lOiCry2KItU5RI62i9KG2KQlBdpsDT0DI0vSMK-q85aJZvsMiHBNBv1PQ9qAWmU3oJS-yi-Ks_lD
+    lP6lIMFrOL_Ym3VxJ_SM6lrc8JSZH_nNx6sqxPpeMQTF4SFPx30vHrlBVJaCGfnCMVC6Nbzwef0vOEpN
+    ixZT-9cwa3dZ-pddAyt58dKGxS76NR_wxdBaSKN0AfPoui0HSSaAkIdRds21NKIOf4r9BjV5lr1Oi-4I
+    JUQp-xdeLCPD3fD6Y-TJbHFToJ4FsQzglN83BfNYaeXV_yTtK7yeSw2R-ee0b3uMV0iD1ee77b7bbcjR
+    3msLISFjM40d9Pv8qQ
 
 which when decoded has the following body:
 
     {
       "aud": "https://fapi-as.example.com/",
+      "nbf": 1594140030,
       "scope": "openid payments",
       "iss": "52480754053",
       "response_type": "code id_token",
@@ -682,9 +734,7 @@ which when decoded has the following body:
 
     {
       "sub": "1001",
-      "aud": [
-        "52480754053"
-      ],
+      "aud": "52480754053",
       "c_hash": "QR2zucfYZkiLrbKBKDVpgQ",
       "s_hash": "9s6CBbOxiKE65d9-Qr0QIQ",
       "auth_time": 1594140090,
@@ -792,3 +842,12 @@ which when decoded has the following body:
       "iat": 1594140091,
       "jti": "4vBctMSkK4wfuOui9Cyc"
     }
+
+## Appendix B. Copyright notice & license
+
+Copyright (c) 2021 The OpenID Foundation.
+
+The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty-free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
+
+The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.
+
