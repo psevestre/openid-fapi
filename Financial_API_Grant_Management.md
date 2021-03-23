@@ -70,7 +70,12 @@ The underlying assumption is that creation and updates of grants almost always r
 
 # Use cases supported
 
-Define grant and consent
+## Terminology
+Grant is a delegated authorisation (set of permissions) granted by a User to a Client and captured by an Authorisation Server. 
+
+Consent is a legal concept that can result in a grant being created, but also can include legal, audit, reporting, archiving and non-repudiation requirements.
+
+When this specification mentions consent, it only refers to a grant.
 
 ## Revoking a grant
 A client needs an ability to revoke a particular grant.
