@@ -47,9 +47,9 @@ https://openid.net/specs/openid-financial-api-part-1-1_0.html
 
 5.2.3-11 clients must only use Authorization Server metadata obtained from the metadata document (this makes it clear that, for example, clients should never be configured to use an authorization or token endpoint not published in metadata - due to the risk of phishing attacks against relying parties)
 
-6.2.1-9 The requirement to send ';charset=UTF-8' in the Content-type HTTP header for JSON has been removed, meaning the header should now be Content-Type: application/json 
+6.2.1-9 The requirement to send ';charset=UTF-8' in the Content-type HTTP header for JSON has been removed (it has no meaning as utf-8 is the default charset for the application/json mimetype), meaning the header should now be `Content-Type: application/json`
 
-7.1 Authorization endpoint should prevent TLS stripping attacks
+7.1 Authorization endpoint should prevent TLS stripping attacks, e.g. by using a preloaded HTTP Strict Transport Security policy
 
 7.1 All endpoints should use DNSSEC (OV/EV TLS certificates are not by themselves an alternative)
 
@@ -100,7 +100,7 @@ These changes may require alterations to implementations.
 
 5.2.2-17 must reject request objects where the `nbf` claim in request object is missing or is more than 60 minutes in the past
 
-5.2.2-18 requests that use PAR (if supported) must be rejected if they do not use PKCE (the PKCE requirement is not applied to non-PAR requests purely for backwards compatibility)
+5.2.2-18 requests that use PAR (if supported) must be rejected if they do not use PKCE (the PKCE requirement is an important security upgrade added as a result of analysing various production FAPI clients - the requirement is not applied to non-PAR requests purely for backwards compatibility)
 
 8.9-3 recommends that all keys in jwks have unique `kid`s
 
@@ -123,6 +123,8 @@ These changes are generally clarifications that are unlikely to require alterati
 5.2.2-10 the wording around the requirement for signed requests has been aligned with https://tools.ietf.org/html/draft-ietf-oauth-jwsreq
 
 5.2.2.1-6 If the id_token returned from the authorization endpoint unavoidably contains sensitive PII, it should be encrypted
+
+5.2.3-3 the requirement for clients to send an `acr` claim has been removed (though some ecosystems or client implementors may choose to continue to do so)
 
 5.2.3-10 the 'aud' claim sent in the request object must be the OP's issuer
 
