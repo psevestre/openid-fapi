@@ -138,6 +138,33 @@ These changes are generally clarifications that are unlikely to require alterati
 
 9 Privacy consideration section has been rewritten.
 
+## Transitioning ecosystems from ID2 to Final
+
+A transition does not need a 'big bang' coordinated move and can be managed over a time period that allows the various players in the ecosystem to make non-breaking changes at a reasonable pace.
+
+The following steps can generally be followed to migrate an ecosystem. It may assume that both clients and servers are already certified for FAPI-RW implementers draft 2; a little more care may be required if this is not the case.
+
+### Step 1
+
+These changes should be made first:
+
+* Authorization servers should enable DNSSEC, HTTP STS, remove keys with duplicate kids (following usual procedures for key rotation), etc.
+* Clients must start sending PKCE if using PAR. (FAPI1-RW ID2 PAR Certified authorization servers are required to accept requests that contain PKCE.)
+* Clients must ensure they are including `nbf` in request objects.
+* Clients must ensure the lifetime of their request objects is under 60 minutes.
+
+### Step 2
+
+Authorization servers should start to log clients that are sending requests with bad `exp`, `nbf` or PAR requests with missing PKCE, and send email notifications to the owners of clients that have failed to complete step 1 correctly.
+
+### Step 3
+
+Once all players have completed the previous steps:
+
+* Authorization servers must start to reject requests missing `nbf` or with lifetimes over 60 minutes.
+* Authorization servers must reject PAR requests without PKCE.
+
+
 ## Acknowledgements
 
 The following people contributed to this document:
