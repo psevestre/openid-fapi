@@ -59,7 +59,10 @@ In order to support the before mentioned use cases, this specification introduce
 
 ## Terminology
 
-* Grant: resource managed by the authorization server representing the privileges delegated by a resource owner to a certain client.
+* Grant is a delegated authorisation (set of permissions) granted by a User to a Client. Grant is a resource captured and managed by an Authorisation Server. 
+
+* Consent is a legal concept that can result in a grant being created, but also can include legal, audit, reporting, archiving and non-repudiation requirements. When this specification mentions consent, it only refers to a grant.
+
 * Grant Management API: a HTTP-based API provided by the authorization server that clients can use to query the status of and revoke grants.
 
 # Overview
@@ -69,13 +72,6 @@ An authorization server supporting this extension allows a client to explicitly 
 The underlying assumption is that creation and updates of grants almost always require interaction with the resource owner. Moreover, the client is supposed to manage the grant ids along with the respective tokens on its own without support from the authorization server. 
 
 # Use cases supported
-
-## Terminology
-Grant is a delegated authorisation (set of permissions) granted by a User to a Client and captured by an Authorisation Server. 
-
-Consent is a legal concept that can result in a grant being created, but also can include legal, audit, reporting, archiving and non-repudiation requirements.
-
-When this specification mentions consent, it only refers to a grant.
 
 ## Revoking a grant
 A client needs an ability to revoke a particular grant.
@@ -118,6 +114,10 @@ In Australia, Data Recipients and Data Holders are mandated to support concurren
 
 ## Historical grant or consent records 
 Grant Management specification allows a client to query the status and contents of a grant (user consent). This is designed for clients to understand what is included in current active grant. This is NOT designed to provide for legal, reporting or archiving purposes, for example, keeping 7 years of expired or revoked consents.
+
+## Consent resource shared with other parties 
+There is a use case where end user might want to share their consents with third parties (e.g. centralised consent management dashboards).
+Grant management specification only allows access to grants for clients that own the grant. A new Consent Resource API could be created for this purpose but it is out of scope for this specification.  
 
 # OAuth Protocol Extensions
 
