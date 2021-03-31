@@ -77,7 +77,9 @@ The underlying assumption is that creation and updates of grants almost always r
 A client needs an ability to revoke a particular grant.
 
 Examples: 
+
 * In the UK, TPPs currently use `DELETE /account-access-consents/{ConsentId}` custom endpoint to revoke consent on ASPSP side.
+
 * In Australia, Data Recipients currently use `cdr_arrangement_id` and `POST /arrangements/revoke` custom endpoint to revoke consent on Data Holder's side after a user revoked their consent via Data Recipient's dashboard.
 
 Both could use standardized `grant_id` and grant management endpoint's `DELETE` operation to achieve the same. 
@@ -86,8 +88,11 @@ Both could use standardized `grant_id` and grant management endpoint's `DELETE` 
 There are a lot of business scenarios where some details of the grant could change post original authorisation. 
 
 Examples:
+
 * In banking, the client could query the details of a grant to determine what accounts have been added to the grant by a user or other fine grain details of the authorisation (when the user has a choice). 
+
 * When another user's authorisation is required and this occurs after the original authorisation was granted by the user, the client can query the status of consent at any point after the authorization to determine if full user consent has been obtained.
+
 * Some juridictions require client's and authorisation server's applications to provide a dashboard to a user to view and revoke authorisations given to the authorisation server. Querying the details of the grant allows clients to have access to the up-to-date status and contents of the consent.
 
 ## Replace the details of a grant
