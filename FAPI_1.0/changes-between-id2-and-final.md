@@ -148,10 +148,12 @@ The following steps can generally be followed to migrate an ecosystem. It may as
 
 These changes should be made first:
 
+* Clients and Authorization servers must pass the FAPI-RW ID2 certification tests
 * Authorization servers should enable DNSSEC, HTTP STS, remove keys with duplicate kids (following usual procedures for key rotation), etc.
 * Clients must start sending PKCE if using PAR. (FAPI1-RW ID2 PAR Certified authorization servers are required to accept requests that contain PKCE.)
 * Clients must ensure they are including `nbf` in request objects.
 * Clients must ensure the lifetime of their request objects is under 60 minutes.
+* Clients must now certify for FAPI1-Advanced Final
 
 ### Step 2
 
@@ -163,7 +165,7 @@ Once all players have completed the previous steps:
 
 * Authorization servers must start to reject requests missing `nbf` or with lifetimes over 60 minutes.
 * Authorization servers must reject PAR requests without PKCE.
-
+* Authorization servers must now certify for FAPI1-Advanced Final
 
 ## Acknowledgements
 
