@@ -61,9 +61,9 @@ In order to support the before mentioned use cases, this specification introduce
 
 * Grant is a set of permissions (authorisation) granted by a User to a Client. Grant is a resource captured and managed by an Authorisation Server. 
 
-* Consent is a legal concept that can result in a grant being created, but also can include legal, audit, reporting, archiving and non-repudiation requirements. When this specification mentions consent, it only refers to a grant (authorization).
+* Consent is a legal concept that can result in a grant being created, but also can include legal, audit, reporting, archiving and non-repudiation requirements. Grant is an authorisation created as a result of consent.
 
-* Grant Management API: a HTTP-based API provided by the authorization server that clients can use to query the status of and revoke grants.
+* Grant Management API: a HTTP-based API provided by the authorization server that clients can use to query the status of, update, replace and revoke grants.
 
 * Data Recipients (Australia and FDX) and TPPs (UK) are examples of OAuth clients used to describe use cases below.
 
@@ -130,6 +130,9 @@ In order to support concurrent grants, at a minimum, a client needs an ability t
 Examples: 
 
 * In Australia, Data Recipients and Data Holders are mandated to support concurrent grants (authorizations). It's Data Recipient's choice to decide if a new grant is the replacement of a previous grant or a new grant.
+
+## Obtaining new tokens for existing grants
+A client can initiate a new authorisation request referencing existing grant. If there are no grant changes requested (same set of permissions), Authorisation server might choose to omit customer authorisation and continue with authorisation code flow to issue a new set of tokens. 
 
 # Use cases not supported
 
