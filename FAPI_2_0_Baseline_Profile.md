@@ -119,8 +119,11 @@ In the following, a profile of the following technologies is defined:
 
   * OAuth 2.0 Authorization Framework [@!RFC6749]
   * OAuth 2.0 Bearer Tokens [@!RFC6750]
-  * OAuth 2.0 PKCE [@!RFC7636]
-  * OAuth 2.0 Mutual-TLS Client Authentication [@!RFC8705]
+  * Proof Key for Code Exchange by OAuth Public Clients (PKCE) [@!RFC7636]
+  * OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access
+    Tokens (MTLS) [@!RFC8705]
+  * OAuth 2.0 Demonstrating Proof-of-Possession at the Application Layer (DPoP)
+    [@I-D.draft-ietf-oauth-dpop]
   * OAuth 2.0 Pushed Authorization Requests (PAR) [@!I-D.ietf-oauth-par]
   * OAuth 2.0 Rich Authorization Requests (RAR) [@!I-D.ietf-oauth-rar]
   * OAuth 2.0 Authorization Server Metadata [@!RFC8414]
@@ -139,26 +142,23 @@ Authorization servers
  4. shall support client-authenticated pushed authorization requests
     according to [@I-D.ietf-oauth-par]
  5. shall reject authorization requests sent without
-    [@I-D.ietf-oauth-par] or authorization request parameters
-    sent outside of the PAR request, except for
-    `request_uri` and `client_id`
+    [@I-D.ietf-oauth-par]
  6. shall reject pushed authorization requests without client authentication
  7. shall support the `authorization_details` parameter according to
     [@I-D.ietf-oauth-rar] to convey the authorization clients want to obtain if
     the `scope` parameter is not expressive enough for that purpose
  8. shall support confidential clients as defined in [@!RFC6749]
- 9. shall only issue sender-constrained access tokens using Mutual TLS as
-    described in [@!RFC8705]
+ 9. shall only issue sender-constrained access tokens using one of the following
+    methods:
+    -  MTLS as described in [@!RFC8705]
+    -  DPoP as described in [@I-D.draft-ietf-oauth-dpop]
  10. shall authenticate clients using one of the following methods:
-     1. Mutual TLS for OAuth Client Authentication as specified in section 2 of
-        [@!RFC8705]
-     2. `private_key_jwt` as specified in section 9 of [@!OpenID]
+     - MTLS as specified in section 2 of [@!RFC8705]
+     - `private_key_jwt` as specified in section 9 of [@!OpenID]
  11. shall require PKCE [@!RFC7636] with `S256` as the code challenge method
  12. shall only issue authorization codes and refresh tokens that are
      sender-constrained 
- 13. shall require the `redirect_uri` parameter in authorization requests and
-     evaluate only this parameter to ensure authenticity and integrity of the
-     redirect URI
+ 12. shall require the `redirect_uri` parameter in pushed authorization requests
  14. shall return an `iss` parameter in the authorization response according to
      [@!I-D.ietf-oauth-iss-auth-res]
  15. shall require that redirect URIs use the `https` scheme
@@ -169,10 +169,10 @@ Authorization servers
      expiration and revocation status of an access token, either by providing an
      introspection endpoint [@!RFC7662], by exposing signature verification
      keys, or by deployment-specific means.
- 18. shall not use the HTTP 307 status code when redirecting a request that
+ 17. shall not use the HTTP 307 status code when redirecting a request that
      contains user credentials to avoid forwarding the credentials to a third
      party accidentally (see section 4.11 of [@I-D.ietf-oauth-security-topics])
- 19. shall not expose open redirectors (see section 4.10 of
+ 18. shall not expose open redirectors (see section 4.10 of
      [@I-D.ietf-oauth-security-topics])
 
 **NOTE**: If replay identification of the authorization code is not possible, it
@@ -192,12 +192,12 @@ Clients
 
  1. shall use the authorization code grant described in [@!RFC6749]
  2. shall use pushed authorization requests according to [@I-D.ietf-oauth-par]
- 3. shall support sender-constrained access tokens using Mutual TLS as described
-    in [@!RFC8705]
+ 3. shall support sender-constrained access tokens using one of the following methods:
+    -  MTLS as described in [@!RFC8705]
+    -  DPoP as described in [@I-D.draft-ietf-oauth-dpop]
  4. shall support client authentication using one of the following methods:
-    1. Mutual TLS for OAuth Client Authentication as specified in section 2 of
-       [@!RFC8705]
-    2. `private_key_jwt` as specified in section 9 of [@!OpenID]
+    - MTLS as specified in section 2 of [@!RFC8705]
+    - `private_key_jwt` as specified in section 9 of [@!OpenID]
  5. shall use PKCE [@!RFC7636] with `S256` as the code challenge method
  6. shall send access tokens in the HTTP header as in Section 2.1 of OAuth 2.0
     Bearer Token Usage [@!RFC6750]
@@ -222,19 +222,28 @@ Resource servers with the FAPI endpoints
    access tokens
 1. shall verify that the scope (incl. `authorization_details`) of the access
    token authorizes the access to the resource it is representing
-1. shall verify sender-constraining for access tokens
-1. shall identify the associated entity to the access token
-1. shall only return the resource identified by the combination of the entity
+1. shall support and verify sender-constrained access tokens using one of the following methods:
+    -  MTLS as described in [@!RFC8705]
+    -  DPoP as described in [@I-D.draft-ietf-oauth-dpop]
+2. shall identify the associated entity to the access token
+3. shall only return the resource identified by the combination of the entity
    implicit in the access and the granted scope and otherwise return errors as
    in section 3.1 of [@!RFC6750]
 
+
 ## Cryptography and Secrets
 
- 1. RSA keys shall have a minimum length of 2048 bits.
- 1. Elliptic curve keys shall have a minimum length of 160 bits.
- 1. Access tokens shall be non-guessable with a minimum of 128 bits of entropy
-    where the probability of an attacker guessing the generated token is less
-    than or equal to 2^(-160) as per [@!RFC6749] section 10.10.
+ 
+ 1. Authorization Servers, Clients, and Resource Servers shall adhere to
+    [@!RFC8725] when creating or processing JWTs. In particular,
+     * the algorithm-specific recommendations in Section 3.2 shall be followed,
+     * and the `none` algorithm shall not be used or accepted.
+ 2. RSA keys shall have a minimum length of 2048 bits.
+ 3. Elliptic curve keys shall have a minimum length of 160 bits.
+ 4. Credentials not intended for handling by end-users (e.g., access tokens,
+    refresh tokens, authorization codes, etc.) shall be created with at least
+    128 bits of entropy such that an attacker correctly guessing the value is
+    computationally infeasible. Cf. Section 10.10 of  [@!RFC6749].
 
 
 ## Differences to FAPI 1.0
@@ -251,7 +260,7 @@ Resource servers with the FAPI endpoints
 | signed and encrypted ID Tokens           | signing and encryption not required | ID Tokens only exchanged in back channel                                                              |
 | `exp` claim in request object            | -                                   | ?                                                                                                     |
 | `x-fapi-*` headers                       | -                                   | Removed pending further discussion                                                                    |
-
+| MTLS for sender-constrained access tokens | MTLS or DPoP                                             |                                                                                                       |
 ## Acknowledgements
 (todo)
 
