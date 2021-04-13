@@ -146,7 +146,7 @@ Grant Management specification allows a client to query the status and contents 
 
 ## Consent resource shared with other parties 
 There is a use case where end user might want to share their consents with third parties (e.g. centralised consent management dashboards).
-Grant management specification only allows access to grants for clients that own the grant. A new Consent Resource API could be created for this purpose but it is out of scope for this specification.  
+Grant management specification only allows access to grants administrative entities that own the grant. A new Consent Resource API could be created for this purpose but it is out of scope for this specification.  
 
 # OAuth Protocol Extensions
 
