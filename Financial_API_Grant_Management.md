@@ -91,7 +91,7 @@ Host: as.example.com
 
 Note: the parameter `grant_id` can be used with any request serving as authorization request, e.g. it may be used with CIBA requests. 
 
-Note: a client (as logical entity) MAY use multiple client ids to deliver its service across different platforms, e.g. apps for iOS and Android and a Web App. It is RECOMMENDED that the AS supports sharing of grants among client ids belonging to the same client. Sector identifier URIs as defined in [@OpenID.Registration] is one option to group client ids under single administrative control.
+It is RECOMMENDED that the AS supports sharing of grants among clients belonging to a single administrative entity, for instance where an organisation delivers its service across different platforms (e.g. iOS, Android and a Web App each having a client registration). Sector identifier URIs as defined in [@OpenID.Registration] is one option to achieve this objective.
 
 ## Authorization Response
 
