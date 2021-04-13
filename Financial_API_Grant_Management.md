@@ -108,7 +108,9 @@ In some scenarios, clients might choose to replace the grant with the new one wh
 
 Examples: 
 
-* In Australia, "replace" is supported when grant identifier is specified in the authorization request. 
+* In the UK and Australia, "replace" is supported when grant identifier is specified in the authorization request. 
+
+
 
 ## Update the details of a grant
 A client wants to update details of the existing grant. Additional details are merged into the grant.
@@ -132,6 +134,8 @@ In order to support concurrent grants, at a minimum, a client needs an ability t
 Examples: 
 
 * In Australia, Data Recipients and Data Holders are mandated to support concurrent grants (authorizations). It's Data Recipient's choice to decide if a new grant is the replacement of a previous grant or a new grant.
+
+* In UK, concurrent grants are also supported.
 
 * Clients can also obtain fresh access and, optionally refresh tokens based on existing grants if they re-issue authorization request, identify grant and follow the rest of the authorization code flow.
 
@@ -357,6 +361,9 @@ OPTIONAL. URL of the authorization server's Grant Management Administration Endp
 
 # Implementation Considerations {#Implementation}
 
+## Lifecycle of the grant
+Authorization server may may remove an obsolete grant at its discretion, but it should consider status and expiry of authorization elements included in the grant (e.g. authorization_details). The exact mechanism could differ between different deployments, for example, some deployments could purge a grant when all individual authorization_details attached to the grant have expired or revoked. 
+
 ## Client to grant relationship
 
 A client (as logical entity) MAY use multiple client ids to deliver its service across different platforms, e.g. apps for iOS and Android and a Web App. It is RECOMMENDED that the AS supports sharing of grants among client ids belonging to the same client. Sector identifier URIs as defined in [@OpenID.Registration] is one option to group client ids under single administrative control.
@@ -435,7 +442,7 @@ A grant id is considered a public identifier, it is not a secret. Implementation
 
 # Acknowledgements {#Acknowledgements}
 
-We would like to thank Vladimir Dzhuvinov, Takahiko Kawasaki, Roland Hedberg, Filip Skokan, Dave Tonge, and Brian Campbell for their valuable feedback and contributions that helped to evolve this specification.
+We would like to thank Vladimir Dzhuvinov, Takahiko Kawasaki, Roland Hedberg, Filip Skokan, Dave Tonge, Brian Campbell and Ralph Bragg for their valuable feedback and contributions that helped to evolve this specification.
 
 # Notices
 
