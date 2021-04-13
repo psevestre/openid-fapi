@@ -43,13 +43,13 @@ This specification defines an extension of OAuth 2.0 [@!RFC6749] to allow client
 
 # Introduction {#Introduction}
 
-OAuth authorization servers issue access and refresh tokens based on privileges granted by a resource owner to a particular client in the course of an authorization process or based on pre-configured policies. The concept representing these privileges and their assignment to a particular client is sometimes referred to a the "underlying grant". 
+OAuth authorization servers issue access and refresh tokens based on privileges granted by a resource owner to a particular client in the course of an authorization process or based on pre-configured policies. The concept representing these privileges and their assignment to a particular client is sometimes referred to as "underlying grant". 
 
 Although this concept is fundamental to OAuth, there is no explicit representation of the grant in the OAuth protocol. This leads to the situation that clients cannot explicitly manage grants, e.g. query the status or revoke a grant that is no longer needed. The status is implicitly communicated if an access token refresh succeeds or fails or if an API call using an access token fails with HTTP status codes 401 (token is invalid) or 403 (token lacks privileges). 
 
 It also means the client cannot explicitly ask the authorization server to update a certain grant that is bound to a certain user. Instead the authorization server, typically, will determine a pre-existing grant using the client id from the authorization request and the user id of the authenticated resource owner. 
 
-If a client wants the authorization server to update a pre-existing grant, it needs to obtain identity data about the user and utilize it in a login hint kind of parameter to refer to the "same user as last time", exposing more identity data to the client than neccessary. 
+If a client wants the authorization server to update a pre-existing grant, it needs to obtain identity data about the user and utilize it in a login hint kind of parameter to refer to the "same user as last time", exposing more identity data to the client than necessary. 
 
 Another pattern that was proposed is to use refresh tokens to refer to grants. This would require to send the refresh token as part of the authorization request through the front channel, which posses security issues since the refresh token is a credential and could leak and be injected that way. 
 
@@ -59,14 +59,94 @@ In order to support the before mentioned use cases, this specification introduce
 
 ## Terminology
 
-* Grant: resource managed by the authorization server representing the privileges delegated by a resource owner to a certain client.
-* Grant Management API: a HTTP-based API provided by the authorization server that clients can use to query the status of and revoke grants.
+* Grant is a set of permissions (authorization) granted by a User to a Client. Grant is a resource captured and managed by an Authorization Server. 
+
+* Consent is a legal concept that can result in a grant being created, but also can include legal, audit, reporting, archiving and non-repudiation requirements. Grant is an authorization created as a result of consent.
+
+* Grant Management API: a HTTP-based API provided by the authorization server that clients can use to query the status of, update, replace and revoke grants.
+
+* Data Recipients (Australia and FDX) and TPPs (UK and PSD2) are examples of OAuth clients used to describe use cases below.
+
+* Data Holders (Australia), ASPSPs (UK and PSD2) and Data Providers (FDX) are examples of OAuth Authorization Servers used to describe use cases below.
 
 # Overview
 
 An authorization server supporting this extension allows a client to explicitly manage its grants. The basic design principle is that creation and update of grants is always requested using an OAuth authorization request while querying the status of a grant and revoking it is performed using the new Grant Management API. 
 
 The underlying assumption is that creation and updates of grants almost always require interaction with the resource owner. Moreover, the client is supposed to manage the grant ids along with the respective tokens on its own without support from the authorization server. 
+
+# Use cases supported
+
+## Revoking a grant
+A client needs an ability to revoke a particular grant.
+
+Examples: 
+
+* In the UK, TPPs currently use `DELETE /account-access-consents/{ConsentId}` custom endpoint to revoke authorization on ASPSP side.
+
+* In Australia, Data Recipients currently use `cdr_arrangement_id` and `POST /arrangements/revoke` custom endpoint to revoke authorization on Data Holder's side after a user revoked their consent via Data Recipient's dashboard.
+
+Both could use standardized `grant_id` and grant management endpoint's `DELETE` operation to achieve the same. 
+
+## Querying the details of a grant
+There are a lot of business scenarios where some details of the grant could change post original authorisation. Therefore, clients might need a way to query the current details of a grant.
+
+Examples:
+
+* In the UK, TPPs currently use `GET /account-access-consents/{ConsentId}` custom endpoint to retrieve authorization details from the ASPSP.
+
+* In banking, the client could query the details of a grant to determine what accounts have been added to the grant by a user or other fine grain details of the authorisation (when the user has a choice). 
+
+* When another user's authorisation is required and this occurs after the original authorisation was granted by the user, the client can query the status of consent at any point after the authorization to determine if full user consent has been obtained.
+
+* Some jurisdictions require client's and authorisation server's applications to provide a dashboard to a user to view and revoke authorisations given to the authorisation server. Querying the details of the grant allows clients to have access to the up-to-date status and contents of the consent.
+
+## Replace the details of a grant
+A client wants to replace existing privileges of a certain grant with the new privileges.
+
+In some scenarios, clients might choose to replace the grant with the new one while keeping the same grant id. Old privileges will be revoked and new privileges will be added if approved by the user. The client has to specify full details of the new request.
+
+Examples: 
+
+* In the UK and Australia, "replace" is supported when grant identifier is specified in the authorization request. 
+
+
+## Update the details of a grant
+A client wants to update details of the existing grant. Additional details are merged into the grant.
+
+This is especially useful, if the client wants to add privileges as needed to an existing grant in order to be able to access APIs with the same access token or obtain new access token from a single refresh token. In some scenarios, clients might choose to update to just extend the duration of a grant. 
+
+The client only has to specify additional or amended authorisation details. The grant id will be kept the same. 
+
+The client might also have to start another authorization process if a certain API request fails due to missing privileges (typically a HTTP status code 403).
+
+Examples that can be implemented using "update":
+
+* Time extension of an authorisation.
+
+* Other use cases that are covered OAuth Incremental Authorization (https://tools.ietf.org/html/draft-ietf-oauth-incremental-authz-04).
+
+## Support for concurrent grants
+Some ecosystems allow multiple active authorisations between the same client, the same authorization server and the same user at the same time (concurrent grants).
+In order to support concurrent grants, at a minimum, a client needs an ability to reference and revoke a particular grant, as well as, ability to create a new grant where there is an existing grant between the same parties.
+
+Examples: 
+
+* In Australia, Data Recipients and Data Holders are mandated to support concurrent grants (authorizations). It's Data Recipient's choice to decide if a new grant is the replacement of a previous grant or a new grant.
+
+* In UK, concurrent grants are also supported.
+
+## Obtaining new tokens for existing grants
+Clients can also obtain fresh access and, optionally refresh tokens based on existing grants if they re-issue authorization request, reference existing grant and follow the rest of the authorization code flow.
+
+# Use cases not supported
+
+## Historical grant, authorisation or consent records 
+Grant Management specification allows a client to query the status and contents of a grant (user consent). This is designed for clients to understand what is included in current active grant. This is NOT designed to provide for legal, reporting or archiving purposes, for example, keeping 7 years of expired or revoked consents.
+
+## Consent resource shared with other parties 
+There is a use case where end user might want to share their consents with third parties (e.g. centralised consent management dashboards).
+Grant management specification only allows access to grants for clients that own the grant. A new Consent Resource API could be created for this purpose but it is out of scope for this specification.  
 
 # OAuth Protocol Extensions
 
@@ -278,6 +358,9 @@ OPTIONAL. URL of the authorization server's Grant Management Administration Endp
 
 # Implementation Considerations {#Implementation}
 
+## Lifecycle of the grant
+Authorization server may may remove an obsolete grant at its discretion, but it should consider status and expiry of authorization elements included in the grant (e.g. authorization_details). The exact mechanism could differ between different deployments, for example, some deployments could purge a grant when all individual authorization_details attached to the grant have expired or revoked. 
+
 ## Client to grant relationship
 
 A client (as logical entity) MAY use multiple client ids to deliver its service across different platforms, e.g. apps for iOS and Android and a Web App. It is RECOMMENDED that the AS supports sharing of grants among client ids belonging to the same client. Sector identifier URIs as defined in [@OpenID.Registration] is one option to group client ids under single administrative control.
@@ -356,7 +439,7 @@ A grant id is considered a public identifier, it is not a secret. Implementation
 
 # Acknowledgements {#Acknowledgements}
 
-We would like to thank Vladimir Dzhuvinov, Takahiko Kawasaki, Roland Hedberg, Filip Skokan, Dave Tonge, and Brian Campbell for their valuable feedback and contributions that helped to evolve this specification.
+We would like to thank Vladimir Dzhuvinov, Takahiko Kawasaki, Roland Hedberg, Filip Skokan, Dave Tonge, Brian Campbell and Ralph Bragg for their valuable feedback and contributions that helped to evolve this specification.
 
 # Notices
 
