@@ -95,8 +95,6 @@ GET /authorize?response_type=code&
 Host: as.example.com 
 ```
 
-Note: the parameter `grant_id` can be used with any request serving as authorization request, e.g. it may be used with CIBA requests. 
-
 It is RECOMMENDED that the AS supports sharing of grants among clients belonging to a single administrative entity, for instance where an organisation delivers its service across different platforms (e.g. iOS, Android and a Web App each having a client registration). Sector identifier URIs as defined in [@OpenID.Registration] is one option to achieve this objective.
 
 ## Authorization Response
