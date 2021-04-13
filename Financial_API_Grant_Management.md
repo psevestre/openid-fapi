@@ -206,6 +206,8 @@ Cache-Control: no-cache, no-store
    “grant_id”:”TSdqirmAxDa0_-DB_1bASQ”
 }
 ```
+## Lifecycle of the grant
+Authorization server may remove an obsolete grant at its discretion, but it should consider status and expiry of authorization elements included in the grant. The exact mechanism could differ between different deployments, for example, some deployments could purge a grant when all individual authorization_details attached to the grant have expired or revoked. 
 
 # Grant Management API
 
@@ -357,9 +359,6 @@ If omitted, the AS does not support any grant managenent actions.
 OPTIONAL. URL of the authorization server's Grant Management Administration Endpoint.
 
 # Implementation Considerations {#Implementation}
-
-## Lifecycle of the grant
-Authorization server may may remove an obsolete grant at its discretion, but it should consider status and expiry of authorization elements included in the grant (e.g. authorization_details). The exact mechanism could differ between different deployments, for example, some deployments could purge a grant when all individual authorization_details attached to the grant have expired or revoked. 
 
 ## Client to grant relationship
 
