@@ -49,7 +49,7 @@ Although this concept is fundamental to OAuth, there is no explicit representati
 
 It also means the client cannot explicitly ask the authorization server to update a certain grant that is bound to a certain user. Instead the authorization server, typically, will determine a pre-existing grant using the client id from the authorization request and the user id of the authenticated resource owner. 
 
-If a client wants the authorization server to update a pre-existing grant, it needs to obtain identity data about the user and utilize it in a login hint kind of parameter to refer to the "same user as last time", exposing more identity data to the client than neccessary. 
+If a client wants the authorization server to update a pre-existing grant, it needs to obtain identity data about the user and utilize it in a login hint kind of parameter to refer to the "same user as last time", exposing more identity data to the client than necessary. 
 
 Another pattern that was proposed is to use refresh tokens to refer to grants. This would require to send the refresh token as part of the authorization request through the front channel, which posses security issues since the refresh token is a credential and could leak and be injected that way. 
 
@@ -59,9 +59,9 @@ In order to support the before mentioned use cases, this specification introduce
 
 ## Terminology
 
-* Grant is a set of permissions (authorisation) granted by a User to a Client. Grant is a resource captured and managed by an Authorisation Server. 
+* Grant is a set of permissions (authorization) granted by a User to a Client. Grant is a resource captured and managed by an Authorization Server. 
 
-* Consent is a legal concept that can result in a grant being created, but also can include legal, audit, reporting, archiving and non-repudiation requirements. Grant is an authorisation created as a result of consent.
+* Consent is a legal concept that can result in a grant being created, but also can include legal, audit, reporting, archiving and non-repudiation requirements. Grant is an authorization created as a result of consent.
 
 * Grant Management API: a HTTP-based API provided by the authorization server that clients can use to query the status of, update, replace and revoke grants.
 
@@ -99,7 +99,7 @@ Examples:
 
 * When another user's authorisation is required and this occurs after the original authorisation was granted by the user, the client can query the status of consent at any point after the authorization to determine if full user consent has been obtained.
 
-* Some juridictions require client's and authorisation server's applications to provide a dashboard to a user to view and revoke authorisations given to the authorisation server. Querying the details of the grant allows clients to have access to the up-to-date status and contents of the consent.
+* Some jurisdictions require client's and authorisation server's applications to provide a dashboard to a user to view and revoke authorisations given to the authorisation server. Querying the details of the grant allows clients to have access to the up-to-date status and contents of the consent.
 
 ## Replace the details of a grant
 A client wants to replace existing privileges of a certain grant with the new privileges.
@@ -109,7 +109,6 @@ In some scenarios, clients might choose to replace the grant with the new one wh
 Examples: 
 
 * In the UK and Australia, "replace" is supported when grant identifier is specified in the authorization request. 
-
 
 
 ## Update the details of a grant
@@ -125,7 +124,7 @@ Examples that can be implemented using "update":
 
 * Time extension of an authorisation.
 
-* Other use cases that are covered OAuth Incremental Auhtorization (https://tools.ietf.org/html/draft-ietf-oauth-incremental-authz-04).
+* Other use cases that are covered OAuth Incremental Authorization (https://tools.ietf.org/html/draft-ietf-oauth-incremental-authz-04).
 
 ## Support for concurrent grants
 Some ecosystems allow multiple active authorisations between the same client, the same authorization server and the same user at the same time (concurrent grants).
