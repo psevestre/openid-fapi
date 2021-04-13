@@ -137,10 +137,8 @@ Examples:
 
 * In UK, concurrent grants are also supported.
 
-* Clients can also obtain fresh access and, optionally refresh tokens based on existing grants if they re-issue authorization request, identify grant and follow the rest of the authorization code flow.
-
 ## Obtaining new tokens for existing grants
-A client can initiate a new authorisation request referencing existing grant. If there are no grant changes requested (same set of permissions), Authorisation server might choose to omit customer authorisation and continue with authorisation code flow to issue a new set of tokens. 
+Clients can also obtain fresh access and, optionally refresh tokens based on existing grants if they re-issue authorization request, reference existing grant and follow the rest of the authorization code flow.
 
 # Use cases not supported
 
