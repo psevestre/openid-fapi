@@ -65,9 +65,9 @@ In order to support the before mentioned use cases, this specification introduce
 
 * Grant Management API: a HTTP-based API provided by the authorization server that clients can use to query the status of, update, replace and revoke grants.
 
-* Data Recipients (Australia and FDX) and TPPs (UK) are examples of OAuth clients used to describe use cases below.
+* Data Recipients (Australia and FDX) and TPPs (UK and PSD2) are examples of OAuth clients used to describe use cases below.
 
-* Data Holders (Australia), ASPSPs (UK) and Data Providers (FDX) are examples of OAuth Authorization Servers used to describe use cases below.
+* Data Holders (Australia), ASPSPs (UK and PSD2) and Data Providers (FDX) are examples of OAuth Authorization Servers used to describe use cases below.
 
 # Overview
 
@@ -89,7 +89,7 @@ Examples:
 Both could use standardized `grant_id` and grant management endpoint's `DELETE` operation to achieve the same. 
 
 ## Querying the details of a grant
-There are a lot of business scenarios where some details of the grant could change post original authorisation. 
+There are a lot of business scenarios where some details of the grant could change post original authorisation. Therefore, clients might need a way to query the current details of a grant.
 
 Examples:
 
@@ -104,7 +104,7 @@ Examples:
 ## Replace the details of a grant
 A client wants to replace existing privileges of a certain grant with the new privileges.
 
-In some scenarios, clients might choose to replace the grant with the new one. Old privileges will be revoked and new privileges will be added if approved by the user. The client has to specify full details of the new request. grant_id will be kept the same.
+In some scenarios, clients might choose to replace the grant with the new one while keeping the same grant id. Old privileges will be revoked and new privileges will be added if approved by the user. The client has to specify full details of the new request.
 
 Examples: 
 
@@ -116,6 +116,8 @@ A client wants to update details of the existing grant. Additional details are m
 This is especially useful, if the client wants to add privileges as needed to an existing grant in order to be able to access APIs with the same access token or obtain new access token from a single refresh token. In some scenarios, clients might choose to update to just extend the duration of a grant. 
 
 The client only has to specify additional or amended authorisation details. The grant id will be kept the same. 
+
+The client might also have to start another authorization process if a certain API request fails due to missing privileges (typically a HTTP status code 403).
 
 Examples that can be implemented using "update":
 
@@ -130,6 +132,8 @@ In order to support concurrent grants, at a minimum, a client needs an ability t
 Examples: 
 
 * In Australia, Data Recipients and Data Holders are mandated to support concurrent grants (authorizations). It's Data Recipient's choice to decide if a new grant is the replacement of a previous grant or a new grant.
+
+* Clients can also obtain fresh access and, optionally refresh tokens based on existing grants if they re-issue authorization request, identify grant and follow the rest of the authorization code flow.
 
 ## Obtaining new tokens for existing grants
 A client can initiate a new authorisation request referencing existing grant. If there are no grant changes requested (same set of permissions), Authorisation server might choose to omit customer authorisation and continue with authorisation code flow to issue a new set of tokens. 
