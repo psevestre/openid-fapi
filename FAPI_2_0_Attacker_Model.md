@@ -171,13 +171,11 @@ attacker model:
     data integrity and confidentiality are ensured. The correct public
     keys are used to establish connections and private keys are not
     known to attackers (except for explicitly compromised parties).
-    Exceptions are A6 and A9, where an attacker compromises a TLS
-    terminating endpoint.
   * **JWKS:** Where applicable, key distribution mechanisms work as
     intended, i.e., encryption and signature verification keys of
     uncompromised parties are retrieved from the correct endpoints.
-  * **Browsers and Endpoints:** Except for A4a and A4b, devices and
-    browsers used by resource owners are not compromised. Other
+  * **Browsers and Endpoints:** Devices and
+    browsers used by resource owners are considered not compromised. Other
     endpoints not controlled by an attacker behave according to the
     protocol.
 
@@ -245,7 +243,7 @@ browser logs, web browser history, or on mobile operating systems.
 
 ### Attackers at the Token Endpoint
 
-#### A5 - Read Token Requests and Responses
+#### A5 - Read and Tamper with Token Requests and Responses
 
 This attacker makes the client use a token endpoint that is not the one of the
 honest AS. This attacker can read and tamper with messages sent to and from this
