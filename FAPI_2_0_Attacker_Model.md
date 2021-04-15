@@ -210,10 +210,10 @@ can send users to endpoints of honest ASs.
 
 ### A2 - Network attacker
 
-Controls the whole network (like a rogue WiFi access point or a nation-state
-sponsored hacker). Can intercept, block, and tamper with messages intended for
-other people, but cannot break cryptography unless the attacker has learned the
-respective decryption keys. 
+Controls the whole network (like a rogue WiFi access point or any other
+compromised network node). Can intercept, block, and tamper with messages
+intended for other people, but cannot break cryptography unless the attacker has
+learned the respective decryption keys. 
 
 Note: Most attacks that are exclusive to this kind of attacker can be defended
 against by using transport layer protection like TLS.
@@ -249,7 +249,7 @@ This attacker makes the client use a token endpoint that is not the one of the
 honest AS. This attacker can read and tamper with messages sent to and from this
 token endpoint that the client thinks as of an honest AS.
 
-NOTE: When the token endpoint address is obtained from an authoritative source and via a protected channel, e.g., through OAuth Metadata obtained from the honest AS, this attacker is not relevant.
+Note: When the token endpoint address is obtained from an authoritative source and via a protected channel, e.g., through OAuth Metadata obtained from the honest AS, this attacker is not relevant.
 
 ### Attackers at the Resource Server
 
