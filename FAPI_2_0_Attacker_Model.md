@@ -251,6 +251,10 @@ This attacker makes the client use a token endpoint that is not the one of the
 honest AS. This attacker can read and tamper with messages sent to and from this
 token endpoint that the client thinks as of an honest AS.
 
+NOTE: When the token endpoint address is obtained from an authoritative source and via a protected channel, e.g., through OAuth Metadata obtained from the honest AS, this attacker is not relevant.
+
+### Attackers at the Resource Server
+
 #### A7 - Read Resource Requests and Responses
 
 The capabilities of the web attacker, but this attacker can also read requests
